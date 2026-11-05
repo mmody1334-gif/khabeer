@@ -24,9 +24,9 @@ android {
     signingConfigs {
         release {
             storeFile file('tahdir.keystore')
-            storePassword System.getenv('KEYSTORE_PASSWORD') ?: 'tahdir-app-2026'
+            storePassword System.getenv('KEYSTORE_PASSWORD')
             keyAlias 'tahdir'
-            keyPassword System.getenv('KEYSTORE_PASSWORD') ?: 'tahdir-app-2026'
+            keyPassword System.getenv('KEYSTORE_PASSWORD')
         }
     }
     buildTypes {

@@ -22,7 +22,9 @@ jobs:
       - name: Signing key (from secret or repo)
         env:
           KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
-        run: if [ -n "$KEYSTORE_B64" ]; then echo "$KEYSTORE_B64" | base64 -d > app/tahdir.keystore; fi
+        run: |
+          if [ -z "$KEYSTORE_B64" ]; then echo "::error::السر KEYSTORE_B64 غير موجود في إعدادات المستودع"; exit 1; fi
+          echo "$KEYSTORE_B64" | base64 -d > app/tahdir.keystore
       - name: Build
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
