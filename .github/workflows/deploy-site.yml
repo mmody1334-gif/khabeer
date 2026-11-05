@@ -59,6 +59,9 @@ jobs:
           pip install -q pillow && python3 site/tools/fin_png.py site/dist/assets/fin || echo "::warning::fin png twins skipped"
           cd site && npx --yes wrangler@3.114.0 deploy && cd ..
           curl -sS -X POST "$API/accounts/$ACC/workers/scripts/$CF_SCRIPT/subdomain" -H "$AUTH" -H "Content-Type: application/json" -d '{"enabled":true}' >/dev/null || true
+          SUB=$(curl -sS "$API/accounts/$ACC/workers/subdomain" -H "$AUTH" | python3 -c "import sys,json;print((json.load(sys.stdin).get('result') or {}).get('subdomain',''))")
+          echo "::notice::workers.dev subdomain = '$SUB'  →  https://$CF_SCRIPT.$SUB.workers.dev"
+          [ -n "$SUB" ] && SITE=https://$CF_SCRIPT.$SUB.workers.dev
           want=$(git rev-parse --short HEAD)
           for i in $(seq 1 30); do
             v=$(curl -s "$SITE/version" || true); echo "$v"
