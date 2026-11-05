@@ -16,10 +16,13 @@ jobs:
   exec:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - name: حساب خبير في Cloudflare
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: bash .github/scripts/cf-env.sh
       - name: exec
         env:
-          CF_ACCOUNT: 0000e4925fd52a263ae76a9053eade14
-          CF_DB: 43c1825c-d8d8-401a-a77b-2ec6897f457a
           CF_TOK: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           SQL1: ${{ github.event.inputs.q }}
           SQL2: ${{ inputs.tags_i }}
