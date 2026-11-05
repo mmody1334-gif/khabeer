@@ -41,7 +41,7 @@ function runnerWorld(cv,o){
     else if(S.deco==='palm'){c.strokeStyle='#8a5a24';c.lineWidth=8*s;c.beginPath();c.moveTo(p.x,p.y);c.quadraticCurveTo(p.x+10*s*d.side,p.y-60*s,p.x,p.y-110*s);c.stroke();c.fillStyle='#2f9e44';for(var a=0;a<5;a++){c.beginPath();c.ellipse(p.x+Math.cos(a*1.25)*30*s,p.y-110*s+Math.sin(a*1.25)*8*s,34*s,9*s,a*1.25,0,7);c.fill();}}
     else{c.fillStyle=S.side[Math.floor(d.k*3)];c.beginPath();c.moveTo(p.x,p.y-120*s*(.6+d.k));c.lineTo(p.x+22*s,p.y);c.lineTo(p.x-22*s,p.y);c.fill();c.fillStyle='rgba(127,211,255,.5)';c.beginPath();c.moveTo(p.x,p.y-120*s*(.6+d.k));c.lineTo(p.x+8*s,p.y);c.lineTo(p.x-4*s,p.y);c.fill();}}
   function drawObj(ob){var p=proj(ob.z,ob.l),s=p.s;
-    if(ob.t==='coin'){if(ob.got)return;var w=Math.abs(Math.sin(t*.12+ob.z*9));c.fillStyle='#ffd400';c.strokeStyle='#c98a1e';c.lineWidth=3*s;c.beginPath();c.ellipse(p.x,p.y-40*s,14*s*Math.max(.15,w),14*s,0,0,7);c.fill();c.stroke();return;}
+    if(ob.t==='coin'){if(ob.got)return;var w=Math.abs(Math.sin(t*.12+ob.z*9));c.fillStyle='#ffd400';c.strokeStyle='#e8890c';c.lineWidth=3*s;c.beginPath();c.ellipse(p.x,p.y-40*s,14*s*Math.max(.15,w),14*s,0,0,7);c.fill();c.stroke();return;}
     if(ob.t==='low'){c.fillStyle='#e21b3c';c.fillRect(p.x-60*s,p.y-38*s,120*s,14*s);c.fillStyle='#fff';for(var i=0;i<4;i++)c.fillRect(p.x-60*s+i*30*s+6*s,p.y-38*s,12*s,14*s);c.fillStyle='#555';c.fillRect(p.x-56*s,p.y-24*s,8*s,24*s);c.fillRect(p.x+48*s,p.y-24*s,8*s,24*s);return;}
     if(ob.t==='wall'){ // قطار/جدار عالٍ
       var w=124*s,h=150*s;c.fillStyle=o.scene==='desert'?'#b5651d':(o.scene==='space'?'#6741d9':'#1368ce');c.fillRect(p.x-w/2,p.y-h,w,h);c.fillStyle='rgba(255,255,255,.85)';c.fillRect(p.x-w*.38,p.y-h*.82,w*.76,h*.3);c.fillStyle='#ffd400';c.fillRect(p.x-w*.4,p.y-h*.2,w*.18,h*.08);c.fillRect(p.x+w*.22,p.y-h*.2,w*.18,h*.08);c.fillStyle='#24323a';c.fillRect(p.x-w/2,p.y-6*s,w,6*s);}}
@@ -64,7 +64,7 @@ function runnerWorld(cv,o){
       limb(sd*8*s,-50*s,sd*10*s,ky,sd*9*s,fy-6*s,10*s,skin);
       c.strokeStyle=shorts;c.lineWidth=12*s;c.beginPath();c.moveTo(sd*8*s,-52*s);c.lineTo(sd*9*s,-40*s);c.stroke();
       c.fillStyle=shoe;rr(sd*9*s-8*s,fy-10*s,16*s,12*s,5*s);c.fill();
-      if(up>.25){c.fillStyle='#f4f6fb';rr(sd*9*s-7*s,fy-1*s,14*s,4*s,2*s);c.fill();}
+      if(up>.25){c.fillStyle='#f7f6fd';rr(sd*9*s-7*s,fy-1*s,14*s,4*s,2*s);c.fill();}
       c.fillStyle='#fff';c.fillRect(sd*9*s-8*s,fy-12*s,16*s,3*s);
     });
     // الشورت والقميص

@@ -85,7 +85,7 @@ function ballToon(id,x,color,num,face){
       '<path d="M8 -70 L18 -58 L14 -46" fill="none" stroke="'+skin+'" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" class="bl-arm2"/>'+
       '<path d="M-12 -74 C-12 -84 12 -84 12 -74 L10 -44 L-10 -44 Z" fill="'+color+'" stroke="'+sh+'" stroke-width="2"/>'+
       '<text x="0" y="-52" font-size="15" fill="#fff" text-anchor="middle" font-weight="900" transform="scale('+(face<0?1:-1)+' 1)" style="font-family:sans-serif">'+num+'</text>'+
-      '<rect x="-11" y="-46" width="22" height="9" rx="3" fill="#f4f6fb" stroke="'+sh+'" stroke-width="1.5"/>'+
+      '<rect x="-11" y="-46" width="22" height="9" rx="3" fill="#f7f6fd" stroke="'+sh+'" stroke-width="1.5"/>'+
       '<g class="bl-leg"><path d="M-4 -40 L-10 -21 L-14 -4" fill="none" stroke="'+skin+'" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M-4 -40 L-6 -30" stroke="#fff" stroke-width="9" stroke-linecap="round"/><path d="M-11 -10 L-14 -4" stroke="'+color+'" stroke-width="8" stroke-linecap="round"/><path d="M-12 -5 h-10 a4 4 0 0 0 0 6 h12z" fill="'+dark+'"/></g>'+
       '<path d="M-6 -70 L-16 -58 L-22 -50" fill="none" stroke="'+skin+'" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" class="bl-arm"/>'+
       '<path d="M-6 -70 L-11 -64" stroke="'+color+'" stroke-width="8" stroke-linecap="round"/>'+
@@ -159,7 +159,7 @@ function ballPlay(g,names,cfg){
 // ---------- 🚀 سباق الصواريخ ----------
 function rocketSvg(c,i){
   return '<g class="rk" id="rk'+i+'"><g class="rk-body">'+
-    '<path d="M0 -46 C14 -30 16 -6 14 18 L-14 18 C-16 -6 -14 -30 0 -46Z" fill="#f4f6fb" stroke="#24323a" stroke-width="2.5"/>'+
+    '<path d="M0 -46 C14 -30 16 -6 14 18 L-14 18 C-16 -6 -14 -30 0 -46Z" fill="#f7f6fd" stroke="#24323a" stroke-width="2.5"/>'+
     '<path d="M0 -46 C8 -38 11 -30 12 -24 L-12 -24 C-11 -30 -8 -38 0 -46Z" fill="'+c+'"/>'+
     '<circle cx="0" cy="-8" r="7" fill="#7fd3ff" stroke="#24323a" stroke-width="2.5"/>'+
     '<path d="M-14 4 L-26 24 L-14 18Z M14 4 L26 24 L14 18Z" fill="'+c+'" stroke="#24323a" stroke-width="2"/>'+

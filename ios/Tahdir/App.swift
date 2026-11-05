@@ -212,7 +212,7 @@ final class WebScreen: UIViewController, WKNavigationDelegate, WKUIDelegate, WKS
         <html dir="rtl"><meta name="viewport" content="width=device-width,initial-scale=1">
         <body style="font-family:-apple-system;text-align:center;padding:70px 24px;color:#163">
         <h2>لا يوجد اتصال بالإنترنت</h2><p>تأكد من الاتصال ثم اضغط إعادة المحاولة.</p>
-        <a href="\(retry)" style="display:inline-block;background:#0E7C66;color:#fff;border-radius:12px;padding:12px 28px;text-decoration:none">إعادة المحاولة</a></body></html>
+        <a href="\(retry)" style="display:inline-block;background:#4B40A9;color:#fff;border-radius:12px;padding:12px 28px;text-decoration:none">إعادة المحاولة</a></body></html>
         """
         webView.loadHTMLString(html, baseURL: nil)
     }
@@ -274,7 +274,7 @@ final class SettingsScreen: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int { rows.count }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection s: Int) -> Int { rows[s].count }
     override func tableView(_ tableView: UITableView, titleForFooterInSection s: Int) -> String? {
-        s == 2 ? "خبير — إعداد أ. محمد مجدي، معلم الأحياء، مدرسة حذيفة بن محصن. الإصدار \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")" : nil
+        s == 2 ? "خبير، منصة المعلمين. الإصدار \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")" : nil
     }
     override func tableView(_ tableView: UITableView, cellForRowAt ip: IndexPath) -> UITableViewCell {
         let c = tableView.dequeueReusableCell(withIdentifier: "c", for: ip)

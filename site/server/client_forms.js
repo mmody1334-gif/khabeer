@@ -68,11 +68,11 @@ var TPL=[
   landscape:true,
   render:function(d,w){var ns=lines(d.names);if(!ns.length)ns=[''];var H=schoolHdr(),org=location.origin;
     return '<span class="ohead" hidden></span>'+ns.map(function(n,i){return (i?(w?'<br clear="all" style="page-break-before:always">':'<div style="page-break-before:always;break-before:page"></div>'):'')+
-      '<div style="-webkit-print-color-adjust:exact;print-color-adjust:exact;border:6px double #c98a1e;outline:2px solid #1f8a70;outline-offset:-14px;padding:22px 34px;min-height:'+(w?'auto':'170mm')+';box-sizing:border-box;text-align:center;position:relative;background:#fffdf7">'+
+      '<div style="-webkit-print-color-adjust:exact;print-color-adjust:exact;border:6px double #e8890c;outline:2px solid #1f8a70;outline-offset:-14px;padding:22px 34px;min-height:'+(w?'auto':'170mm')+';box-sizing:border-box;text-align:center;position:relative;background:#fffdf7">'+
       '<table style="width:100%;border-collapse:collapse"><tr><td style="text-align:right;width:30%;font-size:.8em;line-height:1.5"><img src="'+org+'/brand/moe.png" style="height:'+(w?'60px':'18mm')+'"'+(w?' height="60"':'')+'><br>'+esc(H.dir)+'<br>'+esc(H.school)+'</td><td></td><td style="text-align:left;width:30%"><img src="'+org+'/brand/vision.png" style="height:'+(w?'58px':'17mm')+'"'+(w?' height="58"':'')+'></td></tr></table>'+
       '<div style="font-size:'+(w?'30pt':'2.4em')+';font-weight:800;color:#0b3b33;margin:6px 0 4px">'+esc(d.title||'شهادة شكر وتقدير')+'</div>'+
       '<div style="font-size:'+(w?'14pt':'1.15em')+';margin:10px 0">تتقدم إدارة '+esc(H.school.replace(/\s*\(.*\)$/,''))+' بخالص الشكر والتقدير إلى</div>'+
-      '<div style="font-size:'+(w?'26pt':'2.1em')+';font-weight:800;color:#c98a1e;margin:8px 0;border-bottom:2px dotted #c98a1e;display:inline-block;padding:0 30px 4px">'+esc(n||'........................')+'</div>'+
+      '<div style="font-size:'+(w?'26pt':'2.1em')+';font-weight:800;color:#e8890c;margin:8px 0;border-bottom:2px dotted #e8890c;display:inline-block;padding:0 30px 4px">'+esc(n||'........................')+'</div>'+
       '<div style="font-size:'+(w?'14pt':'1.15em')+';line-height:2;margin:12px 40px">'+para(d.reason)+'</div>'+
       '<table style="width:100%;border-collapse:collapse;margin-top:26px;font-size:'+(w?'12pt':'1em')+'"><tr><td style="text-align:center;width:33%"><b>'+esc(d.sig1||'')+'</b><br><span style="color:#777">التوقيع: ............</span></td><td style="text-align:center">التاريخ: '+esc(d.date)+'</td><td style="text-align:center;width:33%"><b>'+esc(d.sig2||'')+'</b><br><span style="color:#777">التوقيع: ............</span></td></tr></table></div>';}).join('');}},
  {id:'portfolio',icon:'📁',name:'ملف الإنجاز (الغلاف والفهرس)',desc:'غلاف ملف إنجاز المعلم وفهرس أقسامه.',

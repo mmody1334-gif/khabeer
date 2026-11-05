@@ -109,7 +109,7 @@ function sheetHtml(k,i,opts){
     '<table style="width:100%;border-collapse:collapse;margin-top:10px;font-size:'+fs(10.5,.82)+';color:#3d554e"><tr>'+
     '<td style="border:0;padding:0;white-space:nowrap"><b style="color:'+INK+'">ملاحظات المعلم:</b> <span style="color:#7a8f88;letter-spacing:1px">'+new Array(46).join('.')+'</span></td>'+
     '<td style="border:0;padding:0;text-align:left;width:32%;white-space:nowrap"><b style="color:'+INK+'">توقيع ولي الأمر:</b> <span style="color:#7a8f88;letter-spacing:1px">'+new Array(18).join('.')+'</span></td></tr></table>'+
-    '<div style="'+PCA+'margin-top:10px;border-top:2px solid '+GOLD+';padding-top:4px;text-align:center;font-size:'+fs(9,.72)+';color:#5b6d67">مبادرة «أستطيع أن» · مدرسة حذيفة بن محصن</div></div>';
+    '<div style="'+PCA+'margin-top:10px;border-top:2px solid '+GOLD+';padding-top:4px;text-align:center;font-size:'+fs(9,.72)+';color:#5b6d67">مبادرة «أستطيع أن»</div></div>';
   return h;
 }
 function show(){

@@ -1,5 +1,5 @@
 // خبير — Cloudflare Worker + D1
-// إعداد: أ. محمد مجدي — مدرسة حذيفة بن محصن
+// خبير: منصة المعلمين
 const LESSONS = __LESSONS__;
 const PAGES = __PAGES__;
 const TOOL = __TOOL__;
@@ -111,7 +111,7 @@ LESSONS.forEach(l => { if (!l.subject) l.subject = l.grade === 'الخامس' ? 
 const LESSON_IDS = new Set(LESSONS.map(l => l.id));
 const courseKey = l => (l.subject || '') + '|' + (l.grade || '');
 const CUSTOM_BASE = 100000;
-const MANIFEST = JSON.stringify({ name: 'خبير', short_name: 'خبير', lang: 'ar', dir: 'rtl', start_url: '/', scope: '/', display: 'standalone', background_color: '#eef1fa', theme_color: '#eef1fa',
+const MANIFEST = JSON.stringify({ name: 'خبير', short_name: 'خبير', lang: 'ar', dir: 'rtl', start_url: '/', scope: '/', display: 'standalone', background_color: '#f6f5fc', theme_color: '#f6f5fc',
   icons: [{ src: '/icon-192.png', sizes: '192x192', type: 'image/png' }, { src: '/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' }] });
 
 const SESSION_DAYS = 30;
@@ -350,7 +350,7 @@ async function login(req, env) {
   const u = await env.DB.prepare('SELECT * FROM users WHERE username = ?').bind(username).first();
   const ok = u ? safeEq(await hashPass(password, u.salt), u.pass_hash) : (await hashPass(password, '00'.repeat(16)), false);
   if (!u || !ok) { await logA(false, 'wrong_password', u && u.id); return json({ error: 'اسم المستخدم أو كلمة المرور غير صحيحة.' }, 401); }
-  if (!u.active) { await logA(false, 'disabled', u.id); return json({ error: 'هذا الحساب موقوف. تواصل مع أ. محمد مجدي.' }, 403); }
+  if (!u.active) { await logA(false, 'disabled', u.id); return json({ error: 'هذا الحساب موقوف. تواصل مع مدير المنصة.' }, 403); }
 
   // ---- device check ----
   const devs = (await env.DB.prepare('SELECT * FROM devices WHERE user_id = ?').bind(u.id).all()).results || [];
@@ -374,7 +374,7 @@ async function login(req, env) {
       const list = devs.slice().sort((a, b) => (b.last_seen || 0) - (a.last_seen || 0))
         .map(d => '• ' + (d.label || 'جهاز') + ' — آخر دخول ' + ago(d.last_seen)).join('\n');
       return json({
-        error: `هذا الحساب مسجّل بالفعل على ${u.max_devices} أجهزة، وكلها مستعملة حديثًا. لا يمكن الدخول من جهاز جديد.\n\nأجهزتك المسجّلة:\n${list}\n\nإن كنت غيّرت جهازك، اطلب من أ. محمد مجدي «مسح الأجهزة» ثم ادخل مرة أخرى.`
+        error: `هذا الحساب مسجّل بالفعل على ${u.max_devices} أجهزة، وكلها مستعملة حديثًا. لا يمكن الدخول من جهاز جديد.\n\nأجهزتك المسجّلة:\n${list}\n\nإن كنت غيّرت جهازك، اطلب من مدير المنصة «مسح الأجهزة» ثم ادخل مرة أخرى.`
       }, 403, { 'Set-Cookie': setCookie('did', did, 63072000, req) });
     }
   }

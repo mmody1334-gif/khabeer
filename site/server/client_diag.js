@@ -181,7 +181,7 @@ function result(){
 }
 function printRep(ok,tot,pct,us,wl){
   var now=new Date(),d=now.toLocaleDateString('ar-OM');
-  var h=OFFICIAL_HEAD({dir:'المديرية العامة للتعليم بمحافظة البريمي',school:'مدرسة حذيفة بن محصن (5-12)',title:'تقرير الاختبار التشخيصي — '+course.subject,line2:'الصف: '+course.grade+' — الفصل: ..... — التاريخ: '+d});
+  var h=OFFICIAL_HEAD({dir:'',school:'',title:'تقرير الاختبار التشخيصي — '+course.subject,line2:'الصف: '+course.grade+' — الفصل: ..... — التاريخ: '+d});
   h+='<table style="width:100%;border-collapse:collapse;margin-bottom:10px"><tr><td style="border:1px solid #000;padding:5px 8px"><b>اسم الحصة / الشعبة:</b> ..................</td><td style="border:1px solid #000;padding:5px 8px"><b>الأسئلة:</b> '+tot+'</td><td style="border:1px solid #000;padding:5px 8px"><b>الصحيح:</b> '+ok+'</td><td style="border:1px solid #000;padding:5px 8px"><b>النسبة:</b> '+pct+'%</td></tr></table>';
   h+='<h3 style="font-size:1em;margin:10px 0 4px;background:#eef3f1;padding:2px 8px;border-inline-start:4px solid #0e7c66">التحليل حسب الوحدة</h3>';
   h+='<table style="width:100%;border-collapse:collapse;font-size:.92em"><tr><th style="border:1px solid #000;padding:4px 7px;background:#e6e6e6">الوحدة</th><th style="border:1px solid #000;padding:4px 7px;background:#e6e6e6">الصحيح / المطلوب</th><th style="border:1px solid #000;padding:4px 7px;background:#e6e6e6">الملاحظة</th></tr>'+

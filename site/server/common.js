@@ -223,7 +223,7 @@ function extGuide(reason){
       // النافذة العائمة أولًا (تحتاج ضغطة المعلم)، ثم المتجر في تبويب جديد
       pip.requestWindow({width:390,height:640}).then(function(w){
         var d=w.document;d.title='أداة نور';d.documentElement.setAttribute('dir','rtl');d.documentElement.setAttribute('lang','ar');
-        var stl=d.createElement('style');stl.textContent='body{margin:0;padding:14px;font-family:Tajawal,Segoe UI,Tahoma,Arial,sans-serif;background:#fff}'+GUIDE_CSS;d.head.appendChild(stl);
+        var stl=d.createElement('style');stl.textContent='body{margin:0;padding:14px;font-family:IBM Plex Sans Arabic,Segoe UI,Tahoma,Arial,sans-serif;background:#fff}'+GUIDE_CSS;d.head.appendChild(stl);
         d.body.innerHTML=guideHtml(b,L,eu);
         if(!window.open(eu,'_blank'))return; // لو حُجب: رابط المتجر داخل النافذة العائمة
       }).catch(function(){guideFloat(b,L,eu);window.open(eu,'_blank');});
@@ -236,7 +236,7 @@ function extGuide(reason){
       if(wg&&wg.document&&wg.document.body){
         try{
           var dg=wg.document;dg.title='أداة نور';dg.documentElement.setAttribute('dir','rtl');dg.documentElement.setAttribute('lang','ar');
-          var stg=dg.createElement('style');stg.textContent='body{margin:0;padding:14px;font-family:Tajawal,Segoe UI,Tahoma,Arial,sans-serif;background:#fff}'+GUIDE_CSS;dg.head.appendChild(stg);
+          var stg=dg.createElement('style');stg.textContent='body{margin:0;padding:14px;font-family:IBM Plex Sans Arabic,Segoe UI,Tahoma,Arial,sans-serif;background:#fff}'+GUIDE_CSS;dg.head.appendChild(stg);
           dg.body.innerHTML=guideHtml(b,L,eu);
           var rg=dg.createElement('button');rg.type='button';rg.className='btn small';rg.style.cssText='width:100%;margin-top:10px';
           rg.textContent='ثبّتها؟ حدّث صفحة المنصة ↻';
@@ -722,7 +722,7 @@ function PR_WRAP(h){var lg=/class="ohead"/.test(h)?'':PR_LOGOS();return '<table 
 // · يسار: شعار رؤية عُمان 2040 بنفس الحجم وتحته مربع الدرجة. تعمل في الطباعة وملف Word.
 // o = {dir, school, title, line2, student:bool|string, box:html, word:bool, en:bool}
 // إعدادات الترويسة المحفوظة من صفحة التقويم (المديرية · المدرسة · العام · الفصل) تُستخدم في كل الأوراق
-var SCHOOL_HDR_DEF={dir:'المديرية العامة للتعليم بمحافظة البريمي',school:'مدرسة حذيفة بن محصن (5-12)',year:'2027/2026',term:'الأول'};
+var SCHOOL_HDR_DEF={dir:'',school:'',year:'2027/2026',term:'الأول'};
 function schoolHdr(){var o={};try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^tahdir_quiz_hdr_/.test(k)){o=JSON.parse(localStorage.getItem(k)||'{}')||{};break;}}}catch(e){}
   var r={};Object.keys(SCHOOL_HDR_DEF).forEach(function(k){r[k]=(o&&o[k])||SCHOOL_HDR_DEF[k];});return r;}
 function OFFICIAL_HEAD(o){

@@ -2,8 +2,8 @@
 // @name         لصق التحضير والواجب - نور (خبير)
 // @namespace    https://tahdir-al-aali.local/
 // @version      3.4.9
-// @description  يرسل التحضير والواجب من موقع خبير إلى نور: يفتح صفحة الصف، يختار الدرس، ويملأ الحقول. لا يضغط حفظ أبدًا. إعداد: أ. محمد مجدي.
-// @author       أ. محمد مجدي
+// @description  يرسل التحضير والواجب من موقع خبير إلى نور: يفتح صفحة الصف، يختار الدرس، ويملأ الحقول. لا يضغط حفظ أبدًا.
+// @author       خبير
 // @match        https://lms.moe.gov.om/*
 // @match        https://lms.moe.gov.om/teacher
 // @match        https://tahdir.hudhaifa-bio.workers.dev/*
@@ -909,7 +909,7 @@
     if (saveBtn) { saveBtn.style.outline = '4px solid #f2c66d'; saveBtn.style.outlineOffset = '3px'; try { saveBtn.scrollIntoView({ block: 'center' }); } catch (e) { } }
     const why = !total ? '<b>لم أجد قائمة الدرجة</b> — اخترها بنفسك' : (marked < total ? '<b>لم أستطع اختيار كل الدرجات</b> — راجعها' : (!commented ? '<b>لم أجد مربع التعليق</b>' : ''));
     gBar((why ? '⚠ ' + why : '✅ كتبت الدرجة النهائية والتعليق') + '. اضغط <b>«درجة التسليم»</b> للحفظ، وبعدها أفتح الطالب التالي. ' + pos,
-      [['نسخ تقرير للمطوّر', () => { try { navigator.clipboard.writeText(gradeDebug()).then(() => showToast('نُسخ التقرير — أرسله لأ. محمد مجدي')); } catch (e) { prompt('انسخ هذا التقرير:', gradeDebug()); } }, true],
+      [['نسخ تقرير للمطوّر', () => { try { navigator.clipboard.writeText(gradeDebug()).then(() => showToast('نُسخ التقرير — أرسله لمدير المنصة')); } catch (e) { prompt('انسخ هذا التقرير:', gradeDebug()); } }, true],
        ['تخطَّ هذا الطالب', () => { location.href = job.subUrl; }, true], ['إيقاف', () => stopJob('أوقفت التصحيح التلقائي.'), true]]);
   }
   // ---------- التشغيل ----------

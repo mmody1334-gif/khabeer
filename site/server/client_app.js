@@ -296,16 +296,16 @@ function selectLesson(id){
 
 // ===== شعار المادة المتحرك في شاشة الترحيب =====
 // خلية حيّة تنبض، ثم تتحول تباعًا إلى رموز المواد (دورق الكيمياء، ذرّة الفيزياء، مجهر العلوم…)
-// وتستقر أخيرًا على رمز مادة المعلم. الإدارة (أ. محمد مجدي) = الأحياء.
+// وتستقر أخيرًا على رمز مادة المعلم. الإدارة = الأحياء.
 var MORPH_ICONS={
   bio:null, // تُؤخذ من رسم الخلية
   chem:'<svg viewBox="0 0 240 180"><defs><linearGradient id="mzLiq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7ee0c3"/><stop offset="1" stop-color="#1f8a70"/></linearGradient></defs><path d="M104 22h32M108 22v44L70 146a10 10 0 0 0 9 14h82a10 10 0 0 0 9-14L132 66V22" fill="#eef9f5" stroke="#0b3b33" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/><path d="M86 118h68l16 28a10 10 0 0 1-9 14H79a10 10 0 0 1-9-14z" fill="url(#mzLiq)"/><g class="mz-bub"><circle cx="104" cy="140" r="5" fill="#fff" opacity=".85"/><circle cx="124" cy="146" r="3.5" fill="#fff" opacity=".8"/><circle cx="138" cy="134" r="4" fill="#fff" opacity=".8"/></g><path d="M100 40h14M100 54h10" stroke="#0b3b33" stroke-width="3" stroke-linecap="round" opacity=".5"/></svg>',
   phys:'<svg viewBox="0 0 240 180"><g fill="none" stroke="#1368ce" stroke-width="5"><ellipse cx="120" cy="90" rx="84" ry="30"/><ellipse cx="120" cy="90" rx="84" ry="30" transform="rotate(60 120 90)"/><ellipse cx="120" cy="90" rx="84" ry="30" transform="rotate(-60 120 90)"/></g><circle cx="120" cy="90" r="15" fill="#e21b3c"/><circle cx="114" cy="85" r="5" fill="#fff" opacity=".6"/><g class="mz-orb"><circle cx="204" cy="90" r="8" fill="#ffd400" stroke="#0b3b33" stroke-width="2"/></g><g class="mz-orb o2"><circle cx="78" cy="17" r="8" fill="#ffd400" stroke="#0b3b33" stroke-width="2"/></g></svg>',
-  sci:'<svg viewBox="0 0 240 180"><g stroke="#0b3b33" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M70 160h110" /><path d="M125 160v-20" /><path d="M98 140h56" fill="none"/><rect x="104" y="30" width="26" height="70" rx="6" transform="rotate(-25 117 65)" fill="#e3f1eb"/><path d="M150 72a40 40 0 0 1-30 68" fill="none"/><path d="M116 108l18 8"/><circle cx="148" cy="66" r="10" fill="#c98a1e"/></g><g class="mz-spark"><path d="M60 50l6 12 12 6-12 6-6 12-6-12-12-6 12-6z" fill="#ffd400"/></g></svg>',
+  sci:'<svg viewBox="0 0 240 180"><g stroke="#0b3b33" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M70 160h110" /><path d="M125 160v-20" /><path d="M98 140h56" fill="none"/><rect x="104" y="30" width="26" height="70" rx="6" transform="rotate(-25 117 65)" fill="#e3f1eb"/><path d="M150 72a40 40 0 0 1-30 68" fill="none"/><path d="M116 108l18 8"/><circle cx="148" cy="66" r="10" fill="#e8890c"/></g><g class="mz-spark"><path d="M60 50l6 12 12 6-12 6-6 12-6-12-12-6 12-6z" fill="#ffd400"/></g></svg>',
   env:'<svg viewBox="0 0 240 180"><circle cx="120" cy="90" r="62" fill="#4dabf7"/><path d="M84 52c18 4 22 22 10 30s-2 22 12 28-6 26-22 18c-10-14-18-34-12-50 3-10 6-20 12-26zM140 40c14 8 30 22 34 44-10 2-20-6-24 4s4 18-6 24-18-10-14-24 2-26 10-48z" fill="#51cf66"/><g class="mz-leaf"><path d="M168 30c30 0 40 22 34 44-26 0-40-18-34-44z" fill="#2f9e44"/><path d="M172 36c8 14 16 24 28 34" stroke="#d3f9d8" stroke-width="3" fill="none"/></g></svg>',
   it:'<svg viewBox="0 0 240 180"><rect x="56" y="34" width="128" height="86" rx="10" fill="#0b3b33"/><rect x="66" y="44" width="108" height="66" rx="5" fill="#12243a"/><path d="M50 128h140l-12 18H62z" fill="#9aa7b8"/><g class="mz-code" font-family="monospace" font-weight="900" font-size="26" fill="#7fd3ff"><text x="80" y="86">&lt;/&gt;</text></g><rect class="mz-cur" x="150" y="68" width="10" height="22" fill="#ffd400"/></svg>',
-  math:'<svg viewBox="0 0 240 180"><text x="120" y="120" text-anchor="middle" font-size="96" font-weight="900" fill="#1368ce" font-family="serif">π</text><g class="mz-comp" stroke="#0b3b33" stroke-width="6" stroke-linecap="round"><path d="M178 40l-22 70M178 40l22 70"/><circle cx="178" cy="40" r="7" fill="#c98a1e"/></g><text x="56" y="70" font-size="34" font-weight="900" fill="#e21b3c">+</text><text x="54" y="140" font-size="34" font-weight="900" fill="#26890c">÷</text></svg>',
-  ar:'<svg viewBox="0 0 240 180"><path d="M120 50c-20-14-48-16-70-10v100c22-6 50-4 70 10 20-14 48-16 70-10V40c-22-6-50-4-70 10z" fill="#fff" stroke="#0b3b33" stroke-width="6" stroke-linejoin="round"/><path d="M120 50v100" stroke="#0b3b33" stroke-width="5"/><text x="86" y="112" text-anchor="middle" font-size="46" font-weight="900" fill="#1f8a70">ض</text><text x="156" y="112" text-anchor="middle" font-size="40" font-weight="900" fill="#c98a1e">ع</text></svg>',
+  math:'<svg viewBox="0 0 240 180"><text x="120" y="120" text-anchor="middle" font-size="96" font-weight="900" fill="#1368ce" font-family="serif">π</text><g class="mz-comp" stroke="#0b3b33" stroke-width="6" stroke-linecap="round"><path d="M178 40l-22 70M178 40l22 70"/><circle cx="178" cy="40" r="7" fill="#e8890c"/></g><text x="56" y="70" font-size="34" font-weight="900" fill="#e21b3c">+</text><text x="54" y="140" font-size="34" font-weight="900" fill="#26890c">÷</text></svg>',
+  ar:'<svg viewBox="0 0 240 180"><path d="M120 50c-20-14-48-16-70-10v100c22-6 50-4 70 10 20-14 48-16 70-10V40c-22-6-50-4-70 10z" fill="#fff" stroke="#0b3b33" stroke-width="6" stroke-linejoin="round"/><path d="M120 50v100" stroke="#0b3b33" stroke-width="5"/><text x="86" y="112" text-anchor="middle" font-size="46" font-weight="900" fill="#1f8a70">ض</text><text x="156" y="112" text-anchor="middle" font-size="40" font-weight="900" fill="#e8890c">ع</text></svg>',
   en:'<svg viewBox="0 0 240 180"><rect x="52" y="34" width="136" height="112" rx="18" fill="#fff" stroke="#0b3b33" stroke-width="6"/><text x="120" y="116" text-anchor="middle" font-size="62" font-weight="900" fill="#1368ce" font-family="sans-serif">Aa</text><path d="M188 52l20-12v100l-20-12" fill="#e21b3c"/></svg>',
   isl:'<svg viewBox="0 0 240 180"><path d="M120 34c-24 22-48 30-48 60v52h96V94c0-30-24-38-48-60z" fill="#1f8a70" stroke="#0b3b33" stroke-width="5" stroke-linejoin="round"/><path d="M106 146v-30a14 14 0 0 1 28 0v30" fill="#e3f1eb" stroke="#0b3b33" stroke-width="4"/><path d="M60 60v86M180 60v86" stroke="#0b3b33" stroke-width="8" stroke-linecap="round"/><path d="M128 18a14 14 0 1 0 6 22a11 11 0 1 1-6-22z" fill="#ffd400"/></svg>'
 };
@@ -380,6 +380,14 @@ function teacherSubject(){
   if(subj&&ss.indexOf(subj)>=0)return subj;
   return ss[0]||'العلوم';
 }
+var KH_FLOW=[
+  {id:'before',name:'قبل الحصة',sub:'أجهّز درسي',keys:['prep','slides','summaries','cando']},
+  {id:'during',name:'داخل الحصة',sub:'أشغّل صفّي',keys:['games','cards','space']},
+  {id:'assess',name:'التقويم',sub:'أقيس التعلّم',keys:['quiz','homework','diag','finals']},
+  {id:'follow',name:'بعد الحصة',sub:'أتابع طلابي',keys:['analysis','remedial','ld']},
+  {id:'office',name:'ملفاتي',sub:'أوراق إدارية وبحوث',keys:['forms','research']}
+];
+function khGreet(){var h=new Date().getHours();return h<12?'صباح الخير':'مساء الخير';}
 var homeQ='';
 function homeCardHtml(c,attr,i){
   return '<button type="button" class="home-card" '+attr+'="'+esc(c.key)+'" style="animation-delay:'+((i||0)*0.05).toFixed(2)+'s"><span class="home-ic" aria-hidden="true">'+c.icon+'</span><span class="home-title">'+esc(c.title)+'</span><span class="home-sub">'+esc(c.sub)+'</span></button>';
@@ -388,8 +396,17 @@ function renderHomeCards(){
   var q=normAr(homeQ);
   var main=HOME_CARDS.filter(function(c){return !q||normAr(c.title+' '+c.sub).indexOf(q)>=0;});
   var tools=HOME_TOOLS.filter(function(c){return !q||normAr(c.title+' '+c.sub).indexOf(q)>=0;});
-  var g=$('homeGrid');if(g)g.innerHTML=main.length?main.map(function(c,i){return homeCardHtml(c,'data-home',i);}).join(''):'<div class="home-empty">لا توجد أقسام مطابقة للبحث.</div>';
-  var t=$('homeTools');if(t)t.innerHTML=tools.length?tools.map(function(c,i){return homeCardHtml(c,'data-tool',main.length+i);}).join(''):'';
+  var g=$('homeGrid');
+  if(g){
+    if(!main.length)g.innerHTML='<div class="home-empty">لا توجد أقسام مطابقة للبحث.</div>';
+    else g.innerHTML=KH_FLOW.map(function(st,si){
+      var rows=main.filter(function(c){return st.keys.indexOf(c.key)>=0;});
+      if(!rows.length)return '';
+      return '<section class="kh-step kh-'+st.id+'"><header><span class="kh-n">'+(si+1)+'</span><div><h2>'+esc(st.name)+'</h2><p>'+esc(st.sub)+'</p></div></header><div class="kh-rows">'+
+        rows.map(function(c){return '<button type="button" class="kh-row" data-home="'+esc(c.key)+'"><span class="kh-ic" aria-hidden="true">'+c.icon+'</span><span class="kh-tx"><b>'+esc(c.title)+'</b><small>'+esc(c.sub)+'</small></span><span class="kh-go" aria-hidden="true">‹</span></button>';}).join('')+'</div></section>';
+    }).join('');
+  }
+  var t=$('homeTools');if(t)t.innerHTML=tools.length?tools.map(function(c){return '<button type="button" class="kh-tool" data-tool="'+esc(c.key)+'"><span aria-hidden="true">'+c.icon+'</span><span><b>'+esc(c.title)+'</b><small>'+esc(c.sub)+'</small></span></button>';}).join(''):'';
   var th=$('homeToolsHead');if(th)th.style.display=tools.length?'':'none';
   Array.prototype.forEach.call(document.querySelectorAll('[data-home]'),function(b){
     b.onclick=function(){
@@ -414,7 +431,11 @@ function showHome(){
   if(window.abSync)window.abSync(false);
   var lay=document.querySelector('.wrap.layout');if(lay)lay.classList.add('home-view');
   // شريحة المعلم: الاسم + «معلم المادة» فقط، بلا صف (بناءً على طلب المعلم).
-  $('panel').innerHTML='<div class="home"><div class="home-head"><span class="home-teacher">'+esc(me&&me.name?me.name:'')+' · معلم '+esc(teacherSubject())+'</span><p class="home-tag">كل شيء يحتاجه المعلم في مكان واحد</p><input id="homeSearch" class="home-search" type="search" placeholder="🔎 ابحث في القائمة…" value="'+esc(homeQ)+'" aria-label="البحث في أقسام الرئيسية"></div><div class="home-grid" id="homeGrid"></div><h2 class="home-tools-h" id="homeToolsHead">أدوات خبير</h2><p class="home-tools-p">أدوات الإرسال والاستخدام الخاصة بخبير</p><div class="home-grid tools" id="homeTools"></div></div>';
+  var nm=(me&&me.name?me.name:'').trim();
+  $('panel').innerHTML='<div class="home kh-home"><section class="kh-hero"><img class="kh-owl" src="/brand/logo.png" alt=""><div class="kh-hi"><p class="kh-greet">'+khGreet()+(nm?'، '+esc(nm):'')+'</p><h1>ماذا تحتاج لحصتك اليوم؟</h1><p class="kh-subj">معلم '+esc(teacherSubject())+'</p></div>'+
+    '<div class="kh-quick"><button type="button" class="kh-q main" data-home="prep">📋 ابدأ التحضير</button><button type="button" class="kh-q" data-home="quiz">📝 اختبار جديد</button><button type="button" class="kh-q" data-home="games">🎲 لعبة للصف</button></div>'+
+    '<input id="homeSearch" class="home-search kh-search" type="search" placeholder="ابحث عن أداة: اختبار، ملخص، لعبة…" value="'+esc(homeQ)+'" aria-label="البحث في أقسام خبير"></section>'+
+    '<div class="kh-flow" id="homeGrid"></div><h2 class="kh-tools-h" id="homeToolsHead">أدوات خبير</h2><div class="kh-tools" id="homeTools"></div></div>';
   renderHomeCards();
   var inp=$('homeSearch');
   if(inp)inp.oninput=function(){homeQ=this.value;renderHomeCards();};

@@ -3,7 +3,7 @@
 // صفحتا «الخطط العلاجية» و«ملخصات الدروس» — نفس الكود، ويحدد PAGE_KIND أيهما
 var KIND=window.PAGE_KIND||'remedial',REM=KIND==='remedial';
 var GRADE_NUM={'الخامس':5,'السادس':6,'السابع':7,'الثامن':8,'التاسع':9,'العاشر':10,'الحادي عشر':11,'الثاني عشر':12};
-var DEF_HDR={dir:'المديرية العامة للتعليم بمحافظة البريمي',school:'مدرسة حذيفة بن محصن (5-12)',year:'2027/2026',term:'الأول',teacher:''};
+var DEF_HDR={dir:'',school:'',year:'2027/2026',term:'الأول',teacher:''};
 var WEAK_AR=['الرسم العلمي','المفاهيم العلمية','مهارات حسابية','مهارات القراءة والكتابة الأساسية','كتابة الرموز والصيغ','تحليل الأشكال البيانية والمخططات العلمية','تحليل وتفسير الجداول العلمية','تطبيق القوانين','التفسير العلمي','مهارات التطبيق العملي'];
 var WEAK_IT=['المفاهيم والمصطلحات التقنية','المهارات العملية على الحاسوب','اتباع الخطوات والإجراءات','التفكير المنطقي وحل المشكلات','البرمجة وكتابة الشفرات','تنظيم البيانات وتحليلها','الأمن الرقمي والمواطنة الرقمية','مهارات القراءة والكتابة الأساسية'];
 // اللغة العربية: مجالات تعثر لغوية بدل المجالات العلمية
@@ -406,7 +406,7 @@ function welcome(){
 }
 // ==== mind map ====
 // ---------- خريطة ذهنية بالعرض لملخص الدرس (تُقرأ من study.mm) ----------
-var MMCSS='<style>@page{size:A4 landscape;margin:10mm}.mm{font-family:Cairo,Tahoma,Arial,sans-serif;color:#1b1f1d;background:#fff;line-height:1.7;font-size:.95em}.mm *{box-sizing:border-box}'+
+var MMCSS='<style>@page{size:A4 landscape;margin:10mm}.mm{font-family:"IBM Plex Sans Arabic",Tahoma,Arial,sans-serif;color:#1b1f1d;background:#fff;line-height:1.7;font-size:.95em}.mm *{box-sizing:border-box}'+
 '.mm .mh{display:flex;align-items:center;gap:10px;background:#e3f1eb;border-bottom:3px solid #1f8a70;padding:8px 12px;border-radius:8px 8px 0 0}.mm .mh b{background:#1f8a70;color:#fff;border-radius:8px;padding:0 12px;font-size:1.25em}.mm .mh span{font-weight:700}.mm .mh em{margin-inline-start:auto;font-style:normal;font-weight:900;font-size:1.15em}'+
 '.mm .mg2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;padding:10px}.mm .mc{border:1.5px solid #cfd8d3;border-radius:10px;padding:8px 10px;break-inside:avoid}.mm .wide{grid-column:1/-1}'+
 '.mm .mp{display:inline-block;border-radius:999px;padding:1px 14px;font-weight:800;margin:0 0 4px}.mm .mp i{font-style:normal;font-size:.75em;background:#0002;border-radius:6px;padding:0 6px;margin-inline-start:6px}'+
@@ -560,7 +560,7 @@ Promise.all([api('/api/me'),api('/api/courses')]).then(function(r){
   me=r[0];initNav(me);
   hdr=Object.assign(clone(DEF_HDR),lsGet(hdrKey())||{});
   courses=(r[1].courses||[]).sort(function(a,b){return (gnum(a.grade)-gnum(b.grade))||a.subject.localeCompare(b.subject,'ar');});
-  if(!courses.length){$('qmain').innerHTML='<div class="welcome"><h2>لا توجد صفوف متاحة لحسابك</h2><p>تواصل مع أ. محمد مجدي.</p></div>';return;}
+  if(!courses.length){$('qmain').innerHTML='<div class="welcome"><h2>لا توجد صفوف متاحة لحسابك</h2><p>تواصل مع مدير المنصة.</p></div>';return;}
   // قادم من «تحليل النتائج»: نختار الدروس الأضعف ونكوّن الخطة العلاجية مباشرة
   var hf=null;try{hf=JSON.parse(localStorage.getItem('tahdir_handoff')||'null');}catch(e){}
   if(REM&&hf&&hf.to==='remedial'&&Date.now()-(hf.at||0)<15*60000){
