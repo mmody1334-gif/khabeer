@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CF_SCRIPT: khabeer
-      SITE: https://khabeer.khabeer-bio.workers.dev
+      SITE: https://khabeer.khabeer.workers.dev
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -40,17 +40,17 @@ jobs:
           # الحساب وقاعدة D1 يُكتشفان تلقائيًّا من التوكن (تُنشأ قاعدة khabeer إن لم توجد)
           API=https://api.cloudflare.com/client/v4
           AUTH="Authorization: Bearer $CLOUDFLARE_API_TOKEN"
-          # اختر الحساب الذي نطاق workers.dev له = khabeer-bio (لا نلمس حساب hudhaifa-bio أبدًا)
+          # اختر الحساب الذي نطاق workers.dev له = khabeer (لا نلمس حساب hudhaifa-bio أبدًا)
           ACC=""
           for a in $(curl -sS "$API/accounts?per_page=50" -H "$AUTH" | python3 -c "import sys,json;print(' '.join(x['id'] for x in json.load(sys.stdin)['result']))"); do
             sub=$(curl -sS "$API/accounts/$a/workers/subdomain" -H "$AUTH" | python3 -c "import sys,json;print((json.load(sys.stdin).get('result') or {}).get('subdomain',''))" || true)
             echo "account $a → subdomain '$sub'"
-            [ "$sub" = "khabeer-bio" ] && ACC=$a
+            [ "$sub" = "khabeer" ] && ACC=$a
           done
           if [ -z "$ACC" ]; then
-            # مؤقتًا إلى أن يُنشأ حساب khabeer-bio: ننشر على حساب التوكن نفسه (يظهر على khabeer.<نطاقه>.workers.dev)
+            # مؤقتًا إلى أن يُنشأ حساب khabeer: ننشر على حساب التوكن نفسه (يظهر على khabeer.<نطاقه>.workers.dev)
             ACC=$(curl -sS "$API/accounts?per_page=50" -H "$AUTH" | python3 -c "import sys,json;print(json.load(sys.stdin)['result'][0]['id'])")
-            echo "::warning::لا يوجد حساب khabeer-bio بعد — النشر مؤقتًا على حساب التوكن $ACC"
+            echo "::warning::لا يوجد حساب khabeer بعد — النشر مؤقتًا على حساب التوكن $ACC"
           fi
           echo "CLOUDFLARE_ACCOUNT_ID=$ACC" >> $GITHUB_ENV; export CLOUDFLARE_ACCOUNT_ID=$ACC
           D1=$(curl -sS "$API/accounts/$ACC/d1/database?name=khabeer" -H "$AUTH" | python3 -c "import sys,json;r=[d['uuid'] for d in json.load(sys.stdin)['result'] if d['name']=='khabeer'];print(r[0] if r else '')")

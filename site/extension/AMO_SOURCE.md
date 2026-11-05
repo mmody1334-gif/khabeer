@@ -57,7 +57,7 @@ placeholder strings inside a template file, plus verbatim file copying.
 
 - The same sources build the Chrome Web Store / Edge Add-ons / Firefox
   listed variants (identical tool code, only manifest metadata differs).
-- The tool only touches two sites: **khabeer.khabeer-bio.workers.dev** (teacher logs in
+- The tool only touches two sites: **khabeer.khabeer.workers.dev** (teacher logs in
   first) and **lms.moe.gov.om** (Ministry of Education LMS, teacher
   login required). It fills web forms with lesson text the teacher
   explicitly sends from the Elkabsula platform and **never clicks Save**.

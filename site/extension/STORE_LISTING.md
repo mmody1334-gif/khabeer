@@ -38,7 +38,7 @@ Tampermonkey المثبَّت عند المعلمين لا يتأثر. ولو ث
 ترسل التحضير والواجب من منصة «خبير» إلى منصة نور وتملأ الحقول تلقائيًا. لا تضغط حفظ أبدًا.
 
 **الوصف الكامل (عربي):**
-أداة مجانية لمعلمي سلطنة عُمان تعمل مع منصة «خبير» (khabeer.khabeer-bio.workers.dev).
+أداة مجانية لمعلمي سلطنة عُمان تعمل مع منصة «خبير» (khabeer.khabeer.workers.dev).
 
 • اختر الدرس في «خبير» واضغط «إرسال التحضير إلى نور»، فتفتح الأداة صفحة «إضافة تحضير» للصف الصحيح في منصة نور وتملأ الخانات تلقائيًا.
 • الواجب الإلكتروني: تملأ نموذج المهمة ثم تضيف الأسئلة دفعة واحدة.
@@ -50,7 +50,7 @@ Tampermonkey المثبَّت عند المعلمين لا يتأثر. ولو ث
 (ليست تطبيقًا رسميًا لوزارة التعليم.)
 
 **Full description (English):**
-A free helper for teachers in Oman that works with the "Khabeer" lesson-prep platform (khabeer.khabeer-bio.workers.dev).
+A free helper for teachers in Oman that works with the "Khabeer" lesson-prep platform (khabeer.khabeer.workers.dev).
 
 • Pick a lesson on Elkabsula and click "Send preparation to Nour": the extension opens the "Add preparation" page for the right class on the Nour LMS (lms.moe.gov.om) and fills in the fields.
 • Homework: fills the assignment form and adds the questions in one batch.
@@ -60,9 +60,9 @@ A free helper for teachers in Oman that works with the "Khabeer" lesson-prep pla
 A school initiative by Mohamed Magdy, Biology teacher, Hudhaifa bin Muhsin School. Not an official Ministry of Education app.
 
 **الفئة:** Education / التعليم (فايرفوكس: Other أو Productivity)
-**الموقع (Homepage):** https://khabeer.khabeer-bio.workers.dev/
-**سياسة الخصوصية:** https://khabeer.khabeer-bio.workers.dev/privacy
-**الدعم (Support URL):** https://khabeer.khabeer-bio.workers.dev/support
+**الموقع (Homepage):** https://khabeer.khabeer.workers.dev/
+**سياسة الخصوصية:** https://khabeer.khabeer.workers.dev/privacy
+**الدعم (Support URL):** https://khabeer.khabeer.workers.dev/support
 **الظهور:** Unlisted (غير مدرجة — تظهر فقط لمن معه الرابط) أو Public حسب رغبتك
 
 **الصور (في مجلد store-images):**
@@ -92,7 +92,7 @@ Transfers a teacher's lesson preparation and homework from the Elkabsula website
 
 - Availability: Hidden (غير مدرجة) أو Public — الأسواق: كل الأسواق أو Oman على الأقل.
 - Category: Education. Privacy policy: نعم ← الرابط أعلاه.
-- **Notes for certification:** «The extension only works on khabeer.khabeer-bio.workers.dev (teacher login required) and lms.moe.gov.om (Ministry of Education LMS, teacher login required). It fills web forms with lesson text the teacher sends from the Khabeer site and never submits them.»
+- **Notes for certification:** «The extension only works on khabeer.khabeer.workers.dev (teacher login required) and lms.moe.gov.om (Ministry of Education LMS, teacher login required). It fills web forms with lesson text the teacher sends from the Khabeer site and never submits them.»
 
 ## Firefox (addons.mozilla.org)
 

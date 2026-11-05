@@ -197,9 +197,9 @@ function guideHtml(b,L,storeUrl){
   if(isX){step1=ltr?'Press <b>\u00ABOpen the tool link\u00BB</b> above \u2014 Firefox starts installing right away.':'اضغط <b>«فتح رابط الأداة»</b> أعلاه — فايرفوكس يبدأ التثبيت فورًا.';goLabel=ltr?'Open the tool link \u2197':'فتح رابط الأداة \u2197';}
   var ic='<span class="xg-ic" style="background:#0e7c66 url(/icon-512.png) center/cover"></span>';
   var s1='<div class="xg-scr"'+dir+'><div class="xg-bar"><i></i><i></i><span>'+T.host+'</span></div>'+
-    '<div class="xg-body">'+ic+'<div class="xg-nm">'+EXT+'<small>khabeer.khabeer-bio.workers.dev</small></div><span class="xg-btn xg-hl">'+esc(t[0])+'</span></div></div>';
+    '<div class="xg-body">'+ic+'<div class="xg-nm">'+EXT+'<small>khabeer.khabeer.workers.dev</small></div><span class="xg-btn xg-hl">'+esc(t[0])+'</span></div></div>';
   var s2='<div class="xg-scr"'+dir+'><div class="xg-bar"><i></i><i></i><span>'+T.host+'</span></div>'+
-    '<div class="xg-dlg"><b>'+esc(t[3])+'</b><p>'+(ltr?'It can: Read and change your data on lms.moe.gov.om and khabeer.khabeer-bio.workers.dev':'يمكنها قراءة بياناتك وتغييرها على lms.moe.gov.om و khabeer.khabeer-bio.workers.dev')+'</p>'+
+    '<div class="xg-dlg"><b>'+esc(t[3])+'</b><p>'+(ltr?'It can: Read and change your data on lms.moe.gov.om and khabeer.khabeer.workers.dev':'يمكنها قراءة بياناتك وتغييرها على lms.moe.gov.om و khabeer.khabeer.workers.dev')+'</p>'+
     '<div class="xg-acts" style="justify-content:'+(ltr?'flex-end':'flex-start')+'"><span class="xg-btn xg-hl">'+esc(t[1])+'</span><span class="xg-btn ghost">'+esc(t[2])+'</span></div></div></div>';
   function st(n,txt,scr){return '<div class="xg-st"><span class="xg-n">'+n+'</span><div class="xg-b"><div class="xg-t">'+txt+'</div>'+(scr||'')+'</div></div>';}
   return '<div class="xg"><h4>'+TX.title+'</h4>'+
@@ -462,7 +462,7 @@ function iosPlay(){
       row(el('Userscripts','مفتاح: شغّل')+el('كل المواقع: سماح',1))+
       '<div class="tos-n">iOS 26+: الإعدادات ← التطبيقات ← Safari ← الإضافات.</div>'},
     {t:'٣ · افتح نافذة التثبيت من المنصة',ms:8000,h:
-      '<div class="iosg-t">khabeer.khabeer-bio.workers.dev</div>'+
+      '<div class="iosg-t">khabeer.khabeer.workers.dev</div>'+
       row(el('زر «أداة نور»',1)+el('تبويب iPhone 📱')+el('تثبيت الأداة',1))+
       '<div class="tos-n">تفتح صفحة الأداة في سافاري — هذا سليم.</div>'},
     {t:'٤ · ثبّت الأداة في سافاري',ms:10000,h:
@@ -470,7 +470,7 @@ function iosPlay(){
       row(el('شريط العنوان')+el('aA',1)+el('Userscripts')+el('Install',1)+el('تم'))+
       '<div class="tos-n">⚠️ لو ظهر «كود نصّي» بلا زر Install: <b>Userscripts غير مفعّل</b> — أكمل الخطوة ٢.</div>'},
     {t:'٥ · حدّث صفحة المنصة وبدّأ',ms:7000,h:
-      '<div class="iosg-t">khabeer.khabeer-bio.workers.dev بعد التحديث</div>'+
+      '<div class="iosg-t">khabeer.khabeer.workers.dev بعد التحديث</div>'+
       row(el('تحديث الصفحة')+el('أداة نور ✓',1))+
       '<div class="tos-n">من هنا: كل درس فيه زر «إرسال التحضير إلى نور» يملأ كل شيء تلقائيًا.</div>'}
   ];
