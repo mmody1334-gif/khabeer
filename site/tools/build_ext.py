@@ -7,7 +7,7 @@ tool = open(os.path.join(ROOT, 'server', 'tahdir-noor.user.js'), encoding='utf-8
 ver = re.search(r'@version\s+(\S+)', tool).group(1)
 body = tool[tool.index('==/UserScript=='):].split('\n', 1)[1]
 test = '--test' in sys.argv
-if test: body = body.replace("location.hostname === 'tahdir.hudhaifa-bio.workers.dev'", "(location.hostname === 'tahdir.hudhaifa-bio.workers.dev' || location.hostname === 'khabeer.hudhaifa-bio.workers.dev' || location.hostname === 'localhost')")
+if test: body = body.replace("location.hostname === 'tahdir.hudhaifa-bio.workers.dev'", "(location.hostname === 'tahdir.hudhaifa-bio.workers.dev' || location.hostname === 'khabeer.khabeer-bio.workers.dev' || location.hostname === 'localhost')")
 run = 'function (GM_getValue, GM_setValue, GM_deleteValue, GM_openInTab, GM_registerMenuCommand, unsafeWindow) {\n' + body + '\n}'
 shim = open(os.path.join(SRC, 'shim.js'), encoding='utf-8').read().replace('__RUN__', '(' + run + ')').replace('__EXTVER__', ver).replace('__EXTSRC__', 'zip')
 shutil.rmtree(OUT, ignore_errors=True); os.makedirs(OUT)
@@ -27,7 +27,7 @@ sites = sorted(set(m for m in re.findall(r'@match\s+(\S+)', hdr) if m.endswith('
 man = {
   'manifest_version': 3, 'name': 'خبير — أداة نور', 'short_name': 'أداة نور', 'version': ver,
   'description': 'ترسل التحضير والواجب من موقع «خبير» إلى منصة نور وتملأ الحقول تلقائيًا. لا تضغط حفظ أبدًا.',
-  'author': 'أ. محمد مجدي', 'homepage_url': 'https://khabeer.hudhaifa-bio.workers.dev/',
+  'author': 'أ. محمد مجدي', 'homepage_url': 'https://khabeer.khabeer-bio.workers.dev/',
   'permissions': ['storage'],
   # نفس نطاقات content_scripts (لا صلاحية جديدة): تلزم لإعادة المعلم إلى تبويب المنصة بعد التثبيت
   'host_permissions': sites,

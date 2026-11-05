@@ -7,7 +7,7 @@
 // @match        https://lms.moe.gov.om/*
 // @match        https://lms.moe.gov.om/teacher
 // @match        https://tahdir.hudhaifa-bio.workers.dev/*
-// @match        https://khabeer.hudhaifa-bio.workers.dev/*
+// @match        https://khabeer.khabeer-bio.workers.dev/*
 // @match        https://elkabsula.me/*
 // @match        https://www.elkabsula.me/*
 // @match        https://elkabsula.com/*
@@ -30,8 +30,8 @@
 // @grant        GM_getValue
 // @grant        GM_deleteValue
 // @grant        GM_openInTab
-// @updateURL    https://khabeer.hudhaifa-bio.workers.dev/tool/tahdir-noor.user.js
-// @downloadURL  https://khabeer.hudhaifa-bio.workers.dev/tool/tahdir-noor.user.js
+// @updateURL    https://khabeer.khabeer-bio.workers.dev/tool/tahdir-noor.user.js
+// @downloadURL  https://khabeer.khabeer-bio.workers.dev/tool/tahdir-noor.user.js
 // @run-at       document-start
 // ==/UserScript==
 
@@ -187,7 +187,7 @@
   // ================= على موقع خبير =================
   // نطاقات الموقع: العامل المجاني (workers.dev) والنطاقات الخاصة — كلها تعمل
   // حتى لا تتعطّل الأداة عند من يُثبّتها من أحدهما.
-  if (location.hostname === 'tahdir.hudhaifa-bio.workers.dev' || location.hostname === 'khabeer.hudhaifa-bio.workers.dev' || /(^|\.)(el|al)kabsula\.(me|com|works|site|online|tech|studio)$/.test(location.hostname)) {
+  if (location.hostname === 'tahdir.hudhaifa-bio.workers.dev' || location.hostname === 'khabeer.khabeer-bio.workers.dev' || /(^|\.)(el|al)kabsula\.(me|com|works|site|online|tech|studio)$/.test(location.hostname)) {
     // لو عند المعلم نسخة قديمة مكررة من الأداة، الإصدار الأحدث هو اللي يظهر للموقع دائمًا
     const de = document.documentElement;
     if (!de) return; // لم يجهز المستند بعد (بعض إعدادات الحقن المبكر): لا نرمي استثناءً
