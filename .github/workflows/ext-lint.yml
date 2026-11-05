@@ -1,0 +1,29 @@
+name: ext-lint
+# فحص حزمة فايرفوكس بأداة Mozilla الرسمية (web-ext lint) قبل رفعها إلى المتجر
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['site/extension/**', 'site/tools/build_ext.py', 'site/server/tahdir-noor.user.js']
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: build
+        run: pip install pillow -q && python3 site/tools/build_ext.py
+      - name: web-ext lint
+        run: |
+          mkdir ff && cd ff && unzip -q ../site/dist/store/khabeer-firefox-*.zip && cd ..
+          npx -y web-ext@8 lint -s ff -o json > lint.json || true
+          python3 - <<'PY'
+          import json
+          d=json.load(open('lint.json'))
+          for k in ('errors','warnings','notices'):
+              for m in d.get(k,[]): print(f"::notice::{k[:-1]} {m.get('code')}: {m.get('message')} [{m.get('file','')}]")
+          print(f"::notice::summary {json.dumps(d.get('summary'))}")
+          PY

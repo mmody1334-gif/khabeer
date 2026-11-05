@@ -1,0 +1,59 @@
+name: deploy-site
+# يبني موقع «خبير» وينشره على Cloudflare تلقائيًا عند أي تعديل في مجلد site/
+on:
+  push:
+    branches: [main]
+    paths: ['site/**', '.github/workflows/deploy-site.yml']
+  workflow_dispatch:
+concurrency: { group: deploy-site, cancel-in-progress: false }
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CF_ACCOUNT: 0000e4925fd52a263ae76a9053eade14
+      CF_SCRIPT: khabeer
+      CF_D1: REPLACE-WITH-NEW-D1-ID  # أنشئ قاعدة D1 جديدة باسم khabeer والصق معرّفها هنا
+      SITE: https://khabeer.hudhaifa-bio.workers.dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: Fetch APKs from dist branch
+        run: |
+          git fetch origin dist --depth=1 2>/dev/null || true
+          git show origin/dist:khabeer.apk > site/server/khabeer.apk 2>/dev/null || true
+      - name: Build worker.js
+        run: python3 site/server/build_worker.py
+      - name: Check syntax
+        run: cp site/dist/worker.js /tmp/w.mjs && node --check /tmp/w.mjs
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with: { name: worker-js, path: site/dist/worker.js, retention-days: 30 }
+      - name: Deploy to Cloudflare
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ env.CF_ACCOUNT }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::warning::CLOUDFLARE_API_TOKEN secret is not set yet — built but not deployed."
+            exit 0
+          fi
+          mkdir -p site/dist/assets/fin && cp -r site/finals/img/. site/dist/assets/fin/
+          mkdir -p site/dist/assets/pdf && cp -r site/vendor/pdf/. site/dist/assets/pdf/
+          mkdir -p site/dist/assets/promo && cp -r site/vendor/promo/. site/dist/assets/promo/
+          # تنظيف صور الوزارة (خطوط الحواف، صناديق الدرجات، شظايا الورقة) — الأصول في site/finals تبقى كما هي
+          pip install -q numpy pillow opencv-python-headless && python3 site/tools/clean_fin.py site/dist/assets/fin || echo "::warning::fin image cleaning skipped"
+          # رقم السؤال الأصلي المطبوع في صورة سؤال الاختبار النهائي («٦)») — المنصة تكتب الرقم الجديد فوقها
+          pip install -q pillow && python3 site/tools/fin_qno.py site/dist/assets/fin || echo "::warning::fin question numbers skipped"
+          # نسخة PNG لكل صورة WebP: ملف Word يضمِّنها (Word لا يقرأ WebP)
+          pip install -q pillow && python3 site/tools/fin_png.py site/dist/assets/fin || echo "::warning::fin png twins skipped"
+          cd site && npx --yes wrangler@3.114.0 deploy && cd ..
+          want=$(git rev-parse --short HEAD)
+          for i in 1 2 3 4 5 6; do
+            v=$(curl -s "$SITE/version"); echo "$v"
+            got=$(echo "$v" | python3 -c "import sys,json;d=json.load(sys.stdin);print(d.get('sha','') if d.get('packs') is True else 'nopacks')" 2>/dev/null || true)
+            echo "live: $got  want: $want"; [ "$got" = "$want" ] && exit 0; sleep 10
+          done
+          echo "::error::live site does not show the new version"; exit 1

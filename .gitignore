@@ -1,0 +1,7 @@
+build/
+app/build/
+.gradle/
+local.properties
+# إعداد OCR مولَّد تلقائيًا
+site/tools/rapidocr_arabic.yaml
+site/tests/cards_print.pdf

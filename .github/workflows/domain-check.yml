@@ -1,0 +1,18 @@
+name: domain-check
+# فحص يدوي: هل يعمل «خبير» على workers.dev بعد النشر
+on: workflow_dispatch
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check
+        run: |
+          N=https://khabeer.hudhaifa-bio.workers.dev
+          H='-H sec-fetch-dest:document -H accept:text/html'
+          for i in 1 2 3 4 5 6 7 8 9 10; do c=$(curl -s -o /dev/null -w '%{http_code}' $N/version); [ "$c" = 200 ] && break; sleep 30; done
+          echo "::notice::new /version = $c $(curl -s $N/version | head -c 120)"
+          for p in /app / /quiz /tool/tahdir-noor.user.js /download/khabeer.apk; do
+            echo "::notice::new $p → $(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' $H $N$p)"
+          done
+          echo "::notice::app UA /app → $(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' $H -A 'x TahdirApp/1' $N/app)"
+          echo "::notice::new / → $(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' $N/)"

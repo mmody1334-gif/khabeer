@@ -1,0 +1,25 @@
+# نشر الموقع مع الأصول الثابتة (صور أسئلة الاختبارات النهائية)
+name = "khabeer"
+main = "dist/worker.js"
+compatibility_date = "2025-06-01"
+workers_dev = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "khabeer"
+# أنشئ قاعدة جديدة: npx wrangler d1 create khabeer — ثم الصق معرّفها هنا
+# (لا تستخدم معرّف قاعدة الكبسولة القديمة، وإلا تشارك المنصتان نفس المستخدمين والبيانات)
+database_id = "REPLACE-WITH-NEW-D1-ID"
+
+[assets]
+directory = "dist/assets"
+binding = "ASSETS"
+
+# ===== النطاق الخاص =====
+# بعد شراء الدومين وإضافته كـ Zone في نفس حساب Cloudflare (وتغيير Name Servers
+# عند المسجّل)، أزل التعليق عن السطرين المناسبين ثم ادفع — سينشئ Cloudflare
+# سجل DNS والشهادة تلقائيًّا (custom_domain = true).
+#
+# routes = [
+#   { pattern = "YOUR-NEW-DOMAIN", custom_domain = true },
+# ]

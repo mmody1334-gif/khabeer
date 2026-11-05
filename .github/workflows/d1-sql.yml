@@ -1,0 +1,31 @@
+name: d1-sql
+# تنفيذ SQL واحد على قاعدة البيانات الحية (إدخال يدوي عبر workflow_dispatch).
+# يُستخدم لعمليات صغيرة محكومة مثل إنشاء/حذف حساب فحص مؤقت. لا يشغّل نفسه تلقائيًا.
+on:
+  workflow_dispatch:
+    inputs:
+      q:
+        description: 'SQL — أمر واحد'
+        required: false
+        default: ''
+      tags_i:
+        description: 'SQL إضافي 2 (اختياري)'
+        required: false
+        default: ''
+jobs:
+  exec:
+    runs-on: ubuntu-latest
+    steps:
+      - name: exec
+        env:
+          CF_ACCOUNT: 0000e4925fd52a263ae76a9053eade14
+          CF_DB: 43c1825c-d8d8-401a-a77b-2ec6897f457a
+          CF_TOK: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          SQL1: ${{ github.event.inputs.q }}
+          SQL2: ${{ inputs.tags_i }}
+        run: |
+          set -u
+          url=https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT/d1/database/$CF_DB/query
+          runq() { echo "===== SQL: ${1:0:80}"; PAY=$(python3 -c "import json,sys;print(json.dumps({'sql':sys.argv[1]}))" "$1"); curl -sS -X POST "$url" -H "Authorization: Bearer $CF_TOK" -H "Content-Type: application/json" -d "$PAY" | python3 -m json.tool | head -c 4000; echo; }
+          [ -n "$SQL1" ] && runq "$SQL1"
+          [ -n "$SQL2" ] && runq "$SQL2"

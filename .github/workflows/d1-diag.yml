@@ -1,0 +1,25 @@
+name: d1-diag
+# تشخيص مقررات اللغة العربية: استعلامات قراءة فقط على قاعدة البيانات الحية
+# الغرض: التأكد من أن الفريغ في «الأنشطة والأسئلة» سببه مقرر قديم/مستبدلات فاضية
+# وليس نقص البيانات في أرشيف البناء. لا تعديل على أي جدول.
+on:
+  workflow_dispatch: {}
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          CF_ACCOUNT: 0000e4925fd52a263ae76a9053eade14
+          CF_DB: 43c1825c-d8d8-401a-a77b-2ec6897f457a
+          CF_TOK: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -u
+          url=https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT/d1/database/$CF_DB/query
+          q() { echo "===== $1"; PAY=$(python3 -c "import json,sys;print(json.dumps({'sql':sys.argv[1]}))" "$2"); curl -sS -X POST "$url" -H "Authorization: Bearer $CF_TOK" -H "Content-Type: application/json" -d "$PAY" | python3 -m json.tool | head -c 5000; echo; }
+          q "courses-extra-rows" "SELECT key, subject, grade FROM courses ORDER BY key LIMIT 60"
+          q "overrides-arabic-count" "SELECT COUNT(*) AS n FROM lesson_overrides WHERE lesson_id BETWEEN 860 AND 1141"
+          q "override-samples" "SELECT lesson_id, substr(data,1,220) AS head FROM lesson_overrides WHERE lesson_id BETWEEN 860 AND 1141 LIMIT 6"
+          q "custom-lessons-count" "SELECT COUNT(*) AS n FROM custom_lessons"
+          q "custom-lessons-sample" "SELECT id, substr(data,1,180) AS head FROM custom_lessons LIMIT 12"
+          q "tables" "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
+          q "notice-tables" "SELECT name FROM sqlite_master WHERE name LIKE '%notice%'"

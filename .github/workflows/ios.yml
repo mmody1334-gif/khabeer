@@ -1,0 +1,22 @@
+name: build-ios
+on:
+  push:
+    branches: [main]
+    paths: ['ios/**', '.github/workflows/ios.yml']
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Xcode version
+        run: xcodebuild -version
+      - name: Generate project
+        run: brew install xcodegen && cd ios && xcodegen generate
+      - name: Build for simulator (compile check, no signing)
+        run: |
+          cd ios
+          xcodebuild -project Tahdir.xcodeproj -scheme Tahdir -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' -configuration Release \
+            CODE_SIGNING_ALLOWED=NO build | tail -40
+          test ${PIPESTATUS[0]} -eq 0

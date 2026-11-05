@@ -1,0 +1,21 @@
+const { chromium } = require('playwright');
+const B = 'http://localhost:8787', OUT = __dirname + '/';
+(async () => {
+  const b = await chromium.launch(); const errs = [];
+  const c = await b.newContext({ viewport: { width: 1300, height: 900 } }); const p = await c.newPage();
+  p.on('pageerror', e => errs.push(e.message));
+  await p.goto(B + '/'); await p.fill('#username', 'mohamed'); await p.fill('#password', (process.env.TEST_PASS||'')); await p.fill('#password2', (process.env.TEST_PASS||'')); await p.click('#setupForm button[type=submit]');
+  await p.waitForURL(B + '/'); await p.fill('#username', 'mohamed'); await p.fill('#password', (process.env.TEST_PASS||'')); await p.click('#loginBtn'); await p.waitForURL(B + '/admin');
+  await p.goto(B + '/finals'); await p.waitForSelector('.fin-q img');
+  console.log('subjects', await p.$$eval('#courseSelSubj option', o => o.map(x => x.textContent)));
+  console.log('units', await p.$$eval('.fin-u', o => o.map(x => x.textContent)));
+  console.log('head', await p.textContent('.fin-head'));
+  await p.selectOption('#courseSelSubj', 'الأحياء'); await p.waitForTimeout(400); await p.selectOption('#courseSel', 'الأحياء|التاسع'); await p.waitForSelector('.fin-q img'); await p.waitForTimeout(800);
+  console.log('bio9 units', await p.$$eval('.fin-u', o => o.map(x => x.textContent)));
+  const ok = await p.$$eval('.fin-q img', im => im.slice(0, 5).map(i => i.naturalWidth));
+  console.log('img widths', ok);
+  await p.screenshot({ path: OUT + 'fin_desk.png' });
+  await p.check('[data-pick] >> nth=0'); await p.check('[data-pick] >> nth=1'); console.log('picked btn', await p.textContent('#printPicked'));
+  await p.setViewportSize({ width: 400, height: 860 }); await p.waitForTimeout(300); await p.screenshot({ path: OUT + 'fin_mob.png' });
+  console.log('errors', errs); await b.close();
+})().catch(e => { console.error('FAIL', e); process.exit(1); });

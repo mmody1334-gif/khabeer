@@ -1,0 +1,9 @@
+dist/
+tests/worker_test.mjs
+tests/*.png
+tests/dev.pid
+tests/dev.log
+tests/*.doc
+/*.png
+__pycache__/
+*.pyc
