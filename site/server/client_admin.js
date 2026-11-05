@@ -1,8 +1,8 @@
 (function(){
 'use strict';
 guard();
-// «الشاملة»: نفس اللوحة على /elkabsula، تعرض فقط المعلمين المنقولين إليها (مخفية عن اللوحة الأساسية)
-var VAULT=/^\/elkabsula/.test(location.pathname),VQ=VAULT?'vault=1':'';
+// «الشاملة»: نفس اللوحة على /shamela، تعرض فقط المعلمين المنقولين إليها (مخفية عن اللوحة الأساسية)
+var VAULT=/^\/shamela/.test(location.pathname),VQ=VAULT?'vault=1':'';
 function vq(u){return VQ?u+(u.indexOf('?')>=0?'&':'?')+VQ:u;}
 var data=null,act=null,tab='teachers',q='',rep=null,repDays=30,crs=null,lessonsAll=null,openCourse=null,ntc=null;
 var GRADES=['الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي عشر','الثاني عشر'];
@@ -206,21 +206,40 @@ function usedGrades(u){
   if(gs.length<=2)return chips;
   return '<details class="sc-used"><summary>'+gs.length+' صفوف</summary><div class="sc-used-in">'+chips+'</div></details>';
 }
+var tf='all',tsort='recent';
+function tActive7(u){return u.last_login&&(Date.now()-u.last_login)<7*864e5;}
+function tInitial(n){n=String(n||'').replace(/^(أ\.|د\.|م\.)\s*/,'').trim();return n?n.charAt(0):'؟';}
 function teacherRows(){
-  var list=data.users.filter(function(u){return !q||(u.name+u.username).toLowerCase().indexOf(q)>=0;});
-  if(!list.length)return '<div class="empty-state">'+(VAULT?'لا يوجد معلمون في اللوحة الشاملة بعد. افتح أي معلم في لوحة التحكم الأساسية واضغط السهم ⬅ بجوار «كلمة مرور جديدة» لنقله إلى هنا.':'لا يوجد معلمون بعد. أضف المعلمين من زر «إضافة معلمين».')+'</div>';
-  return '<div class="t-wrap t-cards-wrap"><table class="tbl t-cards"><thead><tr><th>المعلم</th><th>مرات الدخول</th><th>آخر دخول</th><th>المواد والصفوف المسموحة</th><th>الصفوف المستخدمة</th><th>دروس منسوخة</th><th>الأجهزة</th><th></th></tr></thead><tbody>'+
-    list.map(function(u){
-      var st=!u.active?'<span class="pill off">موقوف</span>':u.role==='admin'?(+u.delegated?'<span class="pill adm">مدير مفوَّض</span>':'<span class="pill adm">مدير</span>'):'';
-      var dv=u.devices.length,warn=u.blocked?'<span class="pill warn" title="آخر محاولة '+esc(fmtDate(u.blocked.last))+'">'+u.blocked.n+' محاولة من جهاز آخر</span>':'';
-      return '<tr><td><button type="button" class="link-btn" data-open="'+u.id+'"><b>'+esc(u.name)+'</b></button> '+st+'<div class="sub ltr">'+esc(u.username)+'</div></td>'+
-        '<td class="num" data-l="مرات الدخول">'+u.logins+'</td><td data-l="آخر دخول">'+esc(ago(u.last_login))+'</td>'+
-        '<td class="sc-cell" data-l="المواد والصفوف">'+(u.role==='admin'?'<span class="muted">الكل</span>':scopeChips(u))+'</td>'+
-        '<td class="sc-used-cell" data-l="الصفوف المستخدمة">'+usedGrades(u)+'</td>'+
-        '<td class="num" data-l="دروس منسوخة">'+u.lessons_copied+'<span class="sub"> درس · '+u.copies+' نسخة</span></td>'+
-        '<td data-l="الأجهزة"><span class="num">'+dv+'/'+(u.role==='admin'?'∞':u.max_devices)+'</span> '+warn+'</td>'+
-        '<td class="t-act"><button type="button" class="btn small" data-open="'+u.id+'">التفاصيل</button></td></tr>';
-    }).join('')+'</tbody></table></div>';
+  var all=data.users,n7=all.filter(tActive7).length,off=all.filter(function(u){return !u.active;}).length,bl=all.filter(function(u){return u.blocked;}).length;
+  var list=all.filter(function(u){
+    if(q&&(u.name+' '+u.username+' '+(u.scope||'')).toLowerCase().indexOf(q)<0)return false;
+    if(tf==='active')return tActive7(u);
+    if(tf==='idle')return u.active&&!tActive7(u);
+    if(tf==='off')return !u.active;
+    if(tf==='blocked')return !!u.blocked;
+    return true;
+  });
+  list=list.slice().sort(function(x,y){
+    if(tsort==='name')return String(x.name).localeCompare(String(y.name),'ar');
+    if(tsort==='use')return (y.lessons_copied||0)-(x.lessons_copied||0);
+    return (y.last_login||0)-(x.last_login||0);
+  });
+  var F=[['all','الكل',all.length],['active','نشطون هذا الأسبوع',n7],['idle','لم يدخلوا هذا الأسبوع',all.length-n7-off],['off','موقوفون',off]];
+  if(bl)F.push(['blocked','محاولات من أجهزة أخرى',bl]);
+  var h='<div class="tc-bar"><div class="tc-filters" role="group" aria-label="تصفية المعلمين">'+F.map(function(f){return '<button type="button" class="tc-f'+(tf===f[0]?' on':'')+'" data-tf="'+f[0]+'">'+f[1]+' <span>'+f[2]+'</span></button>';}).join('')+'</div>'+
+    '<label class="tc-sort">ترتيب <select id="tSort"><option value="recent"'+(tsort==='recent'?' selected':'')+'>آخر دخول</option><option value="use"'+(tsort==='use'?' selected':'')+'>الأكثر استخدامًا</option><option value="name"'+(tsort==='name'?' selected':'')+'>الاسم</option></select></label></div>';
+  if(!all.length)return h+'<div class="empty-state">'+(VAULT?'لا يوجد معلمون في اللوحة الشاملة بعد. افتح أي معلم في لوحة التحكم الأساسية واضغط السهم ⬅ بجوار «كلمة مرور جديدة» لنقله إلى هنا.':'لا يوجد معلمون بعد. أضف المعلمين من زر «إضافة معلمين».')+'</div>';
+  if(!list.length)return h+'<div class="empty-state">لا يوجد معلم يطابق البحث أو التصفية. جرّب كلمة أخرى أو اختر «الكل».</div>';
+  return h+'<div class="tc-grid">'+list.map(function(u){
+    var adm=u.role==='admin',st=!u.active?'<span class="pill off">موقوف</span>':adm?(+u.delegated?'<span class="pill adm">مدير مفوَّض</span>':'<span class="pill adm">مدير</span>'):(tActive7(u)?'<span class="pill on">نشط</span>':'');
+    var dv=u.devices.length,mx=adm?0:+u.max_devices||0,pc=mx?Math.min(100,Math.round(dv/mx*100)):0;
+    return '<article class="tc'+(!u.active?' is-off':'')+'"><button type="button" class="tc-open" data-open="'+u.id+'" aria-label="تفاصيل '+esc(u.name)+'"></button>'+
+      '<header><span class="tc-av" aria-hidden="true">'+esc(tInitial(u.name))+'</span><div class="tc-id"><b>'+esc(u.name)+'</b><span class="ltr">'+esc(u.username)+'</span></div>'+st+'</header>'+
+      '<dl class="tc-stats"><div><dt>آخر دخول</dt><dd>'+esc(ago(u.last_login))+'</dd></div><div><dt>مرات الدخول</dt><dd class="num">'+u.logins+'</dd></div><div><dt>دروس منسوخة</dt><dd class="num">'+u.lessons_copied+'</dd></div></dl>'+
+      '<div class="tc-scope">'+(adm?'<span class="muted">كل المواد والصفوف</span>':scopeChips(u))+'</div>'+
+      '<footer><span class="tc-dev">الأجهزة <b class="num">'+dv+'/'+(adm?'∞':mx)+'</b>'+(mx?'<i class="tc-meter"><i style="width:'+pc+'%"></i></i>':'')+'</span>'+
+      (u.blocked?'<span class="pill warn" title="آخر محاولة '+esc(fmtDate(u.blocked.last))+'">'+u.blocked.n+' محاولة من جهاز آخر</span>':'<span class="tc-more">التفاصيل ‹</span>')+'</footer></article>';
+  }).join('')+'</div>';
 }
 function typeLabel(t){return TYPES[t]||('نشاط: '+String(t==null?'':t).replace(/_/g,' '));}
 function activityView(){
@@ -278,7 +297,7 @@ function addNotice(){
 function render(){
   var T=[['teachers','المعلمون'],['report','تقرير الاستخدام'],['courses','المواد والدروس'],['activity','النشاط والتنبيهات'],['notices','الإشعارات']];
   var h=(tab==='report'?'':kpis())+'<div class="tabs" role="tablist">'+T.map(function(t){return '<button type="button" role="tab" class="tab'+(tab===t[0]?' on':'')+'" data-tab="'+t[0]+'">'+t[1]+'</button>';}).join('')+'</div>';
-  if(tab==='teachers')h+='<div class="toolbar"><input id="search" placeholder="ابحث باسم المعلم" value="'+esc(q)+'">'+(VAULT?'':'<button type="button" class="btn primary" id="addBtn">إضافة معلمين</button>')+'</div>'+teacherRows();
+  if(tab==='teachers')h+='<div class="toolbar"><input id="search" type="search" placeholder="ابحث باسم المعلم أو اسم المستخدم أو المادة" value="'+esc(q)+'">'+(VAULT?'':'<button type="button" class="btn primary" id="addBtn">إضافة معلمين</button>')+'</div>'+teacherRows();
   else if(tab==='report')h+=reportView();
   else if(tab==='courses')h+=coursesView();
   else if(tab==='notices')h+=noticesView();
@@ -288,6 +307,8 @@ function render(){
   Array.prototype.forEach.call(document.querySelectorAll('[data-open]'),function(b){b.onclick=function(){openTeacher(+b.getAttribute('data-open'));};});
   if($('search'))$('search').oninput=function(){q=this.value.trim().toLowerCase();var pos=this.selectionStart;render();var s=$('search');s.focus();s.setSelectionRange(pos,pos);};
   if($('addBtn'))$('addBtn').onclick=addTeachers;
+  Array.prototype.forEach.call(document.querySelectorAll('[data-tf]'),function(b){b.onclick=function(){tf=b.getAttribute('data-tf');render();};});
+  if($('tSort'))$('tSort').onchange=function(){tsort=this.value;render();};
   Array.prototype.forEach.call(document.querySelectorAll('[data-days]'),function(b){b.onclick=function(){repDays=+b.getAttribute('data-days');api(vq('/api/admin/report?days='+repDays)).then(function(r){rep=r;render();});};});
   if($('csvBtn'))$('csvBtn').onclick=downloadCsv;
   if($('addCourse'))$('addCourse').onclick=addCourse;
@@ -402,7 +423,7 @@ function doAct(u,a){
   // شارة «لوحة التحكم» أعلى اليمين: تفتح «الشاملة»، ومن داخلها تعود إلى اللوحة الأساسية
   var st=document.querySelector('.stats .stat');if(!st)return;
   if(VAULT){document.title='الشاملة · خبير';document.body.classList.add('vault-mode');}
-  var a=document.createElement('a');a.className='stat stat-link';a.href=VAULT?'/admin':'/elkabsula';
+  var a=document.createElement('a');a.className='stat stat-link';a.href=VAULT?'/admin':'/shamela';
   a.textContent=VAULT?'لوحة التحكم الشاملة':'لوحة التحكم';a.title=VAULT?'العودة إلى لوحة التحكم الأساسية':'فتح لوحة التحكم الشاملة';
   st.parentNode.replaceChild(a,st);
 })();

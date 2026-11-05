@@ -187,7 +187,7 @@ async function ensureSchema(db) {
   if (schemaReady) return;
   await db.batch(SCHEMA.map(s => db.prepare(s)));
   try { await db.prepare('ALTER TABLE users ADD COLUMN scope TEXT').run(); } catch (e) { /* already there */ }
-  // «الشاملة»: معلمون نُقلوا إلى لوحة التحكم المخفية (/elkabsula) فلا يظهرون في اللوحة الأساسية
+  // «الشاملة»: معلمون نُقلوا إلى لوحة التحكم المخفية (/shamela) فلا يظهرون في اللوحة الأساسية
   try { await db.prepare('ALTER TABLE users ADD COLUMN vault INTEGER NOT NULL DEFAULT 0').run(); } catch (e) { /* already there */ }
   // «مدير مفوَّض»: معلم رُقّي إلى مدير (role='admin', delegated=1) — نفس صلاحيات المدير وأجهزة غير محدودة،
   // لكنه لا يستطيع المساس بالمدير الرئيسي، والمدير الرئيسي وحده يمنح التفويض ويسحبه.
@@ -1524,7 +1524,7 @@ export default {
       if (me.role !== 'admin') return p.startsWith('/api/') ? json({ error: 'غير مسموح.' }, 403) : redirect('/app');
       if (p === '/admin') return html('admin');
       // لوحة التحكم «الشاملة» المخفية: نفس الصفحة، والواجهة تطلب بياناتها بـ vault=1
-      if (p === '/elkabsula' || p === '/elkabsula/') return html('admin');
+      if (p === '/shamela' || p === '/shamela/') return html('admin');
       // كلمة مرور «الشاملة» (تُخزَّن بصمتها فقط) — تُطلب مرة لكل جلسة دخول
       if (p === '/api/admin/vault-unlock' && m === 'POST') {
         const b = await body(req);
