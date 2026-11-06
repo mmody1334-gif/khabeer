@@ -240,7 +240,17 @@ function startScreen(S){
   if($('stScan'))$('stScan').onclick=function(){openScan(S.id);};
   $('stBack').onclick=function(){TAB='sessions';load();};
 }
+// المسح بالعرض: إطار الكاميرا الأفقي يرى صفًّا أعرض من الطلاب.
+// في التطبيق: يُقفل الاتجاه أفقيًا عبر الجسر. في المتصفح: ملء الشاشة + قفل أفقي (أندرويد)، وإلا تنبيه «أدر الجوال».
+function scanLand(on){
+  try{if(window.TahdirBridge&&TahdirBridge.setLandscape){TahdirBridge.setLandscape(!!on);return;}}catch(e){}
+  try{
+    if(on){var el=document.documentElement;if(el.requestFullscreen&&screen.orientation&&screen.orientation.lock&&!document.fullscreenElement)el.requestFullscreen({navigationUI:'hide'}).then(function(){return screen.orientation.lock('landscape');}).catch(function(){});}
+    else{if(screen.orientation&&screen.orientation.unlock)screen.orientation.unlock();if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen().catch(function(){});}
+  }catch(e){}
+}
 function openScan(id){
+  scanLand(true);
   getDoc(id).then(function(S){S=restorePending(S);return getDoc(S.classId).then(function(C){live(S,C);},function(){toast('الصف المرتبط بالجلسة غير موجود');});});
 }
 
@@ -251,7 +261,7 @@ function live(S,C){
   var st={stream:null,run:false,maxW:1280,pend:{},showLet:true,mark:false,wake:null,dirty:false,lastPush:0,saveT:null,ms:0,rev:0,saving:false,savePromise:null,retryT:null,retryN:0,liveBusy:false,liveNext:null,liveRetryT:null,liveRetryN:0,closing:false,closed:false,toRes:false,syncText:'جارٍ الاتصال بالسبورة'};
   var o=document.createElement('div');o.className='ck-live';o.id='cdLive';
   o.innerHTML='<div class="ck-lh"><button type="button" class="ck-x" id="lvX" aria-label="إنهاء">✕</button><div class="ck-lq"><b id="lvN"></b><span id="lvQ"></span></div><div class="ck-lc" id="lvC"></div></div>'+
-    '<div class="ck-cam" id="lvCam"><video id="lvV" playsinline muted autoplay></video><canvas id="lvO"></canvas><div class="ck-msg" id="lvM">جارٍ تشغيل الكاميرا…</div><div class="ck-ans-popup" id="lvAns" hidden></div><div class="ck-leg" id="lvLeg">🟦 سُجِّلت إجابته · اضغط «أرِني الصح والخطأ» لتراها على جوالك وحدك</div><button type="button" class="ck-markbtn" id="lvMk">✓✗ أرِني الصح والخطأ</button></div>'+
+    '<div class="ck-cam" id="lvCam"><video id="lvV" playsinline muted autoplay></video><canvas id="lvO"></canvas><div class="ck-rot" id="lvRot" aria-hidden="true">↻ أدر الجوال بالعرض لترى طلابًا أكثر في الصورة</div><div class="ck-msg" id="lvM">جارٍ تشغيل الكاميرا…</div><div class="ck-ans-popup" id="lvAns" hidden></div><div class="ck-leg" id="lvLeg">🟦 سُجِّلت إجابته · اضغط «أرِني الصح والخطأ» لتراها على جوالك وحدك</div><button type="button" class="ck-markbtn" id="lvMk">✓✗ أرِني الصح والخطأ</button></div>'+
     '<div class="ck-lb"><button type="button" class="btn" id="lvP">→ السابق</button><button type="button" class="btn" id="lvR">👁 الإجابة</button><button type="button" class="btn" id="lvL">👥 <span id="lvLn"></span></button><button type="button" class="btn primary" id="lvNx">التالي ←</button></div>'+
     '<div class="ck-sheet" id="lvSh" hidden></div>';
   document.body.appendChild(o);document.body.classList.add('ck-noscroll');
@@ -304,14 +314,14 @@ function live(S,C){
   function onVisibility(){if(document.visibilityState==='hidden'){if(st.dirty)persistNow().catch(scheduleSaveRetry);if(!st.closed&&!st.closing)push();}}
   function cleanupListeners(){if(st.liveBusy||st.liveNext||st.liveRetryT)return;window.removeEventListener('online',onOnline);window.removeEventListener('offline',onOffline);document.removeEventListener('visibilitychange',onVisibility);}
   window.addEventListener('online',onOnline);window.addEventListener('offline',onOffline);document.addEventListener('visibilitychange',onVisibility);
-  function stopCam(){st.run=false;if(st.stream){st.stream.getTracks().forEach(function(t){t.stop();});st.stream=null;}try{st.wake&&st.wake.release();}catch(e){}}
+  function stopCam(){st.run=false;scanLand(false);if(st.stream){st.stream.getTracks().forEach(function(t){t.stop();});st.stream=null;}try{st.wake&&st.wake.release();}catch(e){}}
   function close(toRes){
     if(st.closing||st.closed)return;st.closing=true;st.toRes=toRes;stopCam();clearTimeout(st.saveT);clearTimeout(pushT);st.saveT=pushT=null;
     transmitLive({t:Date.now(),sid:S.id,title:S.title,ended:true});st.dirty=true;st.rev++;backupPending();persistNow().then(finishClose).catch(function(e){toast('تعذّر الحفظ؛ سنعيد المحاولة تلقائيًا. أبقِ الصفحة مفتوحة واتصل بالإنترنت.');scheduleSaveRetry();});
   }
   $('lvX').onclick=function(){dialog({title:'إنهاء المسح؟',message:'تُحفظ الإجابات، ويمكنك متابعة الجلسة لاحقًا.',okText:'إنهاء وعرض النتائج',cancelText:'متابعة المسح'}).then(function(ok){if(ok)close(true);});};
-  $('lvP').onclick=function(){if(S.cur>0){S.cur--;S.reveal=false;st.pend={};markDirty();head();}};
-  $('lvNx').onclick=function(){if(S.cur<S.questions.length-1){S.cur++;S.reveal=false;st.pend={};markDirty();head();}else close(true);};
+  $('lvP').onclick=function(){if(S.cur>0){st.prevQ=A();S.cur--;S.reveal=false;st.pend={};st.qStart=Date.now();st.held={};markDirty();head();}};
+  $('lvNx').onclick=function(){if(S.cur<S.questions.length-1){st.prevQ=A();S.cur++;S.reveal=false;st.pend={};st.qStart=Date.now();st.held={};markDirty();head();}else close(true);};
   $('lvR').onclick=function(){S.reveal=!S.reveal;markDirty();head();};
   // زر خاص بالمعلم: يُظهر الصح/الخطأ على جوّاله فقط (لا يكشف للطلاب على السبورة)
   $('lvMk').onclick=function(){st.mark=!st.mark;$('lvMk').classList.toggle('on',st.mark);
@@ -342,14 +352,23 @@ function live(S,C){
     setTimeout(loop,Math.max(15,100-(performance.now()-t0)));
   }
   // تُسجَّل الإجابة بعد قراءتها نفسها في إطارين متتاليين (منعًا لأي قراءة عابرة)، ويمكن للطالب تغييرها
+  // منع الاحتساب المزدوج:
+  // • بعد الانتقال لسؤال جديد: بطاقة ما زالت مرفوعة بنفس إجابة السؤال السابق لا تُحتسب حتى يُنزلها الطالب (تختفي ⅔ ثانية) أو يديرها لإجابة أخرى
+  // • الإجابة الجديدة تحتاج 3 قراءات متطابقة متتالية، وتغيير إجابة مسجّلة يحتاج 6 (حتى لا تُقرأ البطاقة مائلة وهي تُنزَل)
   function handle(hits){
     var a=A(),changed=false,now=Date.now();
+    st.held=st.held||{};var prev=st.prevQ||{};
+    var seen={};
     hits.forEach(function(h){
-      if(!roster[h.n])return;
+      if(!roster[h.n]||seen[h.n]){h.ok=false;return;}seen[h.n]=1;
+      var stale=prev[h.n]===h.ans&&a[h.n]==null;
+      if(stale&&(now-(st.qStart||0)<1500||(st.held[h.n]&&now-st.held[h.n]<700))){st.held[h.n]=now;h.ok=false;h.wait=true;return;}
+      if(!stale||st.held[h.n])delete st.held[h.n];
       var p=st.pend[h.n];
       if(p&&p.ans===h.ans&&now-p.t<1500){p.c++;p.t=now;}else{p=st.pend[h.n]={ans:h.ans,c:1,t:now};}
-      h.ok=p.c>=2;
-      if(h.ok&&a[h.n]!==h.ans){var isNew=a[h.n]==null;a[h.n]=h.ans;changed=true;if(isNew)beep();}
+      var need=a[h.n]==null?3:6;
+      h.ok=p.c>=need||a[h.n]===h.ans;
+      if(p.c>=need&&a[h.n]!==h.ans){var isNew=a[h.n]==null;a[h.n]=h.ans;changed=true;if(isNew)beep();}
     });
     if(changed){markDirty();head();}
   }

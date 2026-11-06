@@ -275,6 +275,10 @@ public class MainActivity extends Activity {
         @JavascriptInterface public String getValue(String k) { return prefs.getString("gm_" + k, null); }
         @JavascriptInterface public void setValue(String k, String v) { prefs.edit().putString("gm_" + k, v).apply(); }
         @JavascriptInterface public void deleteValue(String k) { prefs.edit().remove("gm_" + k).apply(); }
+        // كروت الأسئلة: المسح بالعرض يرى عددًا أكبر من الطلاب
+        @JavascriptInterface public void setLandscape(boolean on) {
+            runOnUiThread(() -> setRequestedOrientation(on ? android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE : android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED));
+        }
         @JavascriptInterface public void openNour(String url) {
             runOnUiThread(() -> {
                 String u = (url != null && url.startsWith("https://lms.moe.gov.om")) ? url : NOUR;

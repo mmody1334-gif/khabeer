@@ -1032,6 +1032,8 @@ body.ck-noscroll{overflow:hidden}body.ck-noscroll #modal{z-index:3000}body.ck-no
 .ck-lc{display:flex;flex-direction:column;gap:3px;align-items:flex-end;flex:none}.ck-sync-note{font-size:.64rem;opacity:.8;max-width:45vw;text-align:right;line-height:1.25}.ck-cnt{background:#16a34a;border-radius:999px;padding:2px 12px;font-size:.95rem;white-space:nowrap}.ck-cnt b{font-size:1.15rem}
 .ck-dist{font-size:.78rem;background:rgba(255,255,255,.14);border-radius:6px;padding:0 6px}.ck-dist.ok{background:#16a34a}
 .ck-cam{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.ck-rot{display:none;position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:3;background:rgba(255,159,28,.95);color:#1a1200;font-weight:700;font-size:.85rem;padding:7px 14px;border-radius:12px;white-space:nowrap;pointer-events:none}
+@media (orientation:portrait){.ck-rot{display:block}}
 .ck-cam video,.ck-cam canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .ck-msg{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);padding:8px 16px;border-radius:12px;text-align:center;max-width:90%;transition:opacity .6s}.ck-msg.fade{opacity:0;pointer-events:none}
 .ck-leg{position:absolute;top:8px;left:8px;right:8px;text-align:center;font-size:.76rem;color:#fff;background:rgba(0,0,0,.5);border-radius:8px;padding:4px 8px;pointer-events:none;line-height:1.5}
@@ -1707,6 +1709,30 @@ CSS += '''
   .kh-stats{grid-template-columns:1fr;gap:10px}
   .kh-flow{grid-template-columns:1fr}
 }
+
+.kh-mid{display:grid;grid-template-columns:250px minmax(0,1fr);gap:18px;align-items:start}
+.kh-mid.nofeat{grid-template-columns:minmax(0,1fr)}
+.kh-feats{display:grid;gap:18px}
+.kh-feat{display:flex;align-items:center;gap:12px;width:100%;text-align:right;font:inherit;color:var(--ink);background:var(--paper);border:0;border-radius:22px;padding:16px 14px;box-shadow:var(--kb-sh);cursor:pointer}
+.kf-art{width:76px;height:76px;flex:none;display:grid;place-items:center;border-radius:22px;font-size:40px;transform:rotate(-8deg);box-shadow:0 10px 18px rgba(31,37,71,.12)}
+.f0 .kf-art{background:linear-gradient(140deg,#ffcf70,#ff9f1c)}.f1 .kf-art{background:linear-gradient(140deg,#8fb4ff,#3e7bfa)}
+.kh-feat:hover .kf-art{transform:rotate(0) scale(1.05);transition:transform .2s}
+.kf-tx{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0}
+.kf-tx b{font-size:.95rem;font-weight:600}.kf-tx small{font-size:.74rem;color:var(--mute);line-height:1.45}
+.kf-btn{margin-top:6px;font-size:.76rem;font-weight:600;color:#fff;background:#3cc9b4;border-radius:9px;padding:4px 14px}
+.kh-meta{flex:none;font-size:.74rem;color:var(--mute);min-width:70px;text-align:center}
+.kh-flow{grid-template-columns:repeat(2,minmax(0,1fr))!important}.kh-flow .kh-meta{display:none}.kh-step{min-width:0}
+@media (max-width:700px){.kh-flow{grid-template-columns:minmax(0,1fr)!important}}
+.kh-last{background:var(--paper);border-radius:22px;padding:16px 18px;box-shadow:var(--kb-sh)}
+.kh-last h3{margin:0 0 10px;font-family:var(--f-display);font-weight:600;font-size:1rem;color:var(--ink)}
+.kl-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.kl-ic{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:var(--main-l);font-size:20px}
+.kl-row b{font-size:.9rem;font-weight:600;color:var(--ink);flex:1 1 160px}
+.kl-bar{flex:1 1 140px;height:6px;border-radius:9px;background:#eef1f7;overflow:hidden}.kl-bar i{display:block;height:100%;background:var(--main);border-radius:9px}
+.kl-row small{font-size:.76rem;color:var(--mute);white-space:nowrap}
+.kl-btn{font:inherit;font-size:.8rem;font-weight:600;color:#fff;background:#f05d7a;border:0;border-radius:10px;padding:6px 16px;cursor:pointer}
+@media (max-width:900px){.kh-mid{grid-template-columns:minmax(0,1fr)}.kh-feats{grid-template-columns:1fr 1fr}.kh-meta{display:none}}
+@media (max-width:520px){.kh-feats{grid-template-columns:1fr}}
 /* ===== لوحة التحكم: المعلمون كبطاقات ===== */
 .tc-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 14px}
 .tc-filters{display:flex;flex-wrap:wrap;gap:6px}

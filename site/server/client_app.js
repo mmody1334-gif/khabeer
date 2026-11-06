@@ -398,13 +398,20 @@ function renderHomeCards(){
   var tools=HOME_TOOLS.filter(function(c){return !q||normAr(c.title+' '+c.sub).indexOf(q)>=0;});
   var g=$('homeGrid');
   if(g){
-    if(!main.length)g.innerHTML='<div class="home-empty">لا توجد أقسام مطابقة للبحث.</div>';
-    else g.innerHTML=KH_FLOW.map(function(st,si){
-      var rows=main.filter(function(c){return st.keys.indexOf(c.key)>=0;});
-      if(!rows.length)return '';
-      return '<section class="kh-step kh-'+st.id+'"><header><span class="kh-n">'+(si+1)+'</span><div><h2>'+esc(st.name)+'</h2><p>'+esc(st.sub)+'</p></div></header><div class="kh-rows">'+
-        rows.map(function(c){return '<button type="button" class="kh-row" data-home="'+esc(c.key)+'"><span class="kh-ic" aria-hidden="true">'+c.icon+'</span><span class="kh-tx"><b>'+esc(c.title)+'</b><small>'+esc(c.sub)+'</small></span><span class="kh-go" aria-hidden="true">افتح</span></button>';}).join('')+'</div></section>';
-    }).join('');
+    if(!main.length){g.innerHTML='<div class="home-empty">لا توجد أقسام مطابقة للبحث.</div>';}
+    else{
+      var listCard=function(st){
+        var rows=main.filter(function(c){return st.keys.indexOf(c.key)>=0;});
+        if(!rows.length)return '';
+        return '<section class="kh-step kh-'+st.id+'"><header><div><h2>'+esc(st.name)+'</h2><p>'+esc(st.sub)+'</p></div></header><div class="kh-rows">'+
+          rows.map(function(c){return '<button type="button" class="kh-row" data-home="'+esc(c.key)+'"><span class="kh-ic" aria-hidden="true">'+c.icon+'</span><span class="kh-tx"><b>'+esc(c.title)+'</b><small>'+esc(c.sub)+'</small></span><span class="kh-meta">'+esc(st.name)+'</span><span class="kh-go" aria-hidden="true">افتح</span></button>';}).join('')+'</div></section>';
+      };
+      var FEAT=[['games','العب مع صفّك','تحدٍّ على السبورة أو بالجوالات','العب'],['cards','قيّم الصف كله','بطاقة لكل طالب وتمسح بالكاميرا','ابدأ']];
+      var feats=FEAT.filter(function(f){return main.some(function(c){return c.key===f[0];});}).map(function(f,i){var c=main.filter(function(x){return x.key===f[0];})[0];
+        return '<button type="button" class="kh-feat f'+i+'" data-home="'+f[0]+'"><span class="kf-art" aria-hidden="true">'+c.icon+'</span><span class="kf-tx"><b>'+esc(f[1])+'</b><small>'+esc(f[2])+'</small><span class="kf-btn">'+esc(f[3])+'</span></span></button>';}).join('');
+      var first=listCard(KH_FLOW[0]),rest=KH_FLOW.slice(1).map(listCard).join('');
+      g.innerHTML=(feats||first?'<div class="kh-mid'+(feats?'':' nofeat')+'">'+(feats?'<div class="kh-feats">'+feats+'</div>':'')+first+'</div>':'')+(rest?'<div class="kh-flow">'+rest+'</div>':'');
+    }
   }
   var t=$('homeTools');if(t)t.innerHTML=tools.length?tools.map(function(c){return '<button type="button" class="kh-tool" data-tool="'+esc(c.key)+'"><span aria-hidden="true">'+c.icon+'</span><span><b>'+esc(c.title)+'</b><small>'+esc(c.sub)+'</small></span></button>';}).join(''):'';
   var th=$('homeToolsHead');if(th)th.style.display=tools.length?'':'none';
@@ -445,7 +452,8 @@ function showHome(){
       '<div class="kh-stat"><span class="ks-ic" aria-hidden="true">👁️</span><div style="flex:1;min-width:0"><b>دروس فتحتها</b><small>'+seen+' درسًا حتى الآن</small><span class="ks-bar"><i style="width:'+ps+'%"></i></span><span class="ks-pc">'+ps+'%</span></div></div>'+
     '</div>'+
     '<input id="homeSearch" class="home-search kh-search" type="search" placeholder="ابحث عن أداة: اختبار، ملخص، لعبة…" value="'+esc(homeQ)+'" aria-label="البحث في أقسام خبير">'+
-    '<div class="kh-flow" id="homeGrid"></div></div>'+
+    '<div id="homeGrid"></div>'+
+    '<section class="kh-last"><h3>تقدّم تحضيرك</h3><div class="kl-row"><span class="kl-ic" aria-hidden="true">📋</span><b>تحضير دروس '+esc(teacherSubject())+'</b><span class="kl-bar"><i style="width:'+pc+'%"></i></span><small>'+pc+'% · '+done+' من '+tot+'</small><button type="button" class="kl-btn" data-home="prep">أكمل</button></div></section></div>'+
     '<aside class="kh-rail"><section class="kh-card"><h3>أدوات خبير<span aria-hidden="true">‹</span></h3><h2 class="kh-tools-h" id="homeToolsHead">أدوات خبير</h2><div class="kh-tools" id="homeTools"></div></section>'+
       '<section class="kh-card"><h3>نصيحة اليوم</h3><div class="kh-tip"><img src="/brand/logo.png" alt=""><div><b>'+esc(tip[0])+'</b><p>'+esc(tip[1])+'</p></div></div></section></aside>'+
   '</div></div>';
