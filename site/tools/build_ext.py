@@ -27,7 +27,7 @@ sites = sorted(set(m for m in re.findall(r'@match\s+(\S+)', hdr) if m.endswith('
 man = {
   'manifest_version': 3, 'name': 'خبير — أداة نور', 'short_name': 'أداة نور', 'version': ver,
   'description': 'ترسل التحضير والواجب من موقع «خبير» إلى منصة نور وتملأ الحقول تلقائيًا. لا تضغط حفظ أبدًا.',
-  'author': 'خبير', 'homepage_url': 'https://khabeer.khabeer.workers.dev/',
+  'author': 'خبير', 'homepage_url': 'https://khaber.site/',
   'permissions': ['storage'],
   # نفس نطاقات content_scripts (لا صلاحية جديدة): تلزم لإعادة المعلم إلى تبويب المنصة بعد التثبيت
   'host_permissions': sites,

@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CF_SCRIPT: khabeer
-      SITE: https://khabeer.khabeer.workers.dev
+      SITE: https://khaber.site
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

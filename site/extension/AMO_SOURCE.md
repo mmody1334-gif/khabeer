@@ -40,7 +40,7 @@ placeholder strings inside a template file, plus verbatim file copying.
    produced automatically as `site/dist/store/kabsula-firefox-unlisted-<version>.zip`).
 
 4. The add-on version equals the `@version` value in the header of
-   `server/tahdir-noor.user.js` (currently **3.4.9**).
+   `server/tahdir-noor.user.js` (currently **3.5.0**).
 
 ## File map
 
@@ -57,7 +57,7 @@ placeholder strings inside a template file, plus verbatim file copying.
 
 - The same sources build the Chrome Web Store / Edge Add-ons / Firefox
   listed variants (identical tool code, only manifest metadata differs).
-- The tool only touches two sites: **khabeer.khabeer.workers.dev** (teacher logs in
+- The tool only touches two sites: **khaber.site** (teacher logs in
   first) and **lms.moe.gov.om** (Ministry of Education LMS, teacher
   login required). It fills web forms with lesson text the teacher
   explicitly sends from the Elkabsula platform and **never clicks Save**.

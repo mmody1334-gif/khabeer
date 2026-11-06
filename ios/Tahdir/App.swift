@@ -7,9 +7,9 @@ import WebKit
 // التطبيق لا يضغط حفظ أو نشر في نور أبدًا؛ هذا يبقى للمعلم.
 
 enum Config {
-    static let site = URL(string: "https://khabeer.khabeer.workers.dev/")!
+    static let site = URL(string: "https://khaber.site/")!
     static let nour = URL(string: "https://lms.moe.gov.om/teacher")!
-    static let tool = URL(string: "https://khabeer.khabeer.workers.dev/tool/tahdir-noor.user.js")!
+    static let tool = URL(string: "https://khaber.site/tool/tahdir-noor.user.js")!
     static let green = UIColor(red: 46/255, green: 58/255, blue: 168/255, alpha: 1)
 }
 
@@ -221,7 +221,7 @@ final class WebScreen: UIViewController, WKNavigationDelegate, WKUIDelegate, WKS
     /// «بطاقات الإجابة»: الكاميرا لموقع خبير فقط
     @available(iOS 15.0, *)
     func webView(_ webView: WKWebView, requestMediaCapturePermissionFor origin: WKSecurityOrigin, initiatedByFrame frame: WKFrameInfo, type: WKMediaCaptureType, decisionHandler: @escaping (WKPermissionDecision) -> Void) {
-        let ours = ["tahdir.hudhaifa-bio.workers.dev", "khabeer.khabeer.workers.dev", "elkabsula.site", "www.elkabsula.site"].contains(origin.host)
+        let ours = ["tahdir.hudhaifa-bio.workers.dev", "khabeer.khabeer.workers.dev", "khaber.site", "www.khaber.site", "elkabsula.site", "www.elkabsula.site"].contains(origin.host)
         decisionHandler(ours && type == .camera ? .grant : .deny)
     }
 

@@ -14,9 +14,9 @@ android {
         khabeer {
             dimension "brand"
             applicationId 'om.khabeer.app'
-            buildConfigField 'String', 'SITE_URL', '"https://khabeer.khabeer.workers.dev/"'
+            buildConfigField 'String', 'SITE_URL', '"https://khaber.site/"'
             buildConfigField 'String', 'APP_LABEL', '"خبير"'
-            buildConfigField 'String', 'TOOL_URL', '"https://khabeer.khabeer.workers.dev/tool/tahdir-noor.user.js"'
+            buildConfigField 'String', 'TOOL_URL', '"https://khaber.site/tool/tahdir-noor.user.js"'
             buildConfigField 'String', 'TAB_COLOR', '"#2E2775"'
             buildConfigField 'String', 'TAB_ACTIVE', '"#4B40A9"'
         }
