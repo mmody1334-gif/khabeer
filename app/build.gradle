@@ -13,7 +13,7 @@ android {
     productFlavors {
         khabeer {
             dimension "brand"
-            applicationId 'om.tahdir.app'
+            applicationId 'om.khabeer.app'
             buildConfigField 'String', 'SITE_URL', '"https://khabeer.khabeer.workers.dev/"'
             buildConfigField 'String', 'APP_LABEL', '"خبير"'
             buildConfigField 'String', 'TOOL_URL', '"https://khabeer.khabeer.workers.dev/tool/tahdir-noor.user.js"'

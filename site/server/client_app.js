@@ -403,7 +403,7 @@ function renderHomeCards(){
       var rows=main.filter(function(c){return st.keys.indexOf(c.key)>=0;});
       if(!rows.length)return '';
       return '<section class="kh-step kh-'+st.id+'"><header><span class="kh-n">'+(si+1)+'</span><div><h2>'+esc(st.name)+'</h2><p>'+esc(st.sub)+'</p></div></header><div class="kh-rows">'+
-        rows.map(function(c){return '<button type="button" class="kh-row" data-home="'+esc(c.key)+'"><span class="kh-ic" aria-hidden="true">'+c.icon+'</span><span class="kh-tx"><b>'+esc(c.title)+'</b><small>'+esc(c.sub)+'</small></span><span class="kh-go" aria-hidden="true">‹</span></button>';}).join('')+'</div></section>';
+        rows.map(function(c){return '<button type="button" class="kh-row" data-home="'+esc(c.key)+'"><span class="kh-ic" aria-hidden="true">'+c.icon+'</span><span class="kh-tx"><b>'+esc(c.title)+'</b><small>'+esc(c.sub)+'</small></span><span class="kh-go" aria-hidden="true">افتح</span></button>';}).join('')+'</div></section>';
     }).join('');
   }
   var t=$('homeTools');if(t)t.innerHTML=tools.length?tools.map(function(c){return '<button type="button" class="kh-tool" data-tool="'+esc(c.key)+'"><span aria-hidden="true">'+c.icon+'</span><span><b>'+esc(c.title)+'</b><small>'+esc(c.sub)+'</small></span></button>';}).join(''):'';
@@ -432,10 +432,23 @@ function showHome(){
   var lay=document.querySelector('.wrap.layout');if(lay)lay.classList.add('home-view');
   // شريحة المعلم: الاسم + «معلم المادة» فقط، بلا صف (بناءً على طلب المعلم).
   var nm=(me&&me.name?me.name:'').trim();
-  $('panel').innerHTML='<div class="home kh-home"><section class="kh-hero"><img class="kh-owl" src="/brand/logo.png" alt=""><div class="kh-hi"><p class="kh-greet">'+khGreet()+(nm?'، '+esc(nm):'')+'</p><h1>ماذا تحتاج لحصتك اليوم؟</h1><p class="kh-subj">معلم '+esc(teacherSubject())+'</p></div>'+
-    '<div class="kh-quick"><button type="button" class="kh-q main" data-home="prep">📋 ابدأ التحضير</button><button type="button" class="kh-q" data-home="quiz">📝 اختبار جديد</button><button type="button" class="kh-q" data-home="games">🎲 لعبة للصف</button></div>'+
-    '<input id="homeSearch" class="home-search kh-search" type="search" placeholder="ابحث عن أداة: اختبار، ملخص، لعبة…" value="'+esc(homeQ)+'" aria-label="البحث في أقسام خبير"></section>'+
-    '<div class="kh-flow" id="homeGrid"></div><h2 class="kh-tools-h" id="homeToolsHead">أدوات خبير</h2><div class="kh-tools" id="homeTools"></div></div>';
+  var tot=lessons.length,done=lessons.filter(function(l){return !isEmpty(l);}).length,seen=Object.keys(viewed||{}).length,pc=tot?Math.round(done/tot*100):0,ps=tot?Math.min(100,Math.round(seen/tot*100)):0;
+  var TIPS=[['أرسل التحضير لنور بضغطة','افتح الدرس واضغط «إرسال إلى نور»، والأداة تملأ الخانات وأنت تراجع وتحفظ.'],['اختبار في دقيقة','من «الاختبارات القصيرة» اختر الدروس، والمنصة تكوّن الاختبار بالترويسة الرسمية.'],['حصة أنشط','«الألعاب التعليمية» تحوّل المراجعة إلى تحدٍّ بين الطلاب على السبورة.'],['تابع المتعثرين','ارفع درجات الاختبار في «تحليل النتائج» لتعرف من يحتاج خطة علاجية.']];
+  var tip=TIPS[new Date().getDate()%TIPS.length];
+  $('panel').innerHTML='<div class="home kh-home"><div class="kh-dash"><div class="kh-col">'+
+    '<section class="kh-hero"><img class="kh-owl" src="/brand/logo.png" alt=""><p class="kh-greet">'+khGreet()+(nm?'، '+esc(nm):'')+'</p><h1>حصتك القادمة جاهزة في دقائق</h1><p class="kh-subj">معلم '+esc(teacherSubject())+'</p>'+
+      '<button type="button" class="kh-cta" data-home="prep">ابدأ التحضير<i aria-hidden="true">‹</i></button>'+
+      '<div class="kh-quick"><button type="button" class="kh-q" data-home="quiz">📝 اختبار جديد</button><button type="button" class="kh-q" data-home="games">🎲 لعبة للصف</button></div></section>'+
+    '<div class="kh-stats">'+
+      '<div class="kh-stat"><span class="ks-ic" aria-hidden="true">📚</span><div style="flex:1;min-width:0"><b>الدروس المتاحة</b><small>'+tot+' درسًا في مادتك</small><span class="ks-bar"><i style="width:100%"></i></span><span class="ks-pc">'+tot+'</span></div></div>'+
+      '<div class="kh-stat"><span class="ks-ic" aria-hidden="true">✅</span><div style="flex:1;min-width:0"><b>تحضير جاهز</b><small>'+done+' من '+tot+' درسًا</small><span class="ks-bar"><i style="width:'+pc+'%"></i></span><span class="ks-pc">'+pc+'%</span></div></div>'+
+      '<div class="kh-stat"><span class="ks-ic" aria-hidden="true">👁️</span><div style="flex:1;min-width:0"><b>دروس فتحتها</b><small>'+seen+' درسًا حتى الآن</small><span class="ks-bar"><i style="width:'+ps+'%"></i></span><span class="ks-pc">'+ps+'%</span></div></div>'+
+    '</div>'+
+    '<input id="homeSearch" class="home-search kh-search" type="search" placeholder="ابحث عن أداة: اختبار، ملخص، لعبة…" value="'+esc(homeQ)+'" aria-label="البحث في أقسام خبير">'+
+    '<div class="kh-flow" id="homeGrid"></div></div>'+
+    '<aside class="kh-rail"><section class="kh-card"><h3>أدوات خبير<span aria-hidden="true">‹</span></h3><h2 class="kh-tools-h" id="homeToolsHead">أدوات خبير</h2><div class="kh-tools" id="homeTools"></div></section>'+
+      '<section class="kh-card"><h3>نصيحة اليوم</h3><div class="kh-tip"><img src="/brand/logo.png" alt=""><div><b>'+esc(tip[0])+'</b><p>'+esc(tip[1])+'</p></div></div></section></aside>'+
+  '</div></div>';
   renderHomeCards();
   var inp=$('homeSearch');
   if(inp)inp.oninput=function(){homeQ=this.value;renderHomeCards();};
