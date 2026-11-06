@@ -1642,11 +1642,15 @@ CSS += '''
 .kh-home{max-width:none}
 .kh-dash{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:22px;align-items:start}
 .kh-col{display:grid;gap:22px;min-width:0}
-.kh-hero{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-height:230px;padding:34px 34px 30px;padding-inline-end:clamp(34px,32%,300px);
-  background:var(--paper);border-radius:28px;box-shadow:var(--kb-sh)}
-.kh-hero::before{content:"";position:absolute;inset-inline-end:0;top:0;bottom:0;width:46%;border-radius:0 28px 28px 0;background:radial-gradient(120% 90% at 30% 50%,#e6eeff 0,rgba(230,238,255,0) 70%)}
-[dir=rtl] .kh-hero::before{border-radius:28px 0 0 28px}
-.kh-owl{position:absolute;inset-inline-end:28px;bottom:-6px;width:min(260px,34%);height:auto;filter:drop-shadow(0 18px 24px rgba(30,58,138,.18));z-index:1}
+.kh-hero{position:relative;display:flex;align-items:center;gap:26px;min-height:200px;padding:26px 32px;background:var(--paper);border-radius:28px;box-shadow:var(--kb-sh)}
+.kh-hero::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:38%;border-radius:28px 0 0 28px;background:radial-gradient(120% 90% at 70% 50%,#e6eeff 0,rgba(230,238,255,0) 72%)}
+[dir=rtl] .kh-hero::before{border-radius:0 28px 28px 0}
+.kh-brand{position:relative;z-index:1;flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;width:168px}
+.kh-brand .morph{width:132px;margin:0 auto 2px}
+.kh-brand-nm{font-family:var(--f-display);font-weight:700;font-size:1.7rem;color:var(--main-d);line-height:1}
+.kh-brand-q{font-size:.8rem;color:var(--accent);font-weight:600;text-align:center;line-height:1.5}
+.kh-brand .mz-tag{display:none}
+.kh-hero-tx{position:relative;z-index:1;flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start}
 .kh-greet{margin:0;color:var(--mute);font-weight:500;font-size:.95rem;position:relative}
 .kh-hero h1{position:relative;margin:4px 0 6px;font-family:var(--f-display);font-weight:600;font-size:clamp(1.6rem,3vw,2.35rem);line-height:1.25;color:var(--ink);text-wrap:balance;max-width:16ch}
 .kh-subj{margin:0 0 14px;color:var(--mute);font-size:.9rem;position:relative}
@@ -1703,9 +1707,13 @@ CSS += '''
 .kh-tip p{margin:2px 0 0;font-size:.78rem;color:var(--mute);line-height:1.55}
 @media (max-width:1200px){.kh-dash{grid-template-columns:minmax(0,1fr)}.kh-rail{position:static;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}}
 @media (max-width:700px){
-  .kh-hero{padding:22px 18px 20px;padding-inline-end:38%;min-height:0;border-radius:24px}
+  .kh-hero{flex-direction:column;align-items:center;text-align:center;padding:22px 18px 20px;min-height:0;border-radius:24px;gap:10px}
   .kh-hero h1{font-size:1.35rem}
-  .kh-owl{width:42%;inset-inline-end:6px;bottom:auto;top:16px}
+  .kh-hero-tx{align-items:center}
+  .kh-hero h1{max-width:none}
+  .kh-brand{flex-direction:row;width:auto;gap:10px}
+  .kh-brand .morph{width:70px;margin:0}
+  .kh-brand-q{display:none}
   .kh-stats{grid-template-columns:1fr;gap:10px}
   .kh-flow{grid-template-columns:1fr}
 }
@@ -1979,7 +1987,7 @@ BIG_HELIX = _helix()
 PROMO = '''<aside class="get-app" id="getApp" aria-label="حمّل التطبيق">
   <h3>📱 حمّل تطبيق «خبير»</h3>
   <p>على موبايلك: التحضير والواجب يتبعتوا لنور بضغطة، والأداة مدمجة بدون أي إعداد.</p>
-  <div class="ga-btns"><a class="ga-btn" href="/download/khabeer.apk" download>⬇ تحميل للأندرويد</a></div>
+  <div class="ga-btns"><a class="ga-btn" href="/download/khaber.apk" download>⬇ تحميل للأندرويد</a></div>
   <details><summary>📲 على الآيفون</summary><ol><li>افتح الموقع من متصفح Safari.</li><li>اضغط زر «مشاركة» ⬆ أسفل الشاشة.</li><li>اختر «إضافة إلى الشاشة الرئيسية» ثم «إضافة».</li></ol></details>
   <details><summary>💻 على الكمبيوتر</summary><ol><li>سجّل الدخول.</li><li>اضغط زر «ثبّت أداة نور» أعلى صفحة الدروس واتبع الخطوتين.</li></ol></details>
 </aside>'''
@@ -2096,7 +2104,7 @@ KHOME = ('<div class="k-land"><header class="k-hd">'
 
 APP = TOP('<div class="stats"><span class="stat"><span id="statLessons">0</span> درسًا</span><span class="stat"><span id="statFilled">0</span> بتحضير جاهز</span><span class="stat">الفصل الدراسي الأول</span></div>').replace('%BTNS%',
   NAV('app')) + f'''
-<div class="app-bar" id="appBar"><div class="get-app"><button type="button" class="ga-x" id="appBarX" aria-label="إخفاء الإعلان" title="إخفاء — تجده لاحقًا في «التطبيق والأدوات»">×</button><div><h3>📱 تطبيق «خبير» على الموبايل</h3><p>أرسل التحضير والواجب لنور من موبايلك بضغطة. الأداة مدمجة بدون Tampermonkey.</p></div><div class="ga-btns"><a class="ga-btn" href="/download/khabeer.apk" download>⬇ أندرويد</a><button type="button" class="ga-btn alt" id="iosBtn">📲 آيفون</button><button type="button" class="ga-btn alt" id="pcBtn">💻 أداة الكمبيوتر</button></div></div></div>
+<div class="app-bar" id="appBar"><div class="get-app"><button type="button" class="ga-x" id="appBarX" aria-label="إخفاء الإعلان" title="إخفاء — تجده لاحقًا في «التطبيق والأدوات»">×</button><div><h3>📱 تطبيق «خبير» على الموبايل</h3><p>أرسل التحضير والواجب لنور من موبايلك بضغطة. الأداة مدمجة بدون Tampermonkey.</p></div><div class="ga-btns"><a class="ga-btn" href="/download/khaber.apk" download>⬇ أندرويد</a><button type="button" class="ga-btn alt" id="iosBtn">📲 آيفون</button><button type="button" class="ga-btn alt" id="pcBtn">💻 أداة الكمبيوتر</button></div></div></div>
 <div class="wrap layout"><aside class="tree" id="tree" aria-label="الصفوف والوحدات والدروس"></aside>
 <main class="panel" id="panel"><div class="welcome">{CELL}<h2>جارٍ تحميل الدروس…</h2></div></main></div>
 <p class="foot">خبير، منصة المعلمين</p><div id="cellArt" hidden>{CELL}</div>'''

@@ -110,7 +110,7 @@ function toolVersion(){return document.documentElement.getAttribute('data-tahdir
 // تسجيل 3104946) تبقى مسارًا احتياطيًا: لو احتجناها نعيد رابط ملف .xpi الموقَّع هنا.
 var EXT_STORE={chrome:'',edge:'https://microsoftedge.microsoft.com/addons/detail/%D8%A7%D9%84%D9%83%D8%A8%D8%B3%D9%88%D9%84%D8%A9-%E2%80%94-%D8%A3%D8%AF%D8%A7%D8%A9-%D9%86%D9%88%D8%B1/jbpbibeppdfddjlhkeobfkbccbjcnjpd',firefox:'https://addons.mozilla.org/firefox/addon/%D8%A7%D9%84%D9%83%D8%A8%D8%B3%D9%88%D9%84%D8%A9-%D8%A3%D8%AF%D8%A7%D8%A9-%D9%86%D9%88%D8%B1/'};
 // كروم وإيدج وفايرفوكس: إضافة «خبير» بنُسخ متاجر رسمية. سافاري والآيفون: Userscripts كما هي.
-var EXT_ZIP='/download/khabeer-ext.zip';
+var EXT_ZIP='/download/khaber-ext.zip';
 function extBrowser(b){return b==='chrome'||b==='edge';}
 // مرشد التثبيت يفحص الرابط: لو كان ملف .xpi موقَّعًا مباشرًا (مسار Unlisted الاحتياطي) يعرض
 // خطوة «افتح رابط الأداة ← فايرفوكس يبدأ التثبيت»، ولو صفحة متجر يعرض بطاقة متجر عادية.
@@ -537,7 +537,7 @@ function extUpdateNote(){
       return;
     }
     dialog({title:'تحديث إضافة «خبير»',html:'<p class="m-msg">عندك الإصدار '+esc(ev)+' والأحدث '+esc(TOOL_LATEST)+'. التحديث مستحسن لكنه غير إلزامي.</p><ol class="m-msg" style="line-height:2;padding-inline-start:1.2em"><li>حمّل الملف الجديد وفُك ضغطه <b>فوق</b> مجلد الإضافة القديم (استبدال الملفات).</li><li>افتح <code class="ltr">'+bx+'</code> واضغط زر التحديث ↻ على بطاقة «خبير — أداة نور».</li></ol>',okText:'⬇ تحميل التحديث',cancelText:'لاحقًا'})
-      .then(function(r){if(r){var a=document.createElement('a');a.href=EXT_ZIP;a.download='khabeer-ext.zip';document.body.appendChild(a);a.click();a.remove();}});
+      .then(function(r){if(r){var a=document.createElement('a');a.href=EXT_ZIP;a.download='khaber-ext.zip';document.body.appendChild(a);a.click();a.remove();}});
 }
 function toolUpdateNote(){
   if(IN_APP)return;
@@ -948,12 +948,12 @@ else setTimeout(tourMaybe,0);
 // لحماية جهازك» من مطوّر لم يُعرف بعد. لا يستطيع الموقع منعها، لكنها لا تمنع التثبيت:
 // نشرح للمعلّم قبل التحميل أين يضغط، حتى لا يظن أن التطبيق ضار فيلغي التثبيت.
 document.addEventListener('click',function(e){
-  var a=e.target&&e.target.closest&&e.target.closest('a[href$="/download/khabeer.apk"]');
+  var a=e.target&&e.target.closest&&e.target.closest('a[href$="/download/khaber.apk"]');
   if(!a||e.ctrlKey||e.metaKey||!$('modal'))return;
   e.preventDefault();
   dialog({title:'📱 تثبيت تطبيق «خبير»',okText:'⬇ تحميل التطبيق',cancelText:'إلغاء',
     html:'<div class="m-msg apk-help"><p>التطبيق آمن ومجاني، ويُثبَّت من موقع خبير مباشرة لا من متجر Play؛ لذلك قد يعرض أندرويد عند التثبيت رسالة <b>«تم حظر التطبيق لحماية جهازك»</b>.</p>'
-      +'<ol><li>افتح الملف <b>khabeer.apk</b> بعد اكتمال التحميل.</li>'
+      +'<ol><li>افتح الملف <b>khaber.apk</b> بعد اكتمال التحميل.</li>'
       +'<li>إن ظهرت رسالة «خدمة Google Play للحماية» فاضغط <b>«التثبيت على أي حال»</b> (أو «مزيد من التفاصيل» ثم «التثبيت على أي حال»).</li>'
       +'<li>إن طُلب الإذن بالتثبيت من المتصفح ففعّل <b>«السماح من هذا المصدر»</b> ثم ارجع واضغط «تثبيت».</li>'
       +'<li>إن سُئلت عن إرسال التطبيق للفحص فاختر <b>«إرسال»</b> أو «فحص التطبيق»؛ هذا يساعد Google على التعرّف عليه فتختفي الرسالة مع الوقت.</li></ol>'

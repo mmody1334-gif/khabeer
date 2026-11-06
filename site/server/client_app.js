@@ -443,9 +443,9 @@ function showHome(){
   var TIPS=[['أرسل التحضير لنور بضغطة','افتح الدرس واضغط «إرسال إلى نور»، والأداة تملأ الخانات وأنت تراجع وتحفظ.'],['اختبار في دقيقة','من «الاختبارات القصيرة» اختر الدروس، والمنصة تكوّن الاختبار بالترويسة الرسمية.'],['حصة أنشط','«الألعاب التعليمية» تحوّل المراجعة إلى تحدٍّ بين الطلاب على السبورة.'],['تابع المتعثرين','ارفع درجات الاختبار في «تحليل النتائج» لتعرف من يحتاج خطة علاجية.']];
   var tip=TIPS[new Date().getDate()%TIPS.length];
   $('panel').innerHTML='<div class="home kh-home"><div class="kh-dash"><div class="kh-col">'+
-    '<section class="kh-hero"><img class="kh-owl" src="/brand/logo.png" alt=""><p class="kh-greet">'+khGreet()+(nm?'، '+esc(nm):'')+'</p><h1>حصتك القادمة جاهزة في دقائق</h1><p class="kh-subj">معلم '+esc(teacherSubject())+'</p>'+
+    '<section class="kh-hero"><div class="kh-brand">'+morphHtml()+'<b class="kh-brand-nm">خبير</b><span class="kh-brand-q">'+esc(khQuote())+'</span></div><div class="kh-hero-tx"><p class="kh-greet">'+khGreet()+(nm?'، '+esc(nm):'')+'</p><h1>حصتك القادمة جاهزة في دقائق</h1><p class="kh-subj">معلم '+esc(teacherSubject())+'</p>'+
       '<button type="button" class="kh-cta" data-home="prep">ابدأ التحضير<i aria-hidden="true">‹</i></button>'+
-      '<div class="kh-quick"><button type="button" class="kh-q" data-home="quiz">📝 اختبار جديد</button><button type="button" class="kh-q" data-home="games">🎲 لعبة للصف</button></div></section>'+
+      '<div class="kh-quick"><button type="button" class="kh-q" data-home="quiz">📝 اختبار جديد</button><button type="button" class="kh-q" data-home="games">🎲 لعبة للصف</button></div></div></section>'+
     '<div class="kh-stats">'+
       '<div class="kh-stat"><span class="ks-ic" aria-hidden="true">📚</span><div style="flex:1;min-width:0"><b>الدروس المتاحة</b><small>'+tot+' درسًا في مادتك</small><span class="ks-bar"><i style="width:100%"></i></span><span class="ks-pc">'+tot+'</span></div></div>'+
       '<div class="kh-stat"><span class="ks-ic" aria-hidden="true">✅</span><div style="flex:1;min-width:0"><b>تحضير جاهز</b><small>'+done+' من '+tot+' درسًا</small><span class="ks-bar"><i style="width:'+pc+'%"></i></span><span class="ks-pc">'+pc+'%</span></div></div>'+
@@ -458,8 +458,14 @@ function showHome(){
       '<section class="kh-card"><h3>نصيحة اليوم</h3><div class="kh-tip"><img src="/brand/logo.png" alt=""><div><b>'+esc(tip[0])+'</b><p>'+esc(tip[1])+'</p></div></div></section></aside>'+
   '</div></div>';
   renderHomeCards();
+  runMorph();
   var inp=$('homeSearch');
   if(inp)inp.oninput=function(){homeQ=this.value;renderHomeCards();};
+}
+// جملة تعريفية تتبدّل يوميًّا تحت اللوجو
+function khQuote(){
+  var Q=['كل أدواتك في مكان واحد','حضّر، علّم، قيّم — من مكان واحد','منصة المعلمين','وقتك لطلابك، والتحضير علينا','من التحضير إلى التحليل بضغطات'];
+  return Q[new Date().getDate()%Q.length];
 }
 function showPrep(){
   if(window.abSync)window.abSync(true);
