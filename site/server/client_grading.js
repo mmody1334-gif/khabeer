@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 // تصحيح الواجبات تلقائيًا: الموقع يعرض مهام نور التي قرأتها «أداة نور»، والأداة هي التي تصحح داخل نور
-var NEED='3.3.0',me=null,courses=[],tasks={},serverTs=0,gotTool=false,checking=true,lastReady=null;
+var NEED='3.5.1',me=null,courses=[],tasks={},serverTs=0,gotTool=false,checking=true,lastReady=null;
 var GRADE_NUM={'الخامس':5,'السادس':6,'السابع':7,'الثامن':8,'التاسع':9,'العاشر':10,'الحادي عشر':11,'الثاني عشر':12};
 function lsGet(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return d;}}
 function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
@@ -58,7 +58,7 @@ function render(){
     '<p class="muted small" style="margin:8px 0 0">تفتح صفحة «المهام الإلكترونية» للصف في نور وتحفظ الأداة قائمتها هنا. ويمكنك أيضًا فتح «المهام الإلكترونية» في نور بنفسك — الأداة تحفظ المهام تلقائيًا وتضيف زر «✓ صحّح تلقائيًا» بجانب كل مهمة.</p></section>';
   var groups=Object.keys(tasks).filter(function(cid){return cid!=='_hidden';}).map(function(cid){return tasks[cid];}).filter(function(g){return g&&g.cid&&visTasks(g).length;})
     .sort(function(a,b){return (GRADE_NUM[a.grade]||99)-(GRADE_NUM[b.grade]||99);});
-  h+='<section class="gr-card"><h3>2. مهماتك في نور</h3>';
+  h+='<section class="gr-card"><h3>2. مهماتك في نور <button type="button" class="btn small" id="grRefresh" style="margin-inline-start:8px">🔄 تحديث القائمة</button></h3>';
   if(!groups.length)h+='<div class="gr-empty">لا توجد مهمات محفوظة بعد. اختر الصف واضغط «اجلب المهمات من نور».</div>';
   groups.forEach(function(g){
     h+='<h4 style="margin:12px 0 4px">'+esc((g.subject?g.subject+' — ':'')+(g.grade?'الصف '+gLabel(g.grade):'صف في نور'))+' <span class="muted small">· آخر تحديث '+esc(fmtDate(g.ts))+'</span> <button type="button" class="btn small" data-dg="'+esc(g.cid)+'" title="مسح كل مهمات هذا الصف من القائمة">🗑 مسح الكل</button></h4>'+
@@ -68,6 +68,9 @@ function render(){
   });
   h+='<p class="gr-note" style="margin:10px 0 0">الطلاب الذين لم يسلّموا، ومن صُحِّح من قبل، لا تلمسهم الأداة. لو لم تجد قائمة الدرجة أو مربع التعليق في صفحة طالب تقف ولا تحفظ. تقدر توقفها في أي لحظة من زر «إيقاف» أعلى صفحة نور.</p></section>';
   $('gr').innerHTML=h;
+  $('grRefresh').onclick=function(){var b=this;b.disabled=true;Promise.all([api('/api/nour/tasks').catch(function(){return {};}),pullFromTool()]).then(function(r){
+    var srv=(r[0]&&r[0].tasks)||{};Object.keys(srv).forEach(function(k){var a=srv[k],o=tasks[k];if(k==='_hidden'){var h=hid();Object.keys(a||{}).forEach(function(u){if(!h[u]||a[u]>h[u])h[u]=a[u];});return;}if(!o||(+a.ts||0)>(+o.ts||0))tasks[k]=a;});
+    render();toast(gotTool?'حُدّثت القائمة':'لم تستجب «أداة نور» — تأكد أنها مفعّلة');});};
   if($('grTool'))$('grTool').onclick=function(){toolDialog('');};
   bindCoursePick(courses,'grCourse',function(k){lsSet('tahdir_grade_course',k);});
   $('grComment').oninput=function(){lsSet('tahdir_grade_comment',this.value.trim()||'أحسنت');};
@@ -76,7 +79,7 @@ function render(){
     var c=courses.filter(function(x){return x.key===$('grCourse').value;})[0];if(!c)return;
     ask('fetch-tasks',{grade:c.grade,subject:c.subject},'fetch-ack',1500).then(function(d){
       if(!d){toolDialog('لم تستجب «أداة نور». تأكد أنها مثبتة ومفعّلة ثم حدّث الصفحة.');return;}
-      track('tasks_fetch',courseName(c),'',c.grade);
+      track('tasks_fetch',courseName(c),'',c.grade);waitTasks();
       toast(d.cid?'فتحت «المهام الإلكترونية» في نور… ارجع هنا بعد ظهور القائمة':'فتحت نور: افتح «المهام الإلكترونية» لهذا الصف وستُحفظ تلقائيًا');
     });
   };
@@ -96,6 +99,12 @@ function render(){
 function sync(){
   var r=toolReady();
   return pullFromTool().then(function(c){if(c||r!==lastReady){lastReady=r;render();}});
+}
+// بعد «اجلب المهمات»: نسأل الأداة كل 3 ثوانٍ (حتى 3 دقائق) إلى أن تصل المهام الجديدة
+var waitT=null;
+function waitTasks(){
+  clearInterval(waitT);var n=0;
+  waitT=setInterval(function(){if(++n>60){clearInterval(waitT);return;}pullFromTool().then(function(c){if(c){clearInterval(waitT);render();toast('✓ وصلت المهمات من نور');}});},3000);
 }
 function watchTool(){
   try{new MutationObserver(function(){sync();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-tahdir-tool','data-tahdir-ext']});}catch(e){}
