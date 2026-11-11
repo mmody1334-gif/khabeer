@@ -55,7 +55,7 @@ function card(q){
     (lt?'<span class="chip lesson">'+esc(lt)+'</span>':'')+'</header>'+
     (q.im?'<img loading="lazy" src="/fin/'+esc(q.im)+'" width="'+q.w+'" height="'+q.h+'" alt="'+esc((q.x||'').slice(0,120))+'">'
          :'<div class="fin-txt">'+esc(q.x||'')+'</div>')+
-    '<details class="fin-ans"'+(showAns?' open':'')+'><summary>الإجابة'+(q.as==='ai'?' <span class="muted small">(مقترحة — لا يوجد نموذج)</span>':' <span class="muted small">(من نموذج الإجابة)</span>')+'</summary><div class="fin-a">'+esc(q.a).replace(/\n/g,'<br>')+'</div></details></article>';
+    '<details class="fin-ans"'+(showAns?' open':'')+'><summary>الإجابة'+(q.as==='ai'?' <span class="muted small">(مقترحة — لا يوجد نموذج)</span>':' <span class="muted small">(من نموذج الإجابة)</span>')+'</summary><div class="fin-a">'+esc(q.a).replace(/\n/g,'<br>')+(q.ai||[]).map(function(a){return '<img loading="lazy" src="/fin/'+esc(a[0])+'" width="'+a[1]+'" height="'+a[2]+'" alt="نموذج الإجابة" style="max-width:100%;height:auto;display:block;margin:6px 0">';}).join('')+'</div></details></article>';
 }
 function renderMain(){
   if(!data){$('fmain').innerHTML='<div class="welcome"><h2>اختر المادة والصف</h2></div>';return;}

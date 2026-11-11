@@ -286,7 +286,7 @@ function sumMarks(items){return items.reduce(function(s,x){return s+(+x.marks||0
 function hwTotal(d){return sumMarks(d.items)+(d.hwDiscuss||0);}
 // الاختبارات المحفوظة قبل إضافة مواضع أرقام الأشكال: نأخذها من بنك الأسئلة الحالي
 function withLb(it){
-  if(it&&it.img&&!it.lb&&bank&&bank.items){for(var j=0;j<bank.items.length;j++){var b=bank.items[j];if(b.img===it.img){if(b.lb)it.lb=b.lb;if(!it.srcno&&b.srcno)it.srcno=b.srcno;break;}}}
+  if(it&&it.img&&(!it.lb||!it.aimg)&&bank&&bank.items){for(var j=0;j<bank.items.length;j++){var b=bank.items[j];if(b.img===it.img){if(b.lb&&!it.lb)it.lb=b.lb;if(b.aimg&&!it.aimg)it.aimg=b.aimg;if(!it.srcno&&b.srcno)it.srcno=b.srcno;break;}}}
   return it;
 }
 function itemHtml(it,n,tno,word,ctrl){
@@ -348,6 +348,7 @@ function quizHtml(d,word,withCtrl){
   }
   return h+foot+'<p style="text-align:center;font-weight:bold;margin-top:18px">ـ انتهت الأسئلة ـ</p>';
 }
+function aimgHtml(it,word){return (it.aimg||[]).map(function(a){var W=word?Math.min(430,a[1]||430):0;return '<img src="'+location.origin+'/fin/'+esc(a[0])+'" alt="" style="display:block;max-width:100%;'+(W?'width:'+W+'px;':'')+'margin:4px 0">';}).join('');}
 function keyHtml(d,word){
   if(d.kind==='diff'&&!d._one)return diffHtml(d,word,false,true);
   var hi=gnum(d.grade)>=11,tno=0;
@@ -360,6 +361,8 @@ function keyHtml(d,word){
     withLb(it);
     var ans=(it.type==='mcq'&&!it.img)?rich(finRelabel((it.choices||[])[it.correct]||'',it.srcno,i+1)):rich(finRelabel(it.table?relabel(it.answer,tno):it.answer,it.srcno,i+1));
     var notes=it.notes?rich(finRelabel(it.table?relabel(it.notes,tno):it.notes,it.srcno,i+1)):'';
+    // نموذج إجابة الوزارة المصوَّر (صف المفتاح بلا رقم السؤال الأصلي ولا أعمدة المواصفات)
+    if(it.aimg)ans+=aimgHtml(it,word);
     if(!hi&&notes)ans+='<div style="font-size:.85em;color:#444">'+notes+'</div>';
     var L=lessonOf(it);
     h+='<tr>'+td(i+1,'center')+td(ans)+td(it.marks,'center')+(hi?td(notes)+td(esc(L.unit||''),'center'):'')+td(esc(it.outcome||''),'center')+td(esc(it.ao||''),'center')+(hi?td(esc(it.difficulty||''),'center'):'')+'</tr>';
