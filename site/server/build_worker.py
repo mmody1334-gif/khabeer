@@ -1299,6 +1299,7 @@ extra_css += '''
 .gr-tasks{width:100%;border-collapse:collapse;font-size:.9rem}
 .gr-tasks th,.gr-tasks td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:start}
 .gr-tasks th{font-size:.78rem;color:var(--mute);font-weight:700}
+.gr-done{display:inline-block;margin-inline-start:6px;background:#e3f4ec;color:#0e6b4f;border:1px solid #9fd8c0;border-radius:999px;padding:0 9px;font-size:.75rem;font-weight:700;white-space:nowrap}
 .gr-tasks td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
 .gr-note{font-size:.82rem;background:var(--accent-l,#fff8e6);border-radius:10px;padding:8px 12px}
 .gr-empty{color:var(--mute);text-align:center;padding:18px}

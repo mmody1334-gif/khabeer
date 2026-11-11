@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         لصق التحضير والواجب - نور (خبير)
 // @namespace    https://tahdir-al-aali.local/
-// @version      3.5.1
+// @version      3.5.2
 // @description  يرسل التحضير والواجب من موقع خبير إلى نور: يفتح صفحة الصف، يختار الدرس، ويملأ الحقول. لا يضغط حفظ أبدًا.
 // @author       خبير
 // @match        https://lms.moe.gov.om/*
@@ -136,7 +136,8 @@
   const GRADES_KEY = 'tahdir_grade_cids';
   const TASKS_KEY = 'tahdir_nour_tasks';   // المهام الإلكترونية التي قرأتها الأداة من نور (لكل صف)
   const JOB_KEY = 'tahdir_grade_job';      // مهمة تصحيح جارية
-  const FETCH_KEY = 'tahdir_fetch_tasks';  // طلب من الموقع لجلب مهام صف معيّن
+  const FETCH_KEY = 'tahdir_fetch_tasks';
+  const DONE_KEY = 'tahdir_graded_tasks';  // المهام التي أنهت الأداة تصحيحها: { aid: { ts, saved, total } }  // طلب من الموقع لجلب مهام صف معيّن
   const NOUR = 'https://lms.moe.gov.om';
   const MAX_AGE = 3 * 60 * 60 * 1000; // الواجب المُرسل يبقى صالحًا 3 ساعات
 
@@ -227,7 +228,7 @@
     // ---- التصحيح التلقائي: الموقع يطلب المهام المحفوظة، أو جلبها من نور، أو بدء التصحيح ----
     const reply = (type, obj) => document.dispatchEvent(new CustomEvent('tahdir-' + type, { detail: JSON.stringify(obj) }));
     const mine = () => de.getAttribute('data-tahdir-tool') === VERSION;
-    document.addEventListener('tahdir-v3-get-tasks', () => { if (mine()) reply('tasks', { tasks: GM_getValue(TASKS_KEY, {}) || {}, job: GM_getValue(JOB_KEY, null) }); });
+    document.addEventListener('tahdir-v3-get-tasks', () => { if (mine()) reply('tasks', { tasks: GM_getValue(TASKS_KEY, {}) || {}, job: GM_getValue(JOB_KEY, null), graded: GM_getValue(DONE_KEY, {}) || {} }); });
     document.addEventListener('tahdir-v3-fetch-tasks', e => {
       if (!mine()) return; let d; try { d = JSON.parse(String(e.detail)); } catch (x) { return; }
       const map = GM_getValue(GRADES_KEY, {}) || {}, cid = cidFor(map, d.grade || '', d.subject || '');
@@ -776,7 +777,7 @@
       course = { grade: fr.grade, subject: fr.subject };
       if (fr.grade) { const map = GM_getValue(GRADES_KEY, {}) || {}; if (!fr.subject || !Object.keys(map).some(k => k.indexOf('|') > 0 && k.split('|')[1] === fr.grade && map[k] !== cid)) map[fr.grade] = map[fr.grade] || cid; if (fr.subject) { map[subjKey(fr.subject, fr.grade)] = cid; map[subjKey2(fr.subject, fr.grade)] = cid; } GM_setValue(GRADES_KEY, map); }
     }
-    const tasks = [];
+    const tasks = [], done = GM_getValue(DONE_KEY, {}) || {};
     Array.from(document.querySelectorAll('table tbody tr')).forEach(tr => {
       const sub = Array.from(tr.querySelectorAll('a[href*="/lectures/submissions/"]'))[0];
       if (!sub) return;
@@ -785,6 +786,15 @@
       const title = tds.find(t => t && !/^\d/.test(t) && !/معاينة|التسليمات|قائمة المفردات|إحصائيات/.test(t)) || '';
       const count = tds.find(t => /^\d{1,3}$/.test(t)) || '';
       tasks.push({ title, count: +count || 0, published: dates[0] || '', due: dates[1] || '', subUrl: new URL(sub.getAttribute('href'), location.href).href, aid: aidOf(sub.getAttribute('href')) });
+      const dn = done[aidOf(sub.getAttribute('href'))];
+      if (dn && !tr.querySelector('.tahdir-done-badge')) {
+        const bd = document.createElement('div'); bd.className = 'tahdir-done-badge';
+        bd.textContent = '✓ تم التصحيح ' + dayStr(dn.ts) + (dn.total ? ' (' + (dn.saved || 0) + ' من ' + dn.total + ')' : '');
+        bd.title = 'صحّحت الأداة هذه المهمة. لو سلّم طلاب جدد بعدها اضغط «صحّح تلقائيًا» مرة أخرى — المصحَّحون لا يُلمسون.';
+        Object.assign(bd.style, { display: 'inline-block', marginTop: '4px', background: '#e3f4ec', color: '#0e6b4f', border: '1px solid #9fd8c0', borderRadius: '999px', padding: '1px 10px', fontSize: '12px', fontFamily: 'Tahoma, sans-serif', fontWeight: 'bold' });
+        const tc = Array.from(tr.querySelectorAll('td')).find(td => { const t = (td.textContent || '').replace(/\s+/g, ' ').trim(); return t && t === title; }) || tr.querySelector('td:last-child') || tr;
+        tc.appendChild(document.createElement('br')); tc.appendChild(bd);
+      }
       if (!tr.querySelector('.tahdir-grade-btn')) {
         const b = document.createElement('button'); b.type = 'button'; b.className = 'tahdir-grade-btn'; b.textContent = '✓ صحّح تلقائيًا';
         Object.assign(b.style, { background: '#3b1d8f', color: '#fff', border: 'none', borderRadius: '6px', padding: '3px 10px', cursor: 'pointer', fontFamily: 'Tahoma, sans-serif', fontSize: '12px', marginInlineStart: '6px' });
@@ -838,7 +848,14 @@
     job.visited.push(next.href); job.ts = Date.now(); GM_setValue(JOB_KEY, job);
     location.href = next.href;
   }
+  function dayStr(ts) { const d = new Date(ts); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function markDone(job, total) {
+    if (!job || !job.aid) return;
+    const m = GM_getValue(DONE_KEY, {}) || {}; m[job.aid] = { ts: Date.now(), saved: job.saved || 0, total: total || 0 };
+    GM_setValue(DONE_KEY, m);
+  }
   function finishJob(job, total) {
+    markDone(job, total);
     gBar('✅ انتهى التصحيح: «' + escHtml(job.title) + '»' + (job.autosave ? ' — حُفظ ' + (job.saved || 0) + ' تسليم' : '') + (total ? ' من ' + total : '') + '.', [['إغلاق', () => stopJob(), false]]);
     const j = GM_getValue(JOB_KEY, null); if (j) { j.active = false; j.finished = Date.now(); GM_setValue(JOB_KEY, j); }
   }

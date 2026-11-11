@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 // تصحيح الواجبات تلقائيًا: الموقع يعرض مهام نور التي قرأتها «أداة نور»، والأداة هي التي تصحح داخل نور
-var NEED='3.5.1',me=null,courses=[],tasks={},serverTs=0,gotTool=false,checking=true,lastReady=null;
+var NEED='3.5.2',me=null,courses=[],tasks={},serverTs=0,gotTool=false,checking=true,lastReady=null;
 var GRADE_NUM={'الخامس':5,'السادس':6,'السابع':7,'الثامن':8,'التاسع':9,'العاشر':10,'الحادي عشر':11,'الثاني عشر':12};
 function lsGet(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return d;}}
 function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
@@ -27,13 +27,19 @@ function pullFromTool(){
   if(!toolReady())return Promise.resolve(false);
   return ask('get-tasks',{},'tasks',1500).then(function(d){
     if(!d)return false;gotTool=true;var changed=false,t=d.tasks||{};
-    Object.keys(t).forEach(function(cid){if(cid==='_hidden')return;var a=t[cid],b=tasks[cid];if(!b||(+a.ts||0)>(+b.ts||0)){tasks[cid]=a;changed=true;}});
+    // المهام التي أنهت الأداة تصحيحها
+    var gd=d.graded||{},G=graded();Object.keys(gd).forEach(function(aid){var a=gd[aid];if(a&&(!G[aid]||(+a.ts||0)>(+G[aid].ts||0))){G[aid]=a;changed=true;}});
+    Object.keys(t).forEach(function(cid){if(cid.charAt(0)==='_')return;var a=t[cid],b=tasks[cid];if(!b||(+a.ts||0)>(+b.ts||0)){tasks[cid]=a;changed=true;}});
     if(changed)save();
     return changed;
   });
 }
 // «المسح»: مهمة أو صف كامل يُخفى من القائمة. يرجع فقط لو جُلبت المهام من نور من جديد بعد المسح
 function hid(){var h=tasks._hidden;if(!h||typeof h!=='object'||Array.isArray(h)){h=tasks._hidden={};}return h;}
+function graded(){var g=tasks._graded;if(!g||typeof g!=='object'||Array.isArray(g)){g=tasks._graded={};}return g;}
+function aidOf(u){return (String(u||'').match(/\/aid:([^/?#]+)/)||[])[1]||'';}
+function doneBadge(t){var d=graded()[t.aid||aidOf(t.subUrl)];if(!d)return '';
+  return ' <span class="gr-done" title="صحّحت الأداة هذه المهمة. لو سلّم طلاب جدد بعدها صحّحها مرة أخرى — المصحَّحون لا يُلمسون.">✓ تم التصحيح '+esc(new Date(d.ts).toLocaleDateString('en-CA'))+(d.total?' ('+(+d.saved||0)+' من '+(+d.total)+')':'')+'</span>';}
 function save(){return api('/api/nour/tasks',{tasks:tasks}).catch(function(){toast('تعذّر الحفظ في الموقع');});}
 function visTasks(g){var h=hid();return (g.tasks||[]).filter(function(t){var d=h[t.subUrl];return !d||(+g.ts||0)>d;});}
 function delTask(cid,i){var g=tasks[cid],t=g&&visTasks(g)[i];if(!t)return;if(!confirm('مسح المهمة «'+(t.title||'—')+'» من القائمة؟\n(لا يمسح شيئًا في نور)'))return;hid()[t.subUrl]=Date.now();save();render();toast('مُسحت المهمة');}
@@ -56,20 +62,20 @@ function render(){
     '<label class="gr-row small"><input type="checkbox" id="grAuto"'+(lsGet('tahdir_grade_autosave',true)?' checked':'')+'> احفظ تلقائيًا وانتقل للطالب التالي</label>'+
     '<label class="gr-row small" style="margin-inline-start:auto">التعليق للطالب <input id="grComment" class="qsel" style="min-width:160px" value="'+esc(comment)+'" maxlength="120"></label></div>'+
     '<p class="muted small" style="margin:8px 0 0">تفتح صفحة «المهام الإلكترونية» للصف في نور وتحفظ الأداة قائمتها هنا. ويمكنك أيضًا فتح «المهام الإلكترونية» في نور بنفسك — الأداة تحفظ المهام تلقائيًا وتضيف زر «✓ صحّح تلقائيًا» بجانب كل مهمة.</p></section>';
-  var groups=Object.keys(tasks).filter(function(cid){return cid!=='_hidden';}).map(function(cid){return tasks[cid];}).filter(function(g){return g&&g.cid&&visTasks(g).length;})
+  var groups=Object.keys(tasks).filter(function(cid){return cid.charAt(0)!=='_';}).map(function(cid){return tasks[cid];}).filter(function(g){return g&&g.cid&&visTasks(g).length;})
     .sort(function(a,b){return (GRADE_NUM[a.grade]||99)-(GRADE_NUM[b.grade]||99);});
   h+='<section class="gr-card"><h3>2. مهماتك في نور <button type="button" class="btn small" id="grRefresh" style="margin-inline-start:8px">🔄 تحديث القائمة</button></h3>';
   if(!groups.length)h+='<div class="gr-empty">لا توجد مهمات محفوظة بعد. اختر الصف واضغط «اجلب المهمات من نور».</div>';
   groups.forEach(function(g){
     h+='<h4 style="margin:12px 0 4px">'+esc((g.subject?g.subject+' — ':'')+(g.grade?'الصف '+gLabel(g.grade):'صف في نور'))+' <span class="muted small">· آخر تحديث '+esc(fmtDate(g.ts))+'</span> <button type="button" class="btn small" data-dg="'+esc(g.cid)+'" title="مسح كل مهمات هذا الصف من القائمة">🗑 مسح الكل</button></h4>'+
       '<div class="t-wrap"><table class="gr-tasks"><thead><tr><th>المهمة</th><th>المفردات</th><th>تاريخ النشر</th><th>آخر موعد للتسليم</th><th></th></tr></thead><tbody>'+
-      visTasks(g).map(function(t,i){return '<tr><td><b>'+esc(t.title||'—')+'</b></td><td class="num">'+(t.count||'')+'</td><td class="num">'+esc(t.published||'')+'</td><td class="num">'+esc(t.due||'')+'</td>'+
+      visTasks(g).map(function(t,i){return '<tr><td><b>'+esc(t.title||'—')+'</b>'+doneBadge(t)+'</td><td class="num">'+(t.count||'')+'</td><td class="num">'+esc(t.published||'')+'</td><td class="num">'+esc(t.due||'')+'</td>'+
         '<td style="white-space:nowrap"><button type="button" class="btn small primary" data-g="'+esc(g.cid)+'" data-i="'+i+'">✓ صحّح تلقائيًا</button> <button type="button" class="btn small" data-dt="'+esc(g.cid)+'" data-i="'+i+'" title="مسح المهمة من القائمة">🗑</button></td></tr>';}).join('')+'</tbody></table></div>';
   });
   h+='<p class="gr-note" style="margin:10px 0 0">الطلاب الذين لم يسلّموا، ومن صُحِّح من قبل، لا تلمسهم الأداة. لو لم تجد قائمة الدرجة أو مربع التعليق في صفحة طالب تقف ولا تحفظ. تقدر توقفها في أي لحظة من زر «إيقاف» أعلى صفحة نور.</p></section>';
   $('gr').innerHTML=h;
   $('grRefresh').onclick=function(){var b=this;b.disabled=true;Promise.all([api('/api/nour/tasks').catch(function(){return {};}),pullFromTool()]).then(function(r){
-    var srv=(r[0]&&r[0].tasks)||{};Object.keys(srv).forEach(function(k){var a=srv[k],o=tasks[k];if(k==='_hidden'){var h=hid();Object.keys(a||{}).forEach(function(u){if(!h[u]||a[u]>h[u])h[u]=a[u];});return;}if(!o||(+a.ts||0)>(+o.ts||0))tasks[k]=a;});
+    var srv=(r[0]&&r[0].tasks)||{};Object.keys(srv).forEach(function(k){var a=srv[k],o=tasks[k];if(k==='_hidden'){var h=hid();Object.keys(a||{}).forEach(function(u){if(!h[u]||a[u]>h[u])h[u]=a[u];});return;}if(k==='_graded'){var G=graded();Object.keys(a||{}).forEach(function(u){if(!G[u]||(+a[u].ts||0)>(+G[u].ts||0))G[u]=a[u];});return;}if(k.charAt(0)==='_')return;if(!o||(+a.ts||0)>(+o.ts||0))tasks[k]=a;});
     render();toast(gotTool?'حُدّثت القائمة':'لم تستجب «أداة نور» — تأكد أنها مفعّلة');});};
   if($('grTool'))$('grTool').onclick=function(){toolDialog('');};
   bindCoursePick(courses,'grCourse',function(k){lsSet('tahdir_grade_course',k);});
