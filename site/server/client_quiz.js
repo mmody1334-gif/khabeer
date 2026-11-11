@@ -149,7 +149,7 @@ function hwSpecText(sp){
 }
 // تجميع مفردات الواجب من الدروس المختارة بحيث يبلغ المجموعُ درجةَ الوثيقة بالضبط
 function assembleHw(pool,sp,ids){
-  var p=pool.filter(function(x){return x.stem;});
+  var p=pool.filter(function(x){return x.stem||x.img;}); // مفردات النهائيات المصوّرة (بلا نص) مقبولة كذلك
   var byL=function(arr){var m={};arr.forEach(function(x){(m[x.lesson_id]=m[x.lesson_id]||[]).push(x);});return m;};
   // توزيع متوازن على الدروس المختارة (دورة من كل درس)
   var roundRobin=function(arr,cap){var by=byL(arr),out=[],k=0;Object.keys(by).forEach(function(id){by[id]=shuffleP(by[id]);});
