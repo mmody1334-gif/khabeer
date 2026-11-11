@@ -380,7 +380,8 @@ def jobs(d, only=None):
             im = q.get('im')
             if not im or (only and not im.startswith(only)):
                 continue
-            n = str(q.get('n') or '').strip()
+            # رقم السؤال في الامتحان الأصلي: srcno إن وُجد (الرياضيات تُرقَّم من جديد)، وإلا n
+            n = str(q.get('srcno') or q.get('n') or '').strip()
             if not n.isdigit():
                 continue
             ks = set()
