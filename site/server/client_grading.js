@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 // تصحيح الواجبات تلقائيًا: الموقع يعرض مهام نور التي قرأتها «أداة نور»، والأداة هي التي تصحح داخل نور
-var NEED='3.5.2',me=null,courses=[],tasks={},serverTs=0,gotTool=false,checking=true,lastReady=null;
+var NEED='3.5.3',me=null,courses=[],tasks={},serverTs=0,gotTool=false,checking=true,lastReady=null;
 var GRADE_NUM={'الخامس':5,'السادس':6,'السابع':7,'الثامن':8,'التاسع':9,'العاشر':10,'الحادي عشر':11,'الثاني عشر':12};
 function lsGet(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return d;}}
 function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}

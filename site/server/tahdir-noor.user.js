@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         لصق التحضير والواجب - نور (خبير)
 // @namespace    https://tahdir-al-aali.local/
-// @version      3.5.2
+// @version      3.5.3
 // @description  يرسل التحضير والواجب من موقع خبير إلى نور: يفتح صفحة الصف، يختار الدرس، ويملأ الحقول. لا يضغط حفظ أبدًا.
 // @author       خبير
 // @match        https://lms.moe.gov.om/*
@@ -137,6 +137,7 @@
   const TASKS_KEY = 'tahdir_nour_tasks';   // المهام الإلكترونية التي قرأتها الأداة من نور (لكل صف)
   const JOB_KEY = 'tahdir_grade_job';      // مهمة تصحيح جارية
   const FETCH_KEY = 'tahdir_fetch_tasks';
+  const UI_KEY = 'tahdir_grade_ui';       // آخر فتح لصفحة «تصحيح الواجبات» في الموقع: أزرار التصحيح في نور تظهر فقط خلال 3 ساعات منه
   const DONE_KEY = 'tahdir_graded_tasks';  // المهام التي أنهت الأداة تصحيحها: { aid: { ts, saved, total } }  // طلب من الموقع لجلب مهام صف معيّن
   const NOUR = 'https://lms.moe.gov.om';
   const MAX_AGE = 3 * 60 * 60 * 1000; // الواجب المُرسل يبقى صالحًا 3 ساعات
@@ -228,7 +229,7 @@
     // ---- التصحيح التلقائي: الموقع يطلب المهام المحفوظة، أو جلبها من نور، أو بدء التصحيح ----
     const reply = (type, obj) => document.dispatchEvent(new CustomEvent('tahdir-' + type, { detail: JSON.stringify(obj) }));
     const mine = () => de.getAttribute('data-tahdir-tool') === VERSION;
-    document.addEventListener('tahdir-v3-get-tasks', () => { if (mine()) reply('tasks', { tasks: GM_getValue(TASKS_KEY, {}) || {}, job: GM_getValue(JOB_KEY, null), graded: GM_getValue(DONE_KEY, {}) || {} }); });
+    document.addEventListener('tahdir-v3-get-tasks', () => { if (mine()) GM_setValue(UI_KEY, Date.now()); if (mine()) reply('tasks', { tasks: GM_getValue(TASKS_KEY, {}) || {}, job: GM_getValue(JOB_KEY, null), graded: GM_getValue(DONE_KEY, {}) || {} }); });
     document.addEventListener('tahdir-v3-fetch-tasks', e => {
       if (!mine()) return; let d; try { d = JSON.parse(String(e.detail)); } catch (x) { return; }
       const map = GM_getValue(GRADES_KEY, {}) || {}, cid = cidFor(map, d.grade || '', d.subject || '');
@@ -778,6 +779,8 @@
       if (fr.grade) { const map = GM_getValue(GRADES_KEY, {}) || {}; if (!fr.subject || !Object.keys(map).some(k => k.indexOf('|') > 0 && k.split('|')[1] === fr.grade && map[k] !== cid)) map[fr.grade] = map[fr.grade] || cid; if (fr.subject) { map[subjKey(fr.subject, fr.grade)] = cid; map[subjKey2(fr.subject, fr.grade)] = cid; } GM_setValue(GRADES_KEY, map); }
     }
     const tasks = [], done = GM_getValue(DONE_KEY, {}) || {};
+    // التصحيح التلقائي مخفي مؤقتًا: الأزرار والعلامات لا تظهر إلا لمن فتح صفحة «تصحيح الواجبات» في الموقع مؤخرًا
+    const showUI = Date.now() - (+GM_getValue(UI_KEY, 0) || 0) < 3 * 3600000 || !!fr || !!getJob();
     Array.from(document.querySelectorAll('table tbody tr')).forEach(tr => {
       const sub = Array.from(tr.querySelectorAll('a[href*="/lectures/submissions/"]'))[0];
       if (!sub) return;
@@ -787,7 +790,7 @@
       const count = tds.find(t => /^\d{1,3}$/.test(t)) || '';
       tasks.push({ title, count: +count || 0, published: dates[0] || '', due: dates[1] || '', subUrl: new URL(sub.getAttribute('href'), location.href).href, aid: aidOf(sub.getAttribute('href')) });
       const dn = done[aidOf(sub.getAttribute('href'))];
-      if (dn && !tr.querySelector('.tahdir-done-badge')) {
+      if (showUI && dn && !tr.querySelector('.tahdir-done-badge')) {
         const bd = document.createElement('div'); bd.className = 'tahdir-done-badge';
         bd.textContent = '✓ تم التصحيح ' + dayStr(dn.ts) + (dn.total ? ' (' + (dn.saved || 0) + ' من ' + dn.total + ')' : '');
         bd.title = 'صحّحت الأداة هذه المهمة. لو سلّم طلاب جدد بعدها اضغط «صحّح تلقائيًا» مرة أخرى — المصحَّحون لا يُلمسون.';
@@ -795,7 +798,7 @@
         const tc = Array.from(tr.querySelectorAll('td')).find(td => { const t = (td.textContent || '').replace(/\s+/g, ' ').trim(); return t && t === title; }) || tr.querySelector('td:last-child') || tr;
         tc.appendChild(document.createElement('br')); tc.appendChild(bd);
       }
-      if (!tr.querySelector('.tahdir-grade-btn')) {
+      if (showUI && !tr.querySelector('.tahdir-grade-btn')) {
         const b = document.createElement('button'); b.type = 'button'; b.className = 'tahdir-grade-btn'; b.textContent = '✓ صحّح تلقائيًا';
         Object.assign(b.style, { background: '#3b1d8f', color: '#fff', border: 'none', borderRadius: '6px', padding: '3px 10px', cursor: 'pointer', fontFamily: 'Tahoma, sans-serif', fontSize: '12px', marginInlineStart: '6px' });
         b.onclick = () => startJob({ subUrl: new URL(sub.getAttribute('href'), location.href).href, title });
