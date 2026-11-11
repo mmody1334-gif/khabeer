@@ -164,6 +164,9 @@ def _bio_bank():
     d = os.path.join(DATA, 'bio_bank'); items = []
     if not os.path.isdir(d): return items
     G = {str(l.get('id')): l.get('grade', '') for l in lessons}
+    # الدراسات الاجتماعية: وثيقتها تقيس ثلاثة مستويات (المعرفة · الفهم والتطبيق · القدرات العليا) في كل الصفوف،
+    # فلا تتحول رموز ع/ط/س إلى AO1/AO2 في الصفين 11-12 كما في العلوم.
+    SSL = {str(l.get('id')) for l in lessons if 'اجتماع' in (l.get('subject') or '')}
     for fn in sorted(os.listdir(d)):
         if not fn.endswith('.txt'): continue
         lid = None; src = ''; n = 0
@@ -176,7 +179,7 @@ def _bio_bank():
                 continue
             if lid is None: raise SystemExit('bio_bank/%s: سطر قبل رقم الدرس: %s' % (fn, ln))
             k, _, v = ln.partition(':'); v = v.strip()
-            hi = G[str(lid)] in ('الحادي عشر', 'الثاني عشر')
+            hi = G[str(lid)] in ('الحادي عشر', 'الثاني عشر') and str(lid) not in SSL
             LVL = {'ن': 'منخفضة', 'م': 'متوسطة', 'ر': 'مرتفعة'}
             def aod(h, mk=1, long=False):
                 # h = رمز الهدف (ع/ط/س) ثم حرف مستوى الصعوبة اختياريًا (ن/م/ر).
@@ -226,8 +229,9 @@ def fin_items():
     for key, G in F.items():
         subj, grade = key.split('|')
         if subj in ('تقنية المعلومات', 'اللغة الإنجليزية'): continue
-        g = GN.get(grade, 0); hi = g >= 11
-        smax = 3 if hi else 2; lrange = (4, 5) if hi else ((3, 4) if g >= 9 else ())
+        ss = 'اجتماع' in subj  # الدراسات الاجتماعية: مستويات ثلاثة لكل الصفوف، ومقالية حتى 5 درجات
+        g = GN.get(grade, 0); hi = g >= 11 and not ss
+        smax = 5 if ss else (3 if hi else 2); lrange = (4, 5) if hi else ((3, 4) if g >= 9 else ())
         for q in G['q']:
             ao = (HI if hi else LO).get(str(q.get('ao') or '').strip())
             m = q.get('m')

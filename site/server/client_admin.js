@@ -129,7 +129,7 @@ function lessonForm(key,l){
   };
 }
 function addCourse(){
-  var h='<div class="ed"><label>المادة<input id="c_subj" placeholder="مثال: الكيمياء، العلوم، الفيزياء" list="subjList"></label><datalist id="subjList"><option>الأحياء</option><option>العلوم</option><option>الكيمياء</option><option>الفيزياء</option><option>العلوم البيئية</option><option>تقنية المعلومات</option></datalist>'+
+  var h='<div class="ed"><label>المادة<input id="c_subj" placeholder="مثال: الكيمياء، العلوم، الفيزياء" list="subjList"></label><datalist id="subjList"><option>الأحياء</option><option>العلوم</option><option>الكيمياء</option><option>الفيزياء</option><option>العلوم البيئية</option><option>تقنية المعلومات</option><option>الدراسات الاجتماعية</option></datalist>'+
     '<label>الصف<select id="c_grade">'+GRADES.map(function(g){return '<option>'+g+'</option>';}).join('')+'</select></label><p class="muted small">اكتب اسم المادة كما يظهر في قائمة صفوفك في نور (مثل «الكيمياء / الحادي عشر») حتى تفتح أداة نور الصف الصحيح تلقائيًا.</p></div>';
   var ov=$('modal'),box=$('modalBox');
   box.innerHTML='<h3 id="mTitle">مادة أو صف جديد</h3>'+h+'<div class="m-actions"><button type="button" class="btn" id="mCancel">إلغاء</button><button type="button" class="btn primary" id="mOk">إضافة</button></div>';ov.hidden=false;

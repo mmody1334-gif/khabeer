@@ -9,7 +9,7 @@ jobs = {j['id']: j for j in json.load(open(FIN + '/jobs.json'))}
 L = json.load(open(SITE + '/data/lessons.json'))
 subj = lambda l: l.get('subject') or ('العلوم' if l['grade'] == 'الخامس' else 'الأحياء')
 lesson = {l['id']: l for l in L}
-SLUG = {'العلوم': 'sci', 'الأحياء': 'bio', 'الكيمياء': 'chem', 'العلوم البيئية': 'env', 'تقنية المعلومات': 'it', 'الفيزياء': 'phy'}
+SLUG = {'العلوم': 'sci', 'الأحياء': 'bio', 'الكيمياء': 'chem', 'العلوم البيئية': 'env', 'تقنية المعلومات': 'it', 'الفيزياء': 'phy', 'الدراسات الاجتماعية': 'ss'}
 GN = {'الخامس': 5, 'السادس': 6, 'السابع': 7, 'الثامن': 8, 'التاسع': 9, 'العاشر': 10, 'الحادي عشر': 11, 'الثاني عشر': 12}
 
 def crop(fid, parts, out):

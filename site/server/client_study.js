@@ -273,7 +273,7 @@ function loadBank(key){
   return api('/api/quiz/bank?key='+encodeURIComponent(key)).then(function(r){bankCache[key]=r.items||[];return bankCache[key];});
 }
 // ---------- واجب سريع (مواد العلوم): 5 أسئلة عشوائية من عدد دروس أو الوحدة كاملة ----------
-var HW_SUBJ=/علوم|أحياء|فيزياء|كيمياء|بيئ/; // مواد العلوم التي تظهر لها بطاقة الواجب السريع
+var HW_SUBJ=/علوم|أحياء|فيزياء|كيمياء|بيئ|اجتماع/; // مواد العلوم (والدراسات الاجتماعية) التي تظهر لها بطاقة الواجب السريع
 var hwUnit='',hwCount='5';
 function isSciC(){return HW_SUBJ.test((course||{}).subject||'');}
 function hwHtml(items,key){

@@ -4,7 +4,7 @@
 // يسحب أسئلة من بنك الأسئلة بواقع أسئلة موزعة على كل الوحدات، ويقيمها المعلم مع الطلاب
 // فورًا سؤالًا سؤالًا، ثم يظهر تقريرًا بالمستوى وأضعف الوحدات والدروس مع طباعة رسمية.
 guard();
-var SCI_RE=/علوم|أحياء|فيزياء|كيمياء|بيئ/,MATH_RE=/رياض/;
+var SCI_RE=/علوم|أحياء|فيزياء|كيمياء|بيئ|اجتماع/,MATH_RE=/رياض/;
 var courses=[],course=null,bank=null,run=null;
 var $id=function(x){return document.getElementById(x);};
 function track(type,detail){try{fetch('/api/event',{method:'POST',credentials:'same-origin',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({type:type,lesson_id:course&&course.key?course.subject+' '+course.grade:'',detail:detail||''})});}catch(e){}}
@@ -17,7 +17,7 @@ function renderSide(){
   var sci=courses.filter(function(c){return SCI_RE.test(c.subject);}),mth=courses.filter(function(c){return MATH_RE.test(c.subject);});
   var cs=sci.concat(mth); // مواد العلوم أولًا ثم الرياضيات
   if(!cs.length){
-    $('qside').innerHTML='<section class="qcard"><h3>لا توجد مواد مطابقة</h3><p class="muted small">الاختبار التشخيصي متاح لمواد العلوم (علوم · فيزياء · كيمياء · أحياء · بيئة) والرياضيات، ولا تُظهر لك قائمة الحساب مواد منها.</p></section>';
+    $('qside').innerHTML='<section class="qcard"><h3>لا توجد مواد مطابقة</h3><p class="muted small">الاختبار التشخيصي متاح لمواد العلوم (علوم · فيزياء · كيمياء · أحياء · بيئة) والدراسات الاجتماعية والرياضيات، ولا تُظهر لك قائمة الحساب مواد منها.</p></section>';
     $('qmain').innerHTML='<div class="welcome"><h2>🧪 لا توجد مواد متاحة لحسابك بعد</h2></div>';
     return;
   }

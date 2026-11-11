@@ -130,7 +130,7 @@ function renderHome(){arena(false);
   if(!data.items.some(playableItem)){
     $('gmain').innerHTML='<div class="g-none"><div class="g-none-ic">🎲</div><h2>لا توجد ألعاب لهذه المادة بعد</h2>'+
       '<p>الألعاب تُبنى من بنك الأسئلة ومن واجبات الدروس. هذه المادة/الصف لا تحتوي أسئلة اختيار من متعدد قابلة للعب حتى الآن، فلم نعرض لوحة فارغة.</p>'+
-      '<p class="muted small">المواد المتاحة للألعاب حاليًا: العلوم · الفيزياء · الكيمياء · تقنية المعلومات (وبعض الواجبات في مواد أخرى).</p>'+
+      '<p class="muted small">المواد المتاحة للألعاب حاليًا: العلوم · الفيزياء · الكيمياء · الدراسات الاجتماعية · تقنية المعلومات (وبعض الواجبات في مواد أخرى).</p>'+
       '<p><button type="button" class="btn primary" id="quickDraw">🎰 قرعة عشوائية بالأرقام (تعمل بلا أسئلة)</button></p></div>';
     var qd=$('quickDraw');if(qd)qd.onclick=function(){startGame(GAMES.filter(function(x){return x.id==='draw';})[0]);};
     return;
