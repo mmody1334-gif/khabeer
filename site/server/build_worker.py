@@ -1893,8 +1893,20 @@ body.kb-shell .app-bar .get-app{border-radius:24px;border:0;box-shadow:var(--kb-
 FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Readex+Pro:wght@500;600;700;800&display=swap" rel="stylesheet">'
 
 import base64 as _b64, secrets as _sec
+def _js_check(js):
+    # الكود يُشفَّر قبل النشر فلا يراه «node --check» في سير النشر — فاصلة ناقصة واحدة
+    # كانت توقف صفحة كاملة («جارٍ تحميل الدروس» للأبد وأزرار لا تستجيب). نفحصه هنا قبل التشفير.
+    import shutil, subprocess, tempfile
+    if not shutil.which('node'): return
+    with tempfile.NamedTemporaryFile('w', suffix='.js', delete=False, encoding='utf-8') as f:
+        f.write(js); p = f.name
+    r = subprocess.run(['node', '--check', p], capture_output=True, text=True)
+    os.unlink(p)
+    if r.returncode:
+        sys.exit('JS syntax error in a page script:\n' + r.stderr[:1500])
 def pack(js):
     js = chr(10).join(l.strip() for l in js.split(chr(10)) if l.strip())
+    _js_check(js)
     key = _sec.token_hex(8)
     raw = js.encode('utf-8'); kb = key.encode()
     enc = _b64.b64encode(bytes(c ^ kb[i % len(kb)] for i, c in enumerate(raw))).decode()
