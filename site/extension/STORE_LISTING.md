@@ -32,9 +32,9 @@
 (ليست تطبيقًا رسميًا لوزارة التعليم.)
 
 **Full description (English):**
-A free helper for teachers in Oman that works with the "Khabeer" teaching platform (khaber.site).
+A free helper for teachers in Oman that works with the "Khaber" teaching platform (khaber.site).
 
-• Pick a lesson on Khabeer and click "Send preparation to Nour": the extension opens the "Add preparation" page for the right class on the Nour LMS (lms.moe.gov.om) and fills in the fields.
+• Pick a lesson on Khaber and click "Send preparation to Nour": the extension opens the "Add preparation" page for the right class on the Nour LMS (lms.moe.gov.om) and fills in the fields.
 • Homework: fills the assignment form and adds the questions in one batch.
 • It never clicks "Save" — the teacher reviews and saves.
 • Collects no data and sends nothing to any server; everything stays on the teacher's device.
@@ -63,7 +63,7 @@ Not an official Ministry of Education app.
 - Extensions ← **Create new extension** ← ارفع `khabeer-chrome-edge-<الإصدار>.zip`.
 - Availability: Public أو Hidden — الأسواق: كل الأسواق أو Oman على الأقل.
 - Category: Education. Privacy policy: نعم ← الرابط أعلاه.
-- **Notes for certification:** «The extension only works on khaber.site (teacher login required) and lms.moe.gov.om (Ministry of Education LMS, teacher login required). It fills web forms with lesson text the teacher sends from the Khabeer site and never submits them.»
+- **Notes for certification:** «The extension only works on khaber.site (teacher login required) and lms.moe.gov.om (Ministry of Education LMS, teacher login required). It fills web forms with lesson text the teacher sends from the Khaber site and never submits them.»
 
 ## Firefox (addons.mozilla.org)
 
@@ -75,10 +75,10 @@ Not an official Ministry of Education app.
 
 ## Chrome Web Store (اختياري — كروم يبقى على Tampermonkey حاليًا)
 
-**Single purpose:** Transfers a teacher's lesson preparation and homework from the Khabeer website into the Nour LMS (lms.moe.gov.om) forms.
+**Single purpose:** Transfers a teacher's lesson preparation and homework from the Khaber website into the Nour LMS (lms.moe.gov.om) forms.
 
 **Permission justification:**
-- storage: keeps the lesson the teacher just sent from Khabeer until the Nour page opens and is filled (local only).
-- Host permissions (lms.moe.gov.om and the Khabeer domains): needed to receive the "send" action on the Khabeer site and to fill the preparation/homework forms on Nour.
+- storage: keeps the lesson the teacher just sent from Khaber until the Nour page opens and is filled (local only).
+- Host permissions (lms.moe.gov.om and the Khaber domains): needed to receive the "send" action on the Khaber site and to fill the preparation/homework forms on Nour.
 
 **Remote code:** No. **Data usage:** لا تختر أي نوع بيانات، ثم فعّل الإقرارات الثلاثة.

@@ -108,7 +108,10 @@ function toolVersion(){return document.documentElement.getAttribute('data-tahdir
 // الإضافة الرسمية على AMO بضغطتين، والتحديث يصل تلقائيًا من المتجر مع كل إصدار جديد
 // بلا تغيير أي رابط. النسخة Unlisted الموقَّعة (noor-tool-unlisted@elkabsula.site ·
 // تسجيل 3104946) تبقى مسارًا احتياطيًا: لو احتجناها نعيد رابط ملف .xpi الموقَّع هنا.
-var EXT_STORE={chrome:'',edge:'https://microsoftedge.microsoft.com/addons/detail/%D8%A7%D9%84%D9%83%D8%A8%D8%B3%D9%88%D9%84%D8%A9-%E2%80%94-%D8%A3%D8%AF%D8%A7%D8%A9-%D9%86%D9%88%D8%B1/jbpbibeppdfddjlhkeobfkbccbjcnjpd',firefox:'https://addons.mozilla.org/firefox/addon/%D8%A7%D9%84%D9%83%D8%A8%D8%B3%D9%88%D9%84%D8%A9-%D8%A3%D8%AF%D8%A7%D8%A9-%D9%86%D9%88%D8%B1/'};
+// روابط إضافة «خبير — أداة نور» في المتاجر: تُملأ بعد موافقة Edge وموزيلا (انظر extension/STORE_LISTING.md).
+// ما دامت فارغة يبقى Tampermonkey متاحًا مؤقتًا في كل المتصفحات؛ وبمجرد ملئها يُمنع في فايرفوكس وإيدج (TM_BLOCKED).
+// (إضافة المنصة الأخرى لا تعمل على نطاق خبير، فلا توضع روابطها هنا.)
+var EXT_STORE={chrome:'',edge:'',firefox:''};
 // كروم وإيدج وفايرفوكس: إضافة «خبير» بنُسخ متاجر رسمية. سافاري والآيفون: Userscripts كما هي.
 var EXT_ZIP='/download/khaber-ext.zip';
 function extBrowser(b){return b==='chrome'||b==='edge';}
@@ -336,7 +339,7 @@ function toolDialog(reason){
         '<li>ارجع واضغط <b>«تثبيت الأداة»</b>، وفي الصفحة التي تُفتح اضغط <b>«تثبيت»</b> ثم <b>Allow</b> إن سألك سافاري.</li></ol>'+
         '<p class="m-msg" style="background:#fff6e0;border-radius:10px;padding:8px 11px"><b>⚠️ تنبيه:</b> لا تستخدم <b>«Tampermonkey Legacy»</b> — فهي لسافاري 6–11 فقط ولن تُثبَّت على سافاري الحديث.</p>';
     }
-    if(b==='edge'){
+    if(b==='edge'&&EXT_STORE.edge){
       // إيدج: إضافة «خبير — أداة نور» منشورة في متجر Edge — تثبيت بضغتين وتحديث تلقائي.
       // بدل Tampermonkey ووضع المطوّر؛ ولو مثبّتة قديمًا من ZIP تُستبعد بعد تثبيت نسخة المتجر.
       // الرابط صريح لا عبر extUrl() — فاللوحة قد تُعرض داخل تبويب إيدج لمستخدم متصفح آخر.
@@ -364,7 +367,7 @@ function toolDialog(reason){
         '<li>اضغط <b>Load unpacked</b> واختر المجلد الذي فككته، ثم حدّث هذه الصفحة.</li></ol>'+
         '<p class="muted small">لو الإضافة وTampermonkey الاثنين متثبّتين مش هيحصل تعارض: الأداة مش هتشتغل مرتين.</p></details>';
     }
-    if(b==='firefox'){
+    if(b==='firefox'&&EXT_STORE.firefox){
       // فايرفوكس: الإضافة منشورة رسميًا (Listed) في موزيلا بعد اعتماد المراجعة — تثبيت بضغتين
       // وتحديث تلقائي من المتجر. الرابط صريح لا عبر extUrl() — فاللوحة قد تُعرض داخل تبويب
       // فايرفوكس لمستخدم متصفح آخر.
@@ -375,7 +378,7 @@ function toolDialog(reason){
         '<li>ارجع للمنصة وحدّث الصفحة؛ الزر يتحول إلى <b>«أداة نور ✓»</b>.</li></ol>'+
         '<p class="m-msg" style="background:#fff6e0;border-radius:10px;padding:8px 11px"><b>💡 أداة قديمة بـ Tampermonkey؟</b> الإضافة تتعرّف عليها ومنعًا للتكرار لا تعمل الأداة مرتين. والأفضل بعدها مسح السكربت: زر <b>«🗑 مسح الأداة»</b> في حوار «أداة نور» يشرح خطوات المسح.</p>';
     }
-    var nm=b==='firefox'?'Firefox':'Chrome';
+    var nm=BROWSER_NAME[b]||'Chrome';
     return '<ol class="m-msg" style="line-height:2;padding-inline-start:1.2em">'+
       '<li>ثبّت <b>Tampermonkey</b> من متجر '+nm+': <a href="'+tmStoreFor(b)+'" target="_blank" rel="noopener">افتح صفحة الإضافة</a> ثم اضغط «إضافة إلى '+nm+'».</li>'+
       '<li>ارجع هنا، اضغط الزر الأخضر <b>«تثبيت الأداة»</b>، وفي الصفحة التي تُفتح اضغط <b>«تثبيت»</b>.</li></ol>';

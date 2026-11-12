@@ -1,7 +1,7 @@
-# Khabeer — Nour Tool (Firefox) — Source Code Submission
+# Khaber — Nour Tool (Firefox) — Source Code Submission
 
 This package contains the complete source code of the add-on
-«خبير — أداة نور» (Khabeer — Nour Tool) and the exact steps to
+«خبير — أداة نور» (Khaber — Nour Tool) and the exact steps to
 reproduce the submitted `.xpi` / `.zip` package.
 
 ## What the add-on is
@@ -60,5 +60,5 @@ placeholder strings inside a template file, plus verbatim file copying.
 - The tool only touches two sites: **khaber.site** (teacher logs in
   first) and **lms.moe.gov.om** (Ministry of Education LMS, teacher
   login required). It fills web forms with lesson text the teacher
-  explicitly sends from the Khabeer platform and **never clicks Save**.
+  explicitly sends from the Khaber platform and **never clicks Save**.
 - It collects no data and contacts no server.
