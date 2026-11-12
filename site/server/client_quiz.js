@@ -24,12 +24,15 @@ function isIslam(){return !!course&&/إسلام/.test(course.subject||'');}
 function isArabic(){return !!course&&/العربية/.test(course.subject||'');}
 // الرياضيات: وثيقة تقويم تعلم الطلبة في مادة الرياضيات (5-10) سبتمبر 2026،
 // ووثيقة (11-12) سبتمبر 2026. تشمل «الرياضيات» و«الرياضيات الأساسية/المتقدمة».
-function isMath(){return !!course&&/رياض/.test(course.subject||'');}
+function isMath(){return !!course&&/رياضيات/.test(course.subject||'');}
 // الدراسات الاجتماعية: وثيقة تقويم تعلم الطلبة في مواد الدراسات الاجتماعية (5-12) — سبتمبر 2026.
 // مستويات التعلم فيها ثلاثة (المعرفة · الفهم والتطبيق · القدرات العليا) لكل الصفوف، لا AO1/AO2.
 function isSS(){return !!course&&/اجتماع/.test(course.subject||'');}
-function isHi(){return course&&gnum(course.grade)>=11&&!isIT()&&!isIslam()&&!isArabic()&&!isSS();}
-function aoList(){return isIT()?IT_AO:(isIslam()||isSS()?LO_AO:(isHi()?HI_AO:LO_AO));}
+// الرياضة المدرسية (5–11): أسئلتها من ملفات التحضير بثلاثة مستويات (معرفة/تطبيق/استدلال) لكل الصفوف،
+// والواجب المنزلي فيها تكويني (تقويم المادة عملي في أساسه).
+function isPE(){return !!course&&/الرياضة المدرسية|التربية البدنية/.test(course.subject||'');}
+function isHi(){return course&&gnum(course.grade)>=11&&!isIT()&&!isIslam()&&!isArabic()&&!isSS()&&!isPE();}
+function aoList(){return isIT()?IT_AO:(isIslam()||isSS()||isPE()?LO_AO:(isHi()?HI_AO:LO_AO));}
 // أسماء مستويات التعلم كما تكتبها وثيقة الدراسات الاجتماعية (القيم الداخلية تبقى معرفة/تطبيق/استدلال)
 var SS_AO_TXT={'معرفة':'المعرفة','تطبيق':'الفهم والتطبيق','استدلال':'القدرات العليا'};
 function aoTxt(a){return (isSS()&&SS_AO_TXT[a])||AO_TXT[a]||a;}
@@ -103,6 +106,9 @@ function spec(){
     if(g>=10) return {total:10,targets:{'معرفة':3,'تطبيق':5,'استدلال':2},mcqCount:3,mcqAos:2,long:{count:0,marks:[]},shortMax:5,items:[6,6],label:'الدراسات الاجتماعية (10–12)'};
     return {total:15,targets:{'معرفة':4,'تطبيق':8,'استدلال':3},mcqCount:5,mcqAos:2,long:{count:0,marks:[]},shortMax:5,items:[9,9],label:'الدراسات الاجتماعية (5–9)'};
   }
+  // الرياضة المدرسية: لا جدول مواصفات لاختبار قصير كتابي في المادة (تقويمها عملي)، فنكوّن تقويمًا قصيرًا
+  // من أسئلة التحضير وبنك الأنشطة: 10 درجات · مفردتا اختيار من متعدد + مفردات قصيرة (1–2 درجة).
+  if(isPE()) return {total:10,targets:{'معرفة':4,'تطبيق':4,'استدلال':2},mcqCount:2,mcqAos:2,long:{count:0,marks:[]},shortMax:2,items:[5,8],label:'الرياضة المدرسية'};
   if(isIT()){ // وثيقة تقويم تقنية المعلومات (الاختبار القصير): تذكر وفهم 50% · تطبيق 30% · استدلال 20%
     if(g>=11)return {total:10,targets:{'تذكر وفهم':5,'تطبيق':3,'استدلال':2},mcqCount:2,mcqAos:2,long:{count:1,marks:[3]},shortMax:2,items:[6,8],label:'11–12 (تقنية المعلومات)'};
     if(g>=9)return {total:20,targets:{'تذكر وفهم':10,'تطبيق':6,'استدلال':4},mcqCount:4,mcqAos:2,long:{count:1,marks:[3]},shortMax:2,items:[12,18],label:'9–10 (تقنية المعلومات)'};
@@ -132,8 +138,9 @@ function hwSpec(c){
   c=c||course; if(!c) return null;
   var g=gnum(c.grade), s=c.subject||'';
   var sci=/علوم|أحياء|فيزياء|كيمياء|بيئ/.test(s), it=/تقنية/.test(s), isl=/إسلام/.test(s),
-      ar=/العربية/.test(s), en=/انجليز|إنجليز|English/i.test(s), math=/رياض/.test(s), ss=/اجتماع/.test(s);
-  var hi = g>=11 && !it && !isl && !ar && !en && !ss; // صفوف AO1/AO2
+      ar=/العربية/.test(s), en=/انجليز|إنجليز|English/i.test(s), math=/رياضيات/.test(s), ss=/اجتماع/.test(s),
+      pe=/الرياضة المدرسية|التربية البدنية/.test(s);
+  var hi = g>=11 && !it && !isl && !ar && !en && !ss && !pe; // صفوف AO1/AO2
   var aos = hi ? ['AO1','AO2'] : (it ? ['تذكر وفهم','تطبيق','استدلال'] : ['معرفة','تطبيق','استدلال']);
   if(it) return {none:true, label:'تقنية المعلومات'}; // بلا واجب منزلي
   if(isl){
@@ -144,6 +151,8 @@ function hwSpec(c){
   if(en) return {formative:true, items:[3,4], ao:aos, label:'اللغة الإنجليزية'};
   // الدراسات الاجتماعية: الواجب المنزلي ليس من أدوات التقويم المرصودة في الوثيقة (ص 15) لأي صف — تكويني
   if(ss) return {formative:true, items:[3,5], ao:aos, allowLong:true, label:'الدراسات الاجتماعية'};
+  // الرياضة المدرسية: واجب تكويني بأسئلة ملف التحضير (التقويم التكويني والختامي والواجب المنزلي)
+  if(pe) return {formative:true, prepOnly:true, items:[2,4], ao:aos, label:'الرياضة المدرسية'};
   if(math){
     if(g>=12) return {formative:true, items:[3,5], ao:aos, label:'الرياضيات (12)'};
     return {total:5, items:[3,5], ao:aos, allowLong:true, label:'الرياضيات (5–11)'};
@@ -178,7 +187,13 @@ function assembleHw(pool,sp,ids){
     return es.slice(0,sp.count).map(function(x){var y=clone(x);y.marks=sp.marksEach;if(y.type==='mcq'){y.type='short';delete y.choices;delete y.correct;}return y;});
   }
   if(sp.formative){ // واجب تكويني: مفردات متنوّعة بلا مجموع محدد
-    var pf=p.filter(function(x){return x.type!=='long'||sp.allowLong;});
+    var pf=p.filter(function(x){return (x.type!=='long'||sp.allowLong)&&(!sp.prepOnly||x.type!=='mcq');});
+    if(sp.prepOnly){ // الرياضة المدرسية: أسئلة ملف التحضير نفسها بترتيبها (أسئلة الدرس أولًا ثم التالي)
+      var byL0={};pf.forEach(function(x){(byL0[x.lesson_id]=byL0[x.lesson_id]||[]).push(x);});
+      var outP=[],k0=0;
+      while(outP.length<sp.items[1]&&k0<10){ids.forEach(function(id){var a=byL0[id];if(a&&a[k0]&&outP.length<sp.items[1])outP.push(a[k0]);});k0++;}
+      return outP.map(clone);
+    }
     return roundRobin(pf,sp.items[1]).map(clone);
   }
   // واجب برصد: نبلغ المجموع المطلوب بعدد مفردات ضمن [min,max]

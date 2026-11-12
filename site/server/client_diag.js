@@ -4,7 +4,7 @@
 // يسحب أسئلة من بنك الأسئلة بواقع أسئلة موزعة على كل الوحدات، ويقيمها المعلم مع الطلاب
 // فورًا سؤالًا سؤالًا، ثم يظهر تقريرًا بالمستوى وأضعف الوحدات والدروس مع طباعة رسمية.
 guard();
-var SCI_RE=/علوم|أحياء|فيزياء|كيمياء|بيئ|اجتماع/,MATH_RE=/رياض/;
+var SCI_RE=/علوم|أحياء|فيزياء|كيمياء|بيئ|اجتماع/,MATH_RE=/رياضيات/;
 var courses=[],course=null,bank=null,run=null;
 var $id=function(x){return document.getElementById(x);};
 function track(type,detail){try{fetch('/api/event',{method:'POST',credentials:'same-origin',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({type:type,lesson_id:course&&course.key?course.subject+' '+course.grade:'',detail:detail||''})});}catch(e){}}

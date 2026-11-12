@@ -166,7 +166,7 @@ def _bio_bank():
     G = {str(l.get('id')): l.get('grade', '') for l in lessons}
     # الدراسات الاجتماعية: وثيقتها تقيس ثلاثة مستويات (المعرفة · الفهم والتطبيق · القدرات العليا) في كل الصفوف،
     # فلا تتحول رموز ع/ط/س إلى AO1/AO2 في الصفين 11-12 كما في العلوم.
-    SSL = {str(l.get('id')) for l in lessons if 'اجتماع' in (l.get('subject') or '')}
+    SSL = {str(l.get('id')) for l in lessons if re.search(r'اجتماع|الرياضة المدرسية', l.get('subject') or '')}
     for fn in sorted(os.listdir(d)):
         if not fn.endswith('.txt'): continue
         lid = None; src = ''; n = 0

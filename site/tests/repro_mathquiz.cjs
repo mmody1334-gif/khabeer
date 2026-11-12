@@ -50,8 +50,8 @@ const COURSES = [
   await p.waitForTimeout(1300);
 
   const subs = await p.evaluate(() => [...document.getElementById('courseSelSubj').options].map(o => o.value));
-  ok('مواد الرياضيات متاحة في التقويم', subs.filter(x => /رياض/.test(x)).length >= 3,
-     subs.filter(x => /رياض/.test(x)).join(' · '));
+  ok('مواد الرياضيات متاحة في التقويم', subs.filter(x => /رياضيات/.test(x)).length >= 3,
+     subs.filter(x => /رياضيات/.test(x)).join(' · '));
 
   for (const [subject, grade] of COURSES) {
     const key = subject + '|' + grade;

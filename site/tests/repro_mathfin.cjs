@@ -36,7 +36,7 @@ const COURSES = [
   await p.goto(B + '/finals', { waitUntil: 'domcontentloaded' });
   await p.waitForTimeout(3500);
   const idx = await p.evaluate(() => window.FIN_INDEX || {});
-  const mathKeys = Object.keys(idx).filter(k => /رياض/.test(k));
+  const mathKeys = Object.keys(idx).filter(k => /رياضيات/.test(k));
   console.log('مفاتيح الرياضيات في FIN_INDEX: ' + JSON.stringify(mathKeys));
   ok('المقررات العشرة في فهرس النهائيات', mathKeys.length >= 10, mathKeys.length + ' مقررًا');
 

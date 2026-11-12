@@ -30,12 +30,12 @@ const F = ['concepts', 'pre_learning', 'outcomes', 'strategies', 'activities_tea
 
   const subs = await p.evaluate(() => { const s = document.getElementById('subjSel'); return s ? [...s.options].map(o => o.value) : []; });
   console.log('المواد: ' + JSON.stringify(subs));
-  ok('مادة الرياضيات ظاهرة', subs.some(x => /رياض/.test(x)), subs.filter(x => /رياض/.test(x)).join(','));
+  ok('مادة الرياضيات ظاهرة', subs.some(x => /رياضيات/.test(x)), subs.filter(x => /رياضيات/.test(x)).join(','));
 
   // نختار الرياضيات مرة واحدة
   await p.evaluate(async () => {
     const s = document.getElementById('subjSel');
-    const o = [...s.options].find(x => /رياض/.test(x.value));
+    const o = [...s.options].find(x => /رياضيات/.test(x.value));
     if (o) { s.value = o.value; s.dispatchEvent(new Event('change', { bubbles: true })); }
     await new Promise(x => setTimeout(x, 1200));
   });

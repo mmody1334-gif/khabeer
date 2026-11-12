@@ -7,8 +7,8 @@ var LEGACY_SUBJ={'':1,'الأحياء':1,'العلوم':1,'اللغة الإنج
 function toolMin(l,v){return LEGACY_SUBJ[l.subject||'']?v:'3.4.0';}
 function isEn(l){return /انجليز|إنجليز|English/i.test(l.subject||'');}
 // المواد: كل معلم يختار مادته ثم تظهر صفوفها
-var SUBJ_ICON={'العلوم':'🔬','الأحياء':'🧬','الكيمياء':'⚗️','الفيزياء':'🧲','العلوم البيئية':'🌍','اللغة الإنجليزية':'🔤','اللغة العربية':'📖','الرياضيات':'➗','الدراسات الاجتماعية':'🗺️','تقنية المعلومات':'💻','التربية الإسلامية':'🕌'};
-var SUBJ_ORDER=['العلوم','الأحياء','الكيمياء','الفيزياء','العلوم البيئية','الرياضيات','الرياضيات الأساسية','الرياضيات المتقدمة','اللغة العربية','اللغة الإنجليزية','الدراسات الاجتماعية','التربية الإسلامية','تقنية المعلومات'];
+var SUBJ_ICON={'العلوم':'🔬','الأحياء':'🧬','الكيمياء':'⚗️','الفيزياء':'🧲','العلوم البيئية':'🌍','اللغة الإنجليزية':'🔤','اللغة العربية':'📖','الرياضيات':'➗','الدراسات الاجتماعية':'🗺️','تقنية المعلومات':'💻','التربية الإسلامية':'🕌','الرياضة المدرسية':'⚽'};
+var SUBJ_ORDER=['العلوم','الأحياء','الكيمياء','الفيزياء','العلوم البيئية','الرياضيات','الرياضيات الأساسية','الرياضيات المتقدمة','اللغة العربية','اللغة الإنجليزية','الدراسات الاجتماعية','التربية الإسلامية','تقنية المعلومات','الرياضة المدرسية'];
 var subj=null;try{subj=localStorage.getItem('tahdir_subject');}catch(e){}
 var searchQ='';
 // تطبيع عربي خفيف للبحث: همزات/تاء مربوطة/ألف مقصورة/همزة وصل تبدل، ويطوّع التشكيل والمسافات
@@ -33,6 +33,11 @@ var SUBJ_SETTINGS={
   'التربية الإسلامية':{
     strategies:['الحوار والمناقشة','التعلم التعاوني','القصة','الخرائط الذهنية'],
     resources:['كتاب الطالب','المصحف','القصة النبوية والسيرة','بطاقات الأنشطة والرسومات','جهاز عرض البيانات','لوحة الكلمات القرآنية']
+  },
+  // الرياضة المدرسية: الدرس عملي في الساحة؛ الاستراتيجيات والوسائل من نماذج تحضير المادة
+  'الرياضة المدرسية':{
+    strategies:['الحوار والمناقشة','التعلم التعاوني','التعلم باللعب','التعلم بالأقران','حل المشكلات','العصف الذهني'],
+    resources:['الكرات','الأقماع','الأطواق','الصافرة','الحبال','المقعد السويدي','ساعة الإيقاف','الصور التوضيحية','عرض فيديو للمهارة']
   },
   // الدراسات الاجتماعية: الخريطة والأطلس وتحليل النصوص والأشكال من أدوات المادة الأساسية
   'الدراسات الاجتماعية':{
@@ -313,13 +318,14 @@ var MORPH_ICONS={
   ar:'<svg viewBox="0 0 240 180"><path d="M120 46c-22-14-52-16-76-8v102c24-8 54-6 76 8 22-14 52-16 76-8V38c-24-8-54-6-76 8z" fill="#fff" stroke="#1a2e4c" stroke-width="5.5" stroke-linejoin="round"/><path d="M120 46v102" stroke="#1a2e4c" stroke-width="5"/><path d="M114 140v24l6-6 6 6v-24z" fill="#e21b3c"/><path d="M58 56h44M58 68h34M138 56h44M148 68h34" stroke="#dce6f7" stroke-width="4" stroke-linecap="round"/><text x="82" y="112" text-anchor="middle" font-size="44" font-weight="900" fill="#0e9f6e" font-family="Readex Pro,Tahoma,sans-serif">ض</text><text x="158" y="112" text-anchor="middle" font-size="42" font-weight="900" fill="#ff9f1c" font-family="Readex Pro,Tahoma,sans-serif">ع</text></svg>',
   en:'<svg viewBox="0 0 240 180"><rect x="44" y="34" width="112" height="112" rx="20" fill="#e8efff" stroke="#1a2e4c" stroke-width="5" transform="rotate(-6 100 90)"/><rect x="64" y="32" width="124" height="114" rx="20" fill="#fff" stroke="#1a2e4c" stroke-width="5.5"/><path d="M158 32v32l10-8 10 8V32z" fill="#ff9f1c" stroke="#1a2e4c" stroke-width="3.5" stroke-linejoin="round"/><text x="124" y="112" text-anchor="middle" font-size="60" font-weight="900" fill="#3e7bfa" font-family="Readex Pro,sans-serif">Aa</text><circle cx="84" cy="54" r="6" fill="#22b8a5"/></svg>',
   isl:'<svg viewBox="0 0 240 180"><path d="M120 36c-26 22-50 32-50 62v50h100V98c0-30-24-40-50-62z" fill="#22b8a5" stroke="#1a2e4c" stroke-width="5.5" stroke-linejoin="round"/><path d="M120 36c-12 22-22 34-22 62v50h44V98c0-28-10-40-22-62z" fill="#38d9a9" opacity=".45"/><path d="M104 148v-32a16 16 0 0 1 32 0v32" fill="#fff3df" stroke="#1a2e4c" stroke-width="4.5"/><path d="M54 54v94M186 54v94" stroke="#1a2e4c" stroke-width="7" stroke-linecap="round"/><path d="M44 148h152" stroke="#1a2e4c" stroke-width="5.5" stroke-linecap="round"/><path d="M128 14a14 14 0 1 0 6 22a11 11 0 1 1-6-22z" fill="#ffd400" stroke="#1a2e4c" stroke-width="2"/></svg>',
+  pe:'<svg viewBox="0 0 240 180"><circle cx="110" cy="96" r="60" fill="#fff" stroke="#1a2e4c" stroke-width="5.5"/><path d="M110 70l24 17-9 28h-30l-9-28z" fill="#1a2e4c"/><path d="M110 70V40M134 87l28-10M125 115l17 24M95 115l-17 24M86 87l-28-10" stroke="#1a2e4c" stroke-width="5" stroke-linecap="round"/><path d="M168 40h36a12 12 0 0 1 0 24h-22" fill="#f59f0b" stroke="#1a2e4c" stroke-width="4"/><circle cx="178" cy="58" r="16" fill="#22b8a5" stroke="#1a2e4c" stroke-width="4"/></svg>',
   ss:'<svg viewBox="0 0 240 180"><circle cx="110" cy="96" r="62" fill="#e8f7f4" stroke="#1a2e4c" stroke-width="5.5"/><g fill="none" stroke="#22b8a5" stroke-width="4"><ellipse cx="110" cy="96" rx="26" ry="62"/><path d="M48 96h124M58 66h104M58 126h104"/></g><path d="M78 70c10-6 22-4 26 6s-4 16 4 22-2 18-14 16c-12-8-20-22-16-44z" fill="#f59f0b" opacity=".85"/><g class="mz-pin"><path d="M176 30c-16 0-26 12-26 26 0 20 26 46 26 46s26-26 26-46c0-14-10-26-26-26z" fill="#f97316" stroke="#1a2e4c" stroke-width="4"/><circle cx="176" cy="56" r="9" fill="#fff"/></g></svg>',
 };
-var MORPH_NAMES={bio:'الأحياء',chem:'الكيمياء',phys:'الفيزياء',sci:'العلوم',env:'العلوم البيئية',it:'تقنية المعلومات',math:'الرياضيات',ar:'اللغة العربية',en:'اللغة الإنجليزية',isl:'التربية الإسلامية',ss:'الدراسات الاجتماعية'};
+var MORPH_NAMES={bio:'الأحياء',chem:'الكيمياء',phys:'الفيزياء',sci:'العلوم',env:'العلوم البيئية',it:'تقنية المعلومات',math:'الرياضيات',ar:'اللغة العربية',en:'اللغة الإنجليزية',isl:'التربية الإسلامية',ss:'الدراسات الاجتماعية',pe:'الرياضة المدرسية'};
 function morphKey(sub){sub=sub||'';
   if(!sub||/أحياء/.test(sub))return 'bio';if(/كيمياء/.test(sub))return 'chem';if(/فيزياء/.test(sub))return 'phys';if(/بيئ/.test(sub))return 'env';
-  if(/علوم/.test(sub))return 'sci';if(/تقنية/.test(sub))return 'it';if(/رياض/.test(sub))return 'math';if(/العربية/.test(sub))return 'ar';
-  if(/انجليز|إنجليز|English/i.test(sub))return 'en';if(/إسلام/.test(sub))return 'isl';if(/اجتماع/.test(sub))return 'ss';return 'bio';}
+  if(/علوم/.test(sub))return 'sci';if(/تقنية/.test(sub))return 'it';if(/رياضيات/.test(sub))return 'math';if(/العربية/.test(sub))return 'ar';
+  if(/انجليز|إنجليز|English/i.test(sub))return 'en';if(/إسلام/.test(sub))return 'isl';if(/اجتماع/.test(sub))return 'ss';if(/الرياضة المدرسية|التربية البدنية/.test(sub))return 'pe';return 'bio';}
 function teacherMorph(){
   if(me&&me.role==='admin')return 'bio';
   var ss=subjects();if(ss.length===1)return morphKey(ss[0]);
