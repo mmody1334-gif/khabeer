@@ -17,7 +17,8 @@
     // على صفحات الموقع (غير نور): نُعلن وجود الإضافة وإصدارها ليعرض الموقع «الأداة مثبتة» أو «حدّث الإضافة»
     if (location.hostname !== 'lms.moe.gov.om') { de.setAttribute('data-tahdir-ext', '__EXTVER__'); de.setAttribute('data-tahdir-ext-src', '__EXTSRC__'); }
     // لو Tampermonkey يشغّل الأداة بالفعل في هذه الصفحة لا نشغّلها مرة ثانية (منعًا لإرسال مكرر)
-    if (de.getAttribute('data-tahdir-tool')) return;
+    const tv = String(de.getAttribute('data-tahdir-tool') || '');
+    if (tv) { const a = tv.split('.'), b = '__EXTVER__'.split('.'); let d = 0; for (let i = 0; i < 3 && !d; i++) d = (parseInt(a[i], 10) || 0) - (parseInt(b[i], 10) || 0); if (d >= 0) return; }
     __RUN__(api.GM_getValue, api.GM_setValue, api.GM_deleteValue, api.GM_openInTab, api.GM_registerMenuCommand, window);
   });
   req({ type: 'hello' });

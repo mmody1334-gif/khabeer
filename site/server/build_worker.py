@@ -258,6 +258,8 @@ for l in lessons:
 rd = lambda f: open(os.path.join(HERE, f), encoding='utf-8').read()
 common = rd('common.js')
 TOOL_VER = re.search(r'@version\s+(\S+)', rd('tahdir-noor.user.js')).group(1)
+_tv = re.search(r"const VERSION = '([^']+)'", rd('tahdir-noor.user.js')).group(1)
+assert _tv == TOOL_VER, f'أداة نور: VERSION ({_tv}) لا يطابق @version ({TOOL_VER})'
 TOOL_FORCE = re.search(r"MIN_REQUIRED = '([^']+)'", rd('tahdir-noor.user.js')).group(1)
 common = common.replace('__TOOLVER__', TOOL_VER).replace('__TOOLFORCE__', TOOL_FORCE)
 # إعلان المعلمين (site/data/announcements.json) يُدمج داخل common.js لأنه كود صفحة،

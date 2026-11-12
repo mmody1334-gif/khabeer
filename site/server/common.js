@@ -125,6 +125,10 @@ function browserKind(){var u=navigator.userAgent;
      if(/Safari/.test(u)||/Macintosh/.test(u))return 'safari';
      return '';}
 function extUrl(){return EXT_STORE[browserKind()]||'';}
+// فايرفوكس وإيدج: إضافة المتجر هي الأداة الوحيدة، وTampermonkey ممنوع فيهما (لا نقترحه ولا نطلب تحديثه).
+// كروم وسافاري يبقيان على Tampermonkey/Userscripts كما هما. لإعادته: TM_BLOCKED=false.
+var TM_BLOCKED=true;
+function extFirst(b){b=b||browserKind();return TM_BLOCKED&&(b==='firefox'||b==='edge')&&!!EXT_STORE[b];}
 function toolOk(min){var v=toolVersion();return !!v&&verCmp(v,min||TOOL_FORCE)>=0;}
 // مسار واحد بسيط: Tampermonkey فقط. الإضافة الرسمية تُذكر فقط لو فُعّلت روابطها.
 var BROWSER_NAME={chrome:'Chrome',edge:'Edge',firefox:'Firefox',safari:'Safari'};
@@ -397,7 +401,7 @@ function toolDialog(reason){
    tabbar+panes+
    '<p class="m-msg muted small">هذا كل شيء — مرة واحدة للأبد. بعدها تتحدث الأداة تلقائيًا من الموقع.</p>'+
    '<p class="m-msg" style="border-top:1px solid #dfe9e5;padding-top:10px"><b>على الموبايل:</b><br>أندرويد: <a href="'+APK_URL+'" target="_blank" rel="noopener">حمّل تطبيق «خبير»</a> — الأداة مدمجة فيه.<br>آيفون: ثبّت <b>Userscripts</b> (مجاني) ثم افتح رابط الأداة واضغط Install.</p>';
-  var sel=cur,okLabel=function(k){return 'تثبيت الأداة';};
+  var sel=cur,okLabel=function(k){return extFirst(k)?'تثبيت الإضافة':'تثبيت الأداة';};
   var pr=dialog({title:'تثبيت أداة نور',html:h,okText:okLabel(cur),cancelText:'إغلاق'});
   Array.prototype.forEach.call(document.querySelectorAll('#modalBox [data-copy]'),function(b){b.onclick=function(){copyText(b.getAttribute('data-copy'));};});
   // ربط التبويبات داخل النافذة (بعد إدراجها في DOM)
@@ -410,7 +414,7 @@ function toolDialog(reason){
   });
   // زر «العرض التفاعلي» في تبويب iPhone (دالة iosPlay معرفة لاحقًا — الربط برفعها ينجح)
   if($('iosPlayBtn'))$('iosPlayBtn').onclick=iosPlay;
-  return pr.then(function(r){if(!r)return;window.open(TOOL_URL,'_blank');});
+  return pr.then(function(r){if(!r)return;window.open(extFirst(sel)?EXT_STORE[sel]:TOOL_URL,'_blank');});
 }
 // ---------- مسح الأداة ----------
 // الموقع لا يستطيع إزالة إضافة المتجر/سكربت Tampermonkey برمجيًا — فنُرشد المعلم بخطوات
@@ -541,7 +545,7 @@ function extUpdateNote(){
 }
 function toolUpdateNote(){
   if(IN_APP)return;
-  if(hasExt())return;
+  if(hasExt()||extFirst())return;
   var v=toolVersion(),ov=$('modal');
   if(!v){ updSave({to:TOOL_LATEST,n:0}); return; }         // غير مثبتة: لا نُزعج في كل صفحة
   if(verCmp(v,TOOL_LATEST)>=0){ updSave({to:TOOL_LATEST,n:0,done:1}); return; }
@@ -553,9 +557,23 @@ function toolUpdateNote(){
     .then(function(r){if(r)window.open(TOOL_URL,'_blank');});
 }
 // نُبقي مراقبة الإصدار لتحديث زر «أداة نور» في الشريط، والإعلان يتولّى التنبيه للمعلم.
+// فايرفوكس/إيدج: من عنده سكربت Tampermonkey بلا الإضافة يُطلب منه تثبيتها وإيقاف Tampermonkey.
+// تختفي النافذة تلقائيًا بمجرد اكتشاف الإضافة.
+function extSwitchNote(){
+  var b=browserKind(),u=EXT_STORE[b],nm=BROWSER_NAME[b]||'';
+  if(!u||hasExt()||!toolVersion())return;
+  var ov=$('modal');if(ov&&(!ov.hidden||ov.classList.contains('locked')))return;
+  var tmOff=b==='edge'?'edge://extensions':'about:addons';
+  dialog({title:'ثبّت إضافة «أداة نور»',html:'<p class="m-msg">على '+esc(nm)+' تعمل «أداة نور» من خلال <b>إضافة المتجر</b> فقط، وتتحدّث تلقائيًا. Tampermonkey <b>غير مدعوم</b> على هذا المتصفح.</p><ol class="m-msg" style="line-height:2;padding-inline-start:1.2em"><li>اضغط «تثبيت الإضافة» ثم <b>'+(b==='edge'?'«الحصول عليه / Get»':'«إضافة إلى Firefox»')+'</b> ووافق.</li><li>أوقف Tampermonkey: افتح <code class="ltr" style="user-select:all">'+tmOff+'</code> وأطفئ مفتاح <b>Tampermonkey</b>.</li><li>ارجع هنا وحدّث الصفحة.</li></ol>',okText:'تثبيت الإضافة',cancelText:false})
+    .then(function(r){if(r===null)return;window.open(u,'_blank');
+      dialog({title:'بعد التثبيت',message:'بعد تثبيت الإضافة وإيقاف Tampermonkey، اضغط «تم» لإعادة تحميل الصفحة.',okText:'تم',cancelText:false}).then(function(){location.reload();});});
+}
 function watchTool(){
   if(IN_APP)return;
-  setTimeout(function(){var ov=$('modal');if(!ov||ov.hidden)extUpdateNote();},3000);
+  setTimeout(function(){var ov=$('modal');
+    if(hasExt()){if(!ov||ov.hidden)extUpdateNote();return;}
+    if(toolVersion()&&extFirst())extSwitchNote();
+  },3000);
   var t=null;try{new MutationObserver(function(){clearTimeout(t);t=setTimeout(function(){var v=toolVersion();if((v||hasExt())&&$('toolBtn')){$('toolBtn').classList.remove('pulse');$('toolBtn').textContent='أداة نور ✓';}},400);}).observe(document.documentElement,{attributes:true,attributeFilter:['data-tahdir-tool','data-tahdir-ext']});}catch(e){}
   setTimeout(function(){var v=toolVersion();if((v||hasExt())&&$('toolBtn')){$('toolBtn').classList.remove('pulse');$('toolBtn').textContent='أداة نور ✓';}},2500);
 }
@@ -574,6 +592,7 @@ function showAnnouncement(){
   if(ov.classList.contains('locked')||!ov.hidden)return;  // لا نقاطع نافذة مفتوحة
   if(annSeen().indexOf(a.id)>=0)return;
   // لو الأداة محدّثة فعلًا فلا داعي للإعلان
+  if(hasExt()||extFirst())return;
   var v=toolVersion();
   if(v&&verCmp(v,TOOL_LATEST)>=0){annMark(a.id);return;}
   // لا نُسجّله كمقروء الآن: لو كانت هناك نافذة مفتوحة نؤجّل ونعرضه في زيارة تالية،
