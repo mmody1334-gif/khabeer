@@ -1,7 +1,7 @@
 // يحاكي Tampermonkey على الموقع: نسخة قديمة مكررة + الجديدة، بالترتيبين
 const { chromium } = require('playwright'); const fs = require('fs');
 const B = 'http://localhost:8787';
-const fix = s => s.replace("location.hostname === 'tahdir.hudhaifa-bio.workers.dev'", 'true');
+const fix = s => s.replace("location.hostname === 'khabeer.khabeer.workers.dev'", 'true');
 const NEW = fix(fs.readFileSync(__dirname + '/../server/tahdir-noor.user.js', 'utf8')), OLD = fix(fs.readFileSync(__dirname + '/old_tool_29.js', 'utf8'));
 (async () => {
   const b = await chromium.launch(); const errs = [];

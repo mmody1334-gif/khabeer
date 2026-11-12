@@ -100,18 +100,10 @@ function ago(t){if(!t)return 'لم يدخل بعد';var s=(Date.now()-t)/1000;if
 var TOOL_URL='/tool/tahdir-noor.user.js',TOOL_LATEST='__TOOLVER__',TOOL_FORCE='__TOOLFORCE__',IN_APP=/TahdirApp/.test(navigator.userAgent),APK_URL='/download/khabeer.apk';
 function verCmp(a,b){a=String(a||'').split('.');b=String(b||'').split('.');for(var i=0;i<3;i++){var d=(parseInt(a[i],10)||0)-(parseInt(b[i],10)||0);if(d)return d;}return 0;}
 function toolVersion(){return document.documentElement.getAttribute('data-tahdir-tool')||'';}
-// إضافة المتصفح الرسمية: مسار تجريبي غير مفعّل. عند تعبئة الروابط يعمل تلقائيًا،
-// وبدونها المسار الوحيد هو Tampermonkey (أبسط للمعلم: إضافة + سكربت وخلاص).
-// ضع رابط صفحة الإضافة في كل متجر بعد نشرها؛ يظهر عندها «مرشد التثبيت» (ضغطتان) بدل Tampermonkey.
-// إيدج: منشورة رسميًا في Microsoft Edge Add-ons — التثبيت من المتجر بضغطتين.
-// فايرفوكس: النسخة المدرِجة (Listed) اعتمدتها موزيلا (٢٠٢٦-١٠-٢٤) — التثبيت الآن من صفحة
-// الإضافة الرسمية على AMO بضغطتين، والتحديث يصل تلقائيًا من المتجر مع كل إصدار جديد
-// بلا تغيير أي رابط. النسخة Unlisted الموقَّعة (noor-tool-unlisted@elkabsula.site ·
-// تسجيل 3104946) تبقى مسارًا احتياطيًا: لو احتجناها نعيد رابط ملف .xpi الموقَّع هنا.
-// روابط إضافة «خبير — أداة نور» في المتاجر: تُملأ بعد موافقة Edge وموزيلا (انظر extension/STORE_LISTING.md).
-// ما دامت فارغة يبقى Tampermonkey متاحًا مؤقتًا في كل المتصفحات؛ وبمجرد ملئها يُمنع في فايرفوكس وإيدج (TM_BLOCKED).
-// (إضافة المنصة الأخرى لا تعمل على نطاق خبير، فلا توضع روابطها هنا.)
-var EXT_STORE={chrome:'',edge:'',firefox:''};
+// إضافة «خبير — أداة نور» في المتاجر الرسمية (معرّف فايرفوكس noor-tool@khaber.site · متجر إيدج 0RDCK9XQGKQ3).
+// فايرفوكس وإيدج: الإضافة هي الأداة الوحيدة (Tampermonkey ممنوع فيهما — TM_BLOCKED) وتتحدّث تلقائيًا من المتجر.
+// كروم وسافاري: سكربت Tampermonkey/Userscripts الخاص بخبير (يعمل على نطاقات خبير ونور فقط).
+var EXT_STORE={chrome:'',edge:'https://microsoftedge.microsoft.com/addons/detail/alndbggaamkbbdcdamgcobdbhfkcjell',firefox:'https://addons.mozilla.org/ar/firefox/addon/%D8%AE%D8%A8%D9%8A%D8%B1-%D8%A3%D8%AF%D8%A7%D8%A9-%D9%86%D9%88%D8%B1/'};
 // كروم وإيدج وفايرفوكس: إضافة «خبير» بنُسخ متاجر رسمية. سافاري والآيفون: Userscripts كما هي.
 var EXT_ZIP='/download/khaber-ext.zip';
 function extBrowser(b){return b==='chrome'||b==='edge';}
@@ -254,7 +246,7 @@ function extGuide(reason){
         // حُجبت النافذة العائمة: المرشد داخل صفحة المنصة + المتجر بنافذة جانبية (كالسابق)
         guideFloat(b,L,eu);
         var W=Math.min(980,Math.round(screen.availWidth*0.6)),H=Math.min(820,screen.availHeight-40);
-        var w2=window.open(eu,'kabsula_store','popup,width='+W+',height='+H+',left='+(screen.availWidth-W)+',top=20');
+        var w2=window.open(eu,'khaber_store','popup,width='+W+',height='+H+',left='+(screen.availWidth-W)+',top=20');
         if(!w2)window.open(eu,'_blank');
       }
     }
@@ -800,7 +792,7 @@ function tourSteps(){
   ];
   if(pg==='app')return [
     {sel:null,title:'التحضير في «خبير» 📋',text:'خطوتان تفصلانك عن تحضير جاهز يُرسل إلى نور بضغطة: ثبّت أداة نور (مرة واحدة)، ثم اختر صفّك ودرسك.'},
-    {sel:'#toolBtn',step:'tool',title:'١) ثبّت «أداة نور» — مرة واحدة فقط',text:'هذه هي الخطوة الأولى والأهم: هي التي تُرسل التحضير والواجب إلى نور وتصحّح الواجبات تلقائيًا. اضغط الزر واتبع خطوات متصفحك (كروم وإيدج وفايرفوكس: Tampermonkey). في تطبيق خبير الأداة مدمجة — لا تحتاج تثبيت شيء.',cta:'كيف أثبّتها؟'},
+    {sel:'#toolBtn',step:'tool',title:'١) ثبّت «أداة نور» — مرة واحدة فقط',text:'هذه هي الخطوة الأولى والأهم: هي التي تُرسل التحضير والواجب إلى نور وتصحّح الواجبات تلقائيًا. اضغط الزر واتبع خطوات متصفحك (إيدج وفايرفوكس: إضافة «خبير» من المتجر بضغطتين · كروم: Tampermonkey). في تطبيق خبير الأداة مدمجة — لا تحتاج تثبيت شيء.',cta:'كيف أثبّتها؟'},
     {sel:'#subjSel',title:'٢) اختر المادة',text:'بعد تثبيت الأداة: القائمة الأولى للمواد المتاحة لك، والثانية للصفوف. تظهر لك المواد التي سمح بها المدير فقط.'},
     {sel:'.g-btn',title:'٣) اختر الصف',text:'اضغط الصف ليفتح، ثم اختر الوحدة، ثم الدرس. كل درس مقسّم بنفس خانات نموذج «إضافة تحضير» في نور.'},
     {sel:'#sendPrepBtn',title:'٤) أرسل التحضير إلى نور',text:'اضغط «إرسال التحضير إلى نور» ونور مفتوحة: تُفتح «إضافة تحضير» للصف ويُختار الدرس وتُملأ الأركان. يبقى لك التاريخ وزر «إضافة».'},
@@ -982,31 +974,6 @@ document.addEventListener('click',function(e){
       +'<p class="muted small">لا يطلب التطبيق أي صلاحيات غير الإنترنت.</p></div>'
   }).then(function(ok){if(ok)location.href=a.getAttribute('href');});
 },true);
-
-// ---------- رسالة «تم نقل المنصة» ----------
-// من يفتح الرابط القديم (workers.dev) يُحوَّل إلى elkabsula.site، ويضع الخادم علامة
-// kmoved لعشر دقائق، فتظهر هذه الرسالة مرة واحدة على كل متصفح.
-(function(){
-  if(location.hostname!=='elkabsula.site'||!/(?:^|;\s*)kmoved=1/.test(document.cookie))return;
-  var K='kabsula_moved_seen_v1';
-  try{if(localStorage.getItem(K))return;}catch(e){}
-  var tries=0;
-  // ننتظر قليلًا حتى تنتهي نوافذ البدء الأخرى، ولا نعتبرها «مقروءة» إلا عند الضغط على «حسنًا»
-  // (فلو أغلقتها نافذة أخرى تظهر مجددًا في الصفحة التالية).
-  setTimeout(function show(){
-    var ov=$('modal');
-    if(!ov||!ov.hidden){if(++tries<30)setTimeout(show,800);return;}
-    dialog({title:'🌐 العنوان الجديد للمنصة',okText:'حسنًا',cancelText:false,
-      html:'<p class="m-msg">تم نقل منصة <b>«الكبسولة»</b> إلى عنوانها الجديد:</p>'+
-        '<p class="m-msg" style="text-align:center;font-size:1.25em;direction:ltr"><b>elkabsula.site</b></p>'+
-        '<p class="m-msg">الرابط القديم يحوّلكم إلى هنا تلقائيًا، وحساباتكم وتحضيركم كما هي دون أي تغيير. نرجو حفظ العنوان الجديد في المفضلة.</p>'
-    }).then(function(r){
-      if(r===null){if(++tries<30)setTimeout(show,800);return;} // أُغلقت بنافذة أخرى: نعيد عرضها بعدها
-      try{localStorage.setItem(K,'1');}catch(e){}
-      document.cookie='kmoved=; Path=/; Max-Age=0; Secure; SameSite=Lax';
-    });
-  },1500);
-})();
 
 // ---------- وضع التطبيق (أندرويد/آيفون): واجهة تطبيق جوال لا صفحة ويب ----------
 // شريط علوي مضغوط بعنوان القسم + شريط تنقل سفلي ثابت (الرئيسية · التحضير · الاختبارات · الإشعارات · الأقسام).

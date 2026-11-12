@@ -17,8 +17,8 @@ function loadPW() {
 
 const H = require('./_pw.cjs');
 const TOOL = fs.readFileSync(path.join(__dirname, '..', 'server', 'tahdir-noor.user.js'), 'utf8')
-  .replace("location.hostname === 'tahdir.hudhaifa-bio.workers.dev'",
-    "(location.hostname === 'tahdir.hudhaifa-bio.workers.dev' || location.hostname === 'localhost')");
+  .replace("location.hostname === 'khabeer.khabeer.workers.dev'",
+    "(location.hostname === 'khabeer.khabeer.workers.dev' || location.hostname === 'localhost')");
 
 const SHIM = "window.__opened='';" +
   "window.GM={getValue:(k)=>window.__gm('get',k),setValue:(k,v)=>window.__gm('set',k,v)," +

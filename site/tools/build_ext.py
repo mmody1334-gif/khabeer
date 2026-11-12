@@ -7,8 +7,8 @@ tool = open(os.path.join(ROOT, 'server', 'tahdir-noor.user.js'), encoding='utf-8
 ver = re.search(r'@version\s+(\S+)', tool).group(1)
 body = tool[tool.index('==/UserScript=='):].split('\n', 1)[1]
 test = '--test' in sys.argv
-if test: body = body.replace("location.hostname === 'tahdir.hudhaifa-bio.workers.dev'", "(location.hostname === 'tahdir.hudhaifa-bio.workers.dev' || location.hostname === 'khabeer.khabeer.workers.dev' || location.hostname === 'localhost')")
-# الإضافة لموقع «خبير» فقط: نحذف من نسختها نطاقات المنصة الأخرى (تبقى في سكربت Tampermonkey كما هي)
+if test: body = body.replace("location.hostname === 'khabeer.khabeer.workers.dev'", "(location.hostname === 'khabeer.khabeer.workers.dev' || location.hostname === 'localhost')")
+# الإضافة والسكربت لموقع «خبير» فقط؛ الفحص أدناه يضمن ألا يتسرّب نطاق منصة أخرى.
 _OTHER = re.compile(r'(hudhaifa|kabsula)', re.I)
 body = body.replace("location.hostname === 'tahdir.hudhaifa-bio.workers.dev' || ", '').replace(" || /(^|\\.)(el|al)kabsula\\.(me|com|works|site|online|tech|studio)$/.test(location.hostname)", '')
 run = 'function (GM_getValue, GM_setValue, GM_deleteValue, GM_openInTab, GM_registerMenuCommand, unsafeWindow) {\n' + body + '\n}'

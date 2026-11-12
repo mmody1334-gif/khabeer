@@ -8,8 +8,8 @@ const PW = require('./_pw.cjs');
 const fs = require('fs');
 const path = require('path');
 const TOOL = fs.readFileSync(path.join(__dirname, '../server/tahdir-noor.user.js'), 'utf8')
-  .replace("location.hostname === 'tahdir.hudhaifa-bio.workers.dev'",
-           "(location.hostname === 'tahdir.hudhaifa-bio.workers.dev' || location.hostname === 'localhost')");
+  .replace("location.hostname === 'khabeer.khabeer.workers.dev'",
+           "(location.hostname === 'khabeer.khabeer.workers.dev' || location.hostname === 'localhost')");
 const USER = 'mohamed', PASS = (process.env.TEST_PASS||'');
 let pass = 0, fail = 0;
 const ok = (n, c, extra) => { (c ? pass++ : fail++); console.log((c ? '  PASS  ' : '  FAIL  ') + n + (extra ? '  → ' + extra : '')); };

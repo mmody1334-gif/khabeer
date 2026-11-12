@@ -1,31 +1,14 @@
 // ==UserScript==
 // @name         لصق التحضير والواجب - نور (خبير)
 // @namespace    https://tahdir-al-aali.local/
-// @version      3.5.3
+// @version      3.5.4
 // @description  يرسل التحضير والواجب من موقع خبير إلى نور: يفتح صفحة الصف، يختار الدرس، ويملأ الحقول. لا يضغط حفظ أبدًا.
 // @author       خبير
 // @match        https://lms.moe.gov.om/*
 // @match        https://lms.moe.gov.om/teacher
-// @match        https://tahdir.hudhaifa-bio.workers.dev/*
 // @match        https://khaber.site/*
 // @match        https://www.khaber.site/*
 // @match        https://khabeer.khabeer.workers.dev/*
-// @match        https://elkabsula.me/*
-// @match        https://www.elkabsula.me/*
-// @match        https://elkabsula.com/*
-// @match        https://www.elkabsula.com/*
-// @match        https://elkabsula.works/*
-// @match        https://www.elkabsula.works/*
-// @match        https://elkabsula.site/*
-// @match        https://www.elkabsula.site/*
-// @match        https://elkabsula.online/*
-// @match        https://www.elkabsula.online/*
-// @match        https://elkabsula.tech/*
-// @match        https://www.elkabsula.tech/*
-// @match        https://elkabsula.studio/*
-// @match        https://www.elkabsula.studio/*
-// @match        https://alkabsula.com/*
-// @match        https://www.alkabsula.com/*
 // @grant        unsafeWindow
 // @grant        GM_registerMenuCommand
 // @grant        GM_setValue
@@ -97,7 +80,7 @@
       g.__TAHDIR_READY = ready;
     }catch(e){}
   })();
-  const VERSION = '3.5.3'; // يجب أن يطابق @version أعلاه (يتحقق منه build_worker.py)
+  const VERSION = '3.5.4'; // يجب أن يطابق @version أعلاه (يتحقق منه build_worker.py)
   const MIN_REQUIRED = '3.1.0'; // أقل إصدار يُجبر الموقع المعلمين عليه (ميزات جديدة لا تفرض تحديثًا على الجميع)
 
   function boot() {
@@ -189,9 +172,8 @@
   }
 
   // ================= على موقع خبير =================
-  // نطاقات الموقع: العامل المجاني (workers.dev) والنطاقات الخاصة — كلها تعمل
-  // حتى لا تتعطّل الأداة عند من يُثبّتها من أحدهما.
-  if (location.hostname === 'tahdir.hudhaifa-bio.workers.dev' || location.hostname === 'khabeer.khabeer.workers.dev' || location.hostname === 'khaber.site' || location.hostname === 'www.khaber.site' || /(^|\.)(el|al)kabsula\.(me|com|works|site|online|tech|studio)$/.test(location.hostname)) {
+  // نطاقات «خبير» فقط (khaber.site والعامل الاحتياطي). لا تعمل على أي منصة أخرى.
+  if (location.hostname === 'khabeer.khabeer.workers.dev' || location.hostname === 'khaber.site' || location.hostname === 'www.khaber.site') {
     // لو عند المعلم نسخة قديمة مكررة من الأداة، الإصدار الأحدث هو اللي يظهر للموقع دائمًا
     const de = document.documentElement;
     if (!de) return; // لم يجهز المستند بعد (بعض إعدادات الحقن المبكر): لا نرمي استثناءً
