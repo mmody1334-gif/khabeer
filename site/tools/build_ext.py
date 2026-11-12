@@ -8,6 +8,9 @@ ver = re.search(r'@version\s+(\S+)', tool).group(1)
 body = tool[tool.index('==/UserScript=='):].split('\n', 1)[1]
 test = '--test' in sys.argv
 if test: body = body.replace("location.hostname === 'tahdir.hudhaifa-bio.workers.dev'", "(location.hostname === 'tahdir.hudhaifa-bio.workers.dev' || location.hostname === 'khabeer.khabeer.workers.dev' || location.hostname === 'localhost')")
+# الإضافة لموقع «خبير» فقط: نحذف من نسختها نطاقات المنصة الأخرى (تبقى في سكربت Tampermonkey كما هي)
+_OTHER = re.compile(r'(hudhaifa|kabsula)', re.I)
+body = body.replace("location.hostname === 'tahdir.hudhaifa-bio.workers.dev' || ", '').replace(" || /(^|\\.)(el|al)kabsula\\.(me|com|works|site|online|tech|studio)$/.test(location.hostname)", '')
 run = 'function (GM_getValue, GM_setValue, GM_deleteValue, GM_openInTab, GM_registerMenuCommand, unsafeWindow) {\n' + body + '\n}'
 shim = open(os.path.join(SRC, 'shim.js'), encoding='utf-8').read().replace('__RUN__', '(' + run + ')').replace('__EXTVER__', ver).replace('__EXTSRC__', 'zip')
 shutil.rmtree(OUT, ignore_errors=True); os.makedirs(OUT)
@@ -23,7 +26,7 @@ except ImportError:  # بيئة بلا PIL: نفس الصورة الكبيرة �
     for n in (16, 32, 48, 128): open(os.path.join(OUT, f'icon{n}.png'), 'wb').write(big_png)
 # النطاقات: نفس @match في رأس سكربت Tampermonkey (نور + الموقع بكل نطاقاته) — لا قائمة مكررة يدويًا
 hdr = tool[:tool.index('==/UserScript==')]
-sites = sorted(set(m for m in re.findall(r'@match\s+(\S+)', hdr) if m.endswith('/*'))) + (['http://localhost/*'] if test else [])
+sites = sorted(set(m for m in re.findall(r'@match\s+(\S+)', hdr) if m.endswith('/*') and not _OTHER.search(m))) + (['http://localhost/*'] if test else [])
 man = {
   'manifest_version': 3, 'name': 'خبير — أداة نور', 'short_name': 'أداة نور', 'version': ver,
   'description': 'ترسل التحضير والواجب من موقع «خبير» إلى منصة نور وتملأ الحقول تلقائيًا. لا تضغط حفظ أبدًا.',
@@ -65,7 +68,7 @@ if not test:
     ff.pop('minimum_chrome_version', None)
     ff['background'] = {'scripts': ['background.js']}
     ff['browser_specific_settings'] = {
-        'gecko': {'id': 'noor-tool@elkabsula.site', 'strict_min_version': '140.0',
+        'gecko': {'id': 'noor-tool@khaber.site', 'strict_min_version': '140.0',
                   'data_collection_permissions': {'required': ['none']}},
         'gecko_android': {'strict_min_version': '142.0'}}
     _zip(os.path.join(store, f'khabeer-firefox-{ver}.zip'), ff)
@@ -73,5 +76,5 @@ if not test:
     # الفوري بلا انتظار المراجعة (نفس الحزمة ولو معرّف gecko مختلف — فالمعرّف لا يتكرر على AMO).
     # هكذا يثبّت المعلم الإضافة بضغطتين من رابط الملف الموقَّع، ثم ينتقل المتجر الرئيسي لاحقًا.
     ff2 = json.loads(json.dumps(ff))
-    ff2['browser_specific_settings']['gecko']['id'] = 'noor-tool-unlisted@elkabsula.site'
+    ff2['browser_specific_settings']['gecko']['id'] = 'noor-tool-unlisted@khaber.site'
     _zip(os.path.join(store, f'khabeer-firefox-unlisted-{ver}.zip'), ff2)

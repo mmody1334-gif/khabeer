@@ -1,4 +1,4 @@
-# Elkabsula — Nour Tool (Firefox) — Source Code Submission
+# Khabeer — Nour Tool (Firefox) — Source Code Submission
 
 This package contains the complete source code of the add-on
 «خبير — أداة نور» (Khabeer — Nour Tool) and the exact steps to
@@ -36,8 +36,8 @@ placeholder strings inside a template file, plus verbatim file copying.
 3. Create the add-on package by zipping the **contents** of
    `site/dist/ext/` (files at the root of the archive).
    This reproduces exactly the submitted package
-   `kabsula-firefox-unlisted-<version>.zip` (the same files are also
-   produced automatically as `site/dist/store/kabsula-firefox-unlisted-<version>.zip`).
+   `khabeer-firefox-unlisted-<version>.zip` (the same files are also
+   produced automatically as `site/dist/store/khabeer-firefox-unlisted-<version>.zip`).
 
 4. The add-on version equals the `@version` value in the header of
    `server/tahdir-noor.user.js` (currently **3.5.0**).
@@ -51,7 +51,7 @@ placeholder strings inside a template file, plus verbatim file copying.
 | `extension/bridge.js` | Hand-written glue: passes the lesson data from the platform page (isolated world) to the MAIN world shim. |
 | `extension/background.js` | Hand-written service worker: re-opens/reloads the platform tab after installation. |
 | `server/icons.json` | Icon PNG (data URIs) used by the build to generate the icon files. |
-| `tools/build_ext.py` | The build script. For Firefox it also writes `browser_specific_settings` (gecko id `noor-tool-unlisted@elkabsula.site`, `data_collection_permissions: none`, `strict_min_version` 140.0 / Android 142.0) and converts the background to event-page style. |
+| `tools/build_ext.py` | The build script. For Firefox it also writes `browser_specific_settings` (gecko id `noor-tool-unlisted@khaber.site`, `data_collection_permissions: none`, `strict_min_version` 140.0 / Android 142.0) and converts the background to event-page style. |
 
 ## Notes for reviewers
 
@@ -60,5 +60,5 @@ placeholder strings inside a template file, plus verbatim file copying.
 - The tool only touches two sites: **khaber.site** (teacher logs in
   first) and **lms.moe.gov.om** (Ministry of Education LMS, teacher
   login required). It fills web forms with lesson text the teacher
-  explicitly sends from the Elkabsula platform and **never clicks Save**.
+  explicitly sends from the Khabeer platform and **never clicks Save**.
 - It collects no data and contacts no server.
