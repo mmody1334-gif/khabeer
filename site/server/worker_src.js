@@ -425,6 +425,32 @@ async function allLessons(env) {
   const base = LESSONS.map(l => ov[l.id] ? { ...l, ...ov[l.id], ai_filled: (l.ai_filled || []).filter(k => !(k in ov[l.id])) } : l);
   return base.concat(await customLessons(env));
 }
+// /api/lessons أثقل طلب في المنصة (~4 ملايين حرف لكل الدروس). كان كل فتح للصفحة يبني النص كاملًا
+// ويحسب بصمته حرفًا حرفًا (~40 مللي ثانية وعشرات الميغابايت من الذاكرة لكل معلم) حتى لو انتهى بـ 304،
+// فإذا فتح معلمون كثيرون الصفحة معًا (أول الدوام) يتباطأ العامل أو تنفد ذاكرته ويبقى «جارٍ تحميل الدروس».
+// الآن: البصمة من «نسخة» البيانات (البناء + ملخّص جدولي التعديلات في D1) بلا بناء النص، فيرجع 304 فورًا،
+// والنص الجاهز يُحفظ في ذاكرة العامل (بحدّ أقصى للحجم) فلا يُعاد بناؤه لكل معلم.
+const LESSONS_CACHE = new Map();
+let LESSONS_CACHE_CH = 0;
+async function lessonsVersion(env) {
+  const r = await env.DB.prepare("SELECT (SELECT COUNT(*) || '.' || IFNULL(MAX(updated_at),0) || '.' || IFNULL(SUM(LENGTH(data)),0) FROM lesson_overrides) AS o, (SELECT COUNT(*) || '.' || IFNULL(MAX(updated_at),0) || '.' || IFNULL(SUM(LENGTH(data)),0) FROM custom_lessons) AS c").first();
+  return (r && r.o || '0') + '-' + (r && r.c || '0');
+}
+async function lessonsResponse(req, env, me) {
+  const sc = scopeOf(me), sk = sc ? [...sc].sort().join(',') : '*';
+  const etag = '"L-' + (BUILD && BUILD.sha || '') + '-' + (await lessonsVersion(env)) + '-' + hashStr(sk) + '"';
+  const hdr = { ETag: etag, 'Cache-Control': 'private, no-cache', ...SEC_HEADERS };
+  const inm = req.headers.get('If-None-Match') || '';
+  if (inm && inm.split(',').map(x => x.trim()).indexOf(etag) >= 0) return new Response(null, { status: 304, headers: hdr });
+  let body = LESSONS_CACHE.get(etag);
+  if (body === undefined) {
+    body = JSON.stringify({ lessons: await lessonsFor(env, me) });
+    // نسخ قديمة (قبل تعديل في D1) تُحذف أولًا، ثم الأقدم حتى يبقى المجموع ≤ 12 مليون حرف
+    LESSONS_CACHE.set(etag, body); LESSONS_CACHE_CH += body.length;
+    for (const [k, v] of LESSONS_CACHE) { if (LESSONS_CACHE_CH <= 12e6 || k === etag) break; LESSONS_CACHE.delete(k); LESSONS_CACHE_CH -= v.length; }
+  }
+  return new Response(body, { headers: { 'Content-Type': 'application/json; charset=utf-8', ...hdr } });
+}
 async function lessonsFor(env, me) {
   const all = await allLessons(env), sc = scopeOf(me);
   return sc ? all.filter(l => sc.has(courseKey(l))) : all;
@@ -1433,7 +1459,7 @@ export default {
       }
       if (p === '/api/games/data') { const d = await gamesData(env, me, url.searchParams.get('key') || ''); return d.error ? json(d, 403) : json(d); }
       if (p.startsWith('/api/live/')) return liveApi(req, env, me, p, m, url);
-      if (p === '/api/lessons') return jsonETag(req, { lessons: await lessonsFor(env, me) });
+      if (p === '/api/lessons') return lessonsResponse(req, env, me);
       if (p.startsWith('/api/ai/')) { const r = await aiApi(req, env, me, p, m, url); if (r) return r; }
       // ---------- «بطاقات الإجابة»: حالة الجلسة الحية لشاشة السبورة (جوال المعلم يكتب، والسبورة تقرأ) ----------
       if (p === '/api/cards/live') {

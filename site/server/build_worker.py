@@ -1894,7 +1894,22 @@ body.kb-shell .app-bar .get-app{border-radius:24px;border:0;box-shadow:var(--kb-
 
 FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Readex+Pro:wght@500;600;700;800&display=swap" rel="stylesheet">'
 
-import base64 as _b64, secrets as _sec
+import base64 as _b64, secrets as _sec, subprocess as _sp, shutil as _sh, hashlib as _hl, tempfile as _tf
+# خطأ نحوي واحد في سكربت صفحة يوقفها كلها؛ نفحص كل سكربت بـ node قبل النشر
+_JS_OK = set()
+def _check_js(js):
+    node = _sh.which('node')
+    if not node: return
+    h = _hl.md5(js.encode('utf-8')).hexdigest()
+    if h in _JS_OK: return
+    with _tf.NamedTemporaryFile('w', suffix='.js', delete=False, encoding='utf-8') as f:
+        f.write('(function(){\n' + js + '\n})'); fn = f.name
+    r = _sp.run([node, '--check', fn], capture_output=True, text=True)
+    os.unlink(fn)
+    if r.returncode:
+        err = (r.stderr or '').strip().splitlines()
+        raise SystemExit('خطأ نحوي في سكربت صفحة — لن يُنشر:\n' + '\n'.join(l[:300] for l in err[:6]))
+    _JS_OK.add(h)
 def _js_check(js):
     # الكود يُشفَّر قبل النشر فلا يراه «node --check» في سير النشر — فاصلة ناقصة واحدة
     # كانت توقف صفحة كاملة («جارٍ تحميل الدروس» للأبد وأزرار لا تستجيب). نفحصه هنا قبل التشفير.
@@ -1908,6 +1923,7 @@ def _js_check(js):
         sys.exit('JS syntax error in a page script:\n' + r.stderr[:1500])
 def pack(js):
     js = chr(10).join(l.strip() for l in js.split(chr(10)) if l.strip())
+    _check_js(js)
     _js_check(js)
     key = _sec.token_hex(8)
     raw = js.encode('utf-8'); kb = key.encode()

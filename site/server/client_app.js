@@ -501,7 +501,10 @@ function init(){
     };
     if($('pcBtn'))$('pcBtn').onclick=function(){toolDialog('');};
     if($('iosBtn'))$('iosBtn').onclick=function(){dialog({title:'التطبيق على الآيفون',html:'<ol class="m-msg" style="line-height:2;padding-inline-start:1.2em"><li>افتح الموقع من متصفح <b>Safari</b>.</li><li>اضغط زر <b>«مشاركة»</b> ⬆ أسفل الشاشة.</li><li>اختر <b>«إضافة إلى الشاشة الرئيسية»</b> ثم «إضافة».</li></ol><p class="m-msg">يظهر «خبير» بأيقونة على شاشتك مثل أي تطبيق.</p>',okText:'تم',cancelText:false});};}
+  var lsDone=false,lsSlow=setTimeout(function(){if(lsDone)return;var w=$('panel')&&$('panel').querySelector('.welcome');if(!w)return;
+    var d=document.createElement('p'),bt=document.createElement('button');d.textContent='التحميل أبطأ من المعتاد… ';bt.type='button';bt.className='btn';bt.textContent='أعد المحاولة';bt.onclick=function(){location.reload();};d.appendChild(bt);w.appendChild(d);},15000);
   Promise.all([api('/api/me'),api('/api/lessons')]).then(function(r){
+    lsDone=true;clearTimeout(lsSlow);
     me=r[0];lessons=r[1].lessons;
     // نحمّل القيم الثابتة للمادة الأولى، وتُبدَّل تلقائيًا عند فتح درس مادة أخرى
     useSettingsFor(activeSubject());
@@ -511,7 +514,7 @@ function init(){
     if(me.role!=='admin'){var ed=lsGet(editsKey())||{};lessons.forEach(function(l){var e=ed[l.id];if(e)Object.keys(e).forEach(function(k){l[k]=e[k];if(l.ai_filled)l.ai_filled=l.ai_filled.filter(function(x){return x!==k;});});});}
     if($('statLessons'))$('statLessons').textContent=lessons.length;if($('statFilled'))$('statFilled').textContent=lessons.filter(function(l){return !isEmpty(l);}).length;if($('kbTopQuote'))$('kbTopQuote').textContent=khQuote();
     renderTree();if(location.hash==="#prep")showPrep();else showHome();
-  },function(e){showWelcome('تعذّر تحميل الدروس',e.message);});
+  },function(e){lsDone=true;clearTimeout(lsSlow);showWelcome('تعذّر تحميل الدروس',e.message+' — حدّث الصفحة للمحاولة مرة أخرى.');});
 }
 // شريط التطبيق السفلي (common.js) ينتقل بين الرئيسية والتحضير بلا إعادة تحميل
 window.appShowPrep=showPrep;window.appShowHome=showHome;
