@@ -79,7 +79,41 @@ let pass = 0, fail = 0; const ok = (n, c, x) => { (c ? pass++ : fail++); console
     ok('واجب مقالي (' + essayId + '): ينتقل السؤال وإجابته النموذجية', es.vis && !es.mcq && es.q.length > 3 && es.a.length > 0 && es.item && !es.item.choices, JSON.stringify({ q: es.q.slice(0, 60), a: es.a.slice(0, 60) }));
   } else ok('يوجد درس مقالي له بنك', false);
 
+  // 4) الاختبار القصير للإنجليزية 9–10: GRM 5 + VCB 5 (الصف 9 Short Test ص 11؛ الصف 10 Quiz بنمط قسمي الامتحان)
+  await p.goto(B + '/quiz', { waitUntil: 'domcontentloaded' });
+  await p.waitForSelector('#courseSel', { timeout: 25000 }); await p.waitForTimeout(1300); await shut();
+  const EN = { 'التاسع': [[217, 247], [232, 247], [206, 221, 247], [206, 217, 232]], 'العاشر': [[1401, 1402], [1410, 1412], [1418, 1421], [1401, 1412, 1421]] };
+  for (const [grade, sets] of Object.entries(EN)) {
+    const key = 'اللغة الإنجليزية|' + grade, runs = [];
+    for (const ids of sets) {
+      runs.push(await p.evaluate(async ([key, ids]) => {
+        const subj = document.getElementById('courseSelSubj'), cs = document.getElementById('courseSel');
+        subj.value = 'اللغة الإنجليزية'; subj.dispatchEvent(new Event('change', { bubbles: true }));
+        await new Promise(x => setTimeout(x, 1000));
+        if (![...cs.options].some(o => o.value === key)) return { missing: true };
+        cs.value = key; cs.dispatchEvent(new Event('change', { bubbles: true }));
+        await new Promise(x => setTimeout(x, 2200));
+        const boxes = [...document.querySelectorAll('[data-lid]')];
+        boxes.forEach(x => { if (x.checked) x.click(); });
+        boxes.filter(x => ids.includes(+x.getAttribute('data-lid'))).forEach(x => { if (!x.checked) x.click(); });
+        await new Promise(x => setTimeout(x, 400));
+        document.getElementById('makeBtn').click();
+        await new Promise(x => setTimeout(x, 2500));
+        const ch = document.querySelector('.checks');
+        return { n: document.querySelectorAll('#paper .qi').length, ltr: document.querySelectorAll('#paper .qi[dir=ltr]').length, ok: !!ch && ch.classList.contains('ok'),
+          checks: ch ? [...ch.querySelectorAll('li')].map(x => x.innerText) : [], doc: [...document.querySelectorAll('[data-meta]')].map(e => e.textContent) };
+      }, [key, ids]));
+    }
+    ok('إنجليزي ' + grade + ': المقرر ظاهر في الاختبار القصير', runs.every(r => !r.missing));
+    ok('إنجليزي ' + grade + ': 10 مفردات اختيار من متعدد باتجاه LTR', runs.every(r => r.n === 10 && r.ltr === 10), JSON.stringify(runs.map(r => [r.n, r.ltr])));
+    const lv = r => ['القواعد', 'المفردات'].map(n => r.doc.filter(t => t.includes(n)).length);
+    ok('إنجليزي ' + grade + ': القواعد 5 + المفردات 5 = 10 درجات', runs.every(r => lv(r).join() === '5,5'), JSON.stringify(runs.map(lv)));
+    ok('إنجليزي ' + grade + ': كل فحوص المواصفة ناجحة', runs.every(r => r.ok), JSON.stringify(runs.filter(r => !r.ok).map(r => r.checks)));
+  }
+  await p.screenshot({ path: __dirname + '/shot_en9quiz.png', fullPage: false });
+
   ok('لا أخطاء JavaScript', !errs.length, errs.join(' | '));
+  await p.goto(B + '/app#prep', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(1500); await shut();
   await open(1800); await p.screenshot({ path: __dirname + '/shot_hwbank.png' });
   await open(1800);
   await p.click('[data-hwbank="1"]'); await p.waitForTimeout(400);

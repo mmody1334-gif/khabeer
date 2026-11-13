@@ -111,6 +111,11 @@ function spec(){
   //   GRM/VCB (الصف 11 فقط): نص واحد بخمس مفردات (3 قواعد + 2 مفردات) = 5 درجات.
   //   RDG: 5 درجات بنمط امتحان نهاية الفصل · WRT: 5 درجات لكل نوع كتابة (مقياس تقدير خماسي).
   //   ⇐ الصف 11: ورقة 10 درجات = GRM/VCB (5) + RDG (5) · الصف 12 (لا GRM/VCB): RDG (5) + WRT مهمة واحدة (5).
+  // اللغة الإنجليزية 9–10 — Student Assessment Handbook, English Grades 5-10 (Sept. 2026):
+  //   الصف 9 (ص 11): Short Test = قسمان يركزان على عنصرين مختلفين من عناصر اللغة، 5 درجات لكل قسم = 10.
+  //   الصف 10: لا Short Tests في الوثيقة (Quizzes فقط)، فنكوّن Quiz بنمط قسمي VCB وGRM في امتحان نهاية الفصل (5 + 5).
+  //   ⇐ GRM 5 + VCB 5، كلها اختيار من متعدد (بنك 9–10 من مفردات القواعد والمفردات في امتحانات الوزارة).
+  if(isEN()&&g<=10) return {total:10,targets:{GRM:5,VCB:5},mcq:{GRM:5,VCB:5},mcqCount:10,long:{count:0,marks:[]},shortMax:1,items:[10,10],label:g<=9?'اللغة الإنجليزية '+g+' (Short Test: GRM 5 + VCB 5)':'اللغة الإنجليزية 10 (Quiz: GRM 5 + VCB 5)'};
   if(isEN()){
     if(g>=12) return {total:10,targets:{RDG:5,WRT:5},mcq:{RDG:3},mcqCount:3,long:{count:1,marks:[5]},shortMax:1,items:[6,6],label:'اللغة الإنجليزية 12 (Quiz: RDG 5 + WRT 5)'};
     return {total:10,targets:{GRM:3,VCB:2,RDG:5},mcq:{GRM:2,VCB:1,RDG:2},mcqCount:5,long:{count:0,marks:[]},shortMax:1,items:[10,10],label:'اللغة الإنجليزية 11 (Quiz: GRM/VCB 5 + RDG 5)'};
@@ -466,7 +471,7 @@ function checks(d){
   if(d.kind==='review'||d.kind==='remedy'){out.push([true,items.length+' مفردة، المجموع '+tot+' درجة'+(d.kind==='remedy'?' — من الدروس والمستويات الأضعف في تحليل النتائج':'')]);return out;}
   var sp=spec();
   out.push([tot===sp.total,'الدرجة الكلية '+tot+' من '+sp.total]);
-  aoList().forEach(function(k){var t=sp.targets[k]||0,v=ao[k]||0;out.push([v===t,aoTxt(k)+': '+v+' درجة (المطلوب '+t+')']);});
+  aoList().forEach(function(k){var t=sp.targets[k]||0,v=ao[k]||0;if(isEN()&&!t&&!v)return;out.push([v===t,aoTxt(k)+': '+v+' درجة (المطلوب '+t+')']);});
   out.push([items.length>=sp.items[0]&&items.length<=sp.items[1],'عدد المفردات '+items.length+(sp.items[1]<99?' (من '+sp.items[0]+' إلى '+sp.items[1]+')':' (لا يقل عن '+sp.items[0]+')')]);
   if(isEN()){
     var em={};mc.forEach(function(x){em[x.ao]=(em[x.ao]||0)+1;});
@@ -478,7 +483,7 @@ function checks(d){
     var a={};mc.forEach(function(x){a[x.ao]=1;});
     out.push([mc.length===sp.mcqCount&&Object.keys(a).length>=2,'اختيار من متعدد: '+mc.length+' (المطلوب '+sp.mcqCount+' تغطي هدفي تقويم على الأقل)']);
   }
-  if(isEN())out.push([lg.length===sp.long.count&&lg.every(function(x){return x.ao==='WRT'&&sp.long.marks.indexOf(x.marks)>=0;}),sp.long.count?'مهمة كتابة (WRT): '+lg.length+' بدرجة '+sp.long.marks[0]+' تُقدَّر بمقياس التقدير الخماسي':'لا مهمة كتابة في Quiz الصف 11 (GRM/VCB + RDG)']);
+  if(isEN())out.push([lg.length===sp.long.count&&lg.every(function(x){return x.ao==='WRT'&&sp.long.marks.indexOf(x.marks)>=0;}),sp.long.count?'مهمة كتابة (WRT): '+lg.length+' بدرجة '+sp.long.marks[0]+' تُقدَّر بمقياس التقدير الخماسي':'لا مهمة كتابة في هذا الاختبار ('+Object.keys(sp.targets).join(' + ')+')']);
   else if(sp.long.count)out.push([lg.length===1&&lg.every(function(x){return sp.long.marks.indexOf(x.marks)>=0&&x.ao!=='معرفة'&&x.ao!=='تذكر وفهم';}),'إجابة طويلة: '+lg.length+(lg.length?' ('+lg.map(function(x){return x.marks;}).join('، ')+' درجات)':'')+' — مفردة واحدة من '+sp.long.marks[0]+' إلى '+sp.long.marks[sp.long.marks.length-1]+' درجات'+(isHi()?'':' وليست من مستوى المعرفة')]);
   else out.push([lg.length===0,'إجابة طويلة: '+lg.length+' (لا توجد في الصفوف 5–8)']);
   out.push([sh.every(function(x){return x.marks<=sp.shortMax;}),'الإجابة القصيرة: '+sh.length+' مفردة، كل منها من 1 إلى '+sp.shortMax+' درجة']);
@@ -848,7 +853,7 @@ Promise.all([api('/api/me'),api('/api/courses')]).then(function(r){
   hdr=Object.assign(clone(DEF_HDR),lsGet(hdrKey())||{});
   // ترقية ترويسة محفوظة سابقًا: اسم المديرية صار «للتعليم» بدل «للتربية والتعليم»
   if(hdr.dir&&/للتربية والتعليم/.test(hdr.dir)){hdr.dir=hdr.dir.replace(/للتربية والتعليم/g,'للتعليم');lsSet(hdrKey(),hdr);}
-  courses=(r[1].courses||[]).filter(function(c){return !/انجليز|إنجليز|English/i.test(c.subject)||gnum(c.grade)>=11;}).sort(function(a,b){return (gnum(a.grade)-gnum(b.grade))||a.subject.localeCompare(b.subject,'ar');});
+  courses=(r[1].courses||[]).filter(function(c){return !/انجليز|إنجليز|English/i.test(c.subject)||gnum(c.grade)>=9;}).sort(function(a,b){return (gnum(a.grade)-gnum(b.grade))||a.subject.localeCompare(b.subject,'ar');});
   if(!courses.length){$('qmain').innerHTML='<div class="welcome"><h2>لا توجد صفوف متاحة لحسابك</h2><p>تواصل مع مدير المنصة.</p></div>';return;}
   var hf=takeHandoff('quiz'),hc=hf&&courses.filter(function(x){return x.key===hf.course;})[0];
   if(hc){selectCourse(hc.key).then(function(){makeRemedy(hf);});return;}

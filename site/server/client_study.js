@@ -277,7 +277,7 @@ function loadBank(key){
 // ---------- واجب سريع (مواد العلوم): 5 أسئلة عشوائية من عدد دروس أو الوحدة كاملة ----------
 var HW_SUBJ=/علوم|أحياء|فيزياء|كيمياء|بيئ|اجتماع|الرياضة المدرسية|إنجليز|انجليز/; // مواد العلوم (والدراسات الاجتماعية والرياضة المدرسية) التي تظهر لها بطاقة الواجب السريع
 var hwUnit='',hwCount='5';
-function isSciC(){var c=course||{};return HW_SUBJ.test(c.subject||'')&&!(/نجليز/.test(c.subject||'')&&!/عشر/.test(c.grade||''));} // الإنجليزية: 11–12 فقط (لها بنك)
+function isSciC(){var c=course||{};return HW_SUBJ.test(c.subject||'')&&!(/نجليز/.test(c.subject||'')&&!/عشر|التاسع|العاشر/.test(c.grade||''));} // الإنجليزية: 9–12 (لها بنك)
 function hwHtml(items,key){
   var LET='أبجدهوزح',tot=0;
   var h=sheetHead('واجب منزلي — مادة '+course.subject+' للصف '+course.grade,false,!key);
