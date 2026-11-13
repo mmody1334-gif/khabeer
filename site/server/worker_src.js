@@ -1037,7 +1037,9 @@ async function gamesData(env, me, key) {
   // خيارات (choices فارغة)، فكانت تُرسَل إلى صفحة الألعاب وتظهر كلوحة فارغة
   // («اختر الإجابة الصحيحة» بلا سؤال). فنشترط خيارين على الأقل لصلاحية اللعب.
   const playable = q => (q.choices || []).length >= 2;
-  const items = QBANK.filter(q => ids.has(q.lesson_id) && playable(q)).map(q => ({ ...q, src: 'bank' }))
+  // الرياضيات 10–12: بلا ألعاب (بطلب سابق)؛ بنكها النصي (من امتحانات الوزارة) للواجب والاختبار القصير فقط
+  const noBankGames = /رياضيات/.test(key) && /\|(العاشر|الحادي عشر|الثاني عشر)$/.test(key);
+  const items = QBANK.filter(q => ids.has(q.lesson_id) && playable(q) && !noBankGames).map(q => ({ ...q, src: 'bank' }))
     .concat(finQuizItems(key).filter(q => ids.has(q.lesson_id) && playable(q)).map(q => ({ ...q, src: 'fin' })))
     // أسئلة الرياضيات المولّدة من أهداف الدروس (حزمة مستقلة: لا تمسّ توليد الاختبارات)
     .concat(GMATH.filter(q => ids.has(q.lesson_id) && playable(q)));
@@ -1498,6 +1500,15 @@ export default {
         const ls = (await allLessons(env)).filter(l => courseKey(l) === key);
         const ids = new Set(ls.map(l => l.id));
         return json({ lessons: ls.map(l => ({ id: l.id, unit: l.unit, unit_name: l.unit_name, title: l.title, subject: l.subject, grade: l.grade, term: l.term || 1 })), items: itBank(key, QBANK.filter(q => ids.has(q.lesson_id)).concat(finQuizItems(key).filter(q => ids.has(q.lesson_id)))) });
+      }
+      // ---------- أسئلة بنك الدرس للواجب الإلكتروني (نصية فقط: نور تستقبل نصًّا بلا صور أو جداول) ----------
+      if (p === '/api/hw/bank') {
+        const id = +url.searchParams.get('id'), l = LESSONS.find(x => x.id === id), sc = scopeOf(me);
+        if (!l) return json({ items: [] });
+        if (sc && !sc.has(courseKey(l))) return json({ error: 'غير مسموح.' }, 403);
+        const items = QBANK.filter(q => q.lesson_id === id && !q.img && !q.fig && !q.table && !q.im && (q.type === 'mcq' ? (q.choices || []).length >= 2 : !!q.answer))
+          .map(q => ({ qid: q.qid, type: q.type, stem: q.stem, choices: q.type === 'mcq' ? q.choices : null, correct: q.correct, answer: q.answer, ao: q.ao, difficulty: q.difficulty, src: q.src || '' }));
+        return json({ items });
       }
       // ---------- مصحّح الاختبار القصير: يفحص ورقة **مرفوعة** (Word/PDF/نصّ) ----------
       // المتصفح هو من يستخرج النصّ (Word عبر DecompressionStream، وPDF عبر pdf.js)،

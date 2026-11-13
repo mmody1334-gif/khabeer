@@ -1,0 +1,111 @@
+// Question bank — English Language, Grades 9 and 10 (Semester One)
+// Source: Ministry of Education end-of-semester tests 2024/2025 and 2025/2026 — Grammar/Vocabulary items only,
+// each rewritten as a stand-alone sentence taken from the test passage. (Listening, Reading and Writing tasks are not included.)
+// G = Grammar (GRM) · V = Vocabulary (VCB); then ن low · م medium · ر high.
+// Grade 10 grammar items have two options in the test paper; a third option was added so each item has three choices.
+
+#206
+s: Grade 9 Semester One Test 2024/2025
+m: Gن|Teenagers ____ to do fun things in their free time.|like|likes|has liked
+m: Gن|Teenagers like to do fun things in ____ free time.|their|his|her
+m: Gن|The Omani Rial ____ one of the highest-valued currencies in the world.|is|are|were
+m: Gم|Nowadays, the rial’s high value ____ people in Oman buy goods from other countries easily.|helps|helped|have helped
+s: Grade 9 Semester One Test 2025/2026
+m: Gن|Many teenagers today like to ____ their free time in front of a screen.|spend|spent|spending
+
+#221
+s: Grade 9 Semester One Test 2024/2025
+m: Gن|In 1999, she ____ her first book.|wrote|watched|played
+m: Gم|Before that, Oman ____ used the Indian Rupee.|had|having|have
+m: Gم|Her books ____ the most talked-about in her genre.|became|becoming|becomes
+s: Grade 9 Semester One Test 2025/2026
+m: Gن|Husam ____ staying in Qatar for a while.|was|were|be
+m: Gم|The doctor ____ him to rest and have some fun.|advised|advising|advise
+
+#217
+s: Grade 9 Semester One Test 2024/2025
+m: Vن|Some teens prefer outdoor ____, such as playing football and riding bikes.|activities|dreams|medicines
+m: Vم|Some teens ____ with their friends and go to the cinema.|hang out|get up|look at
+m: Gم|There are some teens ____ spend much time on social media.|who|whose|which
+m: Gم|They should engage ____ in something useful.|themselves|yourselves|ourselves
+s: Grade 9 Semester One Test 2025/2026
+m: Vن|Husam was a ____ and hardworking student.|smart|lazy|slow
+m: Vن|Teenagers like competitions because they enjoy showing their talents to ____ awards.|win|buy|drive
+
+#232
+s: Grade 9 Semester One Test 2024/2025
+m: Gن|In my opinion, playing sports is better ____ using mobile phones.|than|then|that
+m: Gن|Metal coins were first introduced in Oman ____ 1940.|in|on|at
+m: Gم|She loved her job ____ it gave her the chance to share ideas with the world.|because|so|but
+m: Vن|Sarah dreamed of becoming the most well-known ____ in her town, so she wrote many books.|author|doctor|vet
+m: Vم|She believed her ____ came from hard work.|success|shyness|sadness
+s: Grade 9 Semester One Test 2025/2026
+m: Gم|____ he reached home, his mother drove him to the hospital.|When|Why|Where
+m: Gم|As a teenager ____ was still growing, Husam was told not to stay up late.|who|which|that
+m: Gن|They enjoy watching movies, playing games ____ chatting on social media.|and|but|so
+
+#247
+s: Grade 9 Semester One Test 2024/2025
+m: Vن|The Omani Rial is one of the highest-valued ____ in the world.|currencies|food|clothes
+m: Vن|The great value of the Rial reflects Oman’s ____ economy.|strong|angry|delicious
+m: Vم|Her books were even more ____ than others in her genre.|popular|boring|lazy
+s: Grade 9 Semester One Test 2025/2026
+m: Vم|The bank also provides ____ to students, which must be paid back.|loans|gifts|prizes
+m: Vن|The bank also supports ____ families who have no money.|poor|kind|small
+m: Gم|Gold and similar valuable jewellery are ____ for customers.|kept|keeping|keep
+m: Gن|The Bank of China ____ helped customers longer than any other Chinese bank.|has|was|is
+m: Gن|Customers who have ____ account there have other services.|an|a|many
+
+#1401
+s: Grade 10 Semester One Test 2024/2025
+m: Vن|Technology plays a crucial role in how we ____ with each other.|communicate|contribute|convert
+m: Vم|Social media platforms have changed the way we ____ information and stay connected worldwide.|access|reduce|limit
+m: Vن|These platforms allow us to ____ our lives and experiences instantly.|share|follow|comment
+m: Vم|Excessive screen time can negatively affect our ____ span.|attention|suggestion|invention
+m: Vم|It is important to reduce screen time to avoid getting ____ to devices.|addicted|trusted|powered
+
+#1402
+s: Grade 10 Semester One Test 2024/2025
+m: Gن|The new café is ____ than the old one.|better|good|best
+m: Gم|I used to ____ to the shopping area next to the new café regularly.|go|goes|going
+m: Gن|I’ve never been there yet, ____ I’ve seen some amazing photos online.|but|or|so
+m: Gم|The pastries ____ made from healthy ingredients.|were|was|is
+m: Gن|I think many people ____ visit this new café.|will|have|has
+
+#1410
+s: Grade 10 Semester One Test 2025/2026
+m: Vن|The greenhouse ____ is a natural process that warms the Earth’s surface.|effect|ocean|citizenship
+m: Vن|Some gases that exist in the ____, such as carbon dioxide and methane, trap heat from the sun.|atmosphere|empire|danger
+m: Vم|Human activities, like burning fossil fuels, have ____ these gases, causing global warming.|increased|communicated|designed
+m: Vر|____ greenhouse gases lead to climate change and extreme weather.|Excessive|Initiative|Expensive
+m: Vم|____ harmful emissions is important to protect the environment.|Reducing|Respecting|Generating
+
+#1412
+s: Grade 10 Semester One Test 2025/2026
+m: Gن|Omar, did you ____ the science documentary yesterday?|watch|watched|watching
+m: Gم|It was ____ interesting than the last one we saw.|more|the most|most
+m: Gم|Many experiments ____ explained clearly, so I learned a lot.|were|was|is
+m: Gر|Was the experiment on plants ____ in the video?|shown|shows|showing
+m: Gن|The results surprised me ____ the plants grew faster than before.|because|so|but
+
+#1418
+s: Grade 10 Semester One Test 2024/2025
+m: Vم|Wind power is a popular form of ____ energy that uses wind turbines to generate electricity.|sustainable|limited|temporary
+m: Vن|A wind turbine is a great ____ that allows us to use wind instead of fossil fuels.|invention|navigation|information
+m: Vن|When the wind blows, the blades turn the generator, which ____ electricity.|produces|burns|installs
+m: Vم|Wind power is an eco-friendly energy source that helps to ____ pollution.|decrease|allow|expect
+m: Vم|Many countries use wind power due to its low ____ and little maintenance.|cost|capacity|supply
+s: Grade 10 Semester One Test 2025/2026
+m: Vر|A smart meter device was created by an innovative ____ after many years of research.|entrepreneur|podcast|evidence
+m: Vم|This smart meter is ____ as it helps people use less energy at home.|eco-friendly|reluctant|stressful
+m: Vم|Many experts worry that the world’s natural resources will ____ one day.|run out|log in|look for
+m: Vن|This smart meter shows families how to save energy and avoid making ____.|waste|weather|economy
+m: Vن|Because it is reliable, people can ____ it to work well every day.|trust|communicate|reduce
+
+#1421
+s: Grade 10 Semester One Test 2024/2025
+m: Gن|Learning a second language is not as ____ as most people think.|difficult|difficulty|difficultly
+m: Gر|Many language courses have been ____ online.|offered|offer|offering
+m: Gن|I’d like to enroll in one soon, but it ____ on my schedule.|depends|depend|depending
+m: Gن|Learning online ____ its own advantages.|has|have|having
+m: Gم|Language learning will ____ with the help of technology.|improve|improves|improved

@@ -219,19 +219,53 @@ function saveField(l,k,v,btn){
 }
 function dropSugg(l,k,btn){if(l.ai_filled)l.ai_filled=l.ai_filled.filter(function(x){return x!==k;});var s=btn&&btn.closest('.sec');var tg=s&&s.querySelector('.sugg');if(tg)tg.remove();}
 var lessonTab='prep';
-function isMcq(l){return l.hw_type==='mcq';}
+// درس بلا واجب مكتوب (مثل الرياضيات): يبدأ اختيارًا من متعدد ليُملأ من بنك الأسئلة بنفس آلية الإرسال والتصحيح
+function isMcq(l){return l.hw_type==='mcq'||(!l.hw_type&&!String(l.hw_q1||'').trim()&&!String(l.hw_q2||'').trim());}
+// ===== اختيار أسئلة الواجب من بنك أسئلة الدرس =====
+var HW_BANK={};
+function hwBank(l){
+  if(HW_BANK[l.id])return HW_BANK[l.id];
+  HW_BANK[l.id]=api('/api/hw/bank?id='+encodeURIComponent(l.id)).then(function(r){
+    var it=(r&&r.items)||[];return isMcq(l)?it.filter(function(q){return q.type==='mcq';}):it;
+  },function(){delete HW_BANK[l.id];return [];});
+  return HW_BANK[l.id];
+}
+function bankRight(q){return q.type==='mcq'?String((q.choices||[])[q.correct]!=null?q.choices[q.correct]:q.answer||''):String(q.answer||'');}
+function pickHwFromBank(l,n){
+  hwBank(l).then(function(items){
+    if(!items.length){toast('لا توجد أسئلة نصية في بنك هذا الدرس');return;}
+    var used=[1,2].filter(function(k){return k!==n;}).map(function(k){return String(hwVal(l,'hw_q'+k)).trim();});
+    var h='<p class="m-msg">اضغط السؤال لينتقل إلى خانة السؤال '+n+(isMcq(l)?'، وتنتقل اختياراته والإجابة الصحيحة في السطر الأول.':'، وتنتقل إجابته النموذجية.')+'</p><div class="hwb-list">';
+    items.forEach(function(q,i){
+      var right=bankRight(q),dup=used.indexOf(String(q.stem).trim())>=0;
+      h+='<button type="button" class="hwb-item'+(dup?' used':'')+'" data-hwb="'+i+'"><span class="hwb-stem" dir="auto">'+esc(q.stem).replace(/\n/g,'<br>')+'</span>'+
+        (q.type==='mcq'?'<span class="hwb-ch" dir="auto">'+(q.choices||[]).map(function(c){return '<span'+(c===right?' class="ok"':'')+'>'+esc(c)+'</span>';}).join('')+'</span>':'<span class="hwb-ans" dir="auto">'+esc(right).replace(/\n/g,' · ')+'</span>')+
+        '<span class="hwb-meta">'+(q.type==='mcq'?'اختيار من متعدد':'إجابة قصيرة')+(q.ao?' · '+esc(({GRM:'القواعد',VCB:'المفردات',RDG:'القراءة',WRT:'الكتابة'})[q.ao]||q.ao):'')+(q.difficulty?' · '+esc(q.difficulty):'')+(q.src?' · '+esc(q.src):'')+(dup?' · مستخدم في السؤال الآخر':'')+'</span></button>';
+    });
+    h+='</div>';
+    dialog({title:'بنك أسئلة الدرس ('+items.length+')',html:h,okText:'إغلاق',cancelText:false,wide:true});
+    Array.prototype.forEach.call(document.querySelectorAll('#modalBox [data-hwb]'),function(b){b.onclick=function(){
+      var q=items[+b.getAttribute('data-hwb')],right=bankRight(q),qa=$('f_hw_q'+n),aa=$('f_hw_a'+n),L='أبجدهو';
+      if(isMcq(l)){qa.value=q.stem;aa.value=[right].concat((q.choices||[]).filter(function(c){return c!==right;})).join('\n');}
+      else{qa.value=q.type==='mcq'?q.stem+'\n'+(q.choices||[]).map(function(c,k){return L[k]+') '+c;}).join('\n'):q.stem;aa.value=right;}
+      var sec=qa.closest('.sec'),tg=sec&&sec.querySelector('.sugg');if(tg){tg.hidden=false;tg.textContent='من بنك الأسئلة';tg.title=q.src||'من بنك أسئلة الدرس';}
+      closeDialog(null);toast('أُضيف السؤال '+n+' من البنك — احفظه إن أردت بقاءه');track('hw_bank_pick',l);
+    };});
+  });
+}
 function hwBlock(l){
   var admin=me.role==='admin',mcq=isMcq(l),h='<div class="copybar"><div class="copybar-text"><strong>'+(mcq?'واجب اختيار من متعدد: سؤالان بأربعة اختيارات':'واجب مقالي من سؤالين')+'</strong><span>اضغط «إرسال الواجب إلى نور» ونور مفتوحة: تُفتح صفحة إضافة المهمة لهذا الصف وتُجهَّز تلقائيًا، احفظها، ثم تُضاف الأسئلة في «إضافة مجموعة مفردات دفعة واحدة».</span></div>'+
     '<div class="copybar-btns"><button type="button" class="btn primary" id="sendHwBtn">إرسال الواجب إلى نور</button><button type="button" class="btn" id="copyHwBtn">نسخ للأداة</button><button type="button" class="btn" id="copyHwTxt">نسخ كنص</button></div></div>'+
     '<div class="hw-mark"><label for="hwMark">درجة كل سؤال</label><input id="hwMark" type="number" min="0" step="0.5" value="'+esc(settings.hwMark==null?1:settings.hwMark)+'"></div><div class="secs">';
   [1,2].forEach(function(n){
-    h+='<section class="sec ess"><div class="sec-head"><h3>'+icon(n===1?'seed':'leaf')+'<span>السؤال '+n+'</span></h3><span class="sugg" title="كتبه المساعد من محتوى الدرس">مقترح</span></div>'+
+    h+='<section class="sec ess"><div class="sec-head"><h3>'+icon(n===1?'seed':'leaf')+'<span>السؤال '+n+'</span></h3>'+(String(l['hw_q'+n]||'').trim()?'<span class="sugg" title="كتبه المساعد من محتوى الدرس">مقترح</span>':'<span class="sugg" hidden></span>')+'</div>'+
       '<textarea class="field" dir="auto" id="f_hw_q'+n+'" spellcheck="false">'+esc(l['hw_q'+n]||'')+'</textarea>'+
       '<div class="sec-head" style="margin-top:10px"><h3 style="font-size:.86rem;color:var(--mute)"><span>'+(mcq?'الاختيارات الأربعة: السطر الأول هو الإجابة الصحيحة (يُخلط ترتيبها تلقائيًا عند الإرسال)':'الإجابة النموذجية')+'</span></h3></div>'+
       '<textarea class="field" dir="auto" id="f_hw_a'+n+'" spellcheck="false">'+esc(l['hw_a'+n]||'')+'</textarea>'+
       '<div class="sec-actions"><button type="button" class="btn small primary" data-copy="hw_q'+n+'">نسخ السؤال</button>'+
       '<button type="button" class="btn small" data-save="hw_q'+n+'">'+(admin?'حفظ السؤال للجميع':'حفظ السؤال')+'</button>'+
-      '<button type="button" class="btn small" data-save="hw_a'+n+'">'+(mcq?(admin?'حفظ الاختيارات للجميع':'حفظ الاختيارات'):(admin?'حفظ الإجابة للجميع':'حفظ الإجابة'))+'</button></div></section>';
+      '<button type="button" class="btn small" data-save="hw_a'+n+'">'+(mcq?(admin?'حفظ الاختيارات للجميع':'حفظ الاختيارات'):(admin?'حفظ الإجابة للجميع':'حفظ الإجابة'))+'</button>'+
+      '<button type="button" class="btn small hwb-btn" data-hwbank="'+n+'" hidden>اختيار من بنك الأسئلة</button></div></section>';
   });
   return h+'</div>';
 }
@@ -295,6 +329,8 @@ function renderLesson(l){
   $('copyJsonBtn').onclick=function(){copyText(buildCopyJson(l));track('copy_json',l);};
   Array.prototype.forEach.call(p.querySelectorAll('[data-copy]'),function(b){b.onclick=function(){var k=b.getAttribute('data-copy');copyText($('f_'+k).value);track('copy_field',l,k);};});
   Array.prototype.forEach.call(p.querySelectorAll('[data-save]'),function(b){b.onclick=function(){var k=b.getAttribute('data-save');saveField(l,k,$('f_'+k).value.trim?$('f_'+k).value:$('f_'+k).value,b);};});
+  var hb=p.querySelectorAll('[data-hwbank]');
+  if(hb.length)hwBank(l).then(function(items){if(!items.length)return;Array.prototype.forEach.call(hb,function(b){b.hidden=false;b.textContent='اختيار من بنك الأسئلة ('+items.length+')';b.onclick=function(){pickHwFromBank(l,+b.getAttribute('data-hwbank'));};});});
 }
 function selectLesson(id){
   var _lay=document.querySelector('.wrap.layout');if(_lay)_lay.classList.remove('home-view');

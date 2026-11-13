@@ -321,6 +321,17 @@ extra_css = '''
 .ltab.on{color:var(--main-d);border-bottom-color:var(--main)}
 .hw-mark{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-size:.88rem}
 .hw-mark input{width:90px;font:inherit;padding:6px 10px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);text-align:center}
+.hwb-btn{border-color:var(--main);color:var(--main-d)}
+.hwb-list{display:flex;flex-direction:column;gap:8px;max-height:60vh;overflow:auto;margin:8px 0}
+.hwb-item{display:flex;flex-direction:column;align-items:stretch;gap:6px;text-align:start;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--paper);color:var(--ink);cursor:pointer}
+.hwb-item:hover,.hwb-item:focus-visible{border-color:var(--main);background:var(--main-l)}
+.hwb-item.used{opacity:.55}
+.hwb-stem{font-weight:600;line-height:1.7}
+.hwb-ch{display:flex;flex-wrap:wrap;gap:6px}
+.hwb-ch span{padding:2px 9px;border-radius:999px;border:1px solid var(--line);font-size:.85rem}
+.hwb-ch span.ok{border-color:var(--main);background:var(--main-l);font-weight:700}
+.hwb-ans{font-size:.88rem;color:var(--main-d)}
+.hwb-meta{font-size:.75rem;color:var(--mute)}
 
 
 /* ---------- get the app (highlighted) ---------- */
