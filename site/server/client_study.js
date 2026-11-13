@@ -16,6 +16,8 @@ function lsGet(k){try{return JSON.parse(localStorage.getItem(k)||'null');}catch(
 function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 function track(type,detail,title){try{fetch('/api/event',{method:'POST',credentials:'same-origin',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({type:type,grade:course&&course.grade,detail:detail||'',title:title||''})});}catch(e){}}
 function gnum(g){return GRADE_NUM[g]||99;}
+var GR_EN={'الخامس':5,'السادس':6,'السابع':7,'الثامن':8,'التاسع':9,'العاشر':10,'الحادي عشر':11,'الثاني عشر':12};
+function gradeEn(){return GR_EN[(course||{}).grade]||'';}
 function isEnC(c){return /انجليز|إنجليز|English/i.test((c||course||{}).subject||'');}
 function clone(o){return JSON.parse(JSON.stringify(o));}
 function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
@@ -43,7 +45,7 @@ function fallbackSummary(l){ // درس مضاف بلا ملخص جاهز: نبن
 // ---------- الأنشطة الصفية: أسئلة أعلى مستوى (تطبيق واستدلال) لكل درس ----------
 function classHtml(ls,key){
   var en=isEnC(),AR='أبجد'.split('');
-  var title=en?(key?'Answer key – ':'')+'Class activities (challenge) – Grade 9':(key?'إجابات ':'')+'الأنشطة الصفية (أسئلة متوسطة وأسئلة تحدٍّ) في مادة '+course.subject+' للصف '+course.grade;
+  var title=en?(key?'Answer key – ':'')+'Class activities (challenge) – Grade '+gradeEn():(key?'إجابات ':'')+'الأنشطة الصفية (أسئلة متوسطة وأسئلة تحدٍّ) في مادة '+course.subject+' للصف '+course.grade;
   var h=sheetHead(title,en,!key),n=0,any=false,hard=(data&&data.hard)||{};
   if(!key)h+='<p style="margin:2px 0 8px;font-size:.95em">'+(en?'Work in pairs or groups. Show your reasoning.':'تُنفَّذ داخل الصف فرديًا أو في مجموعات. وضّح خطوات تفكيرك وحلّك.')+'</p>';
   ls.forEach(function(l){var it=hard[l.id];if(!it||!it.length)return;any=true;
@@ -107,7 +109,7 @@ function itemsHtml(a,en,key){
 }
 function sheetHtml(ls,key){
   var en=isEnC();
-  var title=en?(key?'Answer key – ':'')+'Remedial activities – English – Grade 9':(key?'نموذج إجابة ':'')+'أنشطة علاجية في مادة '+course.subject+' للصف '+course.grade;
+  var title=en?(key?'Answer key – ':'')+'Remedial activities – English – Grade '+gradeEn():(key?'نموذج إجابة ':'')+'أنشطة علاجية في مادة '+course.subject+' للصف '+course.grade;
   var h=sheetHead(title,en,!key);
   ls.forEach(function(l,li){var s=st(l);if(!s)return;var r=s.remedial;
     h+='<h3 style="font-size:1.08em;margin:14px 0 4px;border-bottom:1.5px solid #000">'+(en?'Lesson: ':'الدرس: ')+esc(l.title)+'</h3>';
@@ -146,7 +148,7 @@ function summaryHtml(){
     return wrap(h,en);
   }
   var ls=lessonsSel();
-  h=sheetHead(en?'Lesson summary – English – Grade 9':(ls.length>1?'ملخصات دروس ':'ملخص درس ')+course.subject+' للصف '+course.grade,en,false);
+  h=sheetHead(en?'Lesson summary – English – Grade '+gradeEn():(ls.length>1?'ملخصات دروس ':'ملخص درس ')+course.subject+' للصف '+course.grade,en,false);
   ls.forEach(function(l){h+=lessonSum(l,en,false);});
   return wrap(h,en);
 }
@@ -273,9 +275,9 @@ function loadBank(key){
   return api('/api/quiz/bank?key='+encodeURIComponent(key)).then(function(r){bankCache[key]=r.items||[];return bankCache[key];});
 }
 // ---------- واجب سريع (مواد العلوم): 5 أسئلة عشوائية من عدد دروس أو الوحدة كاملة ----------
-var HW_SUBJ=/علوم|أحياء|فيزياء|كيمياء|بيئ|اجتماع|الرياضة المدرسية/; // مواد العلوم (والدراسات الاجتماعية والرياضة المدرسية) التي تظهر لها بطاقة الواجب السريع
+var HW_SUBJ=/علوم|أحياء|فيزياء|كيمياء|بيئ|اجتماع|الرياضة المدرسية|إنجليز|انجليز/; // مواد العلوم (والدراسات الاجتماعية والرياضة المدرسية) التي تظهر لها بطاقة الواجب السريع
 var hwUnit='',hwCount='5';
-function isSciC(){return HW_SUBJ.test((course||{}).subject||'');}
+function isSciC(){var c=course||{};return HW_SUBJ.test(c.subject||'')&&!(/نجليز/.test(c.subject||'')&&!/عشر/.test(c.grade||''));} // الإنجليزية: 11–12 فقط (لها بنك)
 function hwHtml(items,key){
   var LET='أبجدهوزح',tot=0;
   var h=sheetHead('واجب منزلي — مادة '+course.subject+' للصف '+course.grade,false,!key);

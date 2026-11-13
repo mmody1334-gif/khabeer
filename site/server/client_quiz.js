@@ -31,11 +31,16 @@ function isSS(){return !!course&&/اجتماع/.test(course.subject||'');}
 // الرياضة المدرسية (5–11): أسئلتها من ملفات التحضير بثلاثة مستويات (معرفة/تطبيق/استدلال) لكل الصفوف،
 // والواجب المنزلي فيها تكويني (تقويم المادة عملي في أساسه).
 function isPE(){return !!course&&/الرياضة المدرسية|التربية البدنية/.test(course.subject||'');}
-function isHi(){return course&&gnum(course.grade)>=11&&!isIT()&&!isIslam()&&!isArabic()&&!isSS()&&!isPE();}
-function aoList(){return isIT()?IT_AO:(isIslam()||isSS()||isPE()?LO_AO:(isHi()?HI_AO:LO_AO));}
+// اللغة الإنجليزية (11–12): Student Assessment Handbook – English Grades 11-12 (Sept. 2026).
+// التقويم بعناصر اللغة (GRM · VCB · RDG · WRT) لا بمستويات التعلم، والواجب تكويني (ص 7).
+function isEN(){return !!course&&/انجليز|إنجليز|English/i.test(course.subject||'');}
+function isHi(){return course&&gnum(course.grade)>=11&&!isIT()&&!isIslam()&&!isArabic()&&!isSS()&&!isPE()&&!isEN();}
+var EN_AO=['GRM','VCB','RDG','WRT'];
+function aoList(){if(isEN())return EN_AO;return isIT()?IT_AO:(isIslam()||isSS()||isPE()?LO_AO:(isHi()?HI_AO:LO_AO));}
 // أسماء مستويات التعلم كما تكتبها وثيقة الدراسات الاجتماعية (القيم الداخلية تبقى معرفة/تطبيق/استدلال)
 var SS_AO_TXT={'معرفة':'المعرفة','تطبيق':'الفهم والتطبيق','استدلال':'القدرات العليا'};
-function aoTxt(a){return (isSS()&&SS_AO_TXT[a])||AO_TXT[a]||a;}
+var EN_AO_TXT={GRM:'القواعد (GRM)',VCB:'المفردات (VCB)',RDG:'القراءة (RDG)',WRT:'الكتابة (WRT)'};
+function aoTxt(a){return (isSS()&&SS_AO_TXT[a])||EN_AO_TXT[a]||AO_TXT[a]||a;}
 var IT_AO=['تذكر وفهم','تطبيق','استدلال'];
 function clone(o){return JSON.parse(JSON.stringify(o));}
 function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
@@ -102,6 +107,14 @@ function spec(){
   //   الصفوف 5-9:  الدرجة 15 · (1-5) اختيار من متعدد (5) + (6-9) مقالية مجموعها 10 درجات.
   //   مستويات التعلم (ص 11): المعرفة 30% · الفهم والتطبيق 50% · القدرات العليا 20%.
   //   ⇐ للصفوف 10-12: معرفة 3 · تطبيق 5 · استدلال 2.  (الصفوف 5-9 تُضاف مع موادها: 4.5/7.5/3 تحتاج تقريبًا تقرره الوثيقة)
+  // اللغة الإنجليزية — SAH English 11-12 (Sept. 2026) ص 9: الاختبارات القصيرة الختامية (Quizzes) بنمط الامتحان النهائي:
+  //   GRM/VCB (الصف 11 فقط): نص واحد بخمس مفردات (3 قواعد + 2 مفردات) = 5 درجات.
+  //   RDG: 5 درجات بنمط امتحان نهاية الفصل · WRT: 5 درجات لكل نوع كتابة (مقياس تقدير خماسي).
+  //   ⇐ الصف 11: ورقة 10 درجات = GRM/VCB (5) + RDG (5) · الصف 12 (لا GRM/VCB): RDG (5) + WRT مهمة واحدة (5).
+  if(isEN()){
+    if(g>=12) return {total:10,targets:{RDG:5,WRT:5},mcq:{RDG:3},mcqCount:3,long:{count:1,marks:[5]},shortMax:1,items:[6,6],label:'اللغة الإنجليزية 12 (Quiz: RDG 5 + WRT 5)'};
+    return {total:10,targets:{GRM:3,VCB:2,RDG:5},mcq:{GRM:2,VCB:1,RDG:2},mcqCount:5,long:{count:0,marks:[]},shortMax:1,items:[10,10],label:'اللغة الإنجليزية 11 (Quiz: GRM/VCB 5 + RDG 5)'};
+  }
   if(isSS()){
     if(g>=10) return {total:10,targets:{'معرفة':3,'تطبيق':5,'استدلال':2},mcqCount:3,mcqAos:2,long:{count:0,marks:[]},shortMax:5,items:[6,6],label:'الدراسات الاجتماعية (10–12)'};
     return {total:15,targets:{'معرفة':4,'تطبيق':8,'استدلال':3},mcqCount:5,mcqAos:2,long:{count:0,marks:[]},shortMax:5,items:[9,9],label:'الدراسات الاجتماعية (5–9)'};
@@ -141,14 +154,15 @@ function hwSpec(c){
       ar=/العربية/.test(s), en=/انجليز|إنجليز|English/i.test(s), math=/رياضيات/.test(s), ss=/اجتماع/.test(s),
       pe=/الرياضة المدرسية|التربية البدنية/.test(s);
   var hi = g>=11 && !it && !isl && !ar && !en && !ss && !pe; // صفوف AO1/AO2
-  var aos = hi ? ['AO1','AO2'] : (it ? ['تذكر وفهم','تطبيق','استدلال'] : ['معرفة','تطبيق','استدلال']);
+  var aos = hi ? ['AO1','AO2'] : (it ? ['تذكر وفهم','تطبيق','استدلال'] : (en ? EN_AO : ['معرفة','تطبيق','استدلال']));
   if(it) return {none:true, label:'تقنية المعلومات'}; // بلا واجب منزلي
   if(isl){
     if(g>=10) return {formative:true, items:[3,4], ao:aos, label:'التربية الإسلامية (10–12)'};
     // 5–9: 3 مفردات مقالية × 2 + درجتان للمناقشة = 8
     return {essay:true, count:3, marksEach:2, discuss:2, total:6, items:[3,3], ao:['تطبيق','استدلال'], label:'التربية الإسلامية (5–9)'};
   }
-  if(en) return {formative:true, items:[3,4], ao:aos, label:'اللغة الإنجليزية'};
+  // SAH English 11-12 (ص 7): الواجب المنزلي تكويني أساسًا — تعليقات وتغذية راجعة بلا رصد درجات
+  if(en) return {formative:true, items:[3,4], ao:aos, allowLong:g>=11, label:'اللغة الإنجليزية'};
   // الدراسات الاجتماعية: الواجب المنزلي ليس من أدوات التقويم المرصودة في الوثيقة (ص 15) لأي صف — تكويني
   if(ss) return {formative:true, items:[3,5], ao:aos, allowLong:true, label:'الدراسات الاجتماعية'};
   // الرياضة المدرسية: واجب تكويني بأسئلة ملف التحضير (التقويم التكويني والختامي والواجب المنزلي)
@@ -290,7 +304,8 @@ function rich(t){return esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\n
 function lessonOf(it){return lessonById[it.lesson_id]||{};}
 function tableLabel(n){return 'الجدول ('+n+')';}
 function relabel(s,n){return String(s||'').replace(/الجدول\s*\(\s*[\d-]+\s*\)/g,tableLabel(n));}
-function lineCount(it){if(it.type==='mcq')return 0;var m=+it.marks||1;if(it.lines)return it.lines;return it.type==='long'?Math.max(4,Math.ceil(m*1.6)):(m===1?1:m+1);}
+function lineCount(it){if(it.type==='mcq')return 0;if(it.ao==='WRT'&&!it.lines)return 12; // كتابة إنجليزية ≥ 100 كلمة
+  var m=+it.marks||1;if(it.lines)return it.lines;return it.type==='long'?Math.max(4,Math.ceil(m*1.6)):(m===1?1:m+1);}
 
 // ---------- ورقة الاختبار (تُستخدم للشاشة والطباعة وملف Word) ----------
 function titleText(d,key){
@@ -328,7 +343,7 @@ function itemHtml(it,n,tno,word,ctrl){
   stem=finRelabel(stem,it.srcno,n);
   // أساس الأمان للطباعة: الرقم لا ينفصل عن سؤال. يُرفع للطباعة عبر #printArea،
   // ولأن .qi عنصر واحد فلا يتقسّم على صفحتين (page-break-inside:avoid في CSS).
-  var h='<div class="qi" data-i="'+(n-1)+'" style="margin:0 0 '+(word?'10pt':'16px')+';page-break-inside:avoid;break-inside:avoid">';
+  var h='<div class="qi"'+(isEN()?' dir="ltr" lang="en"':'')+' data-i="'+(n-1)+'" style="margin:0 0 '+(word?'10pt':'16px')+';page-break-inside:avoid;break-inside:avoid'+(isEN()?';text-align:left':'')+'">';
   if(ctrl)h+=ctrl;
   // `fig` = صورة توضيحية داخل سؤال نصّي (فيها الشكل فقط).
   // وبلا `fig` = سؤال وزراي مصوَّر تكون الصورة نفسها نصّ السؤال — يُعرض وحده كما كان.
@@ -356,13 +371,13 @@ function itemHtml(it,n,tno,word,ctrl){
     h+='</table>';
   }
   if(it.type==='mcq'){
-    h+='<p style="margin:2px 0 4px;font-weight:bold;color:#9b1c1c">(ظلّل الشكل ( '+(word?'⬭':'<span class="oval"></span>')+' ) المقترن بالإجابة الصحيحة)</p>';
+    h+=isEN()?'<p style="margin:2px 0 4px;font-weight:bold;color:#9b1c1c">(Shade in the bubble ( '+(word?'⬭':'<span class="oval"></span>')+' ) next to the correct option.)</p>':'<p style="margin:2px 0 4px;font-weight:bold;color:#9b1c1c">(ظلّل الشكل ( '+(word?'⬭':'<span class="oval"></span>')+' ) المقترن بالإجابة الصحيحة)</p>';
     h+='<table class="chs" style="width:100%;border-collapse:collapse">';
     for(var r=0;r<2;r++){h+='<tr>';for(var c=0;c<2;c++){var k=r*2+c,ch=(it.choices||[])[k];h+='<td style="width:50%;padding:3px 4px;vertical-align:top">'+(ch==null?'':(word?'⬭ ':'<span class="oval"></span> ')+rich(ch))+'</td>';}h+='</tr>';}
-    h+='</table><div style="text-align:left;font-weight:bold">['+it.marks+']</div>';
+    h+='</table><div style="text-align:'+(isEN()?'right':'left')+';font-weight:bold">['+it.marks+']</div>';
   }else{
     var L=lineCount(it);
-    for(var i=0;i<L;i++)h+='<div class="aline" style="border-bottom:1px solid #000;height:'+(word?'20pt':'28px')+';margin:0 0 2px'+(i===L-1?';position:relative':'')+'">'+(i===L-1?'<span style="float:left;font-weight:bold;background:#fff;padding:0 4px">['+it.marks+']</span>':'')+'</div>';
+    for(var i=0;i<L;i++)h+='<div class="aline" style="border-bottom:1px solid #000;height:'+(word?'20pt':'28px')+';margin:0 0 2px'+(i===L-1?';position:relative':'')+'">'+(i===L-1?'<span style="float:'+(isEN()?'right':'left')+';font-weight:bold;background:#fff;padding:0 4px">['+it.marks+']</span>':'')+'</div>';
   }
   return h+'</div>';
 }
@@ -453,14 +468,18 @@ function checks(d){
   out.push([tot===sp.total,'الدرجة الكلية '+tot+' من '+sp.total]);
   aoList().forEach(function(k){var t=sp.targets[k]||0,v=ao[k]||0;out.push([v===t,aoTxt(k)+': '+v+' درجة (المطلوب '+t+')']);});
   out.push([items.length>=sp.items[0]&&items.length<=sp.items[1],'عدد المفردات '+items.length+(sp.items[1]<99?' (من '+sp.items[0]+' إلى '+sp.items[1]+')':' (لا يقل عن '+sp.items[0]+')')]);
-  if(isHi()){
+  if(isEN()){
+    var em={};mc.forEach(function(x){em[x.ao]=(em[x.ao]||0)+1;});
+    out.push([Object.keys(sp.mcq).every(function(k){return (em[k]||0)===sp.mcq[k];})&&mc.length===sp.mcqCount,'اختيار من متعدد: '+mc.length+' ('+Object.keys(sp.mcq).map(function(k){return aoTxt(k)+' '+sp.mcq[k];}).join('، ')+')']);
+  }else if(isHi()){
     var m1=mc.filter(function(x){return x.ao==='AO1';}).length,m2=mc.filter(function(x){return x.ao==='AO2';}).length;
     out.push([mc.length===2&&m1>=1&&m2>=1,'اختيار من متعدد: '+mc.length+' (مفردتان: واحدة AO1 والأخرى AO2)']);
   }else{
     var a={};mc.forEach(function(x){a[x.ao]=1;});
     out.push([mc.length===sp.mcqCount&&Object.keys(a).length>=2,'اختيار من متعدد: '+mc.length+' (المطلوب '+sp.mcqCount+' تغطي هدفي تقويم على الأقل)']);
   }
-  if(sp.long.count)out.push([lg.length===1&&lg.every(function(x){return sp.long.marks.indexOf(x.marks)>=0&&x.ao!=='معرفة'&&x.ao!=='تذكر وفهم';}),'إجابة طويلة: '+lg.length+(lg.length?' ('+lg.map(function(x){return x.marks;}).join('، ')+' درجات)':'')+' — مفردة واحدة من '+sp.long.marks[0]+' إلى '+sp.long.marks[sp.long.marks.length-1]+' درجات'+(isHi()?'':' وليست من مستوى المعرفة')]);
+  if(isEN())out.push([lg.length===sp.long.count&&lg.every(function(x){return x.ao==='WRT'&&sp.long.marks.indexOf(x.marks)>=0;}),sp.long.count?'مهمة كتابة (WRT): '+lg.length+' بدرجة '+sp.long.marks[0]+' تُقدَّر بمقياس التقدير الخماسي':'لا مهمة كتابة في Quiz الصف 11 (GRM/VCB + RDG)']);
+  else if(sp.long.count)out.push([lg.length===1&&lg.every(function(x){return sp.long.marks.indexOf(x.marks)>=0&&x.ao!=='معرفة'&&x.ao!=='تذكر وفهم';}),'إجابة طويلة: '+lg.length+(lg.length?' ('+lg.map(function(x){return x.marks;}).join('، ')+' درجات)':'')+' — مفردة واحدة من '+sp.long.marks[0]+' إلى '+sp.long.marks[sp.long.marks.length-1]+' درجات'+(isHi()?'':' وليست من مستوى المعرفة')]);
   else out.push([lg.length===0,'إجابة طويلة: '+lg.length+' (لا توجد في الصفوف 5–8)']);
   out.push([sh.every(function(x){return x.marks<=sp.shortMax;}),'الإجابة القصيرة: '+sh.length+' مفردة، كل منها من 1 إلى '+sp.shortMax+' درجة']);
   var ls={};items.forEach(function(x){ls[x.lesson_id]=1;});var n=Object.keys(ls).length;
@@ -829,7 +848,7 @@ Promise.all([api('/api/me'),api('/api/courses')]).then(function(r){
   hdr=Object.assign(clone(DEF_HDR),lsGet(hdrKey())||{});
   // ترقية ترويسة محفوظة سابقًا: اسم المديرية صار «للتعليم» بدل «للتربية والتعليم»
   if(hdr.dir&&/للتربية والتعليم/.test(hdr.dir)){hdr.dir=hdr.dir.replace(/للتربية والتعليم/g,'للتعليم');lsSet(hdrKey(),hdr);}
-  courses=(r[1].courses||[]).filter(function(c){return !/انجليز|إنجليز|English/i.test(c.subject);}).sort(function(a,b){return (gnum(a.grade)-gnum(b.grade))||a.subject.localeCompare(b.subject,'ar');});
+  courses=(r[1].courses||[]).filter(function(c){return !/انجليز|إنجليز|English/i.test(c.subject)||gnum(c.grade)>=11;}).sort(function(a,b){return (gnum(a.grade)-gnum(b.grade))||a.subject.localeCompare(b.subject,'ar');});
   if(!courses.length){$('qmain').innerHTML='<div class="welcome"><h2>لا توجد صفوف متاحة لحسابك</h2><p>تواصل مع مدير المنصة.</p></div>';return;}
   var hf=takeHandoff('quiz'),hc=hf&&courses.filter(function(x){return x.key===hf.course;})[0];
   if(hc){selectCourse(hc.key).then(function(){makeRemedy(hf);});return;}

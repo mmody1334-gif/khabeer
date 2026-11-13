@@ -1,0 +1,447 @@
+// بنك أسئلة اللغة الإنجليزية — الحادي عشر (الفصل الدراسي الأول) — Engage with English 11A
+// (الملف في مجلد bio_bank لأن صيغته ومحلّله واحد.)
+// عناصر اللغة حسب Student Assessment Handbook – English Grades 11-12 (Sept. 2026), ص 9:
+//   G = GRM (القواعد) · V = VCB (المفردات) · R = RDG (القراءة) · W = WRT (الكتابة) — والحرف التالي مستوى الصعوبة: ن منخفضة، م متوسطة، ر مرتفعة.
+// المصادر: نصوص الكتاب وأنشطته، ومفردات امتحانات الوزارة للفصل الأول (قراءة 1، مفردات، قواعد) منسوبة إلى أقرب درس.
+
+#2540
+s: Coursebook pp. 1–3 — Unit 1: Body Language
+m: Vن|A movement of your hands or head that shows what you mean is a ______.|gesture|signal box|headline|caption
+m: Vم|Teachers need to know when students are interested or bored, attentive or ______.|confused|confident|crowded|connected
+m: Gن|Look! The man ______ his arms in front of his body.|is crossing|crosses|cross
+m: Rم|Someone who is lying often looks down to the left while they speak. Someone who is interested in what you say often puts their head on one side. // According to the text, a person who is listening with interest usually ______.|puts their head on one side|looks down to the left|crosses their arms
+m: Rن|Politicians use positive body language so that they appear truthful and trustworthy. This helps them to get people's support. // Why do politicians use positive body language?|to get support|to tell lies|to look bored
+w: Rم1|Walking nervously into an interview, not making eye contact and crossing your arms all send a positive message. // Is the statement True or False? => False
+w: Rن1|What do police officers need to recognise through body language? => signs that someone is feeling guilty (lying)
+w: Vن1|Complete the word: (adjective) able to be trusted. e.g. A good leader must be trust_______. => trustworthy
+w: Gم1|Complete with ONE word: In Western cultures, a smile ______ (send) a positive message. => sends
+l: Wم5|Write an informative paragraph (at least 85 words) about how body language helps us to communicate. Give examples from school, work and family life. => Clear topic sentence about body language ;; At least three examples (gestures, facial expressions, eye contact…) ;; Linking words (for example, however, also) ;; Accurate present simple ;; About 85 words, organised in a paragraph
+s: امتحان الوزارة 2023/2024 — الدور الأول
+w: Rم1|We started our trip through the mountains. Our plan was to reach the cave on Sunday 19th March. Luckily, the weather was perfect, and everything went so well that we arrived three days earlier. // Statement: They arrived at the cave on the 16th of March. (True or False?) => True
+s: امتحان الوزارة 2023/2024 — الدور الأول
+w: Rم1|I wasn’t sure which destination is best for me: Thailand, Vietnam, or the Philippines. I have heard a lot of beautiful things about the three of them. Honestly, I didn’t have a lot of time to read and decide, so I just made a poll on my Instagram story and asked people to choose for me. They chose Thailand and I booked my flight. // Statement: The writer decided to visit Thailand after reading about it. (True or False?) => False
+s: امتحان الوزارة 2023/2024 — الدور الأول
+w: Vم1|Complete the word: (noun) a movement of part of your body to show what you mean or feel // e.g. My sister made a ges _ _ _ _ with her fingers to tell us to wait for a while. => gesture
+s: امتحان الوزارة 2023/2024 — الدور الثاني
+w: Vم1|Complete the word: (adjective) being sure you have the ability to do something well // e.g. Sara felt conf _ _ _ _ _ while she was giving her presentation. => confident
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Rم1|Most South Africans communicate directly and confidently, often speaking straight to the point. They may openly tell you when you are wrong with a great sense of humor. Silence in conversations can be seen as a sign that the discussion is not interesting. // Statement: South Africans feel comfortable to tell others that they are wrong. (True or False?) => True
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Rم1|Hello students, I am sending you this message to tell you that we will have a math test tomorrow morning at 10:00 a.m. and the history lesson will be cancelled. Please, don’t forget to bring a calculator and extra pencils. // Statement: The history test will be at 10:00 a.m. (True or False?) => False
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Rم1|Duolingo is a mobile app that helps you learn new languages such as English, Spanish and Chinese and many more. It uses fun exercises to make learning easy and enjoyable. You can use it anytime and it is free. // Statement: Duolingo allows you to learn many languages for free. (True or False?) => True
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Rم1|Elephants communicate using sounds, body language, and touch. They rumble to call others, flap ears to show anger, and use their trunks to comfort or greet. A loud call can show excitement. These signals help elephants stay safe, show feelings, and stay close to their family. // Statement: Elephants flap their ears to greet. (True or False?) => False
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Gم1|Complete with ONE word: The students _________ given gifts by their teacher yesterday. => were
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Gم1|Complete with ONE word: We ____________ walking to school, when it started raining. => were
+
+#2541
+s: Coursebook pp. 4–5 — Unit 2: The Internet
+m: Gن|She ______ her friend on her new phone at the moment.|is texting|texts|text
+m: Gن|He ______ his friends every day.|e-mails|is e-mailing|e-mail
+m: Gم|I ______ a new laptop tomorrow – I've already ordered it.|am getting|get|got
+m: Gم|______ do you usually go online? – In the evening.|When|Who|Which
+m: Vن|Writing an online diary is called ______.|blogging|downloading|texting
+m: Vم|Experts predict that the Internet will ______ every aspect of our lives.|dominate|connect|download
+m: Rم|It was only in 1991 that Tim Berners-Lee created the worldwide web. Twenty years later, the Internet is an enormous network of millions of linked computers. // When was the worldwide web created?|1991|2001|2011
+w: Rن1|Airports, coffee shops and hotels provide free wireless services so that people can stay connected. // True or False: Wireless services in hotels are always expensive. => False
+w: Gم1|Complete with ONE word: My cousin ______ (live) in Sohar. => lives
+w: Vن1|Complete the word: (adjective) connected to the Internet. e.g. I bought the book on_____. => online
+l: Wم5|Write an informative paragraph (at least 85 words): How do teenagers in Oman use the Internet? Include study, communication and free time. => Topic sentence ;; Three uses with examples ;; Present simple for habits ;; Linking words ;; At least 85 words
+s: امتحان الوزارة 2023/2024 — الدور الأول
+w: Gم1|Complete with ONE word: I __________ starting a new job tomorrow. => am
+s: امتحان الوزارة 2023/2024 — الدور الثاني
+w: Rم1|During his high school days, he usually spends his free time in the library together with his friends. Reading has been an important part in his life. He always loves reading since it entertains, educates and informs him. // Statement: The boy is interested in reading. (True or False?) => True
+s: امتحان الوزارة 2023/2024 — الدور الثاني
+w: Vم1|Complete the word: (noun) online diary // e.g. She writes a food bl _ _ in which she shares her reviews about restaurants. => blog
+s: امتحان الوزارة 2023/2024 — الدور الثاني
+w: Gم1|Complete with ONE word: I am glad _______ meet you. => to
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Gم1|Complete with ONE word: They _________ watching a movie at the moment. => are / aren’t
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Rم1|Many companies have invented smart water bottles to help people drink enough water each day. These bottles have sensors that flash a light to remind users to drink, and they can connect to phone apps that track water intake. As a result, many people use these bottles to stay healthy. // Statement: The smart bottles can be linked to the phone. (True or False?) => True
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Vم1|Complete the word: (noun) a record of news, people's opinions, photos, and videos on the internet // e.g. They wrote about their experiences on a b_ _ _. => blog
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Rم1|I'm studying in London. While I’m here, I’m writing a blog to keep my friends and family at home up to date. Most of my friends use Facebook, but I prefer writing a blog. It is easy to do, and it is quicker than writing 50 emails. // Statement: The writer likes writing blogs than using Facebook. (True or False?) => True
+
+#2542
+s: Coursebook pp. 6–7 — Unit 3: Mobile Phones
+m: Vن|Mobile phones are very useful in an ______, for example after a car accident.|emergency|opinion|privacy
+m: Vم|I ______ loud ringtones in the library – I really dislike them.|can't stand|get rid of|blab
+m: Vن|The abbreviation "L8R" means ______.|later|letter|lower
+m: Vم|The noise of people talking on phones everywhere is a kind of noise ______.|pollution|privacy|emergency
+m: Gم|Look! My brother ______ to his friend on the phone again.|is talking|talks|talked
+m: Rم|Caller 2: "I can't stand mobile phones. People blab constantly on buses and in restaurants. There is no privacy any more." // What does Caller 2 dislike?|people talking all the time|the price of phones|text messages
+w: Rن1|Many teenagers own mobile phones, but some parents think children should not have one before the age of 15. // True or False: All parents are happy for young children to own phones. => False
+w: Vن1|Write the full form of the abbreviation "info". => information
+w: Gن1|Complete with ONE word: ______ you think teenagers should have mobile phones? => Do
+l: Wم5|Write an informative paragraph (at least 85 words) about the advantages and disadvantages of mobile phones for teenagers. => Topic sentence ;; At least two advantages and two disadvantages ;; Linking words (however, also, on the other hand) ;; Standard English, no SMS language ;; At least 85 words
+s: امتحان الوزارة 2023/2024 — الدور الأول
+w: Vم1|Complete the word: (adjective) changing quickly from being good-tempered to bad-tempered // e.g. Many teenagers are mo _ _ _. You see them happy and suddenly sad. => moody
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Rم1|Yesterday, I was at the café with my friend Humood. However, when I got home, I realised that I had accidentally left my phone there. I quickly called the café, and luckily, they had kept it safe for me. // Statement: The writer forgot his phone at the café. (True or False?) => True
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Rم1|Many teenagers today spend several hours a day on their phones. They use them for chatting, watching videos, and playing games. Some schools now teach students how to manage screen time and focus better. // Statement: Teenagers use their phones only for schoolwork. (True or False?) => False
+
+#2543
+s: Coursebook pp. 8–9 — Unit 4: Communication Skills
+m: Vم|If you have ______ feelings, talk to someone about them.|pent-up|balanced|confident
+m: Vن|A ______ is an informal talk in which people exchange news and feelings.|conversation|presentation|abbreviation
+m: Gن|A: I'm a bit down today. B: Oh, I'm sorry ______ that.|to hear|hear|hearing
+m: Gم|A: I passed my driving test! B: Really? How ______!|exciting|excited|excite
+m: Rم|Communication involves both talking and listening. If you are always talking or always listening, the relationship is not balanced. // A balanced relationship needs people who ______.|talk and listen|only talk|only listen
+m: Rم|When you have a conversation, show interest: nod your head and say "mm" or "really?". Don't just answer "yes" or "no". // Which of these helps a conversation?|asking a related question|answering only "yes"|looking away
+w: Rن1|According to the coursebook text (Unit 4: Communication Skills), is this statement True or False? // Sharing a problem will make you feel worse. => False
+w: Vن1|Complete the phrase: "Nice to ______ you!" => see
+w: Gم1|Complete with ONE word: What do you ______ about the new rule? => think
+l: Wم5|Write an informative paragraph (at least 85 words) giving advice on how to be a good conversation partner. => Clear topic sentence ;; At least four tips (eye contact, take turns, show interest, ask questions) ;; Imperatives / should ;; Linking words ;; At least 85 words
+s: امتحان الوزارة 2023/2024 — الدور الثاني
+w: Rم1|People use different ways to communicate. Personally, I talk with my hands, especially when I am talking about topics for which I am incredibly passionate. It helps me get my ideas and thoughts across and express them effectively. // Statement: The writer thinks that using gestures is useless in expressing his ideas and thoughts. (True or False?) => False
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Gم1|Complete with ONE word: She is helping her mother ________________ the kitchen. => in /  at
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Vم1|Complete the word: (verb) to join or be joined with something else. . // e.g. Technology helps us to con _ _ _ _ with people across the world => connect
+
+#2544
+s: Coursebook pp. 10–11 — Unit 5: E-mail
+m: Vن|The most important part of an e-mail message is the ______ line.|subject|priority|smiley
+m: Vم|Don't send ______ information by e-mail because e-mails are not private.|confidential|polite|urgent
+m: Gن|When you ______ an e-mail, think about who you are writing to.|write|writes|writing
+m: Gم|You ______ write in capitals – the reader will think you are shouting.|shouldn't|should|must
+m: Rم|Don't mark e-mails high priority or urgent. If your message really is urgent or important, use a telephone. // What should you do if your message is urgent?|use a telephone|write in capitals|send it to everyone
+m: Rن|Keep your e-mail short – short sentences in one or two paragraphs. // A good e-mail has ______.|short sentences|long paragraphs|many smileys
+w: Rن1|According to the coursebook text (Unit 5: E-mail), is this statement True or False? // You should send your e-mail to people who do not need to read it. => False
+w: Vن1|Complete the word: (noun) a person you work with. e.g. I sent the report to my col_______. => colleague
+w: Gم1|Complete with ONE word: I'm writing ______ tell you about my holiday. => to
+l: Wم10|Write an e-mail (at least 100 words) to an English-speaking friend telling them about your new school year: your subjects, teachers and plans. => Greeting and friendly opening ;; Clear paragraphs about subjects, teachers and plans ;; Informal but correct language, no SMS ;; Suitable closing (Take care, speak soon) ;; At least 100 words, checked for spelling and punctuation
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Vم1|Complete the word: (noun) a way of communicating with others. // e.g. I sent you a mes _ _ _ _ last night. Did you get it? => message
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Vم1|Complete the word: (noun) short piece of writing about specific topic. // e.g. My English teacher finished marking my es _ _ _ and I got a good grade. => essay
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Gم1|Complete with ONE word: _________ you go to school yesterday? => Did
+
+#2545
+s: Coursebook pp. 17–19 — Unit 1: Goodbye to Childhood
+m: Vن|The period between childhood and adulthood is called ______.|adolescence|transition|security
+m: Vم|A sudden increase in height and weight is called a growth ______.|spurt|conflict|pressure
+m: Vم|Teenagers often follow their friends because of peer ______.|pressure|security|acne
+m: Gم|Adolescence ______ during the teenage years from about thirteen to nineteen.|occurs|is occurring|occur
+m: Rم|Girls begin their growth spurt much earlier than boys, even as young as 10 years of age. Boys' growth spurt occurs between 12 and 17 years. // According to the text, girls' growth spurt ______.|starts earlier than boys'|starts at 17|does not happen
+m: Rم|Teenagers want to be independent and make their own decisions. On the other hand, they still need the security offered by their families. // What do teenagers still need from their families?|security|money|freedom
+w: Rن1|Adolescents often think everyone is looking at them, so they are easily embarrassed. // True or False: Teenagers are never self-conscious. => False
+w: Vن1|Complete the word: (adjective) related to the mind. e.g. Hormones cause men___ changes too. => mental
+w: Rم1|What are hormones, according to the text? => chemical substances produced by your body
+l: Wم5|Write an informative paragraph (at least 85 words) describing the main changes that happen during adolescence. => Topic sentence about adolescence as a time of change ;; Physical changes ;; Mental changes ;; Changes in family relationships ;; At least 85 words with linking words
+s: امتحان الوزارة 2023/2024 — الدور الثاني
+w: Vم1|Complete the word: (noun) period of change // e.g. Adolescence is a time of tran _ _ _ _ _ _ from a childhood to adulthood. => transition
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Vم1|Complete the word: (adjective) having sudden changes of emotions for no reason. // e.g. He has been a little mo _ _ _ ever since the meeting, and I think something is bothering him. => moody
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Vم1|Complete the word: (noun) a fight or disagreement between people // e.g. There was a conf _ _ _ _ between two students because they wanted the same book. => conflict
+
+#2546
+s: Coursebook pp. 20–21 — Unit 2: Teens and Adults
+m: Gن|We ______ dinner when there was a power cut.|were having|had|have
+m: Gم|J.K. Rowling taught English before she ______ the Harry Potter books.|wrote|was writing|writes
+m: Gم|The film was so boring that I almost ______ asleep.|fell|was falling|fall
+m: Gن|While I ______ my homework, my phone rang.|was doing|did|do
+m: Vم|Mr Hamed asked Nasser ______: "Did you go to sleep straightaway?"|suspiciously|nervously|happily
+m: Rم|Mr Hamed: What time did you really go to sleep? Nasser: Um... half past two, I think. No, three. Mr Hamed: So that's why you're so tired today. // Why was Nasser tired in class?|He went to sleep very late.|He was ill.|He did a lot of sport.
+w: Rن1|According to the coursebook text (Unit 2: Teens and Adults), is this statement True or False? // Nasser was paying attention to Mr Hamed's questions in class. => False
+w: Gم1|Complete with ONE word: When I first lived abroad, I ______ (experience) many problems. => experienced
+w: Vن1|Complete the word: (verb) to make a loud noise while sleeping. e.g. You were even sno____ in class! => snoring
+l: Wم5|Write a short narrative paragraph (at least 85 words) about a time you were late for something. Use the past simple and past continuous. => Clear beginning (time, place) ;; Past continuous for background ;; Past simple for main events ;; when / while correctly ;; At least 85 words
+s: امتحان الوزارة 2023/2024 — الدور الثاني
+w: Rم1|The pyramids of Egypt were built more than three thousand years ago, and no one knows how. It is estimated that a huge number between 20,000 and 30,000 workers were needed to build the Great Pyramid at Giza in less than 23 years. // Statement: It is believed that a few people were needed to build the Great Pyramid. (True or False?) => False
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Vم1|Complete the word: (verb) to fix something that is broken. // e.g. The technician found it hard to re _ _ _ _ my broken laptop. => repair
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Rم1|Sami participated in the international swimming competition in Dubai. He travelled with his coach and other Omani students. He felt proud to have won first place. His success was celebrated by his classmates and coach. // Statement: Sami went alone to Dubai. (True or False?) => False
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Gم1|Complete with ONE word: It is almost sunny, so I do not think it ________________ rain today. => will
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Gم1|Complete with ONE word: They _____________sleeping now. => are
+
+#2547
+s: Coursebook pp. 22–23 — Unit 3: Teenage Friendships
+m: Vن|I feel so ______ because I don't have anyone to share my problems with.|lonely|loyal|lucky
+m: Vم|Everyone in my class has a good ______ of friends.|circle|line|group work
+m: Vم|He can't ______ friendships; other boys lose interest in him after a time.|maintain|hang|resolve
+m: Gم|Our ______ is that you join a sports club.|advice|advise|advices
+m: Gن|We think the best thing for you ______ is to talk to your teacher.|to do|doing|do
+m: Rم|Dear Counsellor, I'm writing about a worrying problem. When I become friendly with another boy, it's OK at first. But then the other boy loses interest in me. // What is the boy's problem?|He can't keep friends.|He has too many friends.|He doesn't like school.
+w: Rن1|According to the coursebook text (Unit 3: Teenage Friendships), is this statement True or False? // In the poem, Hilary is happy that her best friend has a new friend. => False
+w: Vن1|Complete the word: (noun) a person trained to give advice. e.g. He wrote a letter to the coun________. => counsellor
+w: Gم1|Complete with ONE word: I ______ known you for so long. => have
+l: Wم10|Write a letter (at least 100 words) to a problem page about a friendship problem, asking for advice. => Greeting (Dear Counsellor) ;; Clear description of the problem ;; Feelings explained ;; Clear request for advice ;; Suitable ending and signature; at least 100 words
+s: امتحان الوزارة 2023/2024 — الدور الأول
+w: Rم1|My sister is a very hard -working person, she is very ambitious. She always sets goals for herself and stick to them. No matter what happens, she keeps trying and trying until she achieves her goals. I wish I was like her. I quickly give up and forget my goals. // Statement: The writer is a very ambitious person. (True or False?) => False
+s: امتحان الوزارة 2023/2024 — الدور الثاني
+w: Gم1|Complete with ONE word: What time _______ you usually come to work? => do
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Rم1|China has developed robots to be used in hospitals to help doctors and surgeons. For the time being, robots can handle tasks like giving medicines and writing patients’ reports which give surgeons more time for operations. // Statement: Robots are not responsible for operations. (True or False?) => True
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Vم1|Complete the word: (verb) to join or to link something to another thing. // e.g. I need to co _ _ _ _ _ the charger to my phone because the battery is low. => connect
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Rم1|Dear Eliza, I think my reading and listening skills are alright for my level, but I’m worried about my speaking. I don’t feel very relaxed when I speak English and I want to improve. Do you have any ideas? Maha // Statement: Maha is anxious about her speaking skill. (True or False?) => True
+
+#2548
+s: Coursebook pp. 24–25 — Unit 4: Western Influence – Good or Bad?
+m: Vن|Burgers and pizzas are sold in fast food ______.|outlets|malls|souqs
+m: Vم|Fast food is quick and ______ for busy people.|convenient|traditional|lonely
+m: Gن|______ do you like American movies? – Because they are exciting.|Why|Where|When
+m: Gم|Can you give me ______ examples?|some|any|a
+m: Gم|Can you tell me where ______ your clothes?|you buy|do you buy|buy you
+m: Rم|Many young Omanis now hang out in shopping malls and eat in fast food outlets. However, some worry that they are forgetting their own culture. // What do some people worry about?|Teens are forgetting their culture.|Malls are too far.|Fast food is expensive.
+w: Rن1|According to the coursebook text (Unit 4: Western Influence – Good or Bad?), is this statement True or False? // All Omani teenagers prefer Western fashions to traditional clothes. => False
+w: Vن1|Complete the word: (adjective) popular at a particular time. e.g. She bought some fash_______ shoes. => fashionable
+w: Gم1|Complete with ONE word: How ______ you mean? => do
+l: Wم5|Write an evaluative paragraph (at least 85 words): Is Western influence on Omani teenagers good or bad? Give your opinion and reasons. => Clear opinion ;; At least two reasons with examples ;; Linking words (firstly, however, in conclusion) ;; Accurate grammar ;; At least 85 words
+s: امتحان الوزارة 2023/2024 — الدور الأول
+w: Vم1|Complete the word: (verb) to spend a lot of time relaxing or socializing in a place with someone // e.g. Sami and Hani like to ha _ _ out together at the weekends. => hang
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Vم1|Complete the word: (adjective) attractive and fashionable. // e.g. Her new sunglasses made her look co _ _ and confident. => cool
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Rم1|Many teenagers around the world are influenced by Western culture. A recent study found that Western music, fashion, and movies affect young people’s lives. For example, around 35% of teens enjoy Western pop music, and about 25% follow Western fashion trends. // Statement: Around 35% of teenagers are affected by Western fashion. (True or False?) => False
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Vم1|Complete the word: (adjective) very beautiful or attractive // e.g. The view from the mountain was stu_ _ _ _ _. => stunning
+
+#2549
+s: Coursebook pp. 26–27 — Unit 5: Teenage Angst
+m: Vن|I find it difficult to ______ on my homework for more than a short time.|concentrate|distract|edit
+m: Vم|Looking for errors in your writing is called ______.|proofreading|editing|printing
+m: Vم|I get ______ very easily when my phone is near me.|distracted|overweight|relaxed
+m: Gم|My teachers keep ______ me that I can do better.|telling|tell|to tell
+m: Gن|Have you thought about ______ on a diet?|going|go|went
+m: Rم|Dear Auntie, My parents keep telling me to decide what career I want. I'm only 15 and I think it's too early. My father wants me to be a doctor, but I'm more interested in art. Munira // What is Munira's problem?|Her father wants her to study medicine.|She is overweight.|She can't do her homework.
+w: Rن1|According to the coursebook text (Unit 5: Teenage Angst), is this statement True or False? // Taha used to be an excellent student, but now his marks have dropped. => True
+w: Vن1|Complete the word: (verb) to correct errors in a piece of writing. e.g. Always ed__ your work before you hand it in. => edit
+w: Gم1|Complete with ONE word: Sorry I haven't replied ______, but I was busy. => before
+l: Wم10|Write an informal letter (at least 100 words) to a friend who feels stressed about exams. Give advice and encouragement. => Informal greeting and opening ;; Show understanding of the problem ;; At least three pieces of advice ;; Encouraging closing phrase ;; At least 100 words, proofread
+s: امتحان الوزارة 2023/2024 — الدور الأول
+w: Vم1|Complete the word: (verb) to meet or come across // e.g. I always ask my father for advice when I enco _ _ _ _ _ problems. => encounter
+s: امتحان الوزارة 2023/2024 — الدور الثاني
+w: Vم1|Complete the word: (verb) to correct errors in a piece of writing // e.g. The teacher told me to ed _ _ my written work. => edit
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Rم1|Dear teacher, I hope this message finds you well. I am sorry that I won’t be able to submit my project on time as we agreed. An urgent matter has come up—my mother is scheduled for an operation this week, and I will be busy looking after her. Can I submit it next Monday? Thank you for your understanding. Regards: Muna // Statement: Muna’s mother will have an operation next week. (True or False?) => False
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Rم1|Dear Dad, I understand that you want me to become a doctor because you believe it is a safe and strong career. But I really want to study art. It is something I care about, and I believe I can do well in it. I hope we can talk again and try to understand each other better. Love, Sami // Statement: Sami’s father wants him to study art. (True or False?) => False
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Vم1|Complete the word: (verb) to show, make something known // e.g. She did not want to rev _ _ _ her secret. => reveal
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Gم1|Complete with ONE word: She_________ reading a book when I called her. => was
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Vم1|Complete the word: (verb) to correct errors in a piece of writing. . // e.g. He wants to ed _ _ his story before he submits it to the teacher => edit
+
+#2550
+s: Coursebook pp. 33–35 — Unit 1: Types of Tourism
+m: Vن|A journey to see wild animals, often in Africa, is a ______.|safari|cruise|sightseeing tour
+m: Vم|We stayed on a quiet, ______ beach far from other people.|secluded|cosmopolitan|crowded
+m: Vم|A ______ city has people from many different countries.|cosmopolitan|secluded|unspoilt
+m: Vن|A company that organises holidays is a tour ______.|operator|guide|agent card
+m: Gم|If you want to explore unspoilt natural environments, a tour operator ______ make it happen.|will|is|has
+m: Rم|Do you enjoy food and travel? Learn to cook delicious meals in wonderful locations. Our chefs take you to local markets to choose fresh ingredients. // This advert is for a ______ holiday.|cooking|safari|sailing
+w: Rن1|According to the coursebook text (Unit 1: Types of Tourism), is this statement True or False? // "Safari" is a Swahili word meaning "journey". => True
+w: Vن1|Complete the word: (adjective) not spoilt by people or buildings. e.g. We explored an uns______ island. => unspoilt
+w: Rم1|In matching activities, what should you look for first? => key words or phrases
+l: Wم5|Write an informative paragraph (at least 85 words) about the different types of holidays tourists can enjoy in Oman. => Topic sentence ;; At least three types with examples of places ;; Tourism vocabulary ;; Linking words ;; At least 85 words
+s: امتحان الوزارة 2023/2024 — الدور الأول
+w: Rم1|We booked a five-day safari trip to Kenya. Unfortunately, we were only able to see some foxes and giraffes because of heavy rain. We had to spend two more days to see more animals, but we couldn’t because the rain never stopped. // Statement: They saw two kinds of animals. (True or False?) => True
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Rم1|Emily's tour of India was full of surprises. Her group got lost in the crowded streets of Delhi and missed the booked elephant show. However, they explored amazing places and enjoyed tasty street food. // Statement: Emily's tour of India went exactly as she planned. (True or False?) => False
+
+#2551
+s: Coursebook pp. 36–37 — Unit 2: Getting There
+m: Gن|That man is driving too fast. He ______ an accident.|is going to have|is having|has
+m: Gم|I promise I ______ harder next year.|will work|am working|work
+m: Gم|We ______ to Dubai at the weekend. Do you want to come?|'re going to go|will go|go
+m: Gن|A: Which pen do you want? B: I ______ the blue one.|'ll have|am having|have
+m: Vم|On arrival at the ______, you will need to buy a travel permit.|border|brochure|resort
+m: Rم|You will board your luxury bus at Dubai bus station at 7.30 am. The drive to the border at Al Ain/Buraimi will take approximately 45 minutes. // How long is the drive to the border?|about 45 minutes|about 30 minutes|two hours
+w: Rن1|According to the coursebook text (Unit 2: Getting There), is this statement True or False? // On the flight, passengers can see the Hajar mountains and the Empty Quarter from the windows. => True
+w: Gم1|Complete with ONE word: What do you think ______ happen in the next ten years? => will
+w: Vن1|Complete the word: (noun) the place you are travelling to. e.g. Our final des________ is Salalah. => destination
+l: Wم10|Write an e-mail (at least 100 words) to a friend about your plans for a trip to Salalah next month. Use future forms. => Friendly opening ;; Plans with going to ;; Arrangements with present continuous ;; Predictions/offers with will ;; At least 100 words with suitable closing
+s: امتحان الوزارة 2023/2024 — الدور الأول
+w: Gم1|Complete with ONE word: Next month, Anna is going _____________ study at Al-Azhar University. => to
+s: امتحان الوزارة 2023/2024 — الدور الثاني
+w: Gم1|Complete with ONE word: We ______ visiting Sur this weekend. => are
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Gم1|Complete with ONE word: I am going ________ visit my grandparents this weekend. => to
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Gم1|Complete with ONE word: _________ you think Brazil will win the World Cup next year? => Do / Don’t
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Gم1|Complete with ONE word: I ________________ going to have a piano lesson next week. => am
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Gم1|Complete with ONE word: Omar saw an accident while he ________________ driving his car. => was
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Gم1|Complete with ONE word: I _________ going to visit my friend next week. => will
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Gم1|Complete with ONE word: _____ you come to the party next Friday? => am
+
+#2552
+s: Coursebook pp. 38–39 — Unit 3: Destinations
+m: Vن|Wahiba Sands is famous for its rolling sand ______.|dunes|dhows|souks
+m: Vم|Muttrah has busy ______ where you can buy traditional handicrafts.|souks|dunes|resorts
+m: Vم|A ______ hotel is of the highest quality.|five-star|first-floor|second-hand
+m: Vم|The city is ______, with people from all over the world.|cosmopolitan|secluded|unspoilt
+m: Gم|This is the ______ beach I have ever visited.|most beautiful|beautifulest|more beautiful
+m: Rم|Group 2: a honeymoon couple wanting to relax and get away from it all. // Which holiday suits them best?|a secluded island resort|a lively big city|an adventure camp
+w: Rن1|According to the coursebook text (Unit 3: Destinations), is this statement True or False? // Learning phrases rather than single words helps you remember new vocabulary. => True
+w: Vن1|Complete the word: (noun) a traditional wooden boat. e.g. Sur is famous for building wooden dh___. => dhows
+w: Gم1|Complete with ONE word: The hotel is ______ to the beach, so you can walk there. => close
+l: Wم5|Write an informative paragraph (at least 85 words) describing a tourist destination in Oman for a travel brochure. => Name and location ;; Attractive adjectives and phrases ;; Things to see and do ;; Who it suits ;; At least 85 words
+s: امتحان الوزارة 2023/2024 — الدور الأول
+w: Gم1|Complete with ONE word: They used to play outside when they __________ younger. => were
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Gم1|Complete with ONE word: This house is designed ________ a famous architect. => by
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Rم1|Wakan a beautiful village in Oman, has seen a rise in visitors over the years. In the first half of 2024, more than 50,000 people visited the village, enjoying its traditional mud houses and ancient irrigation system. This number reached 115,000 visitors by the end of 2024. // Statement: The number of tourists to Wakan increased by the end of 2024. (True or False?) => True
+
+#2553
+s: Coursebook pp. 40–41 — Unit 4: Tourist Information
+m: Gن|How about ______ them to Taqah to visit the fort?|taking|take|to take
+m: Gم|Why ______ visit Khor Rori with them?|don't you|you don't|not you
+m: Gم|If I ______ you, I'd go to Mughsayl.|were|am|be
+m: Gن|A: Let's go on Wednesday. B: I'd ______ go on Thursday.|rather|prefer|better
+m: Vم|Tawi Attair is a natural ______ over 100 metres wide.|sinkhole|blowhole|sanctuary
+m: Rم|Wadi Darbat is a natural park with magnificent views of waterfalls, lakes and mountains. During the Khareef season there is a 100 metre waterfall and many caves. // When can you see the 100 metre waterfall?|in the Khareef season|in winter|all year
+w: Rن1|According to the coursebook text (Unit 4: Tourist Information), is this statement True or False? // Mughsayl has tall cliffs where blowholes shoot fountains of water 30 metres high. => True
+w: Vن1|Complete the word: (noun) a protected area for birds. e.g. Khor Rori is a bird sanc______. => sanctuary
+w: Rم1|What was found at Al Balid that came from China? => coins and fine porcelain
+l: Wم5|Write an informative paragraph (at least 85 words) recommending three places for tourists to visit in Dhofar. => Topic sentence ;; Three places with descriptions ;; Suggestion language (you might like to…) ;; Linking words ;; At least 85 words
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Gم1|Complete with ONE word: Where ________________ you go last week? => did
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Gم1|Complete with ONE word: She _________ playing the piano now. => is
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Rم1|In 1974, local farmers were digging in Xi’an, a city in China. They were looking for water, but instead they found a soldier made of mud. Fortunately, the farmers stopped digging before they damaged anything. // Statement: Farmers were digging to search for soldiers. (True or False?) => False
+
+#2554
+s: Coursebook pp. 42–43 — Unit 5: Designing a Tour
+m: Vن|The best way of seeing the old city is on ______.|foot|feet|walk
+m: Vم|This museum ______ many ornaments and jewels.|contains|consists|includes of
+m: Vم|Here you will have the chance to ______ around and do some shopping.|wander|wonder|wonderful
+m: Gم|Our tour ______ at 9 a.m. at Topkapi Palace.|starts|is start|starting
+m: Gن|From Aya Sofia, we ______ walk across a square to the Blue Mosque.|will|are|have
+m: Rم|The Blue Mosque takes its name from the thousands of blue tiles on the inside of its walls. // Why is it called the Blue Mosque?|because of its blue tiles|because it is near the sea|because of its blue doors
+w: Rن1|According to the coursebook text (Unit 5: Designing a Tour), is this statement True or False? // The walking tour of Sultanahmet ends with lunch in a restaurant serving traditional Turkish food. => True
+w: Vن1|Complete the word: (noun) a plan of places you will visit on a journey. e.g. Write an itin_____ for your tour. => itinerary
+w: Gم1|Complete with ONE word: All the sights are ______ easy walking distance. => within
+l: Wم10|Write a description (at least 100 words) of a one-day tour of Muscat for visitors. Include times, places and activities. => Introduction to the tour ;; Clear sequence with times ;; Description of each place ;; Future forms (we will…) ;; Conclusion; at least 100 words
+s: امتحان الوزارة 2023/2024 — الدور الثاني
+w: Vم1|Complete the word: (verb) to walk around without clear direction // e.g. I usually wan _ _ _ around the shops. => wander
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Gم1|Complete with ONE word: While I _________ walking home, it started to rain. => was
+
+#2555
+s: Coursebook pp. 49–51 — Unit 1: Smart Homes
+m: Vن|A washing machine is a home ______.|appliance|invention|innovation
+m: Vم|In smart homes, all the equipment is connected and ______ by a computer.|controlled|connected to|cooked
+m: Vم|New electronic ______ seem to appear every day.|devices|devises|divides
+m: Gم|When you walk into the room, the lights ______ on.|come|comes|coming
+m: Rم|Smart homes can also save money by turning off lights and air conditioners when they are not needed. // How do smart homes save money?|They turn off things not in use.|They buy cheap food.|They have no lights.
+m: Rم|Smart homes used to be available only for the rich, but future homes and even cars will all have some of these features. // In the future, smart features will be ______.|common|only for the rich|banned
+w: Rن1|According to the coursebook text (Unit 1: Smart Homes), is this statement True or False? // In a smart home, you can turn on the air conditioner using your mobile phone when you are away. => True
+w: Vن1|Complete the word: (noun) a new idea or way of doing something. e.g. Mobile phones are a great inno______. => innovation
+w: Rم1|What can electronic cupboards and fridges do? => tell you what food to buy or order food from shops over the Internet
+l: Wم5|Write an informative paragraph (at least 85 words) about the advantages and disadvantages of smart homes. => Topic sentence ;; Two advantages with examples ;; Two disadvantages ;; Linking words ;; At least 85 words
+s: امتحان الوزارة 2023/2024 — الدور الثاني
+w: Gم1|Complete with ONE word: _______ she come to the party last night? => Did
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Vم1|Complete the word: (noun) someone who says something not true. // e.g. I discovered that he was a li _ _ and the whole story was made up. => liar
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Vم1|Complete the word: (noun) a hill made of sand. // e.g. The children ran down the sand du _ _ in the desert. => dune
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Vم1|Complete the word: (verb) to move information from the internet to a computer. . // e.g. I want to dow _ _ _ _ _ a new game on my laptop => download
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Gم1|Complete with ONE word: The room was cleaned ____________ Amna yesterday. => by
+
+#2556
+s: Coursebook pp. 52–53 — Unit 2: Questions and Answers
+m: Gن|The light bulb ______ by Edison.|was invented|invented|is inventing
+m: Gن|Three paintings ______ from the museum yesterday.|were stolen|was stolen|stole
+m: Gم|Romeo and Juliet ______ by William Shakespeare.|was written|was wrote|wrote
+m: Gم|Can you tell me when the computer ______?|was invented|did invent|invented it
+m: Gم|My brother ______ in Muscat.|was born|born|is born
+m: Vم|The city of Pompeii in Italy was ______ by a volcano.|destroyed|discovered|established
+m: Rم|Sultan Qaboos University was established in 1986. It was the first university in the country. // When was the first university in Oman opened?|1986|1970|1996
+w: Rن1|According to the coursebook text (Unit 2: Questions and Answers), is this statement True or False? // The first satellite was sent into space by the Russians. => True
+w: Gم1|Complete with ONE word: The Taj Mahal was designed ______ Ustad Ahmad Lahauri. => by
+w: Vن1|Complete the word: (verb) to find something for the first time. e.g. Radium was disc______ by Marie Curie. => discovered
+l: Wم5|Write an informative paragraph (at least 85 words) about an important invention: who invented it, when, and how it changed people's lives. Use the past passive. => Name of the invention ;; Past passive (was invented by…) ;; Date and inventor ;; Effects on life ;; At least 85 words
+s: امتحان الوزارة 2023/2024 — الدور الأول
+w: Gم1|Complete with ONE word: Where _____________ he go yesterday? => did
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Vم1|Complete the word: (verb) to state that you are annoyed about something. // e.g. He comp _ _ _ _ _ _ about the bad service he got. => complained
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Vم1|Complete the word: (verb) to find something for the first time. // e.g. The first diamond was disc _ _ _ _ _ _ in India. => discovered
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Gم1|Complete with ONE word: Where ____________ Salim go yesterday? => did
+
+#2557
+s: Coursebook pp. 54–55 — Unit 3: The Best and the Worst
+m: Vن|Cigarettes are very ______ to people's health.|harmful|helpful|harmless
+m: Vم|The noun form of "invent" is ______.|invention|inventive|inventor ship
+m: Vم|Cars cause global ______ and kill many people in accidents.|warming|weather|wildlife
+m: Gم|Without money, it would ______ impossible to develop businesses.|have been|be been|had been
+m: Rم|The final item on the helpful list is the wheel, because it is necessary for most types of transportation. // Why is the wheel helpful?|It is needed for transportation.|It is used in medicine.|It helps to keep information.
+m: Rم|Number four on the list is fast food, because this has harmful effects on the health of millions of people. // Fast food is on the ______ list.|harmful|helpful|best
+w: Rن1|According to the coursebook text (Unit 3: The Best and the Worst), is this statement True or False? // According to the WHO, cigarettes kill almost half the people who use them. => True
+w: Vن1|Complete with the correct form of "develop": The ______ of medicine helped people live longer. => development
+w: Gم1|Complete with ONE word: Medicines have allowed people ______ live longer. => to
+l: Wم10|Write an evaluative text (at least 100 words): What is the most helpful invention in your opinion? Give reasons and examples. => Clear opinion ;; Reasons with examples ;; Word forms used accurately ;; Paragraphing and linking words ;; At least 100 words
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Vم1|Complete the word: (adjective) causing damage. // e.g. Using your mobile phone all night can be very har _ _ _ _ for your eyes. => harmful
+
+#2558
+s: Coursebook pp. 56–57 — Unit 4: Virtual Reality
+m: Gم|Can you tell us what virtual reality ______?|is|does|is it
+m: Gم|Do you know when virtual reality ______?|began|did it begin|begins it
+m: Gن|I ______ play computer games – maybe once a month.|rarely|always|often
+m: Vم|Virtual reality is an ______ environment made using a computer.|interactive|fictional|limited
+m: Vم|CAD software is used by people who ______ buildings and cars.|design|destroy|drive
+m: Rم|Virtual reality software tries to copy the real world for education and training. For example, it is used for training pilots and doctors. // VR is used to train ______.|pilots and doctors|farmers|singers
+w: Rن1|According to the coursebook text (Unit 4: Virtual Reality), is this statement True or False? // All computer games try to copy real life. => False
+w: Vن1|Complete the word: (adjective) imaginary, not real. e.g. Super Mario lives in a fic_____ world. => fictional
+w: Gم1|Complete with ONE word: Could you ______ some examples of how VR is used? => give
+l: Wم5|Write an informative paragraph (at least 85 words) about how virtual reality is used in education and training. => Definition of VR ;; At least two uses with examples ;; One limitation ;; Linking words ;; At least 85 words
+s: امتحان الوزارة 2023/2024 — الدور الثاني
+w: Gم1|Complete with ONE word: The Olympic Games _______ first held in Greece in 1896. => were
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Vم1|Complete the word: (adjective) able to be obtained, used, or reached // e.g. Her new book is avai _ _ _ _ _ in bookstores across the world. => available
+
+#2559
+s: Coursebook pp. 58–59 — Unit 5: E-Shopping
+m: Gم|You ______ buy a DVD every month – it is not necessary.|don't have to|mustn't|have to
+m: Gم|You ______ let anyone else use your password.|should not|don't have to|have to
+m: Gن|You ______ be 18 or over to join the club.|must|mustn't|don't have to
+m: Vم|You cannot return DVDs unless they are ______.|faulty|stylish|expensive
+m: Vن|I am ______ with the service I received.|dissatisfied|satisfying|pleasure
+m: Rم|DVDs not paid for within three months will have 10 percent of the cost added to the charge. // If you pay after four months, you pay ______.|10% extra|nothing extra|half price
+w: Rن1|According to the coursebook text (Unit 5: E-Shopping), is this statement True or False? // There is a maximum limit to the number of DVDs you can buy per year. => False
+w: Vن1|Complete the word: (noun) money paid back to a customer. e.g. I would like a ref____. => refund
+w: Gم1|Complete with ONE word: Please reply to me as soon ______ possible. => as
+l: Wم10|Write a formal e-mail of complaint (at least 100 words) to an online shop: you ordered a pair of shoes but they sent the wrong size and colour. => Formal greeting (Dear Sir or Madam) ;; Reason for writing ;; Clear details of the problem ;; What you want them to do ;; Formal closing (Yours faithfully); at least 100 words
+s: امتحان الوزارة 2023/2024 — الدور الأول
+w: Rم1|I have sent an email to the Math teacher telling her that my son, Jack had an accident. I explained his medical status as he has a broken leg and won’t be able to attend school for three weeks. I asked the teacher to let him have the exam online, but she hasn’t received my email yet. // Statement: The teachers agreed to let Jack have the Math exam online. (True or False?) => False
+s: امتحان الوزارة 2023/2024 — الدور الأول
+w: Vم1|Complete the word: (adjective) not working correctly // e.g. I crashed my car into a tree because of my car’s fau _ _ _ brakes. => faulty
+s: امتحان الوزارة 2023/2024 — الدور الأول
+w: Gم1|Complete with ONE word: My expensive bag _____________ stolen two months ago. => was
+s: امتحان الوزارة 2023/2024 — الدور الثاني
+w: Rم1|Finally, I reached the bottom of the mountain and headed back home. Despite the long time in walking, it was an amazing journey. I will never forget hiking up the mountain, and I hope to do it again soon. // Statement: The writer had a very enjoyable trip. (True or False?) => True
+s: امتحان الوزارة 2023/2024 — الدور الثاني
+w: Rم1|We arrange tours for adventurers who want to experience an overnight stay in the Omani desert with some fun. We have a campsite in Wahiba Sand. Small tents with modern bathrooms and three meals are included in the price. // Statement: Accommodation is not included in the price. (True or False?) => False
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Rم1|There was a sudden increase in the number of people who participated in the marathon this year. The organizers said it was because people have become more aware of a healthy lifestyle, and many participants wanted to challenge themselves after last year’s event. // Statement: The marathon had fewer participants this year. (True or False?) => False
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Rم1|Abdulrahman bought a laptop online, but he was unhappy with the service. He discovered that the screen was broken. Despite waiting for more than 40 days, he still had not received a replacement from the company as promised. Eventually, he decided to write a complaint. // Statement: Abdulrahman was upset with the laptop he received. (True or False?) => True
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Rم1|Many people enjoy shopping online because it is easy and fast. You can buy clothes, books, or electronics from home. Some websites offer free delivery, but others charge extra money depending on your location or order size. // Statement: All websites offer free delivery for online shopping. (True or False?) => False
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Vم1|Complete the word: (adjective) not working correctly. , // e.g. The new phone was fa _ _ _ _ so we returned it to the shop. => faulty

@@ -10715,5 +10715,1849 @@
     "إعلان المحميات الطبيعية"
    ]
   }
+ },
+ "2540": {
+  "claims": [
+   {
+    "text": "Body language includes gestures and facial expressions.",
+    "true": true,
+    "why": "It is the way we move our bodies, make gestures and use facial expressions."
+   },
+   {
+    "text": "Not Given means the same as False.",
+    "true": false,
+    "why": "Not Given means the text says nothing about it."
+   },
+   {
+    "text": "Crossing your arms in an interview shows confidence.",
+    "true": false,
+    "why": "It gives the opposite, negative message."
+   },
+   {
+    "text": "A synonym should be the same part of speech.",
+    "true": true,
+    "why": "anxiously (adv) = nervously (adv)."
+   }
+  ],
+  "links": [
+   {
+    "a": "Eye contact",
+    "b": "Looking confident",
+    "answer": "Making eye contact sends a positive message."
+   },
+   {
+    "a": "Skimming",
+    "b": "Choosing the best title",
+    "answer": "We read quickly for the main idea."
+   }
+  ],
+  "sequence": {
+   "title": "How to read a text for detail",
+   "steps": [
+    "Read the statements first",
+    "Find the key words in the text",
+    "Read that part carefully",
+    "Decide T, F or NG",
+    "Correct the false statement"
+   ]
+  }
+ },
+ "2541": {
+  "claims": [
+   {
+    "text": "The worldwide web was created in 1991.",
+    "true": true,
+    "why": "Tim Berners-Lee created it in 1991."
+   },
+   {
+    "text": "We use the present continuous for daily habits.",
+    "true": false,
+    "why": "Daily habits take the present simple."
+   },
+   {
+    "text": "\"I'm meeting my brother tomorrow\" talks about a future arrangement.",
+    "true": true,
+    "why": "The present continuous can express future arrangements."
+   },
+   {
+    "text": "\"Know\" is usually used in the continuous form.",
+    "true": false,
+    "why": "It is a state verb."
+   }
+  ],
+  "links": [
+   {
+    "a": "every day",
+    "b": "present simple",
+    "answer": "Time expressions of routine go with the simple tense."
+   },
+   {
+    "a": "at the moment",
+    "b": "present continuous",
+    "answer": "Actions in progress now use be + -ing."
+   }
+  ],
+  "sequence": {
+   "title": "Choosing the right tense",
+   "steps": [
+    "Read the whole sentence",
+    "Look for time words",
+    "Decide: habit/fact or now/temporary",
+    "Choose simple or continuous",
+    "Check the verb ending"
+   ]
+  }
+ },
+ "2542": {
+  "claims": [
+   {
+    "text": "\"THX\" is an abbreviation of \"thanks\".",
+    "true": true,
+    "why": "It is common SMS language."
+   },
+   {
+    "text": "SMS language is good for formal e-mails.",
+    "true": false,
+    "why": "Use it only in informal messages."
+   },
+   {
+    "text": "\"Can't stand\" means \"dislike strongly\".",
+    "true": true,
+    "why": "I can't stand loud ringtones."
+   },
+   {
+    "text": "\"Privacy\" means being with many people.",
+    "true": false,
+    "why": "It means the state of being alone."
+   }
+  ],
+  "links": [
+   {
+    "a": "Phones on buses",
+    "b": "Noise pollution",
+    "answer": "Constant talking in public creates noise."
+   },
+   {
+    "a": "Emergency",
+    "b": "Mobile phone advantage",
+    "answer": "You can call for help quickly."
+   }
+  ],
+  "sequence": {
+   "title": "Rewriting an SMS in Standard English",
+   "steps": [
+    "Read the whole message",
+    "Find each abbreviation",
+    "Write the full word",
+    "Add capital letters and punctuation",
+    "Read it again to check"
+   ]
+  }
+ },
+ "2543": {
+  "claims": [
+   {
+    "text": "Communication involves only talking.",
+    "true": false,
+    "why": "It involves talking and listening."
+   },
+   {
+    "text": "\"How about you?\" passes the turn to the other person.",
+    "true": true,
+    "why": "It invites them to answer the same question."
+   },
+   {
+    "text": "Answering only \"yes\" keeps a conversation going.",
+    "true": false,
+    "why": "It usually stops the conversation."
+   },
+   {
+    "text": "Sharing a problem can make you feel better.",
+    "true": true,
+    "why": "The text says so."
+   }
+  ],
+  "links": [
+   {
+    "a": "Bad news",
+    "b": "\"I'm sorry to hear that.\"",
+    "answer": "We show sympathy."
+   },
+   {
+    "a": "Good news",
+    "b": "\"How exciting!\"",
+    "answer": "We show we are happy for the speaker."
+   }
+  ],
+  "sequence": {
+   "title": "A successful conversation",
+   "steps": [
+    "Greet the person",
+    "Ask how they are",
+    "Listen and show interest",
+    "Ask a related question",
+    "End politely"
+   ]
+  }
+ },
+ "2544": {
+  "claims": [
+   {
+    "text": "A subject line is not necessary.",
+    "true": false,
+    "why": "It is the most important part of an e-mail."
+   },
+   {
+    "text": "E-mails in CAPITALS seem to be shouting.",
+    "true": true,
+    "why": "Rule 6."
+   },
+   {
+    "text": "It is fine to send confidential information by e-mail.",
+    "true": false,
+    "why": "E-mails are not private."
+   },
+   {
+    "text": "Short sentences in one or two paragraphs are best.",
+    "true": true,
+    "why": "Rule 2."
+   }
+  ],
+  "links": [
+   {
+    "a": "CAPITALS",
+    "b": "Shouting",
+    "answer": "Readers feel you are shouting at them."
+   },
+   {
+    "a": "Subject line",
+    "b": "Reader knows the topic",
+    "answer": "It tells the reader what the e-mail is about."
+   }
+  ],
+  "sequence": {
+   "title": "Writing an e-mail",
+   "steps": [
+    "Think about the reader",
+    "Write the subject line",
+    "Write a greeting",
+    "Write short paragraphs",
+    "Proofread and send"
+   ]
+  }
+ },
+ "2545": {
+  "claims": [
+   {
+    "text": "Adolescence is between childhood and adulthood.",
+    "true": true,
+    "why": "It is the stage after childhood (about 13–19)."
+   },
+   {
+    "text": "Boys start their growth spurt before girls.",
+    "true": false,
+    "why": "Girls begin much earlier."
+   },
+   {
+    "text": "Teenagers no longer need their families.",
+    "true": false,
+    "why": "They still need the security families give."
+   },
+   {
+    "text": "Acne is a physical change.",
+    "true": true,
+    "why": "It appears on the skin of the face or neck."
+   }
+  ],
+  "links": [
+   {
+    "a": "Hormones",
+    "b": "Physical and mental changes",
+    "answer": "Chemical changes in the body cause both."
+   },
+   {
+    "a": "Friends more important than family",
+    "b": "Family conflict",
+    "answer": "The text says this causes conflict."
+   }
+  ],
+  "sequence": {
+   "title": "Skimming a text",
+   "steps": [
+    "Read the title",
+    "Read the first sentence of each paragraph",
+    "Note the main idea",
+    "Match paragraphs to topics",
+    "Check quickly"
+   ]
+  }
+ },
+ "2546": {
+  "claims": [
+   {
+    "text": "\"I was doing my homework when my friend knocked\" has two past tenses.",
+    "true": true,
+    "why": "Past continuous + past simple."
+   },
+   {
+    "text": "We use \"were\" with \"he\".",
+    "true": false,
+    "why": "he → was."
+   },
+   {
+    "text": "The past continuous describes completed short actions.",
+    "true": false,
+    "why": "It describes actions in progress."
+   },
+   {
+    "text": "\"When\" is usually followed by the past simple.",
+    "true": true,
+    "why": "when + short action."
+   }
+  ],
+  "links": [
+   {
+    "a": "Long background action",
+    "b": "Past continuous",
+    "answer": "was/were + -ing"
+   },
+   {
+    "a": "Short interrupting action",
+    "b": "Past simple",
+    "answer": "verb-ed or irregular form"
+   }
+  ],
+  "sequence": {
+   "title": "Telling a past story",
+   "steps": [
+    "Set the scene (past continuous)",
+    "Describe the main event (past simple)",
+    "Add what happened next",
+    "Say how it ended",
+    "Check verb forms"
+   ]
+  }
+ },
+ "2547": {
+  "claims": [
+   {
+    "text": "\"Advice\" is a countable noun.",
+    "true": false,
+    "why": "It is uncountable: some advice."
+   },
+   {
+    "text": "A loyal friend supports you.",
+    "true": true,
+    "why": "Loyal = always supporting."
+   },
+   {
+    "text": "\"Hang out\" means to work hard.",
+    "true": false,
+    "why": "It means to spend time relaxing with friends."
+   },
+   {
+    "text": "Hilary feels hurt in the poem.",
+    "true": true,
+    "why": "Her friendship is shared by someone new."
+   }
+  ],
+  "links": [
+   {
+    "a": "Lonely",
+    "b": "Join a club",
+    "answer": "Clubs help you meet new friends."
+   },
+   {
+    "a": "Friends from other cultures",
+    "b": "Learning about the world",
+    "answer": "Emily says it helps you understand others."
+   }
+  ],
+  "sequence": {
+   "title": "Giving advice to a friend",
+   "steps": [
+    "Listen to the problem",
+    "Show sympathy",
+    "Suggest a solution",
+    "Give a reason",
+    "Encourage them"
+   ]
+  }
+ },
+ "2548": {
+  "claims": [
+   {
+    "text": "\"Why you like it?\" is a correct question.",
+    "true": false,
+    "why": "It needs \"do\": Why do you like it?"
+   },
+   {
+    "text": "Shopping malls are linked to modern Western culture.",
+    "true": true,
+    "why": "They appear in the shopping column."
+   },
+   {
+    "text": "\"How do you mean?\" asks for more explanation.",
+    "true": true,
+    "why": "It is a clarification question."
+   },
+   {
+    "text": "Fast food is always healthy.",
+    "true": false,
+    "why": "It can harm health."
+   }
+  ],
+  "links": [
+   {
+    "a": "Fast food",
+    "b": "Health problems",
+    "answer": "Too much fast food is unhealthy."
+   },
+   {
+    "a": "Western media",
+    "b": "Changing tastes",
+    "answer": "TV and the Internet change what teens like."
+   }
+  ],
+  "sequence": {
+   "title": "Interviewing a partner",
+   "steps": [
+    "Choose a topic",
+    "Ask an opening question",
+    "Ask for examples",
+    "Ask \"Why?\"",
+    "Summarise their answer"
+   ]
+  }
+ },
+ "2549": {
+  "claims": [
+   {
+    "text": "Proofreading means correcting errors.",
+    "true": false,
+    "why": "It means looking for errors; editing means correcting."
+   },
+   {
+    "text": "Munira's father wants her to be a doctor.",
+    "true": true,
+    "why": "He is a doctor too."
+   },
+   {
+    "text": "\"Take care, speak soon\" opens a letter.",
+    "true": false,
+    "why": "It closes a letter."
+   },
+   {
+    "text": "Taha gets headaches at the computer.",
+    "true": true,
+    "why": "He says so in his letter."
+   }
+  ],
+  "links": [
+   {
+    "a": "Taha's headaches",
+    "b": "Do you need glasses?",
+    "answer": "The counsellor suggests checking his eyes."
+   },
+   {
+    "a": "Nabil is overweight",
+    "b": "Going on a diet",
+    "answer": "The counsellor's advice."
+   }
+  ],
+  "sequence": {
+   "title": "Writing a letter to a problem page",
+   "steps": [
+    "Greet the reader",
+    "Describe the problem",
+    "Explain your feelings",
+    "Ask for advice",
+    "End and sign"
+   ]
+  }
+ },
+ "2550": {
+  "claims": [
+   {
+    "text": "A cruise is a holiday on a ship.",
+    "true": true,
+    "why": "Cruises travel by sea."
+   },
+   {
+    "text": "\"Secluded\" means busy and crowded.",
+    "true": false,
+    "why": "It means quiet and far from people."
+   },
+   {
+    "text": "Key words help in matching activities.",
+    "true": true,
+    "why": "They direct you to the answer."
+   },
+   {
+    "text": "Space tourism is a common cheap holiday.",
+    "true": false,
+    "why": "It is unusual and very expensive."
+   }
+  ],
+  "links": [
+   {
+    "a": "Bungee jumping",
+    "b": "Adventure tourism",
+    "answer": "It is an exciting, risky activity."
+   },
+   {
+    "a": "Local markets",
+    "b": "Cooking holiday",
+    "answer": "You choose fresh ingredients there."
+   }
+  ],
+  "sequence": {
+   "title": "Doing a matching activity",
+   "steps": [
+    "Read the items",
+    "Underline key words",
+    "Scan the text for them",
+    "Match",
+    "Check the leftover items"
+   ]
+  }
+ },
+ "2551": {
+  "claims": [
+   {
+    "text": "\"I'll help you\" is an offer.",
+    "true": true,
+    "why": "will is used for offers."
+   },
+   {
+    "text": "\"I will to go\" is correct.",
+    "true": false,
+    "why": "will + base verb: I will go."
+   },
+   {
+    "text": "Present continuous can talk about arranged future events.",
+    "true": true,
+    "why": "I'm meeting my brother tomorrow."
+   },
+   {
+    "text": "The bus to Salalah goes through Nizwa.",
+    "true": true,
+    "why": "There is a refreshment stop in Nizwa."
+   }
+  ],
+  "links": [
+   {
+    "a": "Dark clouds",
+    "b": "It's going to rain",
+    "answer": "Prediction from present evidence."
+   },
+   {
+    "a": "Booked ticket",
+    "b": "I'm flying tomorrow",
+    "answer": "Fixed arrangement."
+   }
+  ],
+  "sequence": {
+   "title": "Bus trip Dubai to Salalah",
+   "steps": [
+    "Dubai bus station",
+    "Border at Al Ain/Buraimi",
+    "Nizwa",
+    "Hayma",
+    "Salalah"
+   ]
+  }
+ },
+ "2552": {
+  "claims": [
+   {
+    "text": "\"Secluded\" describes a busy city.",
+    "true": false,
+    "why": "It describes a quiet place far from people."
+   },
+   {
+    "text": "A dhow is a traditional boat.",
+    "true": true,
+    "why": "Sur is famous for wooden dhows."
+   },
+   {
+    "text": "Learning phrases helps you remember words.",
+    "true": true,
+    "why": "Study box advice."
+   },
+   {
+    "text": "A luxurious hotel is cheap.",
+    "true": false,
+    "why": "Luxurious = very comfortable and expensive."
+   }
+  ],
+  "links": [
+   {
+    "a": "Honeymoon couple",
+    "b": "Secluded island",
+    "answer": "They want to relax and get away from it all."
+   },
+   {
+    "a": "Young friends",
+    "b": "Lively city",
+    "answer": "They want fun and excitement."
+   }
+  ],
+  "sequence": {
+   "title": "Choosing a hotel",
+   "steps": [
+    "Decide what you need",
+    "Ask about facilities",
+    "Compare prices",
+    "Decide",
+    "Book"
+   ]
+  }
+ },
+ "2553": {
+  "claims": [
+   {
+    "text": "\"How about to visit\" is correct.",
+    "true": false,
+    "why": "How about + -ing: How about visiting."
+   },
+   {
+    "text": "Tawi Attair is a natural sinkhole.",
+    "true": true,
+    "why": "It is over 100 m wide and 220 m deep."
+   },
+   {
+    "text": "Khor Rori was a port on the Incense Trail.",
+    "true": true,
+    "why": "It is the lost town of Sumharam."
+   },
+   {
+    "text": "\"I'd rather\" is used to make a suggestion.",
+    "true": false,
+    "why": "It is used to respond with a preference."
+   }
+  ],
+  "links": [
+   {
+    "a": "Khareef",
+    "b": "Waterfalls in Wadi Darbat",
+    "answer": "The monsoon rains fill the waterfalls."
+   },
+   {
+    "a": "Excavations at Al Balid",
+    "b": "Chinese porcelain",
+    "answer": "Trade with China."
+   }
+  ],
+  "sequence": {
+   "title": "At the Tourist Information Centre",
+   "steps": [
+    "Greet the visitors",
+    "Ask what they like",
+    "Make suggestions",
+    "They respond",
+    "Agree on a plan"
+   ]
+  }
+ },
+ "2554": {
+  "claims": [
+   {
+    "text": "An itinerary is a plan of a journey.",
+    "true": true,
+    "why": "It lists places and times."
+   },
+   {
+    "text": "\"Wander\" and \"wonder\" mean the same.",
+    "true": false,
+    "why": "wander = walk around; wonder = think about."
+   },
+   {
+    "text": "The tour starts at the Blue Mosque.",
+    "true": false,
+    "why": "It starts at Topkapi Palace."
+   },
+   {
+    "text": "Sequence words make a tour description clear.",
+    "true": true,
+    "why": "They show the order of stops."
+   }
+  ],
+  "links": [
+   {
+    "a": "Topkapi Museum",
+    "b": "The biggest emerald",
+    "answer": "It contains many jewels."
+   },
+   {
+    "a": "Arasta Bazaar",
+    "b": "Shopping",
+    "answer": "Carpets, jewellery and ceramics."
+   }
+  ],
+  "sequence": {
+   "title": "Walking Tour of Sultanahmet",
+   "steps": [
+    "Topkapi Palace",
+    "Topkapi Museum",
+    "Aya Sofia",
+    "The Blue Mosque",
+    "Arasta Bazaar",
+    "Lunch"
+   ]
+  }
+ },
+ "2555": {
+  "claims": [
+   {
+    "text": "Smart home appliances contain computers.",
+    "true": true,
+    "why": "The computers control them."
+   },
+   {
+    "text": "Smart homes waste energy.",
+    "true": false,
+    "why": "They save energy by turning things off."
+   },
+   {
+    "text": "Smart homes will always be only for rich people.",
+    "true": false,
+    "why": "Future homes will all have some features."
+   },
+   {
+    "text": "Extensive reading means reading a lot.",
+    "true": true,
+    "why": "Read every day for 15–20 minutes."
+   }
+  ],
+  "links": [
+   {
+    "a": "Smart fridge",
+    "b": "Orders food online",
+    "answer": "It talks to shops over the Internet."
+   },
+   {
+    "a": "Leaving home",
+    "b": "Phone controls the lights",
+    "answer": "You can switch things off remotely."
+   }
+  ],
+  "sequence": {
+   "title": "A smart home welcomes you",
+   "steps": [
+    "You walk in",
+    "Lights come on",
+    "Temperature changes",
+    "Your favourite song plays",
+    "Pictures appear on the screens"
+   ]
+  }
+ },
+ "2556": {
+  "claims": [
+   {
+    "text": "\"The Titanic was sunk by an iceberg\" is passive.",
+    "true": true,
+    "why": "was + past participle."
+   },
+   {
+    "text": "We use \"were\" with a singular subject.",
+    "true": false,
+    "why": "Singular → was."
+   },
+   {
+    "text": "Pompeii was destroyed by an earthquake.",
+    "true": false,
+    "why": "It was destroyed by a volcano."
+   },
+   {
+    "text": "Oman was first known as Majan.",
+    "true": true,
+    "why": "From the trivia quiz."
+   }
+  ],
+  "links": [
+   {
+    "a": "Edison",
+    "b": "The light bulb",
+    "answer": "The light bulb was invented by Edison."
+   },
+   {
+    "a": "Shakespeare",
+    "b": "Romeo and Juliet",
+    "answer": "It was written by William Shakespeare."
+   }
+  ],
+  "sequence": {
+   "title": "Changing active to passive",
+   "steps": [
+    "Find the object",
+    "Make it the subject",
+    "Add was/were",
+    "Add the past participle",
+    "Add by + doer (if needed)"
+   ]
+  }
+ },
+ "2557": {
+  "claims": [
+   {
+    "text": "The writer lists money as a helpful invention.",
+    "true": true,
+    "why": "Money helped develop businesses and jobs."
+   },
+   {
+    "text": "\"Harmful\" is a noun.",
+    "true": false,
+    "why": "It is an adjective."
+   },
+   {
+    "text": "The tea bag changed the way we live.",
+    "true": false,
+    "why": "It is less important but nice to have."
+   },
+   {
+    "text": "-tion usually makes a noun.",
+    "true": true,
+    "why": "invention, destruction."
+   }
+  ],
+  "links": [
+   {
+    "a": "Cars",
+    "b": "Global warming",
+    "answer": "Car exhaust gases warm the planet."
+   },
+   {
+    "a": "Medicine",
+    "b": "Longer, healthier lives",
+    "answer": "The writer says this."
+   }
+  ],
+  "sequence": {
+   "title": "Making word forms from \"invent\"",
+   "steps": [
+    "invent (verb)",
+    "invention (noun)",
+    "inventor (person)",
+    "inventive (adjective)",
+    "inventively (adverb)"
+   ]
+  }
+ },
+ "2558": {
+  "claims": [
+   {
+    "text": "\"Can you tell me what VR is?\" is correct.",
+    "true": true,
+    "why": "Statement order after the opening phrase."
+   },
+   {
+    "text": "\"Rarely\" is more frequent than \"often\".",
+    "true": false,
+    "why": "rarely < often."
+   },
+   {
+    "text": "VR can create fictional worlds.",
+    "true": true,
+    "why": "Like Pac-Man and Super Mario."
+   },
+   {
+    "text": "You must understand every word when listening.",
+    "true": false,
+    "why": "Listen for the information you want."
+   }
+  ],
+  "links": [
+   {
+    "a": "CAD software",
+    "b": "Designing buildings",
+    "answer": "Designers see what they are making."
+   },
+   {
+    "a": "VR training",
+    "b": "Pilots and doctors",
+    "answer": "They practise safely."
+   }
+  ],
+  "sequence": {
+   "title": "Frequency from least to most",
+   "steps": [
+    "never",
+    "rarely",
+    "sometimes",
+    "often",
+    "always"
+   ]
+  }
+ },
+ "2559": {
+  "claims": [
+   {
+    "text": "You must buy a DVD every month.",
+    "true": false,
+    "why": "Rule 3: you do not have to."
+   },
+   {
+    "text": "You can return a faulty DVD.",
+    "true": true,
+    "why": "Only faulty DVDs can be returned."
+   },
+   {
+    "text": "\"Yours faithfully\" ends a letter that starts \"Dear Sir or Madam\".",
+    "true": true,
+    "why": "It is the formal ending."
+   },
+   {
+    "text": "An e-mail of complaint should be rude.",
+    "true": false,
+    "why": "It should be polite and clear."
+   }
+  ],
+  "links": [
+   {
+    "a": "Late payment",
+    "b": "10% extra charge",
+    "answer": "Rule 7 of the terms."
+   },
+   {
+    "a": "Faulty product",
+    "b": "Refund or replacement",
+    "answer": "You can ask for your money back."
+   }
+  ],
+  "sequence": {
+   "title": "Writing an e-mail of complaint",
+   "steps": [
+    "Dear Sir or Madam",
+    "Reason for writing",
+    "Details of the problem",
+    "What you want",
+    "Yours faithfully + name"
+   ]
+  }
+ },
+ "2580": {
+  "claims": [
+   {
+    "text": "Dhofar was the centre of the frankincense trade.",
+    "true": true,
+    "why": "In 5000 BCE according to the text."
+   },
+   {
+    "text": "Skimming means reading every word.",
+    "true": false,
+    "why": "It means reading quickly for the gist."
+   },
+   {
+    "text": "A modern oil tanker is powered by wind.",
+    "true": false,
+    "why": "It has powerful engines."
+   },
+   {
+    "text": "The topic sentence gives the main idea.",
+    "true": true,
+    "why": "It is the key sentence of the paragraph."
+   }
+  ],
+  "links": [
+   {
+    "a": "Frankincense",
+    "b": "Wealth",
+    "answer": "It was one of the most valuable products."
+   },
+   {
+    "a": "Excellent location",
+    "b": "Trade with East and West",
+    "answer": "The Middle East links India, China and Europe."
+   }
+  ],
+  "sequence": {
+   "title": "The history of trade",
+   "steps": [
+    "Merchants trade silk and spices",
+    "Caravans on the Silk Road",
+    "Dhows find sea routes",
+    "Frankincense from Dhofar",
+    "Oil changes trade"
+   ]
+  }
+ },
+ "2581": {
+  "claims": [
+   {
+    "text": "\"Microsoft was founded in 1975\" is passive.",
+    "true": true,
+    "why": "was + past participle."
+   },
+   {
+    "text": "Branding in business started in the 1800s.",
+    "true": true,
+    "why": "Trademarks and logos were introduced in the early nineteenth century."
+   },
+   {
+    "text": "\"The car was chose\" is correct.",
+    "true": false,
+    "why": "Use the participle: was chosen."
+   },
+   {
+    "text": "\"Nova\" means \"it doesn't go\" in Latin.",
+    "true": false,
+    "why": "It means \"new\" in Latin."
+   }
+  ],
+  "links": [
+   {
+    "a": "Adolf Dassler",
+    "b": "Adidas",
+    "answer": "The brand was named after him."
+   },
+   {
+    "a": "Spanish markets",
+    "b": "Chevrolet Nova failed",
+    "answer": "\"No va\" = it doesn't go."
+   }
+  ],
+  "sequence": {
+   "title": "Making a passive sentence",
+   "steps": [
+    "Find the object",
+    "Put it first",
+    "Add was/were",
+    "Add the past participle",
+    "Add by + doer"
+   ]
+  }
+ },
+ "2582": {
+  "claims": [
+   {
+    "text": "We say \"make homework\".",
+    "true": false,
+    "why": "We say \"do homework\"."
+   },
+   {
+    "text": "\"Make a mistake\" is correct.",
+    "true": true,
+    "why": "It is a common collocation."
+   },
+   {
+    "text": "Shopaholics are compulsive buyers.",
+    "true": true,
+    "why": "They are addicted to shopping."
+   },
+   {
+    "text": "\"Affluent\" means having no money.",
+    "true": false,
+    "why": "It means having plenty of money."
+   }
+  ],
+  "links": [
+   {
+    "a": "Excessive spending",
+    "b": "Bankruptcy",
+    "answer": "Too much spending can lead to debts."
+   },
+   {
+    "a": "Clever marketing",
+    "b": "Consumers buy more",
+    "answer": "Companies make people feel they need more."
+   }
+  ],
+  "sequence": {
+   "title": "Guessing a word from context",
+   "steps": [
+    "Find the word",
+    "Read the whole sentence",
+    "Decide the part of speech",
+    "Look for clues",
+    "Check with a dictionary"
+   ]
+  }
+ },
+ "2583": {
+  "claims": [
+   {
+    "text": "\"I'd rather to go\" is correct.",
+    "true": false,
+    "why": "I'd rather + base verb."
+   },
+   {
+    "text": "Bargaining is common in souqs.",
+    "true": true,
+    "why": "You can get a lower price."
+   },
+   {
+    "text": "Predicting helps listening.",
+    "true": true,
+    "why": "It prepares you for the vocabulary."
+   },
+   {
+    "text": "Malls have narrow passages and tiny shops.",
+    "true": false,
+    "why": "That describes souqs."
+   }
+  ],
+  "links": [
+   {
+    "a": "Souq",
+    "b": "Old-fashioned charm",
+    "answer": "Traditional market style."
+   },
+   {
+    "a": "Mall",
+    "b": "Easy customer parking",
+    "answer": "Modern facilities."
+   }
+  ],
+  "sequence": {
+   "title": "Listening with prediction",
+   "steps": [
+    "Read the task",
+    "Predict the information",
+    "Listen the first time",
+    "Complete the task",
+    "Listen again to check"
+   ]
+  }
+ },
+ "2584": {
+  "claims": [
+   {
+    "text": "\"Appalling\" means very attractive.",
+    "true": false,
+    "why": "It means very bad or shocking."
+   },
+   {
+    "text": "A slogan should be catchy.",
+    "true": true,
+    "why": "Easy to remember."
+   },
+   {
+    "text": "Adverts are never misleading.",
+    "true": false,
+    "why": "Some give a wrong idea."
+   },
+   {
+    "text": "An evaluation gives a judgement.",
+    "true": true,
+    "why": "It says whether the advert is good or bad."
+   }
+  ],
+  "links": [
+   {
+    "a": "Catchy slogan",
+    "b": "Customers remember the brand",
+    "answer": "That is why companies choose slogans carefully."
+   },
+   {
+    "a": "Misleading advert",
+    "b": "Customers feel cheated",
+    "answer": "They don't get what they expected."
+   }
+  ],
+  "sequence": {
+   "title": "Writing an evaluation of an advert",
+   "steps": [
+    "Describe the advert",
+    "Give positive points",
+    "Give negative points",
+    "Make a judgement",
+    "Proofread"
+   ]
+  }
+ },
+ "2585": {
+  "claims": [
+   {
+    "text": "It is normal to feel apprehensive at university.",
+    "true": true,
+    "why": "The text says so."
+   },
+   {
+    "text": "An essay due next week is more urgent than one due tomorrow.",
+    "true": false,
+    "why": "The one due tomorrow is more urgent."
+   },
+   {
+    "text": "Reading speed = words ÷ minutes.",
+    "true": true,
+    "why": "Words per minute."
+   },
+   {
+    "text": "Shy students should avoid clubs.",
+    "true": false,
+    "why": "They should join clubs and societies."
+   }
+  ],
+  "links": [
+   {
+    "a": "Calling home",
+    "b": "Less homesickness",
+    "answer": "Keeping in touch reduces it."
+   },
+   {
+    "a": "Poor time management",
+    "b": "Missing deadlines",
+    "answer": "Prioritise urgent tasks."
+   }
+  ],
+  "sequence": {
+   "title": "Calculating reading speed",
+   "steps": [
+    "Count the words",
+    "Time your reading",
+    "Divide words by minutes",
+    "Answer the questions",
+    "Record your score"
+   ]
+  }
+ },
+ "2586": {
+  "claims": [
+   {
+    "text": "\"I wish I had went\" is correct.",
+    "true": false,
+    "why": "Use the participle: had gone."
+   },
+   {
+    "text": "The past perfect shows the earlier of two past actions.",
+    "true": true,
+    "why": "had + past participle."
+   },
+   {
+    "text": "Faisal missed the bus.",
+    "true": true,
+    "why": "Abdullah gave him a lift."
+   },
+   {
+    "text": "\"I'd\" can mean \"I had\".",
+    "true": true,
+    "why": "In the past perfect."
+   }
+  ],
+  "links": [
+   {
+    "a": "Late essay",
+    "b": "Overslept",
+    "answer": "He finished at 2 a.m. and overslept."
+   },
+   {
+    "a": "Living away from home",
+    "b": "Learning to cook",
+    "answer": "Abdullah is now a great cook."
+   }
+  ],
+  "sequence": {
+   "title": "Faisal's morning",
+   "steps": [
+    "Got an essay last week",
+    "Started it late",
+    "Finished at 2 a.m.",
+    "Overslept",
+    "Missed the bus"
+   ]
+  }
+ },
+ "2587": {
+  "claims": [
+   {
+    "text": "Accommodation means places to stay.",
+    "true": true,
+    "why": "Hotels, hostels, halls, flats…"
+   },
+   {
+    "text": "A word map helps you group vocabulary.",
+    "true": true,
+    "why": "Associated words are easier to remember."
+   },
+   {
+    "text": "Studying abroad is only about getting a degree.",
+    "true": false,
+    "why": "It is also about culture, language and people."
+   },
+   {
+    "text": "\"Adapt\" and \"adopt\" mean the same.",
+    "true": false,
+    "why": "adapt = change to suit; adopt = take as your own."
+   }
+  ],
+  "links": [
+   {
+    "a": "Positive attitude",
+    "b": "Making friends",
+    "answer": "You notice when people are friendly."
+   },
+   {
+    "a": "Reading the university website",
+    "b": "Knowing what to expect",
+    "answer": "Find out about accommodation and services."
+   }
+  ],
+  "sequence": {
+   "title": "Making a word map",
+   "steps": [
+    "Write the topic in the centre",
+    "Add main branches",
+    "Add related words",
+    "Compare with a partner",
+    "Add your partner's words"
+   ]
+  }
+ },
+ "2588": {
+  "claims": [
+   {
+    "text": "\"Can you tell me where is it?\" is correct.",
+    "true": false,
+    "why": "Use statement order: where it is."
+   },
+   {
+    "text": "The Rovers help new students at SQU.",
+    "true": true,
+    "why": "They work with Foundation Programme teachers."
+   },
+   {
+    "text": "\"Got it!\" shows you understand.",
+    "true": true,
+    "why": "It confirms clarification."
+   },
+   {
+    "text": "Asking for clarification is rude.",
+    "true": false,
+    "why": "It is polite and useful."
+   }
+  ],
+  "links": [
+   {
+    "a": "New student is lost",
+    "b": "Rovers show the way",
+    "answer": "They help students find their way around."
+   },
+   {
+    "a": "Placement test",
+    "b": "Right English level",
+    "answer": "It shows which level to study."
+   }
+  ],
+  "sequence": {
+   "title": "Clarifying something",
+   "steps": [
+    "Speaker explains",
+    "Listener asks for clarification",
+    "Speaker explains again",
+    "Speaker checks",
+    "Listener confirms"
+   ]
+  }
+ },
+ "2589": {
+  "claims": [
+   {
+    "text": "Notes should be complete sentences.",
+    "true": false,
+    "why": "Use key words."
+   },
+   {
+    "text": "\"Yours faithfully\" is formal.",
+    "true": true,
+    "why": "It is used in formal letters."
+   },
+   {
+    "text": "An apostrophe can show possession.",
+    "true": true,
+    "why": "the teacher's book."
+   },
+   {
+    "text": "Editing comes before planning.",
+    "true": false,
+    "why": "Plan → write → edit."
+   }
+  ],
+  "links": [
+   {
+    "a": "Notes",
+    "b": "Clear paragraphs",
+    "answer": "Each heading becomes a paragraph."
+   },
+   {
+    "a": "Peer editing",
+    "b": "Fewer mistakes",
+    "answer": "A partner notices errors you miss."
+   }
+  ],
+  "sequence": {
+   "title": "Writing a letter to a teacher",
+   "steps": [
+    "Make notes under headings",
+    "Write the greeting",
+    "Write the paragraphs",
+    "Write the closing",
+    "Edit with a partner"
+   ]
+  }
+ },
+ "2590": {
+  "claims": [
+   {
+    "text": "Max's favourite place is Jebel Shams.",
+    "true": true,
+    "why": "\"For me Jebel Shams is best of all.\""
+   },
+   {
+    "text": "Donna is only interested in museums.",
+    "true": false,
+    "why": "She is interested in anything to do with history."
+   },
+   {
+    "text": "Scanning means reading for specific information.",
+    "true": true,
+    "why": "You look quickly for key words."
+   },
+   {
+    "text": "\"Awesome\" means boring.",
+    "true": false,
+    "why": "It means impressive."
+   }
+  ],
+  "links": [
+   {
+    "a": "Max",
+    "b": "Adventure",
+    "answer": "Camping, diving, climbing."
+   },
+   {
+    "a": "Donna",
+    "b": "History",
+    "answer": "Forts, castles and museums."
+   }
+  ],
+  "sequence": {
+   "title": "Answering an MCQ",
+   "steps": [
+    "Read the question",
+    "Underline the key word",
+    "Scan the text",
+    "Read that part carefully",
+    "Choose and shade the bubble"
+   ]
+  }
+ },
+ "2591": {
+  "claims": [
+   {
+    "text": "\"If you will study, you will pass\" is correct.",
+    "true": false,
+    "why": "No \"will\" in the if-clause."
+   },
+   {
+    "text": "\"Should\" gives advice.",
+    "true": true,
+    "why": "If you are ill, you should rest."
+   },
+   {
+    "text": "Chefs take care of passenger safety.",
+    "true": false,
+    "why": "Cabin crew do that."
+   },
+   {
+    "text": "The first conditional talks about possible future situations.",
+    "true": true,
+    "why": "A possible condition and its probable result."
+   }
+  ],
+  "links": [
+   {
+    "a": "Training",
+    "b": "Finding a job easily",
+    "answer": "If you get some training, you will find a job."
+   },
+   {
+    "a": "Passion for food",
+    "b": "Being a good chef",
+    "answer": "A good chef must have it."
+   }
+  ],
+  "sequence": {
+   "title": "Making a first conditional",
+   "steps": [
+    "Start with If",
+    "Use the present simple",
+    "Add a comma",
+    "Add will / a modal",
+    "Add the base verb"
+   ]
+  }
+ },
+ "2592": {
+  "claims": [
+   {
+    "text": "France was the most visited country in 2014.",
+    "true": true,
+    "why": "84.7 million tourists."
+   },
+   {
+    "text": "\"Attractive\" is a noun.",
+    "true": false,
+    "why": "It is an adjective."
+   },
+   {
+    "text": "Match words of the same part of speech.",
+    "true": true,
+    "why": "It makes matching easier."
+   },
+   {
+    "text": "Berlin is in Turkey.",
+    "true": false,
+    "why": "Berlin is in Germany."
+   }
+  ],
+  "links": [
+   {
+    "a": "Disney World",
+    "b": "Orlando, Florida",
+    "answer": "It is the flagship of the US attractions."
+   },
+   {
+    "a": "The Black Forest",
+    "b": "Germany",
+    "answer": "It is in the south of Germany."
+   }
+  ],
+  "sequence": {
+   "title": "Most visited countries (2014)",
+   "steps": [
+    "France",
+    "The US",
+    "Spain",
+    "China",
+    "Italy",
+    "Turkey",
+    "Germany",
+    "The UK"
+   ]
+  }
+ },
+ "2593": {
+  "claims": [
+   {
+    "text": "\"I can only apologise\" is a response to a complaint.",
+    "true": true,
+    "why": "It shows you are sorry."
+   },
+   {
+    "text": "You should complain rudely to get results.",
+    "true": false,
+    "why": "Be polite and clear."
+   },
+   {
+    "text": "Graduates of the events course can work internationally.",
+    "true": true,
+    "why": "From the listening."
+   },
+   {
+    "text": "\"Up to standard\" means not good enough.",
+    "true": false,
+    "why": "It means good enough."
+   }
+  ],
+  "links": [
+   {
+    "a": "Noisy air conditioning",
+    "b": "Complaint",
+    "answer": "The guest is not happy."
+   },
+   {
+    "a": "Complaint",
+    "b": "Apology and promise",
+    "answer": "The receptionist responds politely."
+   }
+  ],
+  "sequence": {
+   "title": "Dealing with a complaint",
+   "steps": [
+    "Listen to the guest",
+    "Apologise",
+    "Find out the problem",
+    "Offer a solution",
+    "Promise it won't happen again"
+   ]
+  }
+ },
+ "2594": {
+  "claims": [
+   {
+    "text": "A narrative essay needs a clear sequence of events.",
+    "true": true,
+    "why": "Events must be logical."
+   },
+   {
+    "text": "Cosy means cold and uncomfortable.",
+    "true": false,
+    "why": "It means warm and comfortable."
+   },
+   {
+    "text": "Attentive service is a good thing.",
+    "true": true,
+    "why": "Waiters pay close attention to you."
+   },
+   {
+    "text": "The introduction is not important.",
+    "true": false,
+    "why": "It makes the reader want to continue."
+   }
+  ],
+  "links": [
+   {
+    "a": "Noisy children",
+    "b": "Ruined meal",
+    "answer": "The parents did not control them."
+   },
+   {
+    "a": "Comparing the chef's food to fast food",
+    "b": "Angry chef",
+    "answer": "He felt insulted."
+   }
+  ],
+  "sequence": {
+   "title": "A Nightmare Meal",
+   "steps": [
+    "They went to an expensive sea-food restaurant",
+    "A family with noisy children came in",
+    "The writer complained about the food",
+    "The chef marched over angrily",
+    "The ending"
+   ]
+  }
+ },
+ "2595": {
+  "claims": [
+   {
+    "text": "Biofuels are made from living matter.",
+    "true": true,
+    "why": "Plants and trees."
+   },
+   {
+    "text": "The 2008 plane used 100% biofuel.",
+    "true": false,
+    "why": "It used 20% biofuel."
+   },
+   {
+    "text": "Pronouns help a text to be cohesive.",
+    "true": true,
+    "why": "They link sentences."
+   },
+   {
+    "text": "\"Emit\" means \"leave out\".",
+    "true": false,
+    "why": "It means send out gas."
+   }
+  ],
+  "links": [
+   {
+    "a": "More planes",
+    "b": "More air pollution",
+    "answer": "The aviation industry is growing."
+   },
+   {
+    "a": "Biofuels",
+    "b": "Smaller carbon footprint",
+    "answer": "They can reduce emissions."
+   }
+  ],
+  "sequence": {
+   "title": "Finding what a pronoun refers to",
+   "steps": [
+    "Find the pronoun",
+    "Read the sentence before",
+    "Find the nouns",
+    "Check which one makes sense",
+    "Replace the pronoun to test"
+   ]
+  }
+ },
+ "2596": {
+  "claims": [
+   {
+    "text": "\"since\" is used with a period of time.",
+    "true": false,
+    "why": "since + point in time; for + period."
+   },
+   {
+    "text": "\"I've been waiting for an hour\" shows a continuing action.",
+    "true": true,
+    "why": "Present perfect continuous."
+   },
+   {
+    "text": "\"I have been knowing him\" is correct.",
+    "true": false,
+    "why": "know is a state verb."
+   },
+   {
+    "text": "Miss Smith wrote to the City Council.",
+    "true": true,
+    "why": "To Mr West, the director."
+   }
+  ],
+  "links": [
+   {
+    "a": "Traffic congestion",
+    "b": "Late for work",
+    "answer": "She has been late every day this week."
+   },
+   {
+    "a": "Getting up earlier",
+    "b": "No improvement",
+    "answer": "Other drivers do the same."
+   }
+  ],
+  "sequence": {
+   "title": "Present perfect continuous",
+   "steps": [
+    "Subject",
+    "have / has",
+    "been",
+    "verb + -ing",
+    "for / since + time"
+   ]
+  }
+ },
+ "2597": {
+  "claims": [
+   {
+    "text": "A fatality is a death in an accident.",
+    "true": true,
+    "why": "From the vocabulary list."
+   },
+   {
+    "text": "Speed bumps make cars go faster.",
+    "true": false,
+    "why": "They slow traffic down."
+   },
+   {
+    "text": "You should choose an option because you heard the same word.",
+    "true": false,
+    "why": "Listen for the meaning."
+   },
+   {
+    "text": "Road rage is aggressive driving behaviour.",
+    "true": true,
+    "why": "Drivers become violently angry."
+   }
+  ],
+  "links": [
+   {
+    "a": "No seat belt",
+    "b": "Injuries",
+    "answer": "Students were hurt in the bus crash."
+   },
+   {
+    "a": "Speed bumps",
+    "b": "Safer residential areas",
+    "answer": "They slow cars down."
+   }
+  ],
+  "sequence": {
+   "title": "Answering MCQ listening items",
+   "steps": [
+    "Read the stem",
+    "Read all options",
+    "Underline key words",
+    "Listen for the meaning",
+    "Choose and check on the second listening"
+   ]
+  }
+ },
+ "2598": {
+  "claims": [
+   {
+    "text": "Air traffic controllers give instructions to pilots.",
+    "true": true,
+    "why": "About taking off and landing."
+   },
+   {
+    "text": "Tariq finds his job always boring.",
+    "true": false,
+    "why": "He finds it rewarding."
+   },
+   {
+    "text": "\"It's used for seeing\" explains purpose.",
+    "true": true,
+    "why": "used for + -ing."
+   },
+   {
+    "text": "Baggage handlers fly the planes.",
+    "true": false,
+    "why": "They weigh and transport luggage."
+   }
+  ],
+  "links": [
+   {
+    "a": "Security personnel",
+    "b": "Passenger safety",
+    "answer": "They check passengers and bags."
+   },
+   {
+    "a": "Air traffic control",
+    "b": "Safe landings",
+    "answer": "Planes land in the right order."
+   }
+  ],
+  "sequence": {
+   "title": "A passenger at the airport",
+   "steps": [
+    "Check in",
+    "Security check",
+    "Wait at the gate",
+    "Board the plane",
+    "Take off"
+   ]
+  }
+ },
+ "2599": {
+  "claims": [
+   {
+    "text": "One freight train can carry the load of 300 trucks.",
+    "true": true,
+    "why": "From the essay."
+   },
+   {
+    "text": "\"Although\" shows addition.",
+    "true": false,
+    "why": "It shows contrast."
+   },
+   {
+    "text": "Conjunctions make an essay coherent.",
+    "true": true,
+    "why": "They link ideas smoothly."
+   },
+   {
+    "text": "The rail network will only link Omani cities.",
+    "true": false,
+    "why": "It will also connect GCC countries."
+   }
+  ],
+  "links": [
+   {
+    "a": "Rail network",
+    "b": "30,000 jobs",
+    "answer": "Economic benefit."
+   },
+   {
+    "a": "Fewer trucks on roads",
+    "b": "Less pollution and congestion",
+    "answer": "Environmental and social benefit."
+   }
+  ],
+  "sequence": {
+   "title": "Writing an informative essay",
+   "steps": [
+    "Choose the topic",
+    "Plan the paragraphs",
+    "Write the introduction",
+    "Write body paragraphs with conjunctions",
+    "Write the conclusion and edit"
+   ]
+  }
  }
 }

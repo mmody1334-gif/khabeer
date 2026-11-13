@@ -1,0 +1,342 @@
+// بنك أسئلة اللغة الإنجليزية — الثاني عشر (الفصل الدراسي الأول) — Engage with English 12A
+// (الملف في مجلد bio_bank لأن صيغته ومحلّله واحد.)
+// عناصر اللغة حسب Student Assessment Handbook – English Grades 11-12 (Sept. 2026), ص 9:
+//   G = GRM (القواعد) · V = VCB (المفردات) · R = RDG (القراءة) · W = WRT (الكتابة) — والحرف التالي مستوى الصعوبة: ن منخفضة، م متوسطة، ر مرتفعة.
+// المصادر: نصوص الكتاب وأنشطته، ومفردات امتحانات الوزارة للفصل الأول (قراءة 1، مفردات، قواعد) منسوبة إلى أقرب درس.
+
+#2580
+s: Coursebook pp. 1–3 — Unit 1: A Fair Exchange
+m: Rم|In 5000 BCE, the centre of the frankincense trade was Dhofar. Frankincense was one of the most valuable products in the ancient world, so traders in frankincense became very wealthy. // Why did frankincense traders become rich?|Frankincense was very valuable.|They sold oil.|They built ships.
+m: Rم|The Middle East lands are in an excellent location for trading with countries in the East, such as India and China, and those in Europe and the West. // The Middle East is good for trade because of its ______.|location|weather|oil only
+m: Rن|Trade has changed the course of history. It has started wars, made countries rich and led to the discovery of new lands. // According to the text, trade has ______.|changed history|stopped wars|made all countries poor
+m: Vم|People who buy and sell goods are called ______.|merchants|consumers|passengers
+m: Gم|In the past, merchants ______ far from their homes to trade in silk and spices.|travelled|were travelled|travel
+w: Rن1|According to the coursebook text (Unit 1: A Fair Exchange), is this statement True or False? // Arab dhows discovered sea routes to India, China and East Africa. => True
+w: Rم1|What does a topic sentence give? => the main idea of a paragraph
+w: Vن1|Complete the word: (adverb) suddenly and greatly. e.g. Goods have changed dram________. => dramatically
+l: Wم5|Write an evaluative paragraph (at least 100 words): Is shopping a good way to feel better ("retail therapy")? Give your opinion and reasons. => Clear opinion ;; At least two reasons with examples ;; Linking words ;; Appropriate vocabulary ;; At least 100 words
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Rم1|Dear Ali, Thank you for recommending ‘Mandela’ by Jennifer Williams. It was such an inspiring book! I learned so much about Nelson Mandela’s struggle, including his 27 years in prison before he became the President of South Africa. Sameer // Statement: The book ‘Mandela’ was recommended by Jennifer Williams. (True or False?) => False
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+m: Vم|Smart __________ always compare prices before buying online.|consumers|inventors|sellers|coordinators
+
+#2581
+s: Coursebook pp. 4–5 — Unit 2: What's in a Name?
+m: Gن|Microsoft ______ in 1975 by Bill Gates.|was founded|founded|is founded
+m: Gم|Adidas ______ from the name of its founder, Adolf Dassler.|was taken|took|was took
+m: Gم|The Wright brothers first ______ a plane and then flew it.|built|were built|build
+m: Gم|Mobile phones ______ until the late twentieth century.|were not created|did not create|not created
+m: Vم|Companies use slogans and ______ to persuade us to buy their products.|logos|rituals|routes
+m: Rم|Chevrolet chose the name "Nova" for a new car. "Nova" is from Latin and means "new", but in Spanish "no va" means "it doesn't go". // Why was "Nova" a bad name in Spanish-speaking markets?|It sounded like "it doesn't go".|It was too long.|It was a Latin word.
+w: Rن1|Branding is not new. In ancient times, people burned marks on things and animals to show ownership. But branding in business was not developed until the early nineteenth century, when trademarks and logos were introduced. // Statement: Trademarks and logos were introduced in ancient times. (True or False?) => False
+w: Gم1|Complete with ONE word: The first telephone ______ invented by Alexander Graham Bell. => was
+w: Vن1|Complete the word: (noun) a person who buys and uses products. e.g. The brand burns a mark into the mind of the cons_____. => consumer
+l: Wم5|Write an informative paragraph (at least 100 words) about the history of a famous company or brand. Use the past simple and the past simple passive. => Name and founder ;; Dates and key events ;; Past simple and passive used correctly ;; Logical order ;; At least 100 words
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Rم1|Amazon was founded by Jeff Bezos in 1994 in Seattle. At first, the company sold only books online. Later, it expanded to include a wide range of products such as electronics, clothing, and household items. Today, Amazon is the largest online retailer in the world. // Statement: Amazon began as a website that sold just one product. (True or False?) => True
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Rم1|My first year as a flight attendant was stressful and disappointing. The long working hours and low salary made me think about leaving for another company. However, I chose to stay, and I have never regretted that decision. // Statement: The writer is satisfied with his decision to stay in the job. (True or False?) => True
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Rم1|In 1969, scientists tried to send the first word over the internet. They chose the word ‘LOGIN.’ Unfortunately, the computer crashed after the first two letters which only said, ‘LO.’ That was all the system managed to send. // Statement: The first word sent over the internet was ‘LOGIN’. (True or False?) => False
+
+#2582
+s: Coursebook pp. 6–7 — Unit 3: Shop Till You Drop
+m: Vن|I always ______ my homework before dinner.|do|make|take
+m: Vن|Everyone can ______ a mistake.|make|do|have done
+m: Vم|Spending too much money is ______ spending.|excessive|affluent|corporate
+m: Vم|A ______ buyer cannot control the need to shop.|compulsive|consoling|commercial
+m: Vم|If you cannot pay your debts, you may face ______.|bankruptcy|consolation|passion
+m: Rم|Katy has just bought her fourth pair of designer shoes this week at two hundred pounds a pair. "I deserve a treat for working hard," she says. // How does Katy feel about spending money on herself?|She doesn't feel bad.|She feels guilty.|She feels angry.
+w: Rن1|According to the coursebook text (Unit 3: Shop Till You Drop), is this statement True or False? // Shopaholics are always women. => False
+w: Vن1|Complete the word: (noun) something that makes you feel better. e.g. People buy things when they need cons______. => consolation
+w: Gم1|Complete with "make" or "do": Can you ______ me a favour? => do
+l: Wم5|Write an evaluative paragraph (at least 100 words): Are teenagers today spending too much money on shopping? Give your opinion with reasons. => Clear opinion ;; Reasons and examples ;; Vocabulary from the unit ;; Linking words ;; At least 100 words
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Rم1|Looking for the perfect pair of sports shoes? Come and discover our brand-new collection. Price: Starting from only OMR 15 Special Offer: Buy 2 pairs and get the 3rd FREE – this weekend only! Don’t miss this amazing deal. // Statement: The special offer is limited to this weekend. (True or False?) => True
+
+#2583
+s: Coursebook pp. 8–9 — Unit 4: Malls and Markets
+m: Gن|I'd rather ______ my money on a new phone.|spend|to spend|spending
+m: Gم|I'm not very keen ______ eating out.|on|in|at
+m: Gم|I prefer not ______ when it's crowded.|to go|go|going to
+m: Vم|In the souq you can get a lower price by ______.|bargaining|parking|walking
+m: Vن|A large building with many shops is a ______.|mall|souq|stall
+m: Rم|The souq has narrow passages with tiny shops and friendly shopkeepers. There are lots of opportunities for bargaining, and it has old-fashioned charm. // Which is true about the souq?|You can bargain there.|It has wide walkways.|It sells only top brands.
+w: Rن1|According to the coursebook text (Unit 4: Malls and Markets), is this statement True or False? // Before you listen, predicting the information can help you understand the vocabulary. => True
+w: Vن1|Complete the word: (noun) the feeling of a place. e.g. I really like the atmo_______ in the souq. => atmosphere
+w: Gم1|Complete with ONE word: I'm not a ______ of modern shopping malls. => fan
+l: Wم5|Write an evaluative paragraph (at least 100 words): Which is better for shopping, a modern mall or a traditional souq? => Clear opinion ;; Comparison with examples ;; Preference language ;; Linking words (whereas, however) ;; At least 100 words
+s: امتحان الوزارة 2024/2025 — الدور الأول
+m: Vم|The new mall needs effective _______ campaigns to attract more customers.|advertising|passion|consolation|ritual
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+m: Vم|We went to the shopping _________ to buy some clothes.|mall|accommodation|campus|cruises
+
+#2584
+s: Coursebook pp. 10–11 — Unit 5: Adverts – Appealing or Appalling
+m: Vن|A short, memorable phrase used in advertising is a ______.|slogan|logo|brand
+m: Vم|The advert was ______ – it was attractive and interesting.|appealing|appalling|misleading
+m: Vم|The main purpose of most adverts is to ______ people to buy.|persuade|inform only|refuse
+m: Vم|This perfume is very ______.|fragrant|nutritious|cost-saving
+m: Gم|This phone is ______ than the old model.|more powerful|powerfuller|most powerful
+m: Rم|Some adverts can be misleading. For example, a juice advert may show fresh fruit, but the drink may contain only 10% fruit juice. // Why is this advert misleading?|It gives a wrong idea about the product.|It is too short.|It has no slogan.
+w: Rن1|According to the coursebook text (Unit 5: Adverts – Appealing or Appalling), is this statement True or False? // A catchy slogan is difficult to remember. => False
+w: Vن1|Complete the word: (adjective) giving a wrong idea. e.g. The advert was mis______. => misleading
+w: Gم1|Complete with ONE word: The advert is aimed ______ teenagers. => at
+l: Wم5|Write an evaluation (at least 100 words) of an advertisement you have seen. Say what is good and bad about it and whether it is appealing or appalling. => Introduction describing the advert ;; Positive points ;; Negative points ;; Clear conclusion/judgement ;; At least 100 words
+
+#2585
+s: Coursebook pp. 17–19 — Unit 1: Goodbye, School!
+m: Vم|Many students are ______ about leaving school – worried and a little afraid.|apprehensive|independent|rewarding
+m: Vن|The date by which an essay must be finished is the ______.|deadline|campus|timetable gap
+m: Vم|Calling home regularly will reduce ______.|homesickness|independence|confidence
+m: Vم|You should ______ tasks: an essay due tomorrow is more important than one due next week.|prioritise|postpone|prepare for
+m: Rم|Take opportunities to make new friends, even if you're shy. Join clubs and societies. // What does the writer advise shy students to do?|join clubs and societies|stay in their rooms|call home every hour
+m: Rم|Most young people consider university a wonderful experience, and many regard it as the best time of their lives. // How do most young people see university?|as a wonderful experience|as a waste of time|as very boring
+w: Rن1|According to the coursebook text (Unit 1: Goodbye, School!), is this statement True or False? // It is normal to be apprehensive about something new. => True
+w: Vن1|Complete the word: (noun) university land and buildings. e.g. Learn how to find your way around the cam___. => campus
+w: Rم1|What is "homesickness"? => the feeling of missing your home
+l: Wم5|Write an evaluative paragraph (at least 100 words): Is it better to start work or continue studying after school? => Clear opinion ;; Reasons and examples ;; Balanced view ;; Linking words ;; At least 100 words
+s: امتحان الوزارة 2024/2025 — الدور الأول
+m: Vم|Studying at New York University can be ______ because it is very expensive.|challenging|official|rewarding|awesome
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+m: Vم|One _________ of studying at university is having better job opportunities in the future.|benefit|disadvantage|emotion|risk
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Rم1|Ayman visited the Philippines with his friends. They stayed for a week. He went scuba diving and surfing. He also visited some islands where he went swimming every day. He did not go hiking with his friends. // Statement: Ayman spent all his time doing water activities in the Philippines. (True or False?) => True
+
+#2586
+s: Coursebook pp. 20–21 — Unit 2: Coping with Change
+m: Gن|Before Ali came to Oman, he ______ in Qatar for a long time.|had lived|was living|lives
+m: Gم|Oh no, it's raining! If only I ______ my umbrella.|had remembered|remembered|remember
+m: Gم|All the students wished they ______ so much time last year.|hadn't wasted|didn't waste|don't waste
+m: Gم|My friend said he ______ a new job.|had found|has found|finds
+m: Gن|The teacher asked me where I ______.|had been|have been|was being
+m: Rم|Faisal: Last week the teacher gave us an essay to write. The deadline's today. But I wish I'd started it sooner. I didn't finish it till 2 am. So I overslept this morning. // Why did Faisal oversleep?|He finished his essay very late.|His alarm was broken.|He was ill.
+w: Rن1|According to the coursebook text (Unit 2: Coping with Change), is this statement True or False? // Before he started university, Abdullah had never cooked for himself. => True
+w: Gم1|Complete with ONE word: I ______ finished my homework before my friend arrived. => had
+w: Vن1|Complete the word: (verb) to sleep longer than you planned. e.g. I overs____ this morning and missed the bus. => overslept
+l: Wم5|Write a narrative paragraph (at least 100 words) about a day when everything went wrong. Use the past perfect and at least one regret (I wish I'd…). => Clear setting ;; Sequence of events ;; Past perfect used correctly ;; A regret with wish/if only ;; At least 100 words
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Rم1|Hi Mum, I just arrived in Malaysia. The flight was long but comfortable. My new flat is too small and far away from the university. I’m thinking about moving to a bigger one which is closer, but it’s more expensive. So, what do you think? Love, Rashid // Statement: Rashid is happy with his new flat. (True or False?) => False
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Rم1|Although my sister knows that I hate shopping, she asked me to go with her to the Mall of Oman in Muscat. I thought it would be a boring day. However, I had an amazing experience. I went ice skating for two hours. // Statement: The writer enjoyed his time at the Mall of Oman. (True or False?) => True
+
+#2587
+s: Coursebook pp. 22–23 — Unit 3: Studying Abroad
+m: Vم|Studying abroad is about ______ to a new culture.|adapting|adopting|admiring
+m: Vن|What kind of ______ do students live in – flats or halls?|accommodation|attitude|influence
+m: Vم|The way you think will ______ how you behave.|influence|improve|cope
+m: Vم|Studying abroad can be exciting, but also a little ______.|scary|scared|scare
+m: Rم|If you don't think you will make new friends, you are less likely to make friends, because you won't notice when people are being friendly towards you. // Why is a positive attitude important?|It affects how you behave.|It helps you get a degree.|It makes accommodation cheaper.
+m: Rم|Talk to other people who have studied in the same town or university. Read the website of the university or college you are going to. // These are suggestions for ______.|preparing yourself|choosing a job|learning to drive
+w: Rن1|According to the coursebook text (Unit 3: Studying Abroad), is this statement True or False? // Studying abroad is only about getting a degree from a foreign university. => False
+w: Vن1|Complete the word: (noun) a qualification from a university. e.g. He went abroad to get a deg___. => degree
+w: Gم1|Complete with ONE word: The ______ you can find out before you go, the easier your life will be. => more
+l: Wم5|Write an evaluative paragraph (at least 100 words): What are the advantages and disadvantages of studying abroad for young Omanis? => Topic sentence ;; Advantages with examples ;; Disadvantages ;; Your conclusion ;; At least 100 words
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Rم1|Rashid went to the cinema to watch ‘The Lost Treasure’ after reading positive reviews about the movie. When he arrived, the ticket office was crowded, and he had to wait an hour to buy tickets. The movie’s plot was very exciting. // Statement: ‘The Lost Treasure’ is a popular movie. (True or False?) => True
+
+#2588
+s: Coursebook pp. 24–25 — Unit 4: A Helping Hand
+m: Gم|Can you tell me where ______?|it is|is it|it's is
+m: Gن|I'm not sure I ______ you. Could you say that again?|follow|understand of|clear
+m: Gم|Could you explain what ______ this week?|is happening|is it happening|happens it
+m: Vم|A test that shows which level you should study at is a ______ test.|placement|driving|blood
+m: Vن|"Got it!" means ______.|I understand|I lost it|I bought it
+m: Rم|The SQU Rovers are an active group of students at Sultan Qaboos University. At the start of the first semester, they work closely with teachers on the Foundation Programme to help new students. // What do the Rovers do at the start of the semester?|help new students|take exams|teach English
+w: Rن1|According to the coursebook text (Unit 4: A Helping Hand), is this statement True or False? // There are more female Rovers than male Rovers. => False
+w: Vن1|Complete the word: (noun) an explanation that makes something clear. e.g. Ask for clar__________ if you don't understand. => clarification
+w: Gم1|Complete with ONE word: Are you ______ me? (checking that someone understands) => with
+l: Wم5|Write an informative paragraph (at least 100 words) giving advice to new students on how to cope with their first week at university. => Topic sentence ;; At least three practical tips ;; Reasons ;; Linking words ;; At least 100 words
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+m: Vم|The company had financial problems, so some of the employees _________ their jobs.|lost|reduced|found|revealed
+
+#2589
+s: Coursebook pp. 26–27 — Unit 5: A Letter to a Teacher
+m: Vن|"Yours faithfully" is ______.|formal|informal|rude
+m: Vن|When you plan your writing, make ______ using key words.|notes|essays|letters
+m: Gم|We use an ______ in "teacher's book" to show possession.|apostrophe|full stop|comma
+m: Gم|I am writing ______ tell you about myself.|to|for|about
+m: Rم|Your English teacher would like to find out some things about you, for example your family, what you enjoy doing in your spare time, and what your plans for the future are. // The teacher wants to know about the students' ______.|lives and plans|exam marks|telephone numbers
+m: Rم|Here's some advice to help you do well in this class. First, practise your English in and out of class. Second, ask questions when you don't understand. // The writer advises students to ______.|ask questions|stay silent|study only at home
+w: Rن1|According to the coursebook text (Unit 5: A Letter to a Teacher), is this statement True or False? // The welcome letter is written by a course co-ordinator. => True
+w: Vن1|Complete the word: (noun) important words that help you remember ideas. e.g. Use k__ words in your notes. => key
+w: Gم1|Complete with ONE word: I wish you success ______ your English lessons. => in
+l: Wم5|Write a letter (at least 100 words) to your new English teacher at university telling them about yourself, your hobbies, your learning of English and your plans. => Suitable greeting and opening ;; Paragraphs on self, hobbies, English, plans ;; Appropriate style ;; Correct punctuation ;; Suitable closing; at least 100 words
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Rم1|The University of Tokyo, founded in 1877, is Japan’s first national university. It is proud that 17 of its graduates have been awarded Nobel Prizes. It is famous for its world-class programs in engineering, medicine, and law. Most of the courses are taught in Japanese but some are in English. // Statement: English is the main language used for teaching in the University. (True or False?) => False
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Rم1|I left Oman to study medicine at a university in Canada. I speak English very well but I live in Montreal where French is spoken more commonly, especially in daily life. It was difficult to communicate with the locals when I first arrived. // Statement: The writer went to Canada to study French. (True or False?) => False
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Rم1|Ahmed wanted to study at a university in New Zealand, but he needed at least band 7 in the IELTS exam. The first time he took the exam, he only got band 6. After studying hard for four weeks, he got the score he needed to go there. // Statement: Ahmed did not get the required IELTS score in his first try. (True or False?) => True
+
+#2590
+s: Coursebook pp. 33–35 — Unit 1: A Warm Welcome
+m: Rم|Max (Germany): I'm into action and adventure, and Oman offers plenty of both. You can go camping in the desert, or scuba diving or rock climbing. I like Al Jebel Al Akhdar, but for me Jebel Shams is best of all. // Max's favourite place in Oman is ______.|Jebel Shams|Al Jebel Al Akhdar|Wadi Ghul
+m: Rم|Donna (UK): I'm interested in anything to do with history. The forts and castles in Oman are awesome. The museums are excellent too, and you can see rock art hidden in caves. // Donna is interested in ______.|all historical things|only museums|mainly beaches
+m: Rن|Yoshi (Japan): I love the variety of scenery in Oman – dramatic mountains and canyons, breathtaking beaches and amazing deserts. // Yoshi likes Oman because of its ______.|different kinds of scenery|skyscrapers|shopping malls
+m: Vم|We had to ______ for six hours to reach the village in the mountains.|trek|export|cruise
+m: Vم|Wadi Ghul is a long, deep ______ with steep sides.|canyon|dune|beach
+w: Rن1|According to the coursebook text (Unit 1: A Warm Welcome), is this statement True or False? // In 2015, the New York Times listed Oman as Number 20 of 52 destinations to visit. => True
+w: Vن1|Complete the word: (noun) animals, birds and plants living in a natural area. e.g. New Zealand has fantastic wild_____. => wildlife
+w: Gم1|Complete with ONE word: If you're really brave, you ______ abseil down the canyons of Wadi Ghul. => can
+l: Wم5|Write an informative paragraph (at least 100 words) for a tourism magazine: "Oman – a land with something for everyone". => Introduction ;; Adventure, nature and history with examples ;; Tourism vocabulary ;; Linking words ;; At least 100 words
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Rم1|Japanese cuisine is known for its heavy use of meat and fish, with dishes like sushi and yakitori. Unlike Indian cuisine, vegetarian options are less common in Japan. This makes it difficult for people with special diets to find suitable meals. // Statement: Typically, Japanese food options are vegetarian. (True or False?) => False
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Rم1|IKEA has announced its Ramadhan Special Sale. Enjoy up to 40% off on selected items from the furniture and kitchenware sections. Ramadhan opening hours are from 10:00 a.m. to 11:30 p.m. // Statement: There is a 40% discount on all furniture and kitchenware items. (True or False?) => False
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+m: Vم|Al Maghsail Beach is a favourite tourist __________ in Dhofar.|attraction|career|building|foundation
+
+#2591
+s: Coursebook pp. 36–37 — Unit 2: Work and Travel
+m: Gن|If you ______ some training, you will find a job easily.|get|will get|got
+m: Gن|If we don't hurry, we ______ our plane.|'ll miss|miss|missed
+m: Gم|If you don't feel well, you ______ see a doctor. (advice)|should|may|could
+m: Gم|If you finish your work early, you ______ go home. (permission)|may|must|need to
+m: Vم|______ look after passengers' safety on the plane.|Cabin crew|Chefs|Travel agents
+m: Rم|If you enjoy working with people and food, a chef's job might be perfect for you. A good chef must have a passion for food and cooking and needs to know how to select food, prepare meals and create menus. // What must a good chef have?|a passion for food and cooking|a driving licence|a university degree in IT
+w: Rن1|According to the coursebook text (Unit 2: Work and Travel), is this statement True or False? // Hotel managers are responsible for everything from good service in the restaurant to safety in the swimming pool. => True
+w: Gم1|Complete with ONE word: If we go to London, we ______ visit Buckingham Palace. (possibility) => might
+w: Vن1|Complete the word: (noun) a person who organises trips and holidays. e.g. Ask a travel ag___ to book your flights. => agent
+l: Wم5|Write an informative paragraph (at least 100 words) about a job in tourism and hospitality: the skills needed and the responsibilities. => Name of the job ;; Skills and qualities ;; Responsibilities ;; First conditional/modals used ;; At least 100 words
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+m: Vم|The children are not allowed to watch the film because it is too _________.|scary|massive|ambitious|stylish
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+m: Vم|The restaurant is highly recommended for its _________ food.|delicious|inedible|tasteless|frustrating
+
+#2592
+s: Coursebook pp. 38–39 — Unit 3: Popular Destinations
+m: Vم|The Eiffel Tower is a major tourist ______ in Paris.|attraction|attract|attractive
+m: Vم|Tourists ______ to London's museums and palaces.|flock|flagship|flight
+m: Vن|Bodrum and Antalya are coastal ______ in Turkey.|resorts|routes|reports
+m: Gم|France is the world's ______ visited country.|most|more|much
+m: Rم|France (84.7 million tourists) is the world's most visited country, and Paris is the most popular destination in France. // How many tourists visited France in 2014?|84.7 million|69.8 million|31.2 million
+m: Rم|Germany is a country of beautiful mountains, wide rivers and thick forests, such as the Black Forest in the south. The most popular destination in Germany is Berlin. // The most popular destination in Germany is ______.|Berlin|Munich|the Black Forest
+w: Rن1|According to the coursebook text (Unit 3: Popular Destinations), is this statement True or False? // The UK had more tourists than Turkey in 2014. => False
+w: Vن1|Complete the word: (noun) a park with rides and games. e.g. Disney World is a famous amus_____ park. => amusement
+w: Gم1|What part of speech is "beautiful"? => adjective
+l: Wم5|Write an informative paragraph (at least 100 words) about a popular tourist destination you would like to visit and why. => Name and location ;; Main attractions ;; Reasons for visiting ;; Destination vocabulary ;; At least 100 words
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Rم1|The Rainbow Mountains are located in the Zhangye Geological Park in China. The mountains are known for their remarkable colours. However, less than 3000 tourists visit the area each year, making it one of the least visited destinations in the country. // Statement: The Rainbow Mountains are China’s top tourist site. (True or False?) => False
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Rم1|Many festivals take place in Morocco every year. For example, Fes Festival which attracts 10,000 visitors, compared to 15,000 at Marrakech Festival every year. However, more than 17,000 people attend Tantan Festival every summer, making it the most popular event in the country. // Statement: Tantan is the most visited festival in Morrocco. (True or False?) => True
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Rم1|In 2024, Morocco was the most visited country in Africa with about 17 million tourists, while Egypt came second with around 15 million visitors. However, experts believe Egypt could become the number one destination within the next three years. // Statement: Egypt is expected to be the top tourist country in Africa in the near future. (True or False?) => True
+
+#2593
+s: Coursebook pp. 40–41 — Unit 4: Service With a Smile
+m: Gن|I've got a ______ about my room.|complaint|complain|complaining
+m: Gم|Please accept my sincere ______.|apologies|apologise|sorry
+m: Gم|There's something wrong ______ the air conditioning.|with|in|for
+m: Vم|The service was not up to ______.|standard|stand|starter
+m: Rم|Maryam is enquiring about courses at the Oman Tourism College. She is most interested in a management course in events. Graduates can work internationally. // Where will graduates be able to work?|internationally|only in Oman|only in Ireland
+m: Rم|Guest: The room is dirty, the TV doesn't work and the air conditioning is very noisy. Receptionist: I'm terribly sorry, sir. I'll send someone to fix it straightaway. // How does the receptionist respond?|She apologises and promises to fix it.|She says it is not her problem.|She asks him to leave.
+w: Rن1|According to the coursebook text (Unit 4: Service With a Smile), is this statement True or False? // "I promise it won't happen again" is used to make a complaint. => False
+w: Vن1|Complete the word: (verb) to say sorry. e.g. I can only apol____. => apologise
+w: Gم1|Complete with ONE word: They'll do their ______ to fix it. => best
+l: Wم5|Write a formal e-mail (at least 100 words) to a hotel manager complaining about the service you received during your stay. => Formal greeting ;; Reason for writing ;; Clear complaints with details ;; What you expect ;; Formal closing; at least 100 words
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Rم1|Dear Muna, More colleagues are joining our business trip. So, I need to add three more rooms to the two we already booked. Could you also book a meeting room for 15 people during our stay? Ahmed // Statement: Ahmed booked 15 hotel rooms. (True or False?) => False
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Rم1|In Nepal’s mountain villages, some students cannot reach school because the way is very dangerous. As a result, the Himalayan Trust charity has constructed hostels near schools where students can stay for free during the week. // Statement: The Himalayan Trust built schools in Nepal. (True or False?) => False
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Rم1|Dear Ms. Nuha, Thank you for your inquiry about joining our Indian cooking course. I am sorry we have just completed this course. Our next course will be on Chinese cuisine. Please contact me if you are interested. Best regards, Mr. John Smith Chef’s Academy Institute // Statement: Nuha wants to learn how to cook Chinese food. (True or False?) => False
+
+#2594
+s: Coursebook pp. 42–43 — Unit 5: Eating Out
+m: Vن|Knives, forks and spoons are called ______.|cutlery|décor|crockery menu
+m: Vم|The waiters were very ______ – they looked after us well.|attentive|rude|crowded
+m: Vم|The restaurant has a warm and ______ atmosphere.|cosy|dirty|noisy
+m: Gم|We ______ just started eating when a young couple came in.|had|have|were
+m: Gن|The chef marched over to our table ______.|angrily|angry|anger
+m: Rم|In a narrative essay, the sequence of events must be clear and logical. The introduction is important too: if you don't introduce the subject clearly, your reader may not wish to continue reading. // According to the text, a narrative essay needs ______.|a clear sequence of events|many facts and figures|a list of opinions
+w: Rن1|According to the coursebook text (Unit 5: Eating Out), is this statement True or False? // Rude waiters and dirty cutlery describe a good restaurant. => False
+w: Vن1|Complete the word: (noun) the order in which events happen. e.g. The seq_____ of events must be clear. => sequence
+w: Gم1|Complete with ONE word: I have never been ______ insulted in all my life! => so
+l: Wم5|Write a narrative essay (at least 100 words) about a memorable meal out (good or bad). => Interesting introduction ;; Events in a clear sequence ;; Past tenses and sequence words ;; Descriptive details ;; Good ending; at least 100 words
+
+#2595
+s: Coursebook pp. 49–51 — Unit 1: Aviation Then and Now
+m: Vم|A ______ is a fuel produced from living matter like plants and trees.|biofuel|fossil fuel|jet engine
+m: Vم|Airlines are looking for ways to reduce their carbon ______.|footprint|footstep|emission line
+m: Vم|Planes ______ carbon dioxide and other gases into the air.|emit|omit|admit
+m: Vن|"Conventional" means ______.|usual|unusual|electric
+m: Rم|In February 2008 Virgin Atlantic became the first airline to fly a plane fuelled partly by biofuel. It used a mixture of 80% conventional jet fuel and 20% biofuel. // How much biofuel did the plane use?|20%|80%|100%
+m: Rم|The Virgin Atlantic plane, a Boeing 747, flew from London to Amsterdam. It carried pilots and technicians, but no passengers. // In the text, "It" refers to ______.|the plane|London|the biofuel
+w: Rن1|According to the coursebook text (Unit 1: Aviation Then and Now), is this statement True or False? // Airlines are currently responsible for 2% of the world's carbon dioxide emissions. => True
+w: Vن1|Complete the word: (adjective) cannot be eaten. e.g. Some biofuels are made from ined_____ plants. => inedible
+w: Gم1|Complete with ONE word: One way ______ can do this is by changing their fuel. (the airlines) => they
+l: Wم5|Write an evaluative paragraph (at least 100 words): Should airlines use biofuels instead of conventional fuels? => Clear opinion ;; Advantages and disadvantages ;; Reasons and examples ;; Linking words ;; At least 100 words
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+m: Vم|The bread was so dry and hard that it was almost __________.|inedible|delicious|fragrant|smooth
+
+#2596
+s: Coursebook pp. 52–53 — Unit 2: Congestion – A Growing Issue
+m: Gن|I've been living in Muscat ______ six months.|for|since|from
+m: Gن|She has worked here ______ 2019.|since|for|in
+m: Gم|I'm so tired. I've ______ for my exams all morning.|been studying|studied|study
+m: Gم|______ you ever been to Thailand?|Have|Has|Did
+m: Gم|A terrible hurricane ______ just ______ in America.|has / happened|have / happen|is / happening
+m: Vم|I felt ______ because the cars weren't moving at all.|frustrated|relaxed|calm
+m: Rم|I've been getting up earlier in the mornings to try and beat the traffic. But it's no good. The other drivers just seem to get up earlier too! // Why hasn't getting up earlier worked?|Other drivers also get up earlier.|She lives too far away.|Her car is old.
+w: Rن1|According to the coursebook text (Unit 2: Congestion – A Growing Issue), is this statement True or False? // Miss Smith is worried that her boss is going to fire her. => True
+w: Vن1|Complete the word: (noun) too much traffic on the roads. e.g. The cong______ was terrible this morning. => congestion
+w: Gم1|Complete with ONE word: I've ______ calling you all morning! => been
+l: Wم5|Write an informative paragraph (at least 100 words) about how traffic in your town has changed in recent years. Use the present perfect and present perfect continuous. => Topic sentence ;; Changes with examples ;; Both tenses used correctly ;; for/since ;; At least 100 words
+s: امتحان الوزارة 2024/2025 — الدور الأول
+w: Rم1|The Bali Arts Festival was established in 1979 to celebrate Indonesia’s traditional arts. The first festival lasted for two months, but since 1980 it has since been reduced to one month to save costs. Most visitors are locals, with very few from neighbouring countries. // Statement: Nowadays, the Bali Arts Festival is a one-month event. (True or False?) => True
+s: امتحان الوزارة 2024/2025 — الدور الأول
+m: Vم|More traffic lights have been added to reduce the heavy _______ on the city’s roads.|congestion|transition|voyage|aviation
+
+#2597
+s: Coursebook pp. 54–55 — Unit 3: Safety on the Roads
+m: Vن|A raised area across a road to slow cars down is a speed ______.|bump|bomb|bank
+m: Vم|A death in an accident is a ______.|fatality|fault|statistic
+m: Vم|Learner drivers can practise on a driving ______ before going on the road.|simulator|statistic|residential
+m: Vم|Shouting at other drivers because you are angry is called road ______.|rage|range|race
+m: Gم|The number of accidents ______ since the new speed cameras were installed.|has decreased|decreases|is decrease
+m: Rم|Some students were injured because they were standing up instead of sitting down and wearing seat belts. // Why were the students injured?|They weren't wearing seat belts.|The bus was too slow.|The driver was a student.
+w: Rن1|According to the coursebook text (Unit 3: Safety on the Roads), is this statement True or False? // Residential areas are districts where people go shopping. => False
+w: Vن1|Complete the word: (noun) sets of numbers representing measurements. e.g. Accident stat_______ show that young drivers are at risk. => statistics
+w: Gم1|Complete with ONE word: You must wear a seat belt ______ you drive. => when
+l: Wم5|Write an informative paragraph (at least 100 words) about ways to improve road safety in Oman. => Topic sentence ;; At least three ways with explanation ;; Road-safety vocabulary ;; Linking words ;; At least 100 words
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Rم1|A recent report by Dubai Police has shown that car accidents have decreased by 35% compared to last year. Also, the number of people using mobile phones while driving has dropped to 60%. However, the percentage of cyclists not wearing helmets is still high. // Statement: Cyclists in Dubai follow road safety rules more than car drivers. (True or False?) => False
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Rم1|Yesterday, a school bus crashed into a wall. Some students were injured because they were standing up instead of sitting down and wearing seat belts. Later, the police said the accident happened because the driver was talking on his mobile phone. // Statement: Students caused the bus accident. (True or False?) => False
+
+#2598
+s: Coursebook pp. 56–57 — Unit 4: Jobs in Airports and Aviation
+m: Vن|An ______ gives instructions and directions to pilots.|air traffic controller|check-in agent|baggage handler
+m: Vم|A ______ helps passengers check in and answers their questions.|check-in agent|security officer|chef
+m: Vم|Tariq finds his job ______ – it gives him satisfaction.|rewarding|boring|stressful only
+m: Gم|Can you tell us ______ your work?|about|for|of
+m: Gم|The mirror is used for ______ the traffic behind you.|seeing|see|to seeing
+m: Rم|There are a huge number of jobs available at airports. Many different types of workers are needed to maintain safety and efficiency. // Why are many types of workers needed at airports?|to maintain safety and efficiency|to sell more tickets|to build new planes
+w: Rن1|According to the coursebook text (Unit 4: Jobs in Airports and Aviation), is this statement True or False? // Emergency services personnel include firefighters, medical staff and police officers. => True
+w: Vن1|Complete the word: (noun) working well without wasting time. e.g. Airports need safety and effi______. => efficiency
+w: Gم1|Complete with ONE word: What do you ______ by "other factors"? => mean
+l: Wم5|Write an informative paragraph (at least 100 words) about a job at an airport: responsibilities, skills needed and why it is important. => Name of job ;; Responsibilities ;; Skills/qualities ;; Importance ;; At least 100 words
+s: امتحان الوزارة 2025/2026 — الدور الأول
+w: Rم1|Dear Sami, I’ve been in Delhi, India, for almost a month now. I’ve been using the metro to discover the city because the tickets are quite cheap, but it’s always very crowded. The only time I took a taxi was when I arrived. Regards, Tariq // Statement: Tariq uses taxis to explore the city. (True or False?) => False
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+w: Rم1|Carlos used to arrive late to work in Mexico City because of heavy traffic. He usually took public buses and sometimes he used taxis, but he was still late for work. Then, he bought an e-scooter which always gets him to work on time. // Statement: Nowadays, Carlos is never late for work. (True or False?) => True
+
+#2599
+s: Coursebook pp. 58–59 — Unit 5: The Train is Approaching!
+m: Gن|Trains are fast. ______, they are cheaper than trucks for freight.|Moreover|However|Although
+m: Gم|The journey is long; ______, it is very comfortable.|however|because|such as
+m: Gم|A train can carry heavy loads. ______, trains have an advantage over trucks.|Therefore|Similarly|For example
+m: Gم|The project will create jobs ______ engineers, drivers and technicians.|such as|because|although
+m: Vم|Goods carried by train are called ______.|freight|fright|fare
+m: Rم|A single freight train can carry the same load as 300 trucks, but it can make the same journey in a much faster time. Therefore, trains have a great advantage over trucks concerning time and cost. // According to the essay, trains are better than trucks because they are ______.|faster and cheaper|smaller|quieter only
+w: Rن1|According to the coursebook text (Unit 5: The Train is Approaching!), is this statement True or False? // The Oman Rail Project will create about 30,000 jobs. => True
+w: Vن1|Complete the word: (adjective) clear and logical. e.g. Conjunctions make an essay coh_____. => coherent
+w: Gم1|Complete with ONE conjunction (reason): Many people prefer trains ______ they are comfortable. => because
+l: Wم5|Write an informative essay (at least 100 words) about the benefits of public transport in Oman. Use a variety of conjunctions. => Introduction with main idea ;; Body paragraphs with topic sentences ;; Supporting details ;; Variety of conjunctions ;; Conclusion; at least 100 words
+s: امتحان الوزارة 2024/2025 — الدور الثاني
+w: Rم1|The Hafeet Train Project aims to connect Sohar in Oman with Abu Dhabi in the UAE. Trains will run at speeds of up to 200 km/h. This will reduce the travel time between these two cities to an hour only. // Statement: It will take one hour to travel from Sohar to Abu Dhabi. (True or False?) => True
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+m: Vم|Oman plans to __________ the use of renewable energy for transport.|promote|reply|win|inform
+s: امتحان الوزارة 2025/2026 — الدور الثاني
+m: Vم|Children in Australia have __________ been banned from using social media.|recently|noisily|happily|differently

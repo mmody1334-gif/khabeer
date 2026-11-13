@@ -68,6 +68,8 @@ qbank = _untat(json.load(open(os.path.join(DATA, 'quiz_bank.json'), encoding='ut
 #   m: ع|نص السؤال|الصحيح|خطأ|خطأ|خطأ            (ع معرفة · ط تطبيق · س استدلال)
 #   w: ط2|نص السؤال => الإجابة النموذجية           (الرقم = الدرجة)
 _AO = {'ع': ('معرفة', 'منخفضة'), 'ط': ('تطبيق', 'متوسطة'), 'س': ('استدلال', 'مرتفعة')}
+# اللغة الإنجليزية (11–12): Student Assessment Handbook – English Grades 11-12 (Sept. 2026) يقيس عناصر اللغة لا مستويات التعلم
+_EN_AO = {'G': 'GRM', 'V': 'VCB', 'R': 'RDG', 'W': 'WRT'}
 def _ar_content():
     import hashlib
     d = os.path.join(DATA, 'ar_content'); study = {}; items = []
@@ -185,7 +187,11 @@ def _bio_bank():
                 # h = رمز الهدف (ع/ط/س) ثم حرف مستوى الصعوبة اختياريًا (ن/م/ر).
                 # الصفان 11-12: المستوى مستقل عن الهدف ويُحدَّد لكل مفردة بأعلى عملية معرفية تتطلبها
                 # (وثيقة تقويم تعلم الطلبة في مواد العلوم 11-12، إصدار 2026/2027، ص 10-11).
-                c = h[0]; ao, dif = _AO[c]
+                c = h[0]
+                if c in _EN_AO:  # اللغة الإنجليزية 11–12: عناصر اللغة (SAH 11-12، ص 9) بدل أهداف التقويم
+                    dif = LVL[h[1]] if len(h) > 1 and h[1] in LVL else 'متوسطة'
+                    return _EN_AO[c], dif
+                ao, dif = _AO[c]
                 if len(h) > 1 and h[1] in LVL: dif = LVL[h[1]]
                 return (('AO1' if c == 'ع' else 'AO2') if hi else ao), dif
             def marks(h, d):
