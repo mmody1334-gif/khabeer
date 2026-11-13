@@ -740,7 +740,7 @@ button.lv-opt{cursor:pointer}
 .checks ul{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:4px 16px}
 .checks li.n{color:var(--danger);font-weight:700}
 .ptabs{display:flex;gap:6px;margin:4px 0 0}
-.paper{background:#fff;color:#000;border-radius:4px;box-shadow:0 2px 14px rgba(0,0,0,.18);padding:28px 34px 36px;font-family:"Simplified Arabic","Traditional Arabic","IBM Plex Sans Arabic",Tahoma,serif;font-size:16px;line-height:1.75;-webkit-user-select:text;user-select:text;max-width:900px;margin:0 auto}
+.paper{color-scheme:light;background:#fff;color:#000;border-radius:4px;box-shadow:0 2px 14px rgba(0,0,0,.18);padding:28px 34px 36px;font-family:"Simplified Arabic","Traditional Arabic","IBM Plex Sans Arabic",Tahoma,serif;font-size:16px;line-height:1.75;-webkit-user-select:text;user-select:text;max-width:900px;margin:0 auto}
 .paper .oval,#printArea .oval{display:inline-block;width:22px;height:13px;border:1.5px solid #555;border-radius:8px;vertical-align:middle}
 .qi{position:relative;border-radius:8px}
 .paper .qi:hover{outline:2px dashed #b9d8cf;outline-offset:6px}
