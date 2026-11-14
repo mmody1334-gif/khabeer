@@ -1055,7 +1055,7 @@ body.ck-noscroll{overflow:hidden}body.ck-noscroll #modal{z-index:3000}body.ck-no
 .ck-lc{display:flex;flex-direction:column;gap:3px;align-items:flex-end;flex:none}.ck-sync-note{font-size:.64rem;opacity:.8;max-width:45vw;text-align:right;line-height:1.25}.ck-cnt{background:#16a34a;border-radius:999px;padding:2px 12px;font-size:.95rem;white-space:nowrap}.ck-cnt b{font-size:1.15rem}
 .ck-dist{font-size:.78rem;background:rgba(255,255,255,.14);border-radius:6px;padding:0 6px}.ck-dist.ok{background:#16a34a}
 .ck-cam{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.ck-rot{display:none;position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:3;background:rgba(255,159,28,.95);color:#1a1200;font-weight:700;font-size:.85rem;padding:7px 14px;border-radius:12px;white-space:nowrap;pointer-events:none}
+.ck-rot{display:none;position:absolute;bottom:64px;left:50%;transform:translateX(-50%);z-index:3;background:rgba(255,159,28,.95);color:#1a1200;font-weight:700;font-size:.85rem;padding:7px 14px;border-radius:12px;white-space:nowrap;pointer-events:none}
 @media (orientation:portrait){.ck-rot{display:block}}
 .ck-cam video,.ck-cam canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .ck-msg{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);padding:8px 16px;border-radius:12px;text-align:center;max-width:90%;transition:opacity .6s}.ck-msg.fade{opacity:0;pointer-events:none}
