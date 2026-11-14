@@ -733,7 +733,7 @@ function doPrint(name){var a=$('printArea'),t=document.title;document.title=Stri
 // توضع في <thead> فيتكرّر الشعاران في **كل صفحة** من الورقة المطبوعة.
 function PR_LOGOS(){return '<div class="plogo-row"><img class="plogo-moe" src="/brand/moe.png" alt="وزارة التعليم"><img class="plogo-vis" src="/brand/vision.png" alt="رؤية عُمان 2040"></div>';}
 // الورقة التي لها ترويسة رسمية (OFFICIAL_HEAD) تحمل الشعارين بنفسها، فلا نكرر صف الشعارات فوقها
-function PR_WRAP(h){var lg=/class="ohead"/.test(h)?'':PR_LOGOS();return '<table class="prw"><thead><tr><td>'+lg+'<div class="prsp"></div></td></tr></thead><tfoot><tr><td><div class="prsp"></div></td></tr></tfoot><tbody><tr><td>'+h+'</td></tr></tbody></table>';}
+function PR_WRAP(h){var lg=/class="ohead"/.test(h)?'':PR_LOGOS();return '<table class="prw"><thead><tr><td><div class="prsp"></div>'+lg+'</td></tr></thead><tfoot><tr><td><div class="prsp"></div></td></tr></tfoot><tbody><tr><td>'+h+'</td></tr></tbody></table>';}
 // ترويسة الأوراق الرسمية (الاختبار القصير، أوراق العمل والخطط…) بتنسيق نماذج الوزارة:
 // يمين: شعار وزارة التعليم وتحته المديرية والمدرسة · وسط: العنوان في شريط رمادي ثم الفصل/العام ثم مربع اسم الطالب
 // · يسار: شعار رؤية عُمان 2040 بنفس الحجم وتحته مربع الدرجة. تعمل في الطباعة وملف Word.

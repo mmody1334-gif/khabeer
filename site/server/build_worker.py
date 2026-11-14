@@ -792,12 +792,12 @@ button.lv-opt{cursor:pointer}
 @media print{
   @page{size:A4;margin:0}
   /* ترويسة الشعارين: وزارة التعليم يمينًا · رؤية عُمان يسارًا · تتكرّر كل صفحة */
-  #printArea .plogo-row{display:flex;justify-content:space-between;align-items:center;gap:8mm;padding:0 0 2mm}
+  #printArea .plogo-row{display:flex;justify-content:space-between;align-items:center;gap:8mm;padding:0 0 5mm}
   #printArea .plogo-row img{height:13mm;width:auto;display:block}
   #printArea .plogo-vis{height:12mm}
   /* جودة الطباعة: ألوان الشعارات والتظليل تُطبع كما هي */
   body.printing,#printArea{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  #printArea .prw{width:100%;border-collapse:collapse}#printArea .prw>thead>tr>td,#printArea .prw>tfoot>tr>td,#printArea .prw>tbody>tr>td{padding:0 12mm;border:0}#printArea .prsp{height:8mm}
+  #printArea .prw{width:100%;border-collapse:collapse}#printArea .prw>thead>tr>td,#printArea .prw>tfoot>tr>td,#printArea .prw>tbody>tr>td{padding:0 12mm;border:0}#printArea .prsp{height:12mm}
   body.printing>*:not(#printArea){display:none!important}
   body.printing #printArea{display:block!important;color:#000;font-family:"Simplified Arabic","Traditional Arabic","IBM Plex Sans Arabic",Tahoma,serif;font-size:14pt;line-height:1.6}
   body.printing{background:#fff!important}
