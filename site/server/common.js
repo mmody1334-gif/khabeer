@@ -291,7 +291,7 @@ function toolDialog(reason){
   var TABS=[['chrome','Chrome','🌐'],['firefox','Firefox','🦊'],['edge','Edge','🌊'],['safari','ماك / Safari','🧭'],['ios','iPhone','📱']];
   function stepsFor(b){
     if(b==='ios'){
-      function step(n,title,rows,link){
+      function step(n,title,rows,link,lt){
         return '<div class="iosg-step"><span class="iosg-n">'+n+'</span><div class="iosg-b">'+
           '<div class="iosg-t">'+title+'</div>'+
           rows.map(function(r){
@@ -302,22 +302,25 @@ function toolDialog(reason){
               return (i ? '<span class="iosg-a">›</span>' : '') + el;
             }).join('')+'</div>';
           }).join('')+
-          (link?'<div class="iosg-l"><a href="'+link+'" target="_blank" rel="noopener">افتحه الآن ←</a></div>':'')+
+          (link?'<div class="iosg-l"><a href="'+link+'" target="_blank" rel="noopener">'+(lt||'افتحه الآن ←')+'</a></div>':'')+
         '</div></div>';
       }
-      return '<button type="button" class="btn primary" id="iosPlayBtn" style="width:100%;margin:2px 0 6px">🎬 عرض تفاعلي — ٤٠ ثانية</button>'+
+      // فيديو شرح حقيقي من آيفون (مع علامة عند كل لمسة) ثم الخطوات المختصرة بروابطها
+      return '<video class="iosv" src="/pv/ios_noor.mp4" poster="/pv/ios_noor.jpg" controls playsinline preload="metadata" style="width:100%;max-height:62vh;border-radius:14px;background:#000;display:block;margin:2px auto 10px"></video>'+
       '<div class="iosg">'+
-        step('١','ثبّت <b>Userscripts</b> — مجاني',[
-          ['App Store','بحث','@Userscripts','احصل']
-        ],'https://apps.apple.com/app/userscripts/id1463298887')+
-        step('٢','فعّل الإضافة وامنح الإذن',[
-          ['@الإعدادات','Safari','الإضافات'],
-          ['iOS 26+: الإعدادات','@التطبيقات','Safari','الإضافات'],
-          ['@Userscripts','شغّل المفتاح','الكل: سماح']
+        step('١','ثبّت تطبيق <b>Userscripts</b> — مجاني',[
+          ['App Store','@Userscripts','@احصل']
+        ],'https://apps.apple.com/app/userscripts/id1463298887','افتح App Store ←')+
+        step('٢','فعّل الملحق في سافاري',[
+          ['الإعدادات','التطبيقات','Safari','الملحقات'],
+          ['@Userscripts','@السماح بالملحق']
         ])+
-        step('٣','ثبّت الأداة في سافاري',[
-          ['سافاري','@aA','Userscripts'],
-          ['@Install','تم']
+        step('٣','ثبّت الأداة من سافاري',[
+          ['@تثبيت الأداة','≡ القائمة','@Userscripts'],
+          ['@الشريط الأخضر','@Install','✓']
+        ],TOOL_URL,'افتح صفحة الأداة ←')+
+        step('٤','ارجع للمنصة وحدّث الصفحة',[
+          ['@أداة نور ✓']
         ])+
         '</div>'+
         '<p class="m-msg muted small" style="margin-top:8px">السهم الأخضر يشير إلى ما يجب الضغط عليه. الخطوات مرة واحدة فقط — بعدها تتحدّث الأداة تلقائيًا.</p>'+

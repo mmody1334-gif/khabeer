@@ -81,12 +81,14 @@ const ok = (n, c, extra) => { (c ? pass++ : fail++); console.log((c ? '  PASS  '
     return { id:pane.getAttribute('data-pane'), free:/Userscripts/.test(pane.textContent), openSource:/مجاني/.test(pane.textContent), appStore:pane.innerHTML.indexOf('apps.apple.com')>=0 };
   });
   ok('تبويب آيفون يعرض Userscripts المجاني', ios.id==='ios' && ios.free && ios.openSource, JSON.stringify(ios));
-  // دليل مصوّر بأسهم: 3 خطوات وإشارات ضغط واضحة
+  // فيديو الشرح أعلى التبويب، ثم دليل مصوّر بأسهم: 4 خطوات وإشارات ضغط واضحة
   const guide = await p.evaluate(() => {
     const pane = document.querySelector('.tt-pane.on');
     const taps = [...pane.querySelectorAll('.iosg-tap')];
     return {
       steps: pane.querySelectorAll('.iosg-step').length,
+      video: (pane.querySelector('video.iosv')||{}).getAttribute ? pane.querySelector('video.iosv').getAttribute('src') : '',
+      videoFirst: !!(pane.firstElementChild && pane.firstElementChild.matches('video.iosv')),
       taps: taps.length,
       labels: taps.map(t => t.textContent.trim()),
       arrow: taps.length ? getComputedStyle(taps[0], '::after').content : '',
@@ -94,7 +96,8 @@ const ok = (n, c, extra) => { (c ? pass++ : fail++); console.log((c ? '  PASS  '
       overflow: pane.scrollWidth > pane.clientWidth + 2
     };
   });
-  ok('دليل مصوّر من 3 خطوات', guide.steps === 3, guide.steps + ' خطوة');
+  ok('فيديو الشرح أول التبويب', guide.videoFirst && /\/pv\/ios_noor\.mp4$/.test(guide.video), guide.video);
+  ok('دليل مصوّر من 4 خطوات', guide.steps === 4, guide.steps + ' خطوة');
   ok('أسهم إشارة على ما يُضغط', guide.taps >= 4, guide.taps + ' إشارة: ' + JSON.stringify(guide.labels));
   ok('سهم مرئي على العنصر (::after)', guide.arrow && guide.arrow !== 'none', String(guide.arrow).slice(0, 20));
   ok('الدليل لا يتجاوز عرض الشاشة', guide.overflow === false, guide.overflow ? 'يتجاوز' : 'مناسب');
