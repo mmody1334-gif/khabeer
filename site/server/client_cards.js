@@ -51,7 +51,7 @@ function help(){
     '<h4>للمعلم: 4 خطوات</h4><ol>'+
       '<li><b>أضف صفًا:</b> اختر المادة والصف، والصق الأسماء بترتيب الكشف (من Excel أو نور). تحفظ المنصة <b>الاسم الأول والقبيلة</b> فقط (علي بن سالم بن محمد الشامسي ← علي الشامسي).</li>'+
       '<li><b>اطبع البطاقات:</b> بطاقتان في الصفحة بحجم 100%. البطاقة رقم 1 لأول طالب في الكشف، وهكذا. يحتفظ الطالب ببطاقته لكل الحصص.</li>'+
-      '<li><b>ولّد الأسئلة:</b> اختر الدروس والعدد (5/10/15/20) ثم «بدء الجلسة».</li>'+
+      '<li><b>ولّد الأسئلة:</b> اختر الدروس والعدد (5/10/15/20/25) ثم «بدء الجلسة».</li>'+
       '<li><b>اعرض وامسح:</b> «عرض الأسئلة» على كمبيوتر الفصل، وامسح رمز QR الظاهر عليه بكاميرا جوالك (بنفس حسابك) فتفتح كاميرا المسح. من الجوال: «التالي» و«الإجابة»، والسبورة تتبعك.</li></ol>'+
     '<h4>للطالب: كيف يرفع البطاقة؟</h4><p>يمسك البطاقة بحيث يكون حرف إجابته في <b>الأعلى</b> ويرفعها مواجهةً للمعلم:</p>'+holdRow(92)+
     '<h4>نصائح لمسح سريع ودقيق</h4><ul>'+
@@ -61,6 +61,8 @@ function help(){
       '<li>لو لم تُقرأ بطاقات آخر الصف: اقترب خطوة، أو اطبع «بطاقة كبيرة في الصفحة».</li>'+
       '<li>يستطيع الطالب تغيير إجابته وأنت تمسح: يُسجَّل آخر اتجاه رفعه.</li>'+
       '<li>بعد «التالي» يُنزل الطلاب بطاقاتهم ثم يرفعونها للسؤال الجديد؛ البطاقة التي بقيت مرفوعة بإجابة السؤال السابق نفسها تظهر «⬇ أنزِل البطاقة» ولا تُحتسب حتى تُنزَل لحظة.</li>'+
+      '<li>حرف الإجابة الصحيحة يظهر لك وحدك في مربع صغير أعلى شاشة الجوال بمجرد ظهور السؤال، ولا يظهر على السبورة.</li>'+
+      '<li>حرف الإجابة الصحيحة يظهر لك وحدك في مربع صغير أعلى شاشة الجوال بمجرد ظهور السؤال، ولا يظهر على السبورة.</li>'+
       '<li>زر «👥» في الجوال يعرض من بقي بلا إجابة.</li></ul>'+
     '<p class="muted small">يعمل المسح من متصفح الجوال (Chrome أو Safari) ومن تطبيق خبير بعد تحديثه.</p></div>'});
   try{localStorage.setItem('tahdir_cards_help','1');}catch(e){}
@@ -150,6 +152,13 @@ function editClass(C){
 }
 
 // ================= طباعة البطاقات =================
+// أنماط البطاقات لصفحة الطباعة على الخادم (/x/…) التي لا تحمل أنماط الموقع
+var CK_PRINT_CSS='.ck-pp{page-break-after:always;break-after:page;display:flex;flex-wrap:wrap;justify-content:center;align-content:flex-start;gap:9mm;padding-top:9mm;box-sizing:border-box;background:#fff}'+
+  '.ck-pp4{padding-top:16mm;gap:8mm}.ck-pp:last-child{page-break-after:auto;break-after:auto}.ck-pp1,.ck-pp2{flex-direction:column;align-items:center;align-content:center;flex-wrap:nowrap}'+
+  '.ck-pc{border:0.3mm dashed #bbb;box-sizing:border-box;padding:0;break-inside:avoid;max-width:100%}.ck-pc svg{width:100%;height:100%;display:block}'+
+  '.ck-ppl{display:block;padding:12mm 10mm 0}.ck-lt{width:100%;border-collapse:collapse}.ck-lt td,.ck-lt th{border:1px solid #000;padding:3px 8px;text-align:right}'+
+  '@media screen{.ck-pp{margin:10px auto;max-width:210mm;padding-bottom:9mm}.ck-pc{max-width:92vw;max-height:92vw}}'+
+  '@media print{.prsp{height:0!important}.prw>thead>tr>td,.prw>tfoot>tr>td,.prw>tbody>tr>td{padding:0!important}.ck-pp{height:297mm;overflow:hidden}}';
 function printCards(C){
   var opt={per:2,en:/إنجليزي|English/i.test(C.subject||''),nm:true};
   var dp=dialog({title:'طباعة بطاقات «'+C.title+'»',html:'<div class="ck-popt"><label><input type="radio" name="cdps" value="2" checked> بطاقتان في الصفحة <small class="muted">(مثل Plickers — مناسب لأغلب الفصول)</small></label>'+
@@ -172,7 +181,16 @@ function printCards(C){
     for(var j=0;j<half;j++){var a=list[j],b=list[j+half];tr+='<tr><td>'+a.n+'</td><td>'+esc(a.full||a.name)+'</td><td>'+(b?b.n:'')+'</td><td>'+(b?esc(b.full||b.name):'')+'</td></tr>';}
     h+='<div class="ck-pp ck-ppl"><h2 style="text-align:center">توزيع بطاقات «'+esc(C.title)+'»</h2><table class="ck-lt"><tr><th>البطاقة</th><th>الطالب</th><th>البطاقة</th><th>الطالب</th></tr>'+tr+'</table>'+
       '<p style="margin-top:8mm;font-size:12pt">طريقة الإجابة: يمسك الطالب بطاقته بحيث يكون حرف إجابته في <b>الأعلى</b>، ويرفعها مواجهةً للمعلم، ولا يغطي المربع الأسود بأصابعه.</p></div>';
-    var ar=$('printArea'),t=document.title;ar.innerHTML=h;document.title=('بطاقات '+C.title).replace(/[\\/:*?"<>|]+/g,'-');document.body.classList.add('printing','ck-printing');
+    var pname=('بطاقات '+C.title).replace(/[\\/:*?"<>|]+/g,'-');
+    // داخل تطبيق أندرويد لا تعمل window.print: نصنع صفحة طباعة على الخادم تُفتح في Chrome (مثل بقية أقسام المنصة)
+    if(typeof IN_APP!=='undefined'&&IN_APP){
+      track('cards_print',String(per),C.title);toast('جارٍ تجهيز صفحة الطباعة…');
+      api('/api/export',{format:'print',name:pname,html:'<style>'+CK_PRINT_CSS+'</style>'+h}).then(function(r){
+        var l=document.createElement('a');l.href=r.url;l.rel='noopener';document.body.appendChild(l);l.click();setTimeout(function(){l.remove();},1000);load();
+      },function(e){toast(e.message);load();});
+      return;
+    }
+    var ar=$('printArea'),t=document.title;ar.innerHTML=h;document.title=pname;document.body.classList.add('printing','ck-printing');
     track('cards_print',String(per),C.title);
     setTimeout(function(){window.print();setTimeout(function(){document.body.classList.remove('printing','ck-printing');ar.innerHTML='';document.title=t;load();},800);},150);
   });
@@ -193,14 +211,14 @@ function generate(C){
     var h='<div class="an-head"><h2>✨ توليد أسئلة — '+esc(C.title)+'</h2><p class="muted">'+esc(courseName(C.course))+' · اختر الدروس وعدد الأسئلة، وتُسحب أسئلة اختيار من متعدد عشوائيًا من بنك المنصة.</p></div>'+
       '<div class="ck-form"><div class="ck-f"><span>الدروس</span><div class="ck-units">'+Object.keys(units).map(function(k){var U=units[k];
         return '<details'+(Object.keys(units).length<4||k===Object.keys(units)[0]?' open':'')+'><summary><label><input type="checkbox" data-unit="'+esc(k)+'"> '+(U.t>1?'ف'+U.t+' · ':'')+(U.u?'الوحدة '+U.u+(U.name?': '+esc(U.name):''):'دروس')+'</label></summary><div class="ck-ul">'+U.ls.map(function(l){return '<label><input type="checkbox" data-les="'+l.id+'" data-u="'+esc(k)+'"> '+esc(l.title)+' <small class="muted">('+has[l.id]+')</small></label>';}).join('')+'</div></details>';}).join('')+'</div></div>'+
-      '<div class="ck-f"><span>عدد الأسئلة</span><div class="ck-cnts">'+[5,10,15,20].map(function(n){return '<button type="button" class="ck-cn" data-cn="'+n+'" aria-pressed="'+(n===count)+'">'+n+'</button>';}).join('')+'</div></div>'+
+      '<div class="ck-f"><span>عدد الأسئلة</span><div class="ck-cnts">'+[5,10,15,20,25].map(function(n){return '<button type="button" class="ck-cn" data-cn="'+n+'" aria-pressed="'+(n===count)+'">'+n+'</button>';}).join('')+'</div></div>'+
       '<div class="an-new"><button type="button" class="btn primary" id="gGen">✨ توليد الأسئلة</button><button type="button" class="btn" id="gBack">رجوع</button></div><div id="gOut"></div></div>';
     main(h);
     each('[data-unit]',function(c){c.onclick=function(e){e.stopPropagation();};c.onchange=function(){var k=c.getAttribute('data-unit');each('[data-u="'+k+'"]',function(x){x.checked=c.checked;});};});
     each('[data-cn]',function(b){b.onclick=function(){count=+b.getAttribute('data-cn');each('[data-cn]',function(x){x.setAttribute('aria-pressed',x===b);});};});
     $('gBack').onclick=load;
     var L=function(id){return lessons.filter(function(l){return l.id===id;})[0];};
-    function mk(q){var l=L(q.lesson_id);return {stem:q.stem,choices:q.choices.slice(),correct:q.correct,ao:q.ao||'',qid:q.qid,lesson_id:q.lesson_id,lesson:l?l.title:'',table:q.table||null};}
+    function mk(q){var l=L(q.lesson_id);return {stem:q.stem,choices:q.choices.slice(),correct:q.correct,ao:q.ao||'',difficulty:q.difficulty||'',difficulty:q.difficulty||'',qid:q.qid,lesson_id:q.lesson_id,lesson:l?l.title:'',table:q.table||null};}
     function picked(){var ids=[];each('[data-les]:checked',function(c){ids.push(+c.getAttribute('data-les'));});return ids;}
     $('gGen').onclick=function(){
       var ids=picked();if(!ids.length){toast('اختر درسًا واحدًا على الأقل');return;}
@@ -208,6 +226,10 @@ function generate(C){
       // توزيع متوازن على الدروس المختارة
       var by={};p.forEach(function(q){(by[q.lesson_id]=by[q.lesson_id]||[]).push(q);});
       var out=[],k=0;while(out.length<count&&out.length<p.length){var lid=ids[k%ids.length];if(by[lid]&&by[lid].length)out.push(by[lid].shift());k++;if(k>count*ids.length*4)break;}
+      // صعوبة متدرجة: منخفضة ← متوسطة ← مرتفعة (مع الحفاظ على التوزيع بين الدروس داخل كل مستوى)
+      var DL={'منخفضة':0,'متوسطة':1,'مرتفعة':2};out=out.map(function(q,i){return {q:q,i:i};}).sort(function(a,b){var x=DL[a.q.difficulty],y=DL[b.q.difficulty];x=x==null?1:x;y=y==null?1:y;return x-y||a.i-b.i;}).map(function(o){return o.q;});
+      // صعوبة متدرجة: منخفضة ← متوسطة ← مرتفعة (مع الحفاظ على التوزيع بين الدروس داخل كل مستوى)
+      var DL={'منخفضة':0,'متوسطة':1,'مرتفعة':2};out=out.map(function(q,i){return {q:q,i:i};}).sort(function(a,b){var x=DL[a.q.difficulty],y=DL[b.q.difficulty];x=x==null?1:x;y=y==null?1:y;return x-y||a.i-b.i;}).map(function(o){return o.q;});
       Q=out.map(mk);draw();
     };
     function draw(){
@@ -262,7 +284,7 @@ function live(S,C){
   var st={stream:null,run:false,maxW:1280,pend:{},showLet:true,mark:false,wake:null,dirty:false,lastPush:0,saveT:null,ms:0,rev:0,saving:false,savePromise:null,retryT:null,retryN:0,liveBusy:false,liveNext:null,liveRetryT:null,liveRetryN:0,closing:false,closed:false,toRes:false,syncText:'جارٍ الاتصال بالسبورة'};
   var o=document.createElement('div');o.className='ck-live';o.id='cdLive';
   o.innerHTML='<div class="ck-lh"><button type="button" class="ck-x" id="lvX" aria-label="إنهاء">✕</button><div class="ck-lq"><b id="lvN"></b><span id="lvQ"></span></div><div class="ck-lc" id="lvC"></div></div>'+
-    '<div class="ck-cam" id="lvCam"><video id="lvV" playsinline muted autoplay></video><canvas id="lvO"></canvas><div class="ck-rot" id="lvRot" aria-hidden="true">↻ أدر الجوال بالعرض لترى طلابًا أكثر في الصورة</div><div class="ck-msg" id="lvM">جارٍ تشغيل الكاميرا…</div><div class="ck-ans-popup" id="lvAns" hidden></div><div class="ck-leg" id="lvLeg">🟦 سُجِّلت إجابته · اضغط «أرِني الصح والخطأ» لتراها على جوالك وحدك</div><button type="button" class="ck-markbtn" id="lvMk">✓✗ أرِني الصح والخطأ</button></div>'+
+    '<div class="ck-cam" id="lvCam"><video id="lvV" playsinline muted autoplay></video><canvas id="lvO"></canvas><div class="ck-rot" id="lvRot" aria-hidden="true">↻ أدر الجوال بالعرض لترى طلابًا أكثر في الصورة</div><div class="ck-msg" id="lvM">جارٍ تشغيل الكاميرا…</div><div class="ck-ans-popup" id="lvAns" hidden></div><div class="ck-key" id="lvKey" aria-label="الإجابة الصحيحة"><small>الإجابة</small><b id="lvKeyL"></b></div><div class="ck-key" id="lvKey" aria-label="الإجابة الصحيحة"><small>الإجابة</small><b id="lvKeyL"></b></div><div class="ck-leg" id="lvLeg">🟦 سُجِّلت إجابته · اضغط «أرِني الصح والخطأ» لتراها على جوالك وحدك</div><button type="button" class="ck-markbtn" id="lvMk">✓✗ أرِني الصح والخطأ</button></div>'+
     '<div class="ck-lb"><button type="button" class="btn" id="lvP">→ السابق</button><button type="button" class="btn" id="lvR">👁 الإجابة</button><button type="button" class="btn" id="lvL">👥 <span id="lvLn"></span></button><button type="button" class="btn primary" id="lvNx">التالي ←</button></div>'+
     '<div class="ck-sheet" id="lvSh" hidden></div>';
   document.body.appendChild(o);document.body.classList.add('ck-noscroll');
@@ -273,6 +295,10 @@ function live(S,C){
     var q=S.questions[S.cur],a=A(),n=Object.keys(a).length,tot=C.students.length;
     $('lvN').textContent='السؤال '+(S.cur+1)+' / '+S.questions.length+(S.reveal?' · الإجابة: '+LET[q.correct]:'');
     $('lvQ').textContent=q.stem;
+    // حرف الإجابة الصحيحة يظهر للمعلم وحده على جواله بمجرد ظهور السؤال (لا يظهر على السبورة)
+    $('lvKeyL').textContent=LET[q.correct];
+    // حرف الإجابة الصحيحة يظهر للمعلم وحده على جواله بمجرد ظهور السؤال (لا يظهر على السبورة)
+    $('lvKeyL').textContent=LET[q.correct];
     var okN=Object.keys(a).filter(function(x){return a[x]===q.correct;}).length;
     $('lvC').innerHTML='<span class="ck-sync-note" id="lvSync" aria-live="polite">'+esc(st.syncText)+'</span><span class="ck-cnt"><b>'+n+'</b> / '+tot+'</span>'+((S.reveal||st.mark)&&n?'<span class="ck-dist ok">✓ '+okN+'</span><span class="ck-dist">✗ '+(n-okN)+'</span>':'');
     $('lvLn').textContent=tot-n?(tot-n)+' بقي':'سُجِّل الكل';

@@ -210,6 +210,9 @@ def _bio_bank():
                 if len(ch) < 3 or len(set(ch)) != len(ch): raise SystemExit('bio_bank/%s #%d: خيارات ناقصة/مكررة: %s' % (fn, lid, v))
                 h = int(hashlib.md5(p[1].encode('utf-8')).hexdigest(), 16)
                 order = sorted(range(len(ch)), key=lambda i: (h >> (i * 7)) % 997)
+                # تعليمات بناء المفردة: البدائل العددية تُرتَّب تصاعديًا لا عشوائيًا
+                _num = [re.match(r'^\s*(\d+(?:\.\d+)?)', x) for x in ch]
+                if all(_num): order = sorted(range(len(ch)), key=lambda i: float(_num[i].group(1)))
                 chs = [ch[i] for i in order]
                 items.append({'lesson_id': lid, 'type': 'mcq', 'stem': nl(p[1]), 'choices': chs, 'correct': chs.index(ch[0]), 'answer': ch[0],
                               'marks': 1, 'ao': ao, 'difficulty': dif, 'outcome': '', 'notes': '', 'qid': qid, 'src': src})
@@ -1009,6 +1012,7 @@ button.lv-opt{cursor:pointer}
 .ck-board-l{margin-inline-start:auto}
 .ck-form{display:grid;gap:12px;max-width:900px}.ck-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .ck-f{display:grid;gap:4px}.ck-f>span{font-weight:700}.ck-f input,.ck-f textarea,.ck-f select{font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;width:100%;box-sizing:border-box}
+.ck-f input[type=checkbox],.ck-f input[type=radio]{width:auto;padding:0;margin:0;flex:none;accent-color:var(--main)}.ck-units summary label{display:inline-flex;gap:8px;align-items:center}.ck-ul label{align-items:center!important;gap:8px!important}
 .ck-f textarea{line-height:1.9;resize:vertical}
 .ck-popt{display:grid;gap:8px;text-align:right}.ck-popt label{display:flex;gap:8px;align-items:baseline}
 .ck-ql{padding:0 22px 0 0;display:grid;gap:8px;margin:6px 0}.ck-ql li{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;gap:10px;justify-content:space-between;align-items:flex-start}
@@ -1064,6 +1068,7 @@ body.ck-noscroll{overflow:hidden}body.ck-noscroll #modal{z-index:3000}body.ck-no
 .ck-markbtn.on{background:#16a34a}
 .ck-ans-popup{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:4;display:flex;align-items:center;gap:12px;background:rgba(0,0,0,.85);color:#fff;border-radius:14px;padding:10px 20px;box-shadow:0 8px 28px rgba(0,0,0,.5);opacity:0;transition:opacity .25s;pointer-events:none;max-width:90%}
 .ck-ans-popup.show{opacity:1}
+.ck-key{position:absolute;top:44px;right:10px;z-index:4;display:flex;flex-direction:column;align-items:center;background:rgba(22,163,74,.92);color:#fff;border-radius:14px;padding:4px 14px 6px;box-shadow:0 6px 18px rgba(0,0,0,.4);pointer-events:none;line-height:1.1}.ck-key small{font-size:.66rem;opacity:.9}.ck-key b{font-size:2rem;font-weight:800}
 .ck-ans-let{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:#16a34a;color:#fff;font-weight:900;font-size:1.3rem;flex-shrink:0}
 .ck-ans-txt{font-size:1rem;font-weight:700;line-height:1.3}
 .ck-lb{display:grid;grid-template-columns:1fr 1fr 1fr 1.2fr;gap:6px;padding:8px;padding-bottom:max(8px,env(safe-area-inset-bottom));background:rgba(0,0,0,.6)}
