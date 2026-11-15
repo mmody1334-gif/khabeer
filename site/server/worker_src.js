@@ -1258,7 +1258,7 @@ export default {
       if (p === '/version') { let packs = false; try { packs = await loadPacks(env, url); } catch (e) { packs = String(e.message || e); } return json({ ...BUILD, packs }); }
       if ((mm0 = p.match(/^\/x\/([a-f0-9]{40})$/))) return exportFile(req, env, mm0[1]);
       // جوجل يؤرشف الصفحة الرئيسية فقط (Allow: /$ أطول من Disallow: / فيتقدّم عليه)؛ كل الأقسام بعد الدخول محجوبة.
-      if (p === '/robots.txt') return new Response('User-agent: *\nAllow: /$\nDisallow: /\n\nSitemap: https://khaber.site/sitemap.xml\n', { headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'public, max-age=3600' } });
+      if (p === '/robots.txt') return new Response('User-agent: *\nAllow: /$\nAllow: /sitemap.xml\nAllow: /icon-192.png\nAllow: /icon-512.png\nDisallow: /\n\nSitemap: https://khaber.site/sitemap.xml\n', { headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'public, max-age=3600' } });
       if (p === '/sitemap.xml') return new Response('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://khaber.site/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url></urlset>\n', { headers: { 'Content-Type': 'application/xml; charset=utf-8', 'Cache-Control': 'public, max-age=3600' } });
       if (p === '/setup') return (await adminCount()) ? redirect('/') : html('setup');
       if (p === '/api/setup' && m === 'POST') {
