@@ -1357,7 +1357,7 @@ export default {
         const ls = (await allLessons(env)).filter(l => courseKey(l) === key);
         const study = {}, units = {};
         ls.forEach(l => { if (STUDY.lessons[l.id]) study[l.id] = STUDY.lessons[l.id]; const u = STUDY.units[key + '|' + l.unit]; if (u) units[l.unit] = u; });
-        return json({ lessons: ls.map(l => ({ id: l.id, unit: l.unit, unit_name: l.unit_name, title: l.title, subject: l.subject, grade: l.grade, outcomes: l.outcomes || '', concepts: l.concepts || '' })), study, units, hard: hardItems(key, ls) });
+        return json({ lessons: ls.map(l => ({ id: l.id, unit: l.unit, unit_name: l.unit_name, title: l.title, subject: l.subject, grade: l.grade, outcomes: l.outcomes || '', concepts: l.concepts || '', enrich: String(l.enrich || '').slice(0, 600) })), study, units, hard: hardItems(key, ls) });
       }
       if (p === '/api/games/data') { const d = await gamesData(env, me, url.searchParams.get('key') || ''); return d.error ? json(d, 403) : json(d); }
       if (p.startsWith('/api/live/')) return liveApi(req, env, me, p, m, url);

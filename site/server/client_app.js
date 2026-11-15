@@ -406,7 +406,7 @@ var HOME_CARDS=[
   {key:'games',title:'الألعاب التعليمية',icon:'🎲',sub:'شد الحبل، العداء، كرة القدم…',route:'/games'},
   {key:'slides',title:'العروض التقديمية',icon:'📽️',sub:'عروض كل مادة وصف',route:'/slides'},
   {key:'finals',title:'الاختبارات النهائية',icon:'🗂',sub:'أسئلة الوزارة حسب الدرس',route:'/finals'},
-  {key:'remedial',title:'الخطط العلاجية',icon:'🩹',sub:'للطلاب دون المستوى',route:'/remedial'},
+  {key:'remedial',title:'الخطط والأنشطة الصفية',icon:'🩹',sub:'خطط علاجية وإثرائية',route:'/remedial'},
   {key:'summaries',title:'ملخصات الدروس',icon:'📚',sub:'وفق مخرجات التعلم',route:'/summaries'},
   {key:'cando',title:'أستطيع أن',icon:'☑️',sub:'قوائم التقييم الذاتي',route:'/cando'},
   {key:'research',title:'البحوث الإجرائية',icon:'🔬',sub:'العلوم، اللغة العربية، الرياضيات',route:'/research'},

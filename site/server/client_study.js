@@ -12,6 +12,11 @@ var WEAK_EN=['Reading comprehension','Vocabulary','Grammar','Writing','Listening
 var T_ACTS=[['إعادة شرح المفاهيم الأساسية بأسلوب مبسط وأمثلة من الحياة',1],['أوراق عمل علاجية متدرجة من السهل إلى الأصعب',1],['التعلم بالأقران (طالب متمكن مع طالب متعثر)',1],['تعليم فردي قصير داخل الحصة',0],['استخدام الوسائل والنماذج والصور والمخططات',1],['تقسيم المهمة إلى خطوات قصيرة ومتابعة كل خطوة',0],['تكليفات منزلية قصيرة ومتابعتها وتصحيحها',0],['اختبارات تشخيصية قصيرة لقياس التقدم',0],['التعزيز والتحفيز المستمر',1],['حصص تقوية / مراجعة',0]];
 var S_ACTS=[['التواصل مع ولي الأمر وإطلاعه على الخطة',1],['متابعة الأخصائي الاجتماعي / النفسي',0],['متابعة المعلم الأول للمادة',1],['توفير حصص تقوية ضمن جدول المدرسة',0],['تكريم الطلاب المتحسنين',0]];
 var me=null,courses=[],course=null,data=null,byId={},sel={},sumMode='lesson',unitSel='',doc=null,dirty=false,part='',hdr=null,rows=5,gsize=5,gper=1,gnames='';
+// MODE: «rem» خطة علاجية · «enrich» خطة إثرائية. stu/src: طلاب مرسلون من «كروت الأسئلة» أو «تحليل النتائج» بنتائجهم
+var MODE='rem',stu=null,src=null;
+var E_AREAS=[['أسئلة تحدٍّ عليا (تحليل واستدلال وحل مشكلات)',1],['بحث قصير أو تقرير علمي',1],['مشروع أو نموذج تطبيقي',0],['المسابقات والأولمبياد',0],['قراءات إثرائية خارج الكتاب المدرسي',1],['توظيف التقنية والبرمجيات التعليمية',0],['قيادة مجموعات التعلم بالأقران',1],['عرض تقديمي أمام الصف',0]];
+var E_T_ACTS=[['تكليف الطالب بأسئلة تحدٍّ ومسائل غير نمطية',1],['تكليفه بمهمة بحثية قصيرة وعرضها',1],['إسناد دور «الطالب المعلّم» لمساعدة زملائه',1],['تشجيع التفكير الناقد والإبداعي بأسئلة مفتوحة',1],['ربط المحتوى بتطبيقات حياتية وتقنية',0],['تقديم مصادر تعلم إضافية (كتب، مواقع، فيديو)',0]];
+var E_S_ACTS=[['إشراك الطالب في المسابقات المدرسية والمحلية',1],['تكريم الطالب وتعزيزه أمام زملائه',1],['التواصل مع ولي الأمر وإطلاعه على تميّز ابنه',1],['متابعة المعلم الأول للمادة',0],['إتاحة مصادر التعلم في المدرسة (مركز المصادر والمختبر)',0]];
 function lsGet(k){try{return JSON.parse(localStorage.getItem(k)||'null');}catch(e){return null;}}
 function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 function track(type,detail,title){try{fetch('/api/event',{method:'POST',credentials:'same-origin',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({type:type,grade:course&&course.grade,detail:detail||'',title:title||''})});}catch(e){}}
@@ -42,14 +47,37 @@ function fallbackSummary(l){ // درس مضاف بلا ملخص جاهز: نبن
   var o=String(l.outcomes||'').split('\n').map(function(x){return x.trim();}).filter(Boolean);
   return {intro:'',outcomes:(o.length?o:['…']).map(function(t){return {code:'',text:t,points:['…']};}),terms:String(l.concepts||'').split(/[،,]/).map(function(x){return x.trim();}).filter(Boolean).slice(0,6).map(function(t){return {t:t,d:'…'};}),remember:[]};
 }
+// النشاط الإثرائي من تحضير الدرس (حقل «enrich» فيه غالبًا علاجي + إثرائي معًا): نأخذ الجزء الإثرائي فقط
+function enrichOf(l){
+  var t=String((l&&l.enrich)||'').replace(/\r/g,'').trim();if(!t)return '';
+  var mk=/(إثرائي|اثرائي|إثراء|اثراء|High achievers|المرتفع|المتفوق|المتميز)/i.exec(t);
+  if(mk){t=t.slice(mk.index);t=t.split(/\n[^\n]*(علاجي|Low achievers|المنخفض|الضعيف)/i)[0];t=t.replace(/^(نشاط\s*)?(إثرائي|اثرائي|إثراء|اثراء)\s*(جماعي|فردي)?\s*[:：\-ـ]*\s*/,'');}
+  else if(/علاجي|Low achievers/i.test(t))return '';
+  return t.replace(/\.{4,}/g,'…').replace(/\n{2,}/g,'\n').trim().slice(0,400);
+}
+function pctS(x){return Math.round((x||0)*100)+'%';}
+// ملخص النتائج التي بُنيت عليها الخطة (عند الإرسال من «كروت الأسئلة» أو «تحليل النتائج»)
+function srcHtml(){
+  if(!src||!stu||!stu.length)return '';
+  var avg=stu.reduce(function(x,r){return x+(r.p||0);},0)/stu.length;
+  var h=H('ملخص النتائج التي بُنيت عليها الخطة');
+  h+='<table style="'+TB+'"><tr><td style="'+TD+';width:50%"><b>المصدر:</b> '+esc(src.title||'')+'</td><td style="'+TD+'"><b>التاريخ:</b> '+esc(src.date||'')+(src.cls?' &nbsp; <b>الشعبة:</b> '+esc(src.cls):'')+'</td></tr>'+
+    '<tr><td style="'+TD+'"><b>عدد الطلاب في الخطة:</b> '+stu.length+'</td><td style="'+TD+'"><b>متوسط أدائهم:</b> '+pctS(avg)+'</td></tr>'+
+    (src.lessons&&src.lessons.length?'<tr><td style="'+TD+'" colspan="2"><b>'+(MODE==='enrich'?'الدروس التي أتقنوها:':'الدروس الأضعف عندهم:')+'</b> '+src.lessons.map(function(x){return esc(x.t)+' ('+pctS(x.p)+')';}).join('، ')+'</td></tr>':'')+'</table>';
+  return h;
+}
 // ---------- الأنشطة الصفية: أسئلة أعلى مستوى (تطبيق واستدلال) لكل درس ----------
-function classHtml(ls,key){
+function classHtml(ls,key,enr){
   var en=isEnC(),AR='أبجد'.split('');
-  var title=en?(key?'Answer key – ':'')+'Class activities (challenge) – Grade '+gradeEn():(key?'إجابات ':'')+'الأنشطة الصفية (أسئلة متوسطة وأسئلة تحدٍّ) في مادة '+course.subject+' للصف '+course.grade;
+  var title=enr?(en?(key?'Answer key – ':'')+'Enrichment activities – Grade '+gradeEn():(key?'إجابات ':'')+'الأنشطة الإثرائية للطلاب المتفوقين في مادة '+course.subject+' للصف '+course.grade):
+    en?(key?'Answer key – ':'')+'Class activities (challenge) – Grade '+gradeEn():(key?'إجابات ':'')+'الأنشطة الصفية (أسئلة متوسطة وأسئلة تحدٍّ) في مادة '+course.subject+' للصف '+course.grade;
   var h=sheetHead(title,en,!key),n=0,any=false,hard=(data&&data.hard)||{};
-  if(!key)h+='<p style="margin:2px 0 8px;font-size:.95em">'+(en?'Work in pairs or groups. Show your reasoning.':'تُنفَّذ داخل الصف فرديًا أو في مجموعات. وضّح خطوات تفكيرك وحلّك.')+'</p>';
-  ls.forEach(function(l){var it=hard[l.id];if(!it||!it.length)return;any=true;
+  if(!key)h+='<p style="margin:2px 0 8px;font-size:.95em">'+(enr?(en?'Challenge yourself: answer the questions and complete the enrichment task.':'تحدَّ نفسك: أجب عن أسئلة التحدي، ونفّذ المهمة الإثرائية وقدّمها لمعلمك.'):(en?'Work in pairs or groups. Show your reasoning.':'تُنفَّذ داخل الصف فرديًا أو في مجموعات. وضّح خطوات تفكيرك وحلّك.'))+'</p>';
+  ls.forEach(function(l){var it=hard[l.id]||[],et=enr?enrichOf(l):'';
+    if(enr){var ch=it.filter(function(q){return !q.mid;});it=ch.length>=2?ch:it;}
+    if(!it.length&&!et)return;any=true;
     h+='<h3 style="font-size:1.08em;margin:14px 0 4px;border-bottom:1.5px solid #000">'+(en?'Lesson: ':'الدرس: ')+esc(l.title)+'</h3>';
+    if(enr&&et&&!key)h+='<div style="border:1.5px dashed #b45309;background:#fff8ec;border-radius:6px;padding:6px 10px;margin:4px 0 8px"><b>'+(en?'Enrichment task: ':'🌟 المهمة الإثرائية: ')+'</b>'+esc(et).replace(/\n/g,'<br>')+'</div>';
     it.forEach(function(q){n++;
       var lab=(q.mid?(en?'Medium':'متوسط')+' · ':(en?'Challenge':'تحدٍّ')+' · ')+((q.ao==='استدلال'||q.ao==='AO2')?(en?'Reasoning':'استدلال'):(q.ao==='تطبيق'?(en?'Application':'تطبيق'):(en?'Knowledge':'معرفة')));
       h+='<div style="margin:8px 0 10px;page-break-inside:avoid"><b>'+(en?'Q':'س')+n+'.</b> <span style="font-size:.8em;border:1px solid #888;border-radius:8px;padding:0 6px">'+lab+' · '+q.marks+(en?' mark(s)':' درجة')+'</span><div style="margin-top:3px">'+esc(q.stem).replace(/\n/g,'<br>')+'</div>';
@@ -61,6 +89,7 @@ function classHtml(ls,key){
     });
   });
   if(!any)h+='<p>'+(en?'No challenge questions for these lessons yet.':'لا توجد أسئلة تحدٍّ جاهزة لهذه الدروس بعد.')+'</p>';
+  else if(enr&&!key)h+=H(en?'Final product':'المنتج النهائي')+'<p>'+(en?'Prepare a short report or presentation (one page / 3 slides) about what you discovered, and share it with your class.':'أعدّ تقريرًا قصيرًا (صفحة واحدة) أو عرضًا (3 شرائح) عمّا توصلت إليه، واعرضه على زملائك.')+'</p><p>.................................................................................................................................................</p>';
   return wrap(h,en);
 }
 // ---------- الخطة العلاجية ----------
@@ -71,10 +100,22 @@ function planHtml(ls){
   var h=sheetHead(title,false,false);
   h+='<table style="'+TB+'"><tr><td style="'+TD+';width:50%"><b>معلم المادة:</b> '+esc(hdr.teacher||'..............................')+'</td><td style="'+TD+'"><b>الفترة الزمنية للخطة:</b> من ........... إلى ...........</td></tr>'+
     '<tr><td style="'+TD+'" colspan="2"><b>الدروس / المحتوى المستهدف:</b> '+ls.map(function(l){return esc(l.title);}).join('، ')+'</td></tr></table>';
+  h+=srcHtml();
   h+=H('أولًا: بيانات الطلاب دون المستوى');
   h+='<table id="stTbl" style="'+TB+'"><thead><tr><th style="'+TH+';width:5%">م</th><th style="'+TH+';width:24%">اسم الطالب</th><th style="'+TH+';width:9%">الشعبة</th><th style="'+TH+';width:11%">الدرجة / المستوى</th><th style="'+TH+'">جوانب الضعف</th><th style="'+TH+';width:25%">مدى التحسن</th></tr></thead><tbody>';
-  for(var i=0;i<rows;i++)h+=stRow(i+1);
+  if(stu&&stu.length)stu.forEach(function(r,i){h+=stRow(i+1,r,'rem');});else for(var i=0;i<rows;i++)h+=stRow(i+1);
   h+='</tbody></table>';
+  if(stu&&stu.length){ // خطة فردية: لكل طالب دروسه الضعيفة والأنشطة العلاجية المقترحة لها
+    var byT={};ls.forEach(function(l){byT[l.title]=l;});
+    h+=H('الخطة الفردية لكل طالب (مبنية على نتائجه)');
+    h+='<table style="'+TB+'"><thead><tr><th style="'+TH+';width:22%">الطالب</th><th style="'+TH+';width:26%">الدروس التي يحتاج علاجها</th><th style="'+TH+'">الأنشطة العلاجية المقترحة</th><th style="'+TH+';width:14%">موعد المتابعة</th></tr></thead><tbody>'+
+      stu.map(function(r){
+        var wl=(r.weak&&r.weak.length?r.weak:ls.map(function(l){return l.title;})).slice(0,4);
+        var acts=[];wl.forEach(function(t){var l=byT[t],s2=l&&st(l);if(s2&&s2.remedial.activities[0])acts.push(esc(s2.remedial.activities[0].title));});
+        if(!acts.length)acts=ls.slice(0,2).map(function(l){var s2=st(l);return s2&&s2.remedial.activities[0]?esc(s2.remedial.activities[0].title):'';}).filter(Boolean);
+        return '<tr><td style="'+TD+'">'+esc(r.name)+'<br><span style="font-size:.85em">'+r.sc+' / '+r.max+' ('+pctS(r.p)+')</span></td><td style="'+TD+'">'+wl.map(esc).join('<br>')+(r.weakAO&&r.weakAO.length?'<br><span style="font-size:.85em">المستوى: '+r.weakAO.map(esc).join('، ')+'</span>':'')+'</td><td style="'+TD+'">'+acts.map(function(a,k){return (k+1)+'. '+a;}).join('<br>')+'</td><td style="'+TD+'"></td></tr>';
+      }).join('')+'</tbody></table>';
+  }
   h+=H('ثانيًا: جوانب الضعف (مجالات التعثر)');
   h+='<table style="'+TB+'"><tr>'+weak.map(function(w,i){return (i&&i%2===0?'</tr><tr>':'')+'<td style="'+TD+';width:50%">'+cb(on[w])+' '+esc(w)+'</td>';}).join('')+(weak.length%2?'<td style="'+TD+'"></td>':'')+'</tr></table>';
   h+=H('ثالثًا: المهارات المستهدفة والأنشطة العلاجية');
@@ -91,7 +132,45 @@ function planHtml(ls){
   h+='<table style="width:100%;border-collapse:collapse;margin-top:18px;text-align:center"><tr><td style="width:33%"><b>معلم المادة</b><br>'+esc(hdr.teacher||'.........................')+'<br>التوقيع: ..............</td><td style="width:33%"><b>المعلم الأول</b><br>.........................<br>التوقيع: ..............</td><td style="width:34%"><b>مدير المدرسة</b><br>.........................<br>التوقيع: ..............</td></tr></table>';
   return wrap(h,false);
 }
-function stRow(n){return '<tr><td style="'+TD+';text-align:center">'+n+'</td><td style="'+TD+'"></td><td style="'+TD+'"></td><td style="'+TD+'"></td><td style="'+TD+'"></td><td style="'+TD+';font-size:.85em">'+cb(0)+' تحسّن '+cb(0)+' جزئي '+cb(0)+' لم يتحسن</td></tr>';}
+function stRow(n,r,m){
+  var en=m==='enrich'||(!m&&doc&&doc.mode==='enrich'&&part==='eplan');
+  var last=en?cb(0)+' أنجز '+cb(0)+' جزئيًا '+cb(0)+' لم ينجز':cb(0)+' تحسّن '+cb(0)+' جزئي '+cb(0)+' لم يتحسن';
+  var asp=r?(en?(r.strong&&r.strong.length?r.strong:[]):(r.weak&&r.weak.length?r.weak:[]).concat(r.weakAO||[])).map(esc).join('، '):'';
+  return '<tr><td style="'+TD+';text-align:center">'+n+'</td><td style="'+TD+'">'+(r?esc(r.name):'')+'</td><td style="'+TD+'">'+(r?esc(r.cls||''):'')+'</td><td style="'+TD+'">'+(r?r.sc+' / '+r.max+'<br>'+pctS(r.p):'')+'</td><td style="'+TD+';font-size:.92em">'+asp+'</td><td style="'+TD+';font-size:.85em">'+last+'</td></tr>';
+}
+// ---------- الخطة الإثرائية للطلاب المتفوقين ----------
+function enrichPlanHtml(ls){
+  var title='نموذج خطة إثرائية للطلاب المتفوقين في مادة/ '+course.subject+' للصف '+course.grade;
+  var h=sheetHead(title,false,false),hard=(data&&data.hard)||{};
+  h+='<table style="'+TB+'"><tr><td style="'+TD+';width:50%"><b>معلم المادة:</b> '+esc(hdr.teacher||'..............................')+'</td><td style="'+TD+'"><b>الفترة الزمنية للخطة:</b> من ........... إلى ...........</td></tr>'+
+    '<tr><td style="'+TD+'" colspan="2"><b>الدروس / المحتوى المستهدف:</b> '+ls.map(function(l){return esc(l.title);}).join('، ')+'</td></tr></table>';
+  h+=srcHtml();
+  h+=H('أولًا: بيانات الطلاب المتفوقين');
+  h+='<table id="stTbl" style="'+TB+'"><thead><tr><th style="'+TH+';width:5%">م</th><th style="'+TH+';width:24%">اسم الطالب</th><th style="'+TH+';width:9%">الشعبة</th><th style="'+TH+';width:11%">الدرجة / المستوى</th><th style="'+TH+'">جوانب التميّز</th><th style="'+TH+';width:25%">مدى الإنجاز</th></tr></thead><tbody>';
+  if(stu&&stu.length)stu.forEach(function(r,i){h+=stRow(i+1,r,'enrich');});else for(var i=0;i<rows;i++)h+=stRow(i+1,null,'enrich');
+  h+='</tbody></table>';
+  h+=H('ثانيًا: مجالات الإثراء');
+  h+='<table style="'+TB+'"><tr>'+E_AREAS.map(function(a,i){return (i&&i%2===0?'</tr><tr>':'')+'<td style="'+TD+';width:50%">'+cb(a[1])+' '+esc(a[0])+'</td>';}).join('')+'</tr></table>';
+  h+=H('ثالثًا: الأنشطة الإثرائية لكل درس');
+  h+='<table style="'+TB+'"><thead><tr><th style="'+TH+';width:18%">الدرس</th><th style="'+TH+'">النشاط الإثرائي</th><th style="'+TH+';width:14%">أسئلة التحدي</th><th style="'+TH+';width:14%">أداة التقويم</th><th style="'+TH+';width:10%">التاريخ</th><th style="'+TH+';width:8%">تحقق</th></tr></thead><tbody>';
+  ls.forEach(function(l){var et=enrichOf(l),n=(hard[l.id]||[]).filter(function(q){return !q.mid;}).length||(hard[l.id]||[]).length;
+    h+='<tr><td style="'+TD+'">'+esc(l.title)+'</td><td style="'+TD+'">'+(et?esc(et).replace(/\n/g,'<br>'):'بحث قصير أو مشروع تطبيقي مرتبط بالدرس، يُعرض أمام الصف')+'</td><td style="'+TD+';text-align:center">'+(n?n+' أسئلة':'—')+'</td><td style="'+TD+'">ورقة الأنشطة الإثرائية<br>عرض / تقرير</td><td style="'+TD+'"></td><td style="'+TD+';text-align:center">'+cb(0)+'</td></tr>';});
+  h+='</tbody></table>';
+  if(stu&&stu.length){
+    h+=H('الخطة الفردية لكل طالب (مبنية على نتائجه)');
+    h+='<table style="'+TB+'"><thead><tr><th style="'+TH+';width:24%">الطالب</th><th style="'+TH+';width:30%">الدروس التي أتقنها</th><th style="'+TH+'">المهمة الإثرائية المقترحة</th><th style="'+TH+';width:14%">موعد التسليم</th></tr></thead><tbody>'+
+      stu.map(function(r,i){var sl=(r.strong&&r.strong.length?r.strong:ls.map(function(l){return l.title;})).slice(0,4),l=ls[i%Math.max(1,ls.length)],et=l?enrichOf(l):'';
+        return '<tr><td style="'+TD+'">'+esc(r.name)+'<br><span style="font-size:.85em">'+r.sc+' / '+r.max+' ('+pctS(r.p)+')</span></td><td style="'+TD+'">'+sl.map(esc).join('<br>')+'</td><td style="'+TD+'">'+(l?'<b>'+esc(l.title)+':</b> ':'')+(et?esc(et).split('\n')[0]:'أسئلة التحدي في ورقة الأنشطة الإثرائية + عرض قصير')+'</td><td style="'+TD+'"></td></tr>';}).join('')+'</tbody></table>';
+  }
+  h+=H('رابعًا: الإجراءات الإثرائية من قِبل المعلم');
+  h+='<table style="'+TB+'"><tr>'+E_T_ACTS.map(function(a,i){return (i&&i%2===0?'</tr><tr>':'')+'<td style="'+TD+';width:50%">'+cb(a[1])+' '+esc(a[0])+'</td>';}).join('')+'</tr></table>';
+  h+=H('خامسًا: الإجراءات من قِبل المدرسة وولي الأمر');
+  h+='<table style="'+TB+'"><tr>'+E_S_ACTS.map(function(a,i){return (i&&i%2===0?'</tr><tr>':'')+'<td style="'+TD+';width:50%">'+cb(a[1])+' '+esc(a[0])+'</td>';}).join('')+(E_S_ACTS.length%2?'<td style="'+TD+'"></td>':'')+'</tr></table>';
+  h+=H('سادسًا: ملاحظات ونتائج تنفيذ الخطة');
+  h+='<p>.................................................................................................................................................</p><p>.................................................................................................................................................</p>';
+  h+='<table style="width:100%;border-collapse:collapse;margin-top:18px;text-align:center"><tr><td style="width:33%"><b>معلم المادة</b><br>'+esc(hdr.teacher||'.........................')+'<br>التوقيع: ..............</td><td style="width:33%"><b>المعلم الأول</b><br>.........................<br>التوقيع: ..............</td><td style="width:34%"><b>مدير المدرسة</b><br>.........................<br>التوقيع: ..............</td></tr></table>';
+  return wrap(h,false);
+}
 // ---------- ورقة الأنشطة العلاجية ونموذج إجابتها ----------
 var LET_AR='أبجدهوزح',LET_EN='ABCDEFGH';
 function itemsHtml(a,en,key){
@@ -346,7 +425,10 @@ function makeGroup(){
 // ==== end group ====
 // ---------- الواجهة ----------
 function renderSide(){
-  var h='<section class="qcard"><h3>1. المادة والصف</h3>'+coursePick(courses,course&&course.key,'courseSel');
+  var h='';
+  if(REM)h+='<div class="seg sp-mode" role="tablist"><button type="button" data-md="rem" class="'+(MODE==='rem'?'on':'')+'">🩹 خطة علاجية</button><button type="button" data-md="enrich" class="'+(MODE==='enrich'?'on':'')+'">🌟 خطة إثرائية</button></div>';
+  if(REM&&stu&&stu.length)h+='<section class="qcard sp-stu"><h3>🎯 الطلاب المرسلون ('+stu.length+') <button type="button" class="x" id="stuClr" title="إلغاء — خطة فارغة">×</button></h3><p class="muted small">من «'+esc(src&&src.title||'')+'». تُكتب أسماؤهم ودرجاتهم وجوانب '+(MODE==='enrich'?'تميّزهم':'ضعفهم')+' في الخطة تلقائيًا.</p><ul class="sp-sl">'+stu.map(function(r){return '<li>'+esc(r.name)+' <small class="muted">'+pctS(r.p)+'</small></li>';}).join('')+'</ul></section>';
+  h+='<section class="qcard"><h3>1. المادة والصف</h3>'+coursePick(courses,course&&course.key,'courseSel');
   if(!REM)h+='<div class="seg"><button type="button" class="'+(sumMode==='lesson'?'on':'')+'" data-sm="lesson">ملخص درس</button><button type="button" class="'+(sumMode==='unit'?'on':'')+'" data-sm="unit">ملخص وحدة</button></div>';
   h+='</section>';
   if(!course||!data){$('qside').innerHTML=h;bindSide();return;}
@@ -354,15 +436,15 @@ function renderSide(){
   if(!REM&&sumMode==='unit'){
     h+='<section class="qcard"><h3>2. الوحدة</h3><select id="unitSel" class="qsel">'+units.map(function(u){return '<option value="'+esc(u.unit)+'"'+(unitSel===u.unit?' selected':'')+'>الوحدة '+esc(u.unit)+(u.name?': '+esc(u.name):'')+'</option>';}).join('')+'</select><button type="button" class="btn primary go-btn" id="makeBtn">اعرض ملخص الوحدة</button></section>';
   }else{
-    h+='<section class="qcard"><h3>2. '+(REM?'الدروس التي تعثّر فيها الطلاب':'الدروس')+' <span class="muted">(حتى 6)</span></h3><div class="lpick">';
+    h+='<section class="qcard"><h3>2. '+(REM?(MODE==='enrich'?'الدروس التي أتقنها الطلاب':'الدروس التي تعثّر فيها الطلاب'):'الدروس')+' <span class="muted">(حتى 6)</span></h3><div class="lpick">';
     units.forEach(function(u){
       h+='<div class="lp-unit"><div class="lp-uh">الوحدة '+esc(u.unit)+(u.name?': '+esc(u.name):'')+'</div>';
-      u.lessons.forEach(function(l){var ok=!!st(l);h+='<label class="lp-l'+(ok||!REM?'':' dim')+'"><input type="checkbox" data-lid="'+l.id+'"'+(sel[l.id]?' checked':'')+(ok||!REM?'':' disabled')+'> <span>'+esc(l.title)+'</span></label>';});
+      u.lessons.forEach(function(l){var ok=!!st(l)||MODE==='enrich';h+='<label class="lp-l'+(ok||!REM?'':' dim')+'"><input type="checkbox" data-lid="'+l.id+'"'+(sel[l.id]?' checked':'')+(ok||!REM?'':' disabled')+'> <span>'+esc(l.title)+'</span></label>';});
       h+='</div>';
     });
     h+='</div>';
-    if(REM)h+='<label class="qrow">عدد صفوف الطلاب <input id="rowsIn" type="number" min="1" max="30" value="'+rows+'" class="qsel sm" style="width:80px"></label>';
-    h+='<button type="button" class="btn primary go-btn" id="makeBtn">'+(REM?'كوّن الخطة والأنشطة':'اعرض الملخص')+'</button></section>';
+    if(REM&&!(stu&&stu.length))h+='<label class="qrow">عدد صفوف الطلاب <input id="rowsIn" type="number" min="1" max="30" value="'+rows+'" class="qsel sm" style="width:80px"></label>';
+    h+='<button type="button" class="btn primary go-btn" id="makeBtn">'+(REM?(MODE==='enrich'?'كوّن الخطة الإثرائية والأنشطة':'كوّن الخطة العلاجية والأنشطة'):'اعرض الملخص')+'</button></section>';
     if(REM)h+='<section class="qcard"><h3>👥 نشاط جماعي</h3><label class="qrow">عدد أفراد المجموعة <select id="gSize" class="qsel sm">'+[2,3,4,5,6].map(function(n){return '<option'+(n===gsize?' selected':'')+'>'+n+'</option>';}).join('')+'</select></label><label class="qrow">أسئلة كل طالب <select id="gPer" class="qsel sm"><option value="1"'+(gper===1?' selected':'')+'>سؤال واحد</option><option value="2"'+(gper===2?' selected':'')+'>سؤالان</option></select></label><label class="qrow" style="flex-direction:column;align-items:stretch">أسماء الأعضاء (اختياري، اسم في كل سطر — الأول يأخذ الأسهل)<textarea id="gNames" class="qsel" rows="4" placeholder="الطالب الأول&#10;الطالب الثاني">'+esc(gnames)+'</textarea></label><button type="button" class="btn primary go-btn" id="grpBtn">كوّن النشاط الجماعي</button><div class="muted small" style="margin-top:6px">أسئلة سهلة ومتوسطة وتحدٍّ خفيف، بالأشكال والجداول ونموذج إجابة.</div></section>';
     // «الواجبات المنزلية» صار قسمًا مستقلًا في القائمة الرئيسية (/homework) بدرجات وأنواع وفق الوثيقة
   }
@@ -374,6 +456,8 @@ function renderSide(){
 }
 function bindSide(){
   bindCoursePick(courses,'courseSel',selectCourse);
+  Array.prototype.forEach.call(document.querySelectorAll('[data-md]'),function(b){b.onclick=function(){var m=b.getAttribute('data-md');if(m===MODE)return;MODE=m;if(m==='rem')Object.keys(sel).forEach(function(id){if(!byId[id]||!st(byId[id]))delete sel[id];});renderSide();if(!doc)welcome();};});
+  if($('stuClr'))$('stuClr').onclick=function(){stu=null;src=null;renderSide();};
   Array.prototype.forEach.call(document.querySelectorAll('[data-sm]'),function(b){b.onclick=function(){sumMode=b.getAttribute('data-sm');renderSide();};});
   Array.prototype.forEach.call(document.querySelectorAll('[data-lid]'),function(b){b.onchange=function(){var id=+b.getAttribute('data-lid');if(b.checked){if(Object.keys(sel).length>=6){b.checked=false;toast('اختر 6 دروس كحد أقصى');return;}sel[id]=1;}else delete sel[id];};});
   if($('unitSel'))$('unitSel').onchange=function(){unitSel=this.value;};
@@ -403,7 +487,8 @@ function selectCourse(key){
 }
 function welcome(){
   $('qmain').innerHTML=REM?
-    '<div class="welcome qwel"><h2>🩹 الخطط العلاجية والأنشطة الصفية</h2><p>لكل درس: المهارة التي يتعثر فيها الطلاب، شرح مبسط، و3 أنشطة علاجية متدرجة مع نموذج الإجابة — مكتوبة من مخرجات التعلم في المنهج العُماني. ومعها نموذج «خطة علاجية للطالب دون المستوى» جاهز للتعبئة. ومعها تبويب <b>«الأنشطة الصفية»</b>: أسئلة تحدٍّ أعلى مستوى (تطبيق واستدلال، وأسئلة الوزارة بالرسوم) لكل درس مع إجاباتها. وبطاقة <b>«نشاط جماعي»</b> توزّع أسئلة سهلة ومتوسطة وتحدٍّ خفيف على أفراد المجموعة (2–6) بأدوارهم وأسمائهم، مع نموذج الإجابة.</p><div class="welcome-steps"><span>1. اختر الدروس</span><span>2. كوّن الخطة</span><span>3. عدّل أي نص بالضغط عليه</span><span>4. اطبع أو حمّل Word</span></div></div>':
+    (MODE==='enrich'?'<div class="welcome qwel"><h2>🌟 الخطط الإثرائية للطلاب المتفوقين</h2><p>نموذج «خطة إثرائية» جاهز للتعبئة: بيانات الطلاب المتفوقين وجوانب تميّزهم، مجالات الإثراء، نشاط إثرائي لكل درس من تحضيره، وإجراءات المعلم والمدرسة — ومعه <b>ورقة أنشطة إثرائية</b> بأسئلة تحدٍّ عليا ومهمة إثرائية لكل درس، مع إجاباتها.</p><p class="muted">أرسل الطلاب من «كروت الأسئلة» أو «تحليل النتائج» ← «🎯 إرسال الطلاب» فتُبنى الخطة تلقائيًا بأسمائهم ونتائجهم.</p><div class="welcome-steps"><span>1. اختر الدروس</span><span>2. كوّن الخطة</span><span>3. عدّل ما تريد</span><span>4. اطبع أو حمّل Word</span></div></div>':'')+
+    '<div class="welcome qwel"'+(MODE==='enrich'?' hidden':'')+'><h2>🩹 الخطط والأنشطة الصفية</h2><p>لكل درس: المهارة التي يتعثر فيها الطلاب، شرح مبسط، و3 أنشطة علاجية متدرجة مع نموذج الإجابة — مكتوبة من مخرجات التعلم في المنهج العُماني. ومعها نموذج «خطة علاجية للطالب دون المستوى» جاهز للتعبئة. ومعها تبويب <b>«الأنشطة الصفية»</b>: أسئلة تحدٍّ أعلى مستوى (تطبيق واستدلال، وأسئلة الوزارة بالرسوم) لكل درس مع إجاباتها. وبطاقة <b>«نشاط جماعي»</b> توزّع أسئلة سهلة ومتوسطة وتحدٍّ خفيف على أفراد المجموعة (2–6) بأدوارهم وأسمائهم، مع نموذج الإجابة.</p><div class="welcome-steps"><span>1. اختر الدروس</span><span>2. كوّن الخطة</span><span>3. عدّل أي نص بالضغط عليه</span><span>4. اطبع أو حمّل Word</span></div></div>':
     '<div class="welcome qwel"><h2>📚 ملخصات الدروس والوحدات</h2><p>ملخص لكل درس مبني على مخرجات التعلم في المنهج العُماني والكتاب المدرسي: الفكرة الأساسية، نقاط كل مخرج، المصطلحات، وأخطاء شائعة. وملخص للوحدة بأفكارها الكبرى وأسئلة مراجعة.</p><div class="welcome-steps"><span>1. اختر درسًا أو وحدة</span><span>2. اعرض الملخص</span><span>3. عدّل ما تريد</span><span>4. اطبع أو حمّل Word للطلاب</span></div></div>';
 }
 // ==== mind map ====
@@ -446,10 +531,14 @@ function make(){
   var ls=lessonsSel();
   if((REM||sumMode==='lesson')&&!ls.length){toast('اختر درسًا واحدًا على الأقل');return;}
   var title,parts;
-  if(REM){
+  if(REM&&MODE==='enrich'){
+    parts={eplan:enrichPlanHtml(ls),esheet:classHtml(ls,false,true),ekey:classHtml(ls,true,true)};
+    title='خطة إثرائية — '+course.subject+' '+course.grade+' — '+ls.map(function(l){return l.title;}).join('، ');part='eplan';
+    track('enrich_make',ls.length+' دروس'+(stu?' · '+stu.length+' طلاب':''),title);
+  }else if(REM){
     parts={plan:planHtml(ls),sheet:sheetHtml(ls,false),key:sheetHtml(ls,true),cls:classHtml(ls,false),clskey:classHtml(ls,true)};
     title='خطة علاجية — '+course.subject+' '+course.grade+' — '+ls.map(function(l){return l.title;}).join('، ');part='plan';
-    track('remedial_make',ls.length+' دروس',title);
+    track('remedial_make',ls.length+' دروس'+(stu?' · '+stu.length+' طلاب':''),title);
   }else{
     parts={main:summaryHtml()};part='main';
     if(sumMode==='lesson'){var mmh=mmAll(ls);if(mmh){parts.mm=mmh;part='mm';}}
@@ -457,17 +546,18 @@ function make(){
     title=sumMode==='unit'?'ملخص الوحدة '+unitSel+(u&&u.name?': '+u.name:'')+' — '+course.grade:'ملخص: '+ls.map(function(l){return l.title;}).join('، ');
     track('summary_make',sumMode==='unit'?'الوحدة '+unitSel:ls.length+' دروس',title);
   }
-  doc={kind:KIND,course:course.key,subject:course.subject,grade:course.grade,title:title.slice(0,150),parts:parts,lessons:ls.map(function(l){return l.id;}),id:null,en:isEnC()};
+  doc={kind:KIND,mode:REM?MODE:undefined,course:course.key,subject:course.subject,grade:course.grade,title:title.slice(0,150),parts:parts,lessons:ls.map(function(l){return l.id;}),id:null,en:isEnC()};
+  if(stu)doc.students=stu;
   dirty=true;renderDoc();
 }
-var PART_TXT={plan:'نموذج الخطة العلاجية',sheet:'ورقة الأنشطة للطالب',key:'نموذج الإجابة',cls:'الأنشطة الصفية',clskey:'إجابات الأنشطة الصفية',mm:'خريطة ذهنية بالعرض',grp:'النشاط الجماعي',grpkey:'إجابات النشاط الجماعي',hw:'الواجب السريع',hwkey:'إجابات الواجب السريع',main:'الملخص'};
-function partKeys(){return REM?['plan','sheet','key','cls','clskey','grp','grpkey','hw','hwkey']:['mm','main'];}
+var PART_TXT={eplan:'نموذج الخطة الإثرائية',esheet:'الأنشطة الإثرائية للطالب',ekey:'إجابات الأنشطة الإثرائية',plan:'نموذج الخطة العلاجية',sheet:'ورقة الأنشطة للطالب',key:'نموذج الإجابة',cls:'الأنشطة الصفية',clskey:'إجابات الأنشطة الصفية',mm:'خريطة ذهنية بالعرض',grp:'النشاط الجماعي',grpkey:'إجابات النشاط الجماعي',hw:'الواجب السريع',hwkey:'إجابات الواجب السريع',main:'الملخص'};
+function partKeys(){return REM?['plan','sheet','key','eplan','esheet','ekey','cls','clskey','grp','grpkey','hw','hwkey']:['mm','main'];}
 function presentKeys(){var k=partKeys().filter(function(x){return doc&&doc.parts&&doc.parts[x];});return k.length?k:partKeys();}
 function renderDoc(){
   if(!doc){welcome();return;}
   var h='<div class="qbar no-print"><div class="qbar-t"><input class="title-in sm" id="docTitle" value="'+esc(doc.title)+'" aria-label="الاسم في قائمتك"><div class="muted small">'+(doc.id?'محفوظ':'غير محفوظ بعد')+(dirty&&doc.id?' · فيه تعديلات لم تُحفظ':'')+'</div></div>'+
     '<div class="qbar-b"><button type="button" class="btn primary" id="printBtn">🖨 طباعة / PDF</button><button type="button" class="btn" id="wordBtn">⬇ تحميل Word</button><button type="button" class="btn" id="saveBtn">حفظ</button>'+
-    (REM&&part==='plan'?'<button type="button" class="btn" id="rowAdd">+ صف طالب</button><button type="button" class="btn" id="rowDel">− صف</button>':'')+'</div></div>'+
+    (REM&&(part==='plan'||part==='eplan')?'<button type="button" class="btn" id="rowAdd">+ صف طالب</button><button type="button" class="btn" id="rowDel">− صف</button>':'')+'</div></div>'+
     '<div class="edit-hint no-print">✎ اضغط على أي نص في الورقة لتعديله أو حذفه أو الكتابة فيه'+(REM?'، واضغط على المربع ☐ لتحديده':'')+'.</div>'+
     ((REM||(doc.parts&&doc.parts.mm))?'<div class="ptabs no-print" role="tablist">'+presentKeys().map(function(k){return '<button type="button" class="ltab'+(part===k?' on':'')+'" data-part="'+k+'">'+PART_TXT[k]+'</button>';}).join('')+'</div>':'')+
     '<div class="paper study-paper" id="paper" contenteditable="true" spellcheck="false">'+clean(doc.parts[part]||'')+'</div>';
@@ -479,7 +569,7 @@ function renderDoc(){
   Array.prototype.forEach.call(document.querySelectorAll('[data-part]'),function(b){b.onclick=function(){part=b.getAttribute('data-part');renderDoc();};});
   $('docTitle').onchange=function(){doc.title=this.value.trim()||doc.title;dirty=true;};
   $('printBtn').onclick=printDoc;$('wordBtn').onclick=wordDoc;$('saveBtn').onclick=saveDoc;
-  if($('rowAdd'))$('rowAdd').onclick=function(){var tb=pp.querySelector('#stTbl tbody');if(!tb)return;var n=tb.rows.length+1;tb.insertAdjacentHTML('beforeend',stRow(n));doc.parts[part]=pp.innerHTML;dirty=true;};
+  if($('rowAdd'))$('rowAdd').onclick=function(){var tb=pp.querySelector('#stTbl tbody');if(!tb)return;var n=tb.rows.length+1;tb.insertAdjacentHTML('beforeend',stRow(n,null,part==='eplan'?'enrich':'rem'));doc.parts[part]=pp.innerHTML;dirty=true;};
   if($('rowDel'))$('rowDel').onclick=function(){var tb=pp.querySelector('#stTbl tbody');if(!tb||tb.rows.length<2)return;tb.deleteRow(-1);doc.parts[part]=pp.innerHTML;dirty=true;};
 }
 // إعادة ترقيم الأسئلة (س1. س2. … / Q1.) بعد حذف سؤال أو أكثر من الورقة، مع تحديث أرقامها في جدول أعضاء المجموعة
@@ -511,7 +601,7 @@ function curPaper(){var pp=$('paper');if(pp)doc.parts[part]=pp.innerHTML;}
 function chooseParts(title){
   if(!REM)return Promise.resolve(['main']);
   // نستخدم dialog المشتركة: تغلق النافذة وترفع الحدث وعدّاد لوحة المفاتيح معها
-  var html='<div class="parts">'+presentKeys().map(function(k){return '<label><input type="checkbox" name="pp" value="'+k+'"'+((part==='cls'||part==='clskey')?(k===part||(part==='cls'&&k==='clskey')?' checked':''):(part==='grp'||part==='grpkey')?(k===part||(part==='grp'&&k==='grpkey')?' checked':''):(k==='plan'||k==='sheet'||k===part?' checked':''))+'> '+PART_TXT[k]+'</label>';}).join('')+'</div>';
+  var html='<div class="parts">'+presentKeys().map(function(k){return '<label><input type="checkbox" name="pp" value="'+k+'"'+((part==='cls'||part==='clskey')?(k===part||(part==='cls'&&k==='clskey')?' checked':''):(part==='grp'||part==='grpkey')?(k===part||(part==='grp'&&k==='grpkey')?' checked':''):(k==='plan'||k==='sheet'||k==='eplan'||k==='esheet'||k===part?' checked':''))+'> '+PART_TXT[k]+'</label>';}).join('')+'</div>';
   return dialog({title:title,cancelText:'إلغاء',okText:'متابعة',group:'pp',html:html}).then(function(v){
     if(!v)return null;
     if(!v.length){toast('اختر جزءًا واحدًا على الأقل');return null;}
@@ -570,7 +660,7 @@ function loadSaved(){
 function openSaved(id){
   api('/api/quizzes/'+id).then(function(r){
     var d=r.quiz.data;d.id=r.quiz.id;d.title=r.quiz.title;
-    var go=function(){doc=d;dirty=false;part=presentKeys()[0];renderDoc();};
+    var go=function(){doc=d;dirty=false;if(REM){var m=d.mode==='enrich'?'enrich':'rem';if(m!==MODE){MODE=m;renderSide();}}part=presentKeys()[0];renderDoc();};
     if(!course||course.key!==d.course){var c=courses.filter(function(x){return x.key===d.course;})[0];if(c){doc=null;selectCourse(c.key).then(go);return;}}
     go();
   },function(e){toast(e.message);});
@@ -586,8 +676,13 @@ Promise.all([api('/api/me'),api('/api/courses')]).then(function(r){
   var hf=null;try{hf=JSON.parse(localStorage.getItem('tahdir_handoff')||'null');}catch(e){}
   if(REM&&hf&&hf.to==='remedial'&&Date.now()-(hf.at||0)<15*60000){
     try{localStorage.removeItem('tahdir_handoff');}catch(e){}
+    if(hf.students&&hf.students.length){stu=hf.students;src=hf.src||null;rows=stu.length;}
+    MODE=hf.mode==='enrich'?'enrich':'rem';
     var hc=courses.filter(function(x){return x.key===hf.course;})[0];
-    if(hc){selectCourse(hc.key).then(function(){sel={};(hf.lessons||[]).forEach(function(id){if(byId[id]&&st(byId[id]))sel[id]=1;});renderSide();if(Object.keys(sel).length){make();toast('خطة علاجية للدروس الأضعف في التحليل ✓');}else toast('لا توجد خطط علاجية جاهزة لهذه الدروس');});return;}
+    if(hc){selectCourse(hc.key).then(function(){sel={};(hf.lessons||[]).forEach(function(id){if(byId[id]&&(MODE==='enrich'||st(byId[id])))sel[id]=1;});renderSide();
+      if(Object.keys(sel).length){make();toast((MODE==='enrich'?'خطة إثرائية':'خطة علاجية')+' مبنية على النتائج'+(stu?' لـ '+stu.length+' طلاب':'')+' ✓');}
+      else toast(MODE==='enrich'?'اختر الدروس ثم «كوّن الخطة الإثرائية»':'لا توجد خطط علاجية جاهزة لهذه الدروس — اختر الدروس يدويًا');});return;}
+    if(stu)toast('اختر المادة والدروس، وستُكتب أسماء الطلاب المرسلين ونتائجهم في الخطة');
   }
   var last=lsGet('tahdir_study_course')||lsGet('tahdir_quiz_course'),c=courses.filter(function(x){return x.key===last;})[0]||cpDefault(courses);
   selectCourse(c.key);

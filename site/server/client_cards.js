@@ -41,6 +41,20 @@ function parseNames(t){
   }).filter(Boolean);
 }
 
+// المجموعات: كل سطر مجموعة وأسماء طلابها مفصولة بفاصلة، أو عنوان «مجموعة 1:» ثم الأسماء (في السطر نفسه أو الأسطر التالية)
+function parseGroups(t){
+  var G=[],cur=null,hasHdr=/^\s*(ال)?مجموعة\s*[\d٠-٩]+/m.test(String(t||''));
+  String(t||'').split(/\r?\n/).forEach(function(l){
+    var m=/^\s*(?:ال)?مجموعة\s*[\d٠-٩]+\s*[:：\-–)]?\s*(.*)$/.exec(l);
+    var rest=m?m[1]:l;
+    var names=rest.split(/[،,;؛\t|]+/).map(function(x){return x.replace(/^\s*[\d٠-٩]+\s*[-.)–]?\s*/,'').replace(/\s+/g,' ').trim();}).filter(function(x){return /[A-Za-z؀-ۿ]/.test(x);});
+    if(m||!hasHdr){if(m||names.length){cur=[];G.push(cur);}}
+    if(cur)names.forEach(function(x){cur.push(x);});
+  });
+  return G.filter(function(g){return g.length;});
+}
+function isGrp(C){return C&&C.mode==='groups';}
+function memNames(s){return (s.members||[]).map(function(m){return m.name||m.full;});}
 
 // ================= الشرح =================
 // رسم البطاقة كما يرفعها الطالب لكل إجابة (أ: كما هي، ب: الجانب الأيمن للأعلى، ج: مقلوبة، د: الجانب الأيسر للأعلى)
@@ -115,38 +129,61 @@ function restorePending(S){
 
 // ================= إضافة صف =================
 function editClass(C){
-  C=C||{id:null,title:'',course:cpLs('tahdir_cards_course')||'',subject:'',grade:'',students:[]};
-  var rows=C.students.map(function(s){return {full:s.full||s.name,name:s.name};});
+  C=C||{id:null,title:'',course:cpLs('tahdir_cards_course')||'',subject:'',grade:'',students:[],mode:'students'};
+  var mode=C.mode==='groups'?'groups':'students';
+  var rows=mode==='groups'?[]:C.students.map(function(s){return {full:s.full||s.name,name:s.name};});
+  var gText=mode==='groups'?C.students.map(function(s){return s.name+': '+(s.members||[]).map(function(m){return m.full||m.name;}).join('، ');}).join('\n'):'';
+  var sText=rows.map(function(r){return r.full;}).join('\n');
   var h='<div class="an-head"><h2>'+(C.id?'طلاب «'+esc(C.title)+'»':'إضافة صف')+'</h2><p class="muted">الصق أسماء الطلاب بترتيب كشف الأسماء (اسم في كل سطر، من Excel أو نور). المنصة تأخذ <b>الاسم الأول والقبيلة</b> فقط ليظهرا مع المسح: «علي بن سالم بن محمد الشامسي» ← «علي الشامسي». رقم الطالب في الكشف هو رقم بطاقته.</p></div>'+
     '<div class="ck-form"><div class="ck-row"><label class="ck-f"><span>اسم الصف</span><input id="cfT" value="'+esc(C.title)+'" placeholder="مثال: العاشر / 2"></label><div class="ck-f"><span>المادة والصف</span>'+coursePick(courses,C.course||cpDefault(courses).key,'cfK')+'</div></div>'+
-    '<div class="ck-row ck-names"><label class="ck-f"><span>أسماء الطلاب <small class="muted" id="cfN"></small></span><textarea id="cfL" rows="16" placeholder="علي بن سالم بن محمد الشامسي&#10;أحمد سعيد خلفان الكعبي&#10;…">'+esc(rows.map(function(r){return r.full;}).join('\n'))+'</textarea></label>'+
+    '<div class="ck-f"><span>طريقة الإجابة</span><div class="seg ck-mode"><button type="button" data-cm="students" class="'+(mode==='students'?'on':'')+'">👤 طلاب (بطاقة لكل طالب)</button><button type="button" data-cm="groups" class="'+(mode==='groups'?'on':'')+'">👥 مجموعات (بطاقة لكل مجموعة)</button></div></div>'+
+    '<div class="ck-row ck-names"><label class="ck-f"><span id="cfLab"></span><textarea id="cfL" rows="16"></textarea></label>'+
     '<div class="ck-f"><span>كما تظهر في الكاميرا <small class="muted">(يمكنك تعديل أي اسم)</small></span><div class="ck-pv" id="cfP"></div></div></div>'+
     '<div class="err" id="cfE" hidden></div><div class="an-new"><button type="button" class="btn primary" id="cfSave">💾 حفظ الصف</button><button type="button" class="btn" id="cfBack">رجوع</button></div></div>';
   main(h);
   var cKey=C.course||cpDefault(courses).key;
   bindCoursePick(courses,'cfK',function(k){cKey=k;});
   var edits={};rows.forEach(function(r){if(r.name!==shortName(r.full))edits[r.full]=r.name;});
+  if(mode==='groups')C.students.forEach(function(s){(s.members||[]).forEach(function(m){if(m.full&&m.name&&m.name!==shortName(m.full))edits[m.full]=m.name;});});
+  function setMode(m){
+    if($('cfL').dataset.m){if(mode==='groups')gText=$('cfL').value;else sText=$('cfL').value;}
+    mode=m;$('cfL').dataset.m='1';each('[data-cm]',function(b){b.classList.toggle('on',b.getAttribute('data-cm')===m);});
+    $('cfLab').innerHTML=m==='groups'?'المجموعات <small class="muted" id="cfN"></small><br><small class="muted">كل مجموعة في سطر، وأسماء طلابها مفصولة بفاصلة (،) — أي عدد من الطلاب. مثال: «مجموعة 1: علي الشامسي، أحمد الكعبي، سالم البادي». رقم المجموعة هو رقم بطاقتها.</small>':'أسماء الطلاب <small class="muted" id="cfN"></small>';
+    $('cfL').value=m==='groups'?gText:sText;
+    $('cfL').placeholder=m==='groups'?'مجموعة 1: علي بن سالم الشامسي، أحمد سعيد الكعبي، سالم محمد البادي\nمجموعة 2: …':'علي بن سالم بن محمد الشامسي\nأحمد سعيد خلفان الكعبي\n…';
+    prev();
+  }
   function prev(){
+    if(mode==='groups'){
+      var G=parseGroups($('cfL').value);
+      $('cfN').textContent='('+G.length+' مجموعة'+(G.length>CARD_MAX?' — الحد الأقصى '+CARD_MAX:'')+')';
+      $('cfP').innerHTML=G.length?'<table class="ck-pt">'+G.map(function(g,i){return '<tr><td>'+(i+1)+'</td><td><b>مجموعة '+(i+1)+'</b> <small class="muted">('+g.length+')</small><br>'+g.map(function(f){return esc(edits[f]||shortName(f));}).join('، ')+'</td></tr>';}).join('')+'</table>':'<p class="muted">ستظهر المجموعات هنا.</p>';
+      return;
+    }
     var names=parseNames($('cfL').value);
     $('cfN').textContent='('+names.length+' طالبًا'+(names.length>CARD_MAX?' — الحد الأقصى '+CARD_MAX:'')+')';
     $('cfP').innerHTML=names.length?'<table class="ck-pt">'+names.map(function(f,i){return '<tr><td>'+(i+1)+'</td><td><input data-full="'+esc(f)+'" value="'+esc(edits[f]||shortName(f))+'"></td></tr>';}).join('')+'</table>':'<p class="muted">ستظهر الأسماء هنا.</p>';
     each('[data-full]',function(el){el.oninput=function(){edits[el.getAttribute('data-full')]=el.value.trim();};});
   }
-  $('cfL').oninput=prev;prev();
+  $('cfL').oninput=prev;
+  each('[data-cm]',function(b){b.onclick=function(){setMode(b.getAttribute('data-cm'));};});
+  setMode(mode);
   $('cfBack').onclick=load;
   $('cfSave').onclick=function(){
-    var names=parseNames($('cfL').value),e=$('cfE');e.hidden=true;
+    var e=$('cfE');e.hidden=true;
+    var G=mode==='groups'?parseGroups($('cfL').value):null,names=G?G.map(function(g,i){return 'مجموعة '+(i+1);}):parseNames($('cfL').value);
     if(!$('cfT').value.trim()){e.textContent='اكتب اسم الصف.';e.hidden=false;return;}
-    if(!names.length){e.textContent='الصق أسماء الطلاب.';e.hidden=false;return;}
-    if(names.length>CARD_MAX){e.textContent='الحد الأقصى '+CARD_MAX+' طالبًا في الصف.';e.hidden=false;return;}
+    if(!names.length){e.textContent=G?'اكتب المجموعات وأسماء طلابها.':'الصق أسماء الطلاب.';e.hidden=false;return;}
+    if(names.length>CARD_MAX){e.textContent='الحد الأقصى '+CARD_MAX+(G?' مجموعة.':' طالبًا في الصف.');e.hidden=false;return;}
     var c=courses.filter(function(x){return x.key===cKey;})[0];
     var oldOrder=C.students.map(function(s){return s.full||s.name;}).join('\n');
-    C.title=$('cfT').value.trim();C.course=cKey;C.subject=c?c.subject:'';C.grade=c?c.grade:'';
-    C.students=names.map(function(f,i){return {n:i+1,full:f,name:edits[f]||shortName(f)};});
+    C.title=$('cfT').value.trim();C.course=cKey;C.subject=c?c.subject:'';C.grade=c?c.grade:'';C.mode=mode;
+    C.students=G?G.map(function(g,i){return {n:i+1,full:'مجموعة '+(i+1),name:'مجموعة '+(i+1),members:g.map(function(f){return {full:f,name:edits[f]||shortName(f)};})};}):
+      names.map(function(f,i){return {n:i+1,full:f,name:edits[f]||shortName(f)};});
     cpLs('tahdir_cards_course',cKey);
     var changed=C.id&&oldOrder&&oldOrder!==names.join('\n');
     saveDoc('cclass',C).then(function(){toast('حُفظ الصف');track('cards_class',String(names.length),C.title);TAB='classes';
-      dialog({title:'حُفظ «'+C.title+'»',message:(changed?'⚠ تغيّر ترتيب الكشف: رقم بطاقة كل طالب = ترتيبه الجديد، فأعد توزيع البطاقات أو اطبعها من جديد.\n\n':'')+'التالي: اطبع البطاقات ووزّعها — بطاقة رقم 1 لأول طالب في الكشف، وهكذا.',okText:'🖨 طباعة البطاقات',cancelText:'لاحقًا'}).then(function(ok){if(ok)printCards(C);else load();});
+      dialog({title:'حُفظ «'+C.title+'»',message:(changed?'⚠ تغيّر الترتيب: رقم كل بطاقة = الترتيب الجديد، فأعد توزيع البطاقات أو اطبعها من جديد.\n\n':'')+(G?'التالي: اطبع البطاقات ووزّعها — بطاقة رقم 1 للمجموعة 1، وهكذا.':'التالي: اطبع البطاقات ووزّعها — بطاقة رقم 1 لأول طالب في الكشف، وهكذا.'),okText:'🖨 طباعة البطاقات',cancelText:'لاحقًا'}).then(function(ok){if(ok)printCards(C);else load();});
     },function(x){e.textContent=x.message;e.hidden=false;});
   };
 }
@@ -178,8 +215,8 @@ function printCards(C){
       h+='<div class="ck-pp ck-pp'+per+'">'+list.slice(i,i+per).map(function(s){return '<div class="ck-pc" style="width:'+sz+'mm;height:'+sz+'mm">'+cardSvg(s.n,{name:nm?s.name:'',en:en})+'</div>';}).join('')+'</div>';
     }
     var half=Math.ceil(list.length/2),tr='';
-    for(var j=0;j<half;j++){var a=list[j],b=list[j+half];tr+='<tr><td>'+a.n+'</td><td>'+esc(a.full||a.name)+'</td><td>'+(b?b.n:'')+'</td><td>'+(b?esc(b.full||b.name):'')+'</td></tr>';}
-    h+='<div class="ck-pp ck-ppl"><h2 style="text-align:center">توزيع بطاقات «'+esc(C.title)+'»</h2><table class="ck-lt"><tr><th>البطاقة</th><th>الطالب</th><th>البطاقة</th><th>الطالب</th></tr>'+tr+'</table>'+
+    for(var j=0;j<half;j++){var a=list[j],b=list[j+half];tr+='<tr><td>'+a.n+'</td><td>'+esc(a.full||a.name)+(a.members?'<br><small>'+esc(memNames(a).join('، '))+'</small>':'')+'</td><td>'+(b?b.n:'')+'</td><td>'+(b?esc(b.full||b.name)+(b.members?'<br><small>'+esc(memNames(b).join('، '))+'</small>':''):'')+'</td></tr>';}
+    h+='<div class="ck-pp ck-ppl"><h2 style="text-align:center">توزيع بطاقات «'+esc(C.title)+'»</h2><table class="ck-lt"><tr><th>البطاقة</th><th>'+(isGrp(C)?'المجموعة':'الطالب')+'</th><th>البطاقة</th><th>'+(isGrp(C)?'المجموعة':'الطالب')+'</th></tr>'+tr+'</table>'+
       '<p style="margin-top:8mm;font-size:12pt">طريقة الإجابة: يمسك الطالب بطاقته بحيث يكون حرف إجابته في <b>الأعلى</b>، ويرفعها مواجهةً للمعلم، ولا يغطي المربع الأسود بأصابعه.</p></div>';
     var pname=('بطاقات '+C.title).replace(/[\\/:*?"<>|]+/g,'-');
     // داخل تطبيق أندرويد لا تعمل window.print: نصنع صفحة طباعة على الخادم تُفتح في Chrome (مثل بقية أقسام المنصة)
@@ -461,7 +498,7 @@ function calc(S,C){
   var qs=Q.map(function(q,i){var a=S.answers[i]||{},vals=Object.keys(a).map(function(k){return a[k];}),ok=vals.filter(function(v){return v===q.correct;}).length;return {n:vals.length,ok:ok,p:vals.length?ok/vals.length:0,dist:q.choices.map(function(_,k){return vals.filter(function(v){return v===k;}).length;})};});
   // الأسئلة التي عُرضت فعلًا (أجاب عنها طالب واحد على الأقل): النسبة تُحسب منها، لا من كل الأسئلة المولّدة
   var asked=[];qs.forEach(function(x,i){if(x.n)asked.push(i);});
-  var rows=stu.map(function(s){var sc=0,ans=0,cells=Q.map(function(q,i){var a=(S.answers[i]||{})[s.n];if(a==null)return null;ans++;var ok=a===q.correct;if(ok)sc++;return {a:a,ok:ok};});return {n:s.n,name:s.name,full:s.full||s.name,cells:cells,sc:sc,ans:ans,p:asked.length?sc/asked.length:0};});
+  var rows=stu.map(function(s){var sc=0,ans=0,cells=Q.map(function(q,i){var a=(S.answers[i]||{})[s.n];if(a==null)return null;ans++;var ok=a===q.correct;if(ok)sc++;return {a:a,ok:ok};});return {n:s.n,name:s.name,full:s.full||s.name,members:s.members?memNames(s):null,cells:cells,sc:sc,ans:ans,p:asked.length?sc/asked.length:0};});
   var present=rows.filter(function(r){return r.ans>0;});
   return {rows:rows,present:present,qs:qs,asked:asked,avg:present.length?present.reduce(function(x,r){return x+r.p;},0)/present.length:0};
 }
@@ -470,9 +507,9 @@ function results(S){
   function show(C){
     if(C.students&&C.students.length&&!S.roster){S.roster=C.students;}
     var R=calc(S,C),Q=S.questions;
-    var h='<div class="an-head"><h2>📊 نتائج «'+esc(S.title)+'»</h2><p class="muted">'+esc(C.title||S.className||'')+' · '+esc(S.date||'')+' · '+(R.asked.length<Q.length?'عُرض '+R.asked.length+' من '+Q.length+' أسئلة':Q.length+' سؤالًا')+' · مُسح '+R.present.length+' من '+R.rows.length+' طالبًا</p></div>'+
+    var h='<div class="an-head"><h2>📊 نتائج «'+esc(S.title)+'»</h2><p class="muted">'+esc(C.title||S.className||'')+' · '+esc(S.date||'')+' · '+(R.asked.length<Q.length?'عُرض '+R.asked.length+' من '+Q.length+' أسئلة':Q.length+' سؤالًا')+' · مُسح '+R.present.length+' من '+R.rows.length+(R.rows.some(function(r){return r.members;})?' مجموعة':' طالبًا')+'</p></div>'+
       '<div class="ck-sum"><div><b>'+pctS(R.avg)+'</b><small>متوسط الصف</small></div><div><b>'+R.present.filter(function(r){return r.p>=0.8;}).length+'</b><small>80% فأكثر</small></div><div><b>'+R.present.filter(function(r){return r.p<0.5;}).length+'</b><small>دون 50%</small></div><div><b>'+R.qs.filter(function(q){return q.n&&q.p<0.5;}).length+'</b><small>سؤال صعب</small></div></div>'+
-      '<div class="an-new"><button type="button" class="btn primary" id="rsAn">📊 إرسال إلى «تحليل النتائج»</button><button type="button" class="btn" id="rsLd">🧩 المتعثرون ← «سجل صعوبات التعلم»</button><button type="button" class="btn" id="rsPr">🖨 طباعة التقرير</button><button type="button" class="btn" id="rsRun">▶ متابعة الجلسة</button><button type="button" class="btn ghost" id="rsBack">رجوع</button></div>'+
+      '<div class="an-new"><button type="button" class="btn primary" id="rsAn">📊 إرسال إلى «تحليل النتائج»</button><button type="button" class="btn" id="rsLd">🎯 إرسال الطلاب ← الخطط العلاجية والإثرائية / سجل الصعوبات</button><button type="button" class="btn" id="rsPr">🖨 طباعة التقرير</button><button type="button" class="btn" id="rsRun">▶ متابعة الجلسة</button><button type="button" class="btn ghost" id="rsBack">رجوع</button></div>'+
       '<div class="ck-tw">'+table(R,Q)+'</div>'+
       '<h3 class="an-sub">الأسئلة</h3><ol class="ck-ql">'+Q.map(function(q,i){var x=R.qs[i];return '<li><div class="ck-qt">'+esc(q.stem)+'<div class="ck-qc">'+q.choices.map(function(c,k){var p=x.n?Math.round(x.dist[k]/x.n*100):0;return '<span'+(k===q.correct?' class="ok"':'')+'>'+LET[k]+') '+esc(c)+' <b>'+p+'%</b></span>';}).join('')+'</div></div><span class="ck-qp '+(x.p>=0.8?'g':x.p>=0.5?'m':'b')+'">'+(x.n?pctS(x.p):'—')+'</span></li>';}).join('')+'</ol>';
     main(h);
@@ -480,12 +517,12 @@ function results(S){
     $('rsRun').onclick=function(){startScreen(S);};
     $('rsPr').onclick=function(){printRes(S,C,R);};
     $('rsAn').onclick=function(){toAnalysis(S,C,R);};
-    $('rsLd').onclick=function(){toLd(S,C,R);};
+    $('rsLd').onclick=function(){sendPlans(S,C,R);};
   }
 }
 function table(R,Q){
-  return '<table class="ck-rt"><thead><tr><th>#</th><th>الطالب</th>'+Q.map(function(_,i){return '<th>س'+(i+1)+'</th>';}).join('')+'<th>الدرجة</th><th>%</th></tr></thead><tbody>'+
-    R.rows.map(function(r){return '<tr'+(r.ans?'':' class="abs"')+'><td>'+r.n+'</td><td class="nm">'+esc(r.name)+'</td>'+r.cells.map(function(c){return c?'<td class="'+(c.ok?'ok':'no')+'" title="'+LET[c.a]+'">'+(c.ok?'✓':'✗ '+LET[c.a])+'</td>':'<td class="na">—</td>';}).join('')+
+  return '<table class="ck-rt"><thead><tr><th>#</th><th>'+(R.rows.some(function(r){return r.members;})?'المجموعة وطلابها':'الطالب')+'</th>'+Q.map(function(_,i){return '<th>س'+(i+1)+'</th>';}).join('')+'<th>الدرجة</th><th>%</th></tr></thead><tbody>'+
+    R.rows.map(function(r){return '<tr'+(r.ans?'':' class="abs"')+'><td>'+r.n+'</td><td class="nm">'+esc(r.name)+(r.members?'<br><small class="muted">'+esc(r.members.join('، '))+'</small>':'')+'</td>'+r.cells.map(function(c){return c?'<td class="'+(c.ok?'ok':'no')+'" title="'+LET[c.a]+'">'+(c.ok?'✓':'✗ '+LET[c.a])+'</td>':'<td class="na">—</td>';}).join('')+
       '<td><b>'+(r.ans?r.sc+'/'+R.asked.length:'لم يُمسح')+'</b></td><td>'+(r.ans?pctS(r.p):'')+'</td></tr>';}).join('')+'</tbody></table>';
 }
 function printRes(S,C,R){
@@ -500,40 +537,23 @@ function toAnalysis(S,C,R){
   var Q=S.questions;
   var A={id:null,title:'تحليل '+S.title,source:'cards',quizId:null,course:S.course||'',subject:S.subject||'',grade:S.grade||'',date:S.date||today(),teacher:me&&me.name||'',threshold:50,
     items:R.asked.map(function(i){var q=Q[i];return {max:1,ao:q.ao||'',lesson:q.lesson||'',lid:q.lesson_id||null,qid:q.qid||null};}),
-    students:R.rows.map(function(r){return {name:r.full,s:r.ans?R.asked.map(function(i){var c=r.cells[i];return c&&c.ok?1:0;}):[]};}),notes:null,sugg:{},sig:{senior:'',principal:''}};
+    students:R.rows.map(function(r){var o={name:r.members?r.full+' ('+r.members.join('، ')+')':r.full,s:r.ans?R.asked.map(function(i){var c=r.cells[i];return c&&c.ok?1:0;}):[]};if(r.members)o.members=r.members.slice();return o;}),notes:null,sugg:{},sig:{senior:'',principal:''}};
   api('/api/quizzes',{title:A.title,grade:A.grade,subject:A.subject,kind:'analysis',data:A}).then(function(r){
     track('cards_to_analysis','',S.title);
     dialog({title:'أُنشئ التحليل ✓',message:'«'+A.title+'» محفوظ في «تحليل نتائج الاختبارات» بكل الإحصاءات (المتوسط، التمييز، مستوى كل مفردة، المتعثرون…).',okText:'فتح التحليل',cancelText:'لاحقًا'}).then(function(ok){if(ok)location.href='/analysis'+'?open='+r.id;});
   },function(e){toast(e.message);});
 }
-function toLd(S,C,R){
-  var low=R.present.filter(function(r){return r.p<0.5;}).sort(function(a,b){return a.p-b.p;});
-  var sel={pick:[],reg:'new'};
-  api('/api/quizzes?kind=ld').then(function(rr){
-    var regs=rr.quizzes||[];
-    dialog({title:'إضافة المتعثرين إلى «سجل صعوبات التعلم»',html:(low.length?'<p class="muted small">الطلاب دون 50% في هذه الجلسة (عدّل الاختيار):</p><div class="ck-pick">'+low.map(function(r,i){return '<label><input type="checkbox" data-lw="'+i+'" checked> '+esc(r.full)+' <small class="muted">('+r.sc+'/'+R.asked.length+')</small></label>';}).join('')+'</div>'+
-      '<label class="ck-f"><span>السجل</span><select id="ldReg">'+regs.map(function(g){return '<option value="'+g.id+'">'+esc(g.title)+'</option>';}).join('')+'<option value="new">+ سجل جديد: '+esc(C.title||S.className||'')+'</option></select></label><p class="muted small">يُضاف الطالب الجديد إلى السجل، ومن كان فيه تُضاف له ملاحظة متابعة بنتيجة الجلسة.</p>':'<p>لا يوجد طلاب دون 50% في هذه الجلسة 👏</p>'),
-      okText:low.length?'إضافة':'حسنًا',cancelText:low.length?'إلغاء':false,
-      extra:function(box){var pk=[];Array.prototype.forEach.call(box.querySelectorAll('[data-lw]:checked'),function(c){pk.push(low[+c.getAttribute('data-lw')]);});var rg=box.querySelector('#ldReg');sel={pick:pk,reg:rg?rg.value:'new'};}}).then(function(ok){
-      if(!ok||!low.length)return;
-      var pick=sel.pick,reg=sel.reg;
-      if(!pick.length)return;
-      var p=reg==='new'?Promise.resolve({id:null,title:'سجل صعوبات التعلم — '+(C.title||S.className||''),subject:S.subject||'',grade:S.grade||'',section:C.title||'',teacher:me&&me.name||'',year:schoolHdr().year,students:[],sig:{spec:'',principal:''}}):getDoc(reg);
-      p.then(function(Rg){
-        var note=function(r){return 'تقويم بالبطاقات «'+S.title+'»: '+r.sc+'/'+R.asked.length+' ('+pctS(r.p)+')';};
-        var added=0,upd=0;
-        pick.forEach(function(r){
-          var ex=Rg.students.filter(function(s){var n=(s.name||'').trim();return n===r.full.trim()||n===r.name.trim();})[0];
-          if(ex){ex.follow=ex.follow||[];ex.follow.push({d:today(),n:note(r),p:''});upd++;}
-          else{Rg.students.push({name:r.full,aspects:[],other:'',level:'',diag:note(r),goalsL:'',goalsS:'',strat:'',accom:'',eval:'',follow:[{d:today(),n:note(r),p:''}]});added++;}
-        });
-        return api('/api/quizzes',{id:Rg.id||undefined,title:Rg.title,grade:Rg.grade||'',subject:Rg.subject||'',kind:'ld',data:Rg}).then(function(){
-          track('cards_to_ld',String(pick.length),S.title);
-          dialog({title:'تم ✓',message:(added?'أُضيف '+added+' طالبًا إلى السجل. ':'')+(upd?'أُضيفت ملاحظة متابعة لـ '+upd+' طالبًا موجودًا.':''),okText:'فتح السجل',cancelText:'إغلاق'}).then(function(o){if(o)location.href='/ld';});
-        });
-      }).catch(function(e){toast(e.message);});
-    });
-  },function(e){toast(e.message);});
+// إرسال الطلاب (أو المجموعات بطلابها) إلى الخطط العلاجية / الإثرائية أو سجل صعوبات التعلم — يختارهم المعلم
+function sendPlans(S,C,R){
+  var Q=S.questions;
+  var rows=R.present.map(function(r){
+    var les={},ao={};
+    R.asked.forEach(function(i){var q=Q[i],c=r.cells[i],ok=c&&c.ok?1:0;
+      if(q.lesson_id){var k=String(q.lesson_id);les[k]=les[k]||{t:q.lesson||'',got:0,max:0};les[k].got+=ok;les[k].max++;}
+      if(q.ao){ao[q.ao]=ao[q.ao]||{got:0,max:0};ao[q.ao].got+=ok;ao[q.ao].max++;}});
+    return {name:r.name,full:r.full,sc:r.sc,max:R.asked.length,p:r.p,les:les,ao:ao,members:r.members};
+  });
+  SENDPLAN.open({title:S.title,date:S.date,course:S.course,subject:S.subject,grade:S.grade,cls:C.title||S.className||'',teacher:me&&me.name||'',src:'تقويم بالبطاقات',thr:0.5,rows:rows});
 }
 
 // ================= البداية =================

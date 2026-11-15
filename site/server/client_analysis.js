@@ -412,7 +412,7 @@ function renderResults(){
       '<div><h4>توزيع الطلبة على المستويات</h4><table class="an-t"><thead><tr>'+['أ','ب','ج','د','هـ'].map(function(l){return '<th>'+l+'</th>';}).join('')+'</tr></thead><tbody><tr>'+['أ','ب','ج','د','هـ'].map(function(l){return '<td>'+(dist[l]||0)+'</td>';}).join('')+'</tr></tbody></table><p class="muted small">أ 90–100 · ب 80–89 · ج 65–79 · د 50–64 · هـ أقل من 50</p></div></div>'+
     '<h4>المفردات الصعبة</h4>'+(hard.length?'<table class="an-t"><thead><tr><th>المفردة</th><th>الدرجة العظمى</th><th>المستوى</th><th>الإجراء</th><th>المقترحات</th></tr></thead><tbody>'+hard.map(function(x){return '<tr><td>'+x.n+'</td><td>'+x.max+'</td><td>'+esc(x.ao||'—')+'</td><td>'+procFor(x)+'</td><td><input class="an-in" data-sug="'+x.n+'" value="'+esc((A.sugg||{})[x.n]||'')+'" placeholder="اكتب مقترحك"></td></tr>';}).join('')+'</tbody></table>':'<p class="muted">لا توجد مفردات صعبة 👏</p>')+
     '<h4>الطلبة دون المستوى ('+S.weak.length+')</h4>'+(S.weak.length?'<table class="an-t"><thead><tr><th>الطالب</th><th>الدرجة</th><th>%</th><th>جوانب الضعف</th></tr></thead><tbody>'+S.weak.map(function(r){return '<tr><td>'+esc(r.name)+'</td><td>'+r2(r.tot)+' من '+S.maxTot+'</td><td>'+Math.round(r.p*100)+'%</td><td>'+esc((r.weakLessons.length?r.weakLessons:r.weakAO).join('، ')||'—')+'</td></tr>';}).join('')+'</tbody></table>':'<p class="muted">لا يوجد طلبة دون المستوى.</p>')+
-    '<div class="an-row no-print">'+(A.course&&S.lessons.some(function(x){return x.lid;})?'<button type="button" class="btn" id="anRem">🩹 خطة علاجية للدروس الضعيفة</button><button type="button" class="btn" id="anWs">📝 ورقة عمل علاجية من بنك الأسئلة</button>':'<span class="muted small">الخطة العلاجية وورقة العمل تُولَّد تلقائيًا عند التحليل من اختبار محفوظ في «اختباراتي».</span>')+'</div>'+
+    '<div class="an-row no-print"><button type="button" class="btn primary" id="anSend">🎯 إرسال الطلاب ← الخطط العلاجية والإثرائية / سجل الصعوبات</button>'+(A.course&&S.lessons.some(function(x){return x.lid;})?'<button type="button" class="btn" id="anWs">📝 ورقة عمل علاجية من بنك الأسئلة</button>':'<span class="muted small">بناء الخطة من دروس الاختبار وورقة العمل يعملان تلقائيًا عند التحليل من اختبار محفوظ في «اختباراتي» أو من «كروت الأسئلة».</span>')+'</div>'+
     '<h4>الملاحظات <button type="button" class="btn small" id="anRegen" title="إعادة كتابة الملاحظات من النتائج الحالية">↻ إعادة التوليد</button></h4>'+
     '<label class="an-note">أولًا: تحليل الأداء<textarea class="an-in" data-note="a" rows="4">'+esc(N.a)+'</textarea></label>'+
     '<label class="an-note">ثانيًا: الدلالات التربوية<textarea class="an-in" data-note="b" rows="3">'+esc(N.b)+'</textarea></label>'+
@@ -423,8 +423,19 @@ function renderResults(){
   Array.prototype.forEach.call(el.querySelectorAll('[data-note]'),function(t){t.oninput=function(){A.notes=A.notes||{};A.notes[t.getAttribute('data-note')]=t.value;touch();};});
   $('anRegen').onclick=function(){A.notes=null;touch();renderResults();};
   $('anT').oninput=function(){A.teacher=this.value;touch();};$('anS').oninput=function(){A.sig.senior=this.value;remember();touch();};$('anP').oninput=function(){A.sig.principal=this.value;remember();touch();};
-  if($('anRem'))$('anRem').onclick=function(){handoff('remedial',S);};
+  if($('anSend'))$('anSend').onclick=function(){sendPlans(S);};
   if($('anWs'))$('anWs').onclick=function(){handoff('quiz',S);};
+}
+// إرسال الطلاب الذين يختارهم المعلم إلى الخطط (تُبنى تلقائيًا من درجاتهم والدروس) أو إلى سجل صعوبات التعلم
+function sendPlans(S){
+  var rows=S.rows.map(function(r){
+    var les={},ao={},st=A.students[r.i]||{};
+    S.items.forEach(function(x,i){if(!x.max)return;var v=r.sc[i];
+      if(x.lesson){var k=x.lid?String(x.lid):'t:'+x.lesson;les[k]=les[k]||{t:x.lesson,got:0,max:0};les[k].got+=v;les[k].max+=x.max;}
+      if(x.ao){ao[x.ao]=ao[x.ao]||{got:0,max:0};ao[x.ao].got+=v;ao[x.ao].max+=x.max;}});
+    return {name:r.name,full:r.name,sc:r.tot,max:S.maxTot,p:r.p,les:les,ao:ao,members:st.members||null};
+  });
+  SENDPLAN.open({title:A.title,date:A.date,course:A.course,subject:A.subject,grade:A.grade,cls:A.section||A.cls||'',teacher:A.teacher||'',src:'تحليل الاختبار',thr:S.thr,rows:rows,beforeGo:function(){return dirty?save(true):null;}});
 }
 function remember(){try{localStorage.setItem('tahdir_an_sig',JSON.stringify(A.sig));}catch(e){}}
 // تمرير الدروس الضعيفة إلى صفحة الخطط العلاجية أو التقويم (ورقة عمل علاجية)

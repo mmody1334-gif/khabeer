@@ -1026,6 +1026,10 @@ button.lv-opt{cursor:pointer}
 .ck-bi label{display:flex;gap:8px;align-items:flex-start;padding:6px;border-radius:8px;cursor:pointer}.ck-bi label:hover{background:rgba(0,0,0,.03)}.ck-bi label.in{opacity:.55}
 .ck-man{display:grid;gap:10px;margin-top:10px}.ck-mc{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .ck-pick{display:grid;gap:4px;max-height:40vh;overflow:auto;text-align:right;margin:6px 0}
+.sp-dest{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 6px}.sp-dest label{flex:1;min-width:150px;border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;cursor:pointer;font-weight:700}.sp-dest label:has(input:checked){border-color:var(--main);background:var(--soft,#eef7f3)}
+.sp-pick{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.sp-mode{margin:0 0 10px}.sp-stu ul.sp-sl{margin:4px 0 0;padding-inline-start:18px;max-height:180px;overflow:auto;font-size:.9rem}.sp-stu h3{display:flex;justify-content:space-between;align-items:center}
+.ck-mode{margin-top:4px}
 .ck-sum{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}.ck-sum div{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}.ck-sum b{display:block;font-size:1.6rem;color:var(--main-d)}.ck-sum small{color:var(--mute)}
 .ck-tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--paper)}
 .ck-rt{border-collapse:collapse;width:100%;font-size:.92rem}.ck-rt th,.ck-rt td{border:1px solid var(--line);padding:6px 8px;text-align:center;white-space:nowrap}.ck-rt th{background:rgba(0,0,0,.035)}
@@ -1961,7 +1965,7 @@ KB_GROUPS = [
   ('before', 'قبل الحصة', 'أجهّز درسي', [('/app#prep', '📋', 'التحضير'), ('/slides', '📽️', 'العروض التقديمية'), ('/summaries', '📚', 'ملخصات الدروس'), ('/cando', '☑️', 'أستطيع أن')]),
   ('during', 'داخل الحصة', 'أشغّل صفّي', [('/games', '🎲', 'الألعاب التعليمية'), ('/cards', '🪪', 'كروت الأسئلة')]),
   ('assess', 'التقويم', 'أقيس التعلّم', [('/quiz', '📝', 'الاختبارات القصيرة'), ('/homework', '📒', 'الواجبات المنزلية'), ('/diag', '🧪', 'الاختبار التشخيصي'), ('/finals', '🗂', 'الاختبارات النهائية')]),
-  ('follow', 'بعد الحصة', 'أتابع طلابي', [('/analysis', '📊', 'تحليل النتائج'), ('/remedial', '🩹', 'الخطط العلاجية'), ('/ld', '🧩', 'صعوبات التعلم')]),
+  ('follow', 'بعد الحصة', 'أتابع طلابي', [('/analysis', '📊', 'تحليل النتائج'), ('/remedial', '🩹', 'الخطط والأنشطة الصفية'), ('/ld', '🧩', 'صعوبات التعلم')]),
   ('office', 'ملفاتي', 'أوراق إدارية', [('/forms', '🗂', 'النماذج الإدارية'), ('/research', '🔬', 'البحوث الإجرائية')]),
 ]
 def _kb_side():
@@ -2134,7 +2138,7 @@ TOP = lambda extra: f'''<header class="top">{BANNER}<div class="wrap top-in">
 
 MENU_ITEMS = [('quiz', '/quiz', '📝', 'التقويم والاختبارات'), ('homework', '/homework', '📒', 'الواجبات المنزلية'), ('diag', '/diag', '🧪', 'الاختبار التشخيصي'), ('games', '/games', '🎲', 'الألعاب التعليمية'),
               ('slides', '/slides', '📽️', 'العروض التقديمية'),
-              ('remedial', '/remedial', '🩹', 'الخطط العلاجية والأنشطة الصفية'), ('summaries', '/summaries', '📚', 'ملخصات الدروس والوحدات'), ('cando', '/cando', '☑️', 'أستطيع أن ✓'), ('cards', '/cards', '🪪', 'كروت الأسئلة (بليكرز)'), ('analysis', '/analysis', '📊', 'تحليل نتائج الاختبارات'), ('ld', '/ld', '🧩', 'سجل صعوبات التعلم'), ('forms', '/forms', '🗂', 'النماذج الإدارية'), ('research', '/research', '🔬', 'البحوث الإجرائية'), ('finals', '/finals', '🗂', 'الاختبارات النهائية السابقة')]
+              ('remedial', '/remedial', '🩹', 'الخطط والأنشطة الصفية'), ('summaries', '/summaries', '📚', 'ملخصات الدروس والوحدات'), ('cando', '/cando', '☑️', 'أستطيع أن ✓'), ('cards', '/cards', '🪪', 'كروت الأسئلة (بليكرز)'), ('analysis', '/analysis', '📊', 'تحليل نتائج الاختبارات'), ('ld', '/ld', '🧩', 'سجل صعوبات التعلم'), ('forms', '/forms', '🗂', 'النماذج الإدارية'), ('research', '/research', '🔬', 'البحوث الإجرائية'), ('finals', '/finals', '🗂', 'الاختبارات النهائية السابقة')]
 # «تصحيح الواجبات تلقائيًا» (/grading) مخفي من كل القوائم والبطاقات: يُفتح بالرابط المباشر فقط.
 def NAV(active, extra=''):
     cur = lambda k: ' aria-current="page"' if k == active else ''
@@ -2167,7 +2171,7 @@ _KB_DESC = {
   '/grading': 'ارفع صورة أو ملف الواجب ويُصحَّح تلقائيًا بالمعايير.',
   '/games': 'ألعاب صفية للسبورة والتحدي المباشر بالجوالات.',
   '/slides': 'عروض تقديمية لكل درس، جاهزة للعرض بملء الشاشة.',
-  '/remedial': 'خطط علاجية وأنشطة وواجب سريع لمواد العلوم.',
+  '/remedial': 'خطط علاجية وإثرائية تُبنى من نتائج الطلاب، وأنشطة صفية وجماعية وواجب سريع.',
   '/summaries': 'ملخصات الدروس والوحدات مع خرائط ذهنية.',
   '/cando': 'مؤشرات «أستطيع أن» لكل درس بفروقات صفي.',
   '/cards': 'بطاقة لكل طالب: الأسئلة على السبورة، وتمسح إجابات الصف كله بكاميرا جوالك.',
@@ -2259,7 +2263,7 @@ GAMES = TOP('<div class="stats"><span class="stat">ركن الألعاب الت�
   NAV('games')) + '''
 <div class="wrap qlayout"><aside class="qside" id="gside" aria-label="اختيار الدروس"></aside>
 <main class="panel" id="gmain"><div class="welcome"><h2>جارٍ التحميل…</h2></div></main></div>'''
-REMEDIAL = TOP('<div class="stats"><span class="stat">الخطط العلاجية والأنشطة الصفية</span><span class="stat">للطلاب دون المستوى</span></div>').replace('%BTNS%', NAV('remedial')) + '''
+REMEDIAL = TOP('<div class="stats"><span class="stat">الخطط والأنشطة الصفية</span><span class="stat">خطط علاجية وإثرائية</span></div>').replace('%BTNS%', NAV('remedial')) + '''
 <div class="wrap qlayout"><aside class="qside" id="qside" aria-label="إعداد الخطة"></aside>
 <main class="panel" id="qmain"><div class="welcome"><h2>جارٍ التحميل…</h2></div></main></div>
 <div id="printArea"></div>'''
@@ -2379,14 +2383,14 @@ PAGES = {
   'games': page('الألعاب التعليمية · خبير', GAMES, rd('vendor/qr.js') + chr(10) + rd('client_games.js').replace('// @@FX@@', rd('client_fx.js')).replace('// @@TUG@@', rd('client_tug.js') + chr(10) + rd('client_arcade.js') + chr(10) + rd('client_runner.js'))),
   'play': page('تحدي خبير', PLAY, rd('client_play.js')),
   'grading': page('تصحيح الواجبات · خبير', GRADING, rd('client_grading.js')),
-  'remedial': page('الخطط العلاجية · خبير', REMEDIAL, "window.PAGE_KIND='remedial';" + chr(10) + rd('client_study.js')),
+  'remedial': page('الخطط والأنشطة الصفية · خبير', REMEDIAL, "window.PAGE_KIND='remedial';" + chr(10) + rd('client_study.js')),
   'diag': page('الاختبار التشخيصي · خبير', DIAG, rd('client_diag.js')),
   'finals': page('الاختبارات النهائية · خبير', FINALS_PAGE, 'window.FIN_INDEX=' + json.dumps({k: len(v['q']) for k, v in FIN.items()}, ensure_ascii=False) + ';' + chr(10) + rd('client_finals.js')),
   'summaries': page('ملخصات الدروس · خبير', SUMMARIES, "window.PAGE_KIND='summaries';" + chr(10) + rd('client_study.js')),
-  'analysis': page('تحليل نتائج الاختبارات · خبير', ANALYSIS_PAGE, rd('client_analysis.js')),
+  'analysis': page('تحليل نتائج الاختبارات · خبير', ANALYSIS_PAGE, rd('client_sendplan.js') + chr(10) + rd('client_analysis.js')),
   'ld': page('سجل صعوبات التعلم · خبير', LD_PAGE, rd('client_ld.js')),
   'forms': page('النماذج الإدارية · خبير', FORMS_PAGE, rd('client_forms.js')),
-  'cards': page('كروت الأسئلة · خبير', CARDS_PAGE, rd('vendor/qr.js') + chr(10) + rd('client_cardscan.js') + chr(10) + rd('client_cards.js')),
+  'cards': page('كروت الأسئلة · خبير', CARDS_PAGE, rd('vendor/qr.js') + chr(10) + rd('client_cardscan.js') + chr(10) + rd('client_sendplan.js') + chr(10) + rd('client_cards.js')),
   'research': page('البحوث الإجرائية · خبير', RESEARCH_PAGE, 'window.RESEARCH=' + json.dumps(RESEARCH, ensure_ascii=False, separators=(',', ':')) + ';' + chr(10) + rd('client_rsgen.js') + chr(10) + rd('client_research.js')),
   'cando': page('أستطيع أن · خبير', CANDO_PAGE, 'window.CANDO=' + json.dumps(CANDO, ensure_ascii=False, separators=(',', ':')) + ';' + chr(10) + rd('client_cando.js')),
   'slides': page('العروض التقديمية · خبير', SLIDES_PAGE, 'window.SLIDES=' + json.dumps(SLIDES, ensure_ascii=False) + ';' + chr(10) + rd('client_slides.js')),

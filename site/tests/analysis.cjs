@@ -68,9 +68,9 @@ const ok = (n, c, x) => { (c ? pass++ : fail++); console.log((c ? '  PASS  ' : '
   await p.goto(B + '/analysis', { waitUntil: 'domcontentloaded' }); await settle();
   const listed = await p.$$eval('[data-open]', x => x.length); ok('التحليل محفوظ في «تحليلاتي»', listed >= 1, listed);
   await p.click('[data-open]'); await p.waitForTimeout(1500);
-  const remBtn = await p.$('#anRem');
+  const remBtn = await p.$('#anSend');
   if (remBtn) {
-    await remBtn.click(); await p.waitForURL(/\/remedial/, { timeout: 15000 }); await p.waitForTimeout(4000);
+    await remBtn.click(); await p.waitForSelector('#spAll'); await p.click('#spAll'); await p.click('#mOk'); await p.waitForURL(/\/remedial/, { timeout: 15000 }); await p.waitForTimeout(4000);
     const body = await p.evaluate(() => document.getElementById('qmain').innerText.slice(0, 200));
     ok('خطة علاجية للدروس الأضعف', /علاج/.test(body) && !/اختر درسًا/.test(body), body.slice(0, 80));
   } else ok('زر الخطة العلاجية', false);

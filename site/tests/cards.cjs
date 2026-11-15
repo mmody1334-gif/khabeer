@@ -202,8 +202,8 @@ const NAMES = ['علي بن سالم بن محمد بن علي بن الشامس
   ok('فتح التحليل مباشرة', /analysis/.test(p.url()) && /تحليل/.test(await p.textContent('#anMain')));
   await p.goto(B + '/cards', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(1500); await shut(p);
   await p.click('[data-tab="sessions"]'); await p.click('[data-res="' + S.id + '"]'); await p.waitForSelector('.ck-rt');
-  await p.click('#rsLd'); await p.waitForTimeout(600);
-  const lowN = await p.$$eval('[data-lw]', x => x.length);
+  await p.click('#rsLd'); await p.waitForTimeout(600); await p.check('[name=spD][value=ld]'); await p.waitForTimeout(300);
+  const lowN = await p.$$eval('[data-sp]', x => x.filter(c => c.checked).length);
   await p.click('#mOk'); await p.waitForTimeout(1200);
   const ld = await p.evaluate(() => api('/api/quizzes?kind=ld').then(r => r.quizzes.length ? api('/api/quizzes/' + r.quizzes[0].id).then(r => r.quiz.data) : null));
   const expLow = Object.keys(ans0).filter(n => ((ans0[n] === correct0) + (ans1[n] === correct1)) / 2 < 0.5).length;
