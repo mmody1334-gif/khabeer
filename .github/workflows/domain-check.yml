@@ -16,3 +16,11 @@ jobs:
           done
           echo "::notice::app UA /app → $(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' $H -A 'x TahdirApp/1' $N/app)"
           echo "::notice::new / → $(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' $N/)"
+          # أرشفة جوجل: robots وsitemap ووسوم الصفحة الرئيسية، وأن مساحة الطالب أُزيلت
+          echo "::notice::robots.txt → $(curl -s $N/robots.txt | tr '\n' ' ')"
+          echo "::notice::sitemap.xml → $(curl -s -o /dev/null -w '%{http_code} %{content_type}' $N/sitemap.xml)"
+          P=$(curl -s -A 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' $N/)
+          echo "::notice::home title → $(echo "$P" | grep -o '<title>[^<]*</title>')"
+          echo "::notice::home robots → $(echo "$P" | grep -o '<meta name="robots"[^>]*>')"
+          echo "::notice::home ld+json → $(echo "$P" | grep -c 'application/ld+json')"
+          echo "::notice::/space → $(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' $H $N/space)  /s/ABCDEF → $(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' $H $N/s/ABCDEF)"
