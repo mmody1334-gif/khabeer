@@ -1959,7 +1959,7 @@ def pack(js):
 # (مختلفة عمدًا عن الكبسولة: التنقل مرتّب حسب «متى» يحتاج المعلم الأداة، لا قائمة مسطّحة)
 KB_GROUPS = [
   ('before', 'قبل الحصة', 'أجهّز درسي', [('/app#prep', '📋', 'التحضير'), ('/slides', '📽️', 'العروض التقديمية'), ('/summaries', '📚', 'ملخصات الدروس'), ('/cando', '☑️', 'أستطيع أن')]),
-  ('during', 'داخل الحصة', 'أشغّل صفّي', [('/games', '🎲', 'الألعاب التعليمية'), ('/cards', '🪪', 'كروت الأسئلة'), ('/space', '🎒', 'مساحة الطالب')]),
+  ('during', 'داخل الحصة', 'أشغّل صفّي', [('/games', '🎲', 'الألعاب التعليمية'), ('/cards', '🪪', 'كروت الأسئلة')]),
   ('assess', 'التقويم', 'أقيس التعلّم', [('/quiz', '📝', 'الاختبارات القصيرة'), ('/homework', '📒', 'الواجبات المنزلية'), ('/diag', '🧪', 'الاختبار التشخيصي'), ('/finals', '🗂', 'الاختبارات النهائية')]),
   ('follow', 'بعد الحصة', 'أتابع طلابي', [('/analysis', '📊', 'تحليل النتائج'), ('/remedial', '🩹', 'الخطط العلاجية'), ('/ld', '🧩', 'صعوبات التعلم')]),
   ('office', 'ملفاتي', 'أوراق إدارية', [('/forms', '🗂', 'النماذج الإدارية'), ('/research', '🔬', 'البحوث الإجرائية')]),
@@ -2038,13 +2038,14 @@ KB_SHELL_JS = r"""
 })();
 """
 
-def page(title, body, script):
+def page(title, body, script, index=False, head=''):
     if '<header class="top">' in body:
         body = KB_SIDE + '<div class="kb-main">' + body + '</div>'
         script = script + chr(10) + KB_SHELL_JS
     return ('<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
-            '<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#f6f5fc">'
+            + ('<meta name="robots" content="index,follow">' + head if index else '<meta name="robots" content="noindex,nofollow">') +
+            '<meta name="theme-color" content="#f6f5fc">'
             '<link rel="manifest" href="/manifest.webmanifest"><link rel="apple-touch-icon" href="/apple-touch-icon.png">'
             '<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">'
             '<meta name="apple-mobile-web-app-title" content="خبير"><meta name="apple-mobile-web-app-status-bar-style" content="default">'
@@ -2093,6 +2094,19 @@ def auth_shell(card):
 <section class="auth-panel">{PROMO}{card}</section>
 </main>'''
 
+# الصفحة الرئيسية (khaber.site/) هي الصفحة الوحيدة المسموح لجوجل بأرشفتها؛ كل ما بعد الدخول يبقى noindex.
+SITE_URL = 'https://khaber.site/'
+SEO_DESC = 'منصة خبير لمعلمي سلطنة عُمان: تحضير الدروس، والواجبات المنزلية، والاختبارات وبنك الأسئلة، والعروض التقديمية، وملخصات الدروس، والألعاب التعليمية، والخطط العلاجية، والنماذج الإدارية — في منصة واحدة.'
+SEO_LD = json.dumps({'@context': 'https://schema.org', '@graph': [
+    {'@type': 'WebSite', '@id': SITE_URL + '#website', 'url': SITE_URL, 'name': 'خبير', 'alternateName': ['منصة خبير', 'خبير منصة المعلمين', 'khaber.site'], 'inLanguage': 'ar'},
+    {'@type': 'Organization', '@id': SITE_URL + '#org', 'name': 'منصة خبير', 'url': SITE_URL, 'logo': SITE_URL + 'icon-512.png'}]}, ensure_ascii=False)
+SEO_HEAD = (f'<meta name="description" content="{SEO_DESC}"><link rel="canonical" href="{SITE_URL}">'
+            '<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">'
+            '<meta property="og:type" content="website"><meta property="og:site_name" content="خبير">'
+            f'<meta property="og:title" content="منصة خبير — منصة المعلمين"><meta property="og:description" content="{SEO_DESC}">'
+            f'<meta property="og:url" content="{SITE_URL}"><meta property="og:image" content="{SITE_URL}icon-512.png"><meta property="og:locale" content="ar_OM">'
+            f'<script type="application/ld+json">{SEO_LD}</script>')
+
 LOGIN = auth_shell('''<form class="auth-card" id="loginForm" novalidate>
   <h2>تسجيل الدخول</h2>
   <p class="lead">ادخل باسم المستخدم وكلمة المرور الخاصة بحسابك.</p>
@@ -2120,7 +2134,7 @@ TOP = lambda extra: f'''<header class="top">{BANNER}<div class="wrap top-in">
 
 MENU_ITEMS = [('quiz', '/quiz', '📝', 'التقويم والاختبارات'), ('homework', '/homework', '📒', 'الواجبات المنزلية'), ('diag', '/diag', '🧪', 'الاختبار التشخيصي'), ('games', '/games', '🎲', 'الألعاب التعليمية'),
               ('slides', '/slides', '📽️', 'العروض التقديمية'),
-              ('remedial', '/remedial', '🩹', 'الخطط العلاجية والأنشطة الصفية'), ('summaries', '/summaries', '📚', 'ملخصات الدروس والوحدات'), ('cando', '/cando', '☑️', 'أستطيع أن ✓'), ('cards', '/cards', '🪪', 'كروت الأسئلة (بليكرز)'), ('analysis', '/analysis', '📊', 'تحليل نتائج الاختبارات'), ('ld', '/ld', '🧩', 'سجل صعوبات التعلم'), ('forms', '/forms', '🗂', 'النماذج الإدارية'), ('space', '/space', '🎒', 'مساحة الطالب'), ('research', '/research', '🔬', 'البحوث الإجرائية'), ('finals', '/finals', '🗂', 'الاختبارات النهائية السابقة')]
+              ('remedial', '/remedial', '🩹', 'الخطط العلاجية والأنشطة الصفية'), ('summaries', '/summaries', '📚', 'ملخصات الدروس والوحدات'), ('cando', '/cando', '☑️', 'أستطيع أن ✓'), ('cards', '/cards', '🪪', 'كروت الأسئلة (بليكرز)'), ('analysis', '/analysis', '📊', 'تحليل نتائج الاختبارات'), ('ld', '/ld', '🧩', 'سجل صعوبات التعلم'), ('forms', '/forms', '🗂', 'النماذج الإدارية'), ('research', '/research', '🔬', 'البحوث الإجرائية'), ('finals', '/finals', '🗂', 'الاختبارات النهائية السابقة')]
 # «تصحيح الواجبات تلقائيًا» (/grading) مخفي من كل القوائم والبطاقات: يُفتح بالرابط المباشر فقط.
 def NAV(active, extra=''):
     cur = lambda k: ' aria-current="page"' if k == active else ''
@@ -2160,7 +2174,6 @@ _KB_DESC = {
   '/analysis': 'حلّل نتائج الطلبة وحدد المتعثّرين تلقائيًا.',
   '/ld': 'سجل وتقارير صعوبات التعلم جاهزة للتعبئة.',
   '/forms': 'نماذج إدارية وخطابات رسمية بخطوات قليلة.',
-  '/space': 'مهمات وموارد لطالبك بمسح رمز استجابة.',
   '/research': 'بحوث إجرائية تُولَّد عبر بؤرة في خطوات ثابتة.',
   '/finals': 'اختبارات وزارية سابقة كاملة بأسئلتها.',
   '/searcher': 'بحث فوري في مصادر عُمان التعليمية (نافذة خارجية).',
@@ -2280,9 +2293,6 @@ LD_PAGE = TOP('<div class="stats"><span class="stat">سجل الطلبة ذوي 
 FORMS_PAGE = TOP('<div class="stats"><span class="stat">النماذج الإدارية</span><span class="stat">محاضر · تقارير · إشعارات · شهادات · ملف الإنجاز</span></div>').replace('%BTNS%', NAV('forms')) + '''
 <main class="wrap an-wrap" id="fmMain"><div class="welcome"><h2>جارٍ التحميل…</h2></div></main>
 <div id="printArea"></div>'''
-SPACE_PAGE = TOP('<div class="stats"><span class="stat">مساحة الطالب</span><span class="stat">صفوف برمز يتدرب فيها طلابك بلا حساب</span></div>').replace('%BTNS%', NAV('space')) + '''
-<main class="wrap an-wrap" id="spMain"><div class="welcome"><h2>جارٍ التحميل…</h2></div></main>'''
-STUDENT_PAGE = '<main class="st" id="st"></main>'
 CARDS_PAGE = TOP('<div class="stats"><span class="stat">كروت الأسئلة (بليكرز)</span><span class="stat">بطاقة لكل طالب · الأسئلة على السبورة · المسح بكاميرا الجوال</span></div>').replace('%BTNS%', NAV('cards')) + '''
 <main class="wrap an-wrap" id="cdMain"><div class="welcome"><h2>جارٍ التحميل…</h2></div></main>
 <div id="printArea"></div>'''
@@ -2360,7 +2370,7 @@ SLIDES = json.load(open(os.path.join(DATA, 'slides.json'), encoding='utf-8')) if
 CANDO = json.load(open(os.path.join(DATA, 'cando.json'), encoding='utf-8')) if os.path.exists(os.path.join(DATA, 'cando.json')) else {}
 PAGES = {
   'css': CSS,
-  'login': page('خبير', LOGIN, rd('client_login.js')),
+  'login': page('منصة خبير — منصة المعلمين في سلطنة عُمان', LOGIN, rd('client_login.js'), index=True, head=SEO_HEAD),
   'setup': page('إعداد خبير', SETUP, rd('client_login.js')),
   'app': page('خبير', APP, rd('client_app.js')),
   'admin': page('لوحة التحكم · خبير', ADMIN, rd('client_admin.js')),
@@ -2377,8 +2387,6 @@ PAGES = {
   'ld': page('سجل صعوبات التعلم · خبير', LD_PAGE, rd('client_ld.js')),
   'forms': page('النماذج الإدارية · خبير', FORMS_PAGE, rd('client_forms.js')),
   'cards': page('كروت الأسئلة · خبير', CARDS_PAGE, rd('vendor/qr.js') + chr(10) + rd('client_cardscan.js') + chr(10) + rd('client_cards.js')),
-  'space': page('مساحة الطالب · خبير', SPACE_PAGE, rd('vendor/qr.js') + chr(10) + rd('client_space.js')),
-  'student': page('مساحة الطالب', STUDENT_PAGE, rd('client_student.js')),
   'research': page('البحوث الإجرائية · خبير', RESEARCH_PAGE, 'window.RESEARCH=' + json.dumps(RESEARCH, ensure_ascii=False, separators=(',', ':')) + ';' + chr(10) + rd('client_rsgen.js') + chr(10) + rd('client_research.js')),
   'cando': page('أستطيع أن · خبير', CANDO_PAGE, 'window.CANDO=' + json.dumps(CANDO, ensure_ascii=False, separators=(',', ':')) + ';' + chr(10) + rd('client_cando.js')),
   'slides': page('العروض التقديمية · خبير', SLIDES_PAGE, 'window.SLIDES=' + json.dumps(SLIDES, ensure_ascii=False) + ';' + chr(10) + rd('client_slides.js')),

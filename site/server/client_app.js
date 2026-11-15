@@ -413,8 +413,7 @@ var HOME_CARDS=[
   {key:'diag',title:'الاختبار التشخيصي',icon:'🧪',sub:'قياس مستوى الطالب قبل الدرس',route:'/diag'},
   {key:'analysis',title:'تحليل نتائج الاختبارات',icon:'📊',sub:'نتائج وتقارير سريعة',route:'/analysis'},
   {key:'ld',title:'سجل صعوبات التعلم',icon:'🧩',sub:'متابعة الطلاب المتعثرين',route:'/ld'},
-  {key:'forms',title:'النماذج الإدارية',icon:'🗂',sub:'نماذج جاهزة للطباعة',route:'/forms'},
-  {key:'space',title:'مساحة الطالب',icon:'🎒',sub:'أنشطة ومراجعات للطلاب',route:'/space'}
+  {key:'forms',title:'النماذج الإدارية',icon:'🗂',sub:'نماذج جاهزة للطباعة',route:'/forms'}
 ];
 // أدوات خبير فقط: أداة نور، دليلك للاستخدام، التطبيق والأدوات.
 // (بطاقة المكتبة محذوفة بناءً على طلب المعلم.)
@@ -434,7 +433,7 @@ function teacherSubject(){
 }
 var KH_FLOW=[
   {id:'before',name:'قبل الحصة',sub:'أجهّز درسي',keys:['prep','slides','summaries','cando']},
-  {id:'during',name:'داخل الحصة',sub:'أشغّل صفّي',keys:['games','cards','space']},
+  {id:'during',name:'داخل الحصة',sub:'أشغّل صفّي',keys:['games','cards']},
   {id:'assess',name:'التقويم',sub:'أقيس التعلّم',keys:['quiz','homework','diag','finals']},
   {id:'follow',name:'بعد الحصة',sub:'أتابع طلابي',keys:['analysis','remedial','ld']},
   {id:'office',name:'ملفاتي',sub:'أوراق إدارية وبحوث',keys:['forms','research']}

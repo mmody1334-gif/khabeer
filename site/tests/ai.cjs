@@ -41,23 +41,6 @@ const mock = http.createServer((req, res) => { let b = ''; req.on('data', d => b
   const doc = await p.evaluate(() => (document.querySelector('.rs-doc') || {}).innerText || '');
   ok('البحث يحوي النص المخصص', /فقرة مقدمة مخصصة/.test(doc) && /إطار نظري مخصص/.test(doc) && /مناقشة مخصصة/.test(doc));
   ok('طلب البحث بلا مراجع مخترعة', calls.some(x => /المفاتيح/.test(x.user)));
-  // 3) مساحة الطالب: تصحيح مقالي
-  await p.goto(B + '/space', { waitUntil: 'domcontentloaded' }); await settle();
-  await p.click('#spNew'); await p.waitForTimeout(1500); await p.fill('#spName', 'تجربة'); await p.click('#mOk'); await p.waitForTimeout(1800);
-  const code = await p.evaluate(() => (document.querySelector('.sp-big') || {}).textContent);
-  const q = await c.newPage(); q.on('pageerror', e => errs.push('student: ' + e.message));
-  await q.goto(B + '/s/' + code, { waitUntil: 'domcontentloaded' }); await q.waitForTimeout(1200);
-  await q.evaluate(() => localStorage.setItem('st_name_' + location.pathname.split('/')[2], 'سالم')); await q.reload(); await q.waitForTimeout(1200);
-  await q.click('[data-l]'); await q.waitForTimeout(1200); await q.click('[data-tab="quiz"]'); await q.waitForTimeout(300);
-  let graded = '';
-  for (let i = 0; i < 12 && !graded; i++) {
-    if (await q.$('#aiG')) { await q.fill('#ans', 'الدم يتكون من البلازما'); await q.click('#aiG'); await q.waitForTimeout(1500); graded = await q.evaluate(() => document.getElementById('fb').innerText); break; }
-    if (await q.$('.st-ch [data-k]')) { await q.click('.st-ch [data-k="0"]'); await q.waitForTimeout(100); await q.click('#nx'); }
-    else if (await q.$('#show')) { await q.click('#show'); await q.click('[data-s="1"]'); }
-    await q.waitForTimeout(150);
-  }
-  ok('تصحيح المقالي بالذكاء الاصطناعي', /درجتك: 1/.test(graded) && /ولم تذكر وظيفته/.test(graded), graded.slice(0, 80));
-  ok('اسم الطالب لا يُرسل للذكاء الاصطناعي', !calls.some(x => /سالم/.test(x.user)));
   ok('بلا أخطاء صفحة', !errs.length, errs.join(' | '));
   console.log(`\n${pass} PASS / ${fail} FAIL`);
   s.stop(); mock.close(); await b.close(); process.exit(fail ? 1 : 0);

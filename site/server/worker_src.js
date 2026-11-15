@@ -1080,7 +1080,7 @@ async function isNewLive(env) {
 function isPageNav(req, p) {
   if (req.method !== 'GET' && req.method !== 'HEAD') return false;
   if (/^\/(api|tool|download|x|fin|pdf|assets)(\/|$)/.test(p)) return false;
-  if (/^\/(version|manifest\.webmanifest|robots\.txt|sw\.js)$/.test(p) || /\.(png|jpe?g|svg|ico|js|css|json|webmanifest|zip|apk|pdf)$/i.test(p)) return false;
+  if (/^\/(version|manifest\.webmanifest|robots\.txt|sitemap\.xml|sw\.js)$/.test(p) || /\.(png|jpe?g|svg|ico|js|css|json|webmanifest|zip|apk|pdf)$/i.test(p)) return false;
   if (/TahdirApp\//.test(req.headers.get('User-Agent') || '')) return false;
   const dest = req.headers.get('Sec-Fetch-Dest');
   if (dest) return dest === 'document';
@@ -1206,106 +1206,6 @@ async function aiApi(req, env, me, p, m, url) {
   return null;
 }
 
-// ---------- «مساحة الطالب»: صفوف برمز يفتحها الطلاب بلا حساب ----------
-const SCODE_AB = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
-function newCode() { let c = ''; const a = new Uint8Array(6); crypto.getRandomValues(a); a.forEach(x => { c += SCODE_AB[x % SCODE_AB.length]; }); return c; }
-async function classByCode(env, code) {
-  code = String(code || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-  if (code.length !== 6) return null;
-  const c = await env.DB.prepare('SELECT * FROM classes WHERE code = ? AND active = 1').bind(code).first();
-  if (!c) return null;
-  const u = await env.DB.prepare('SELECT active FROM users WHERE id = ?').bind(c.user_id).first();
-  return u && u.active ? c : null;
-}
-async function classLessons(env, c) {
-  const allow = c.lessons ? new Set(JSON.parse(c.lessons)) : null;
-  return (await allLessons(env)).filter(l => courseKey(l) === c.course && (!allow || allow.has(l.id)));
-}
-async function studentApi(req, env, p, m, url) {
-  if (p === '/api/s/info') {
-    const c = await classByCode(env, url.searchParams.get('c'));
-    if (!c) return json({ error: 'الرمز غير صحيح أو أُغلق هذا الصف. تأكد من الرمز مع معلمك.' }, 404);
-    const ls = await classLessons(env, c);
-    const t = await env.DB.prepare('SELECT name FROM users WHERE id = ?').bind(c.user_id).first();
-    return json({ ai: aiOn(env), name: c.name, teacher: t ? t.name : '', subject: c.course.split('|')[0], grade: c.course.split('|')[1], lessons: ls.map(l => ({ id: l.id, unit: l.unit, unit_name: l.unit_name, title: l.title })) });
-  }
-  if (p === '/api/s/lesson') {
-    const c = await classByCode(env, url.searchParams.get('c'));
-    if (!c) return json({ error: 'الرمز غير صحيح.' }, 404);
-    const id = +url.searchParams.get('id'), ls = await classLessons(env, c), l = ls.find(x => x.id === id);
-    if (!l) return json({ error: 'الدرس غير متاح.' }, 404);
-    await loadPacks(env, url);
-    const st = STUDY.lessons[id] || {};
-    const items = itBank(c.course, QBANK.filter(q => q.lesson_id === id).concat(finQuizItems(c.course).filter(q => q.lesson_id === id)))
-      .map(q => ({ qid: q.qid, type: q.type, stem: q.stem, choices: q.choices, correct: q.correct, answer: q.answer, notes: q.notes, marks: q.marks, img: q.img || null, fig: q.fig || null, table: q.table || null }));
-    return json({ lesson: { id: l.id, title: l.title, unit: l.unit, unit_name: l.unit_name }, summary: st.summary || null, items });
-  }
-  if (p === '/api/s/grade' && m === 'POST') {
-    const b = await body(req), c = await classByCode(env, b.c);
-    if (!c) return json({ error: 'الرمز غير صحيح.' }, 404);
-    const ans = String(b.answer || '').trim().slice(0, 700);
-    if (ans.length < 2) return json({ error: 'اكتب إجابتك أولًا.' }, 400);
-    const ip = 's' + ipOf(req), gate = await aiGate(env, ip, 'grade'); if (gate) return json({ error: gate }, 429);
-    const lid = +b.lid, ls = await classLessons(env, c); if (!ls.find(x => x.id === lid)) return json({ error: 'الدرس غير متاح.' }, 404);
-    const it = itBank(c.course, QBANK.filter(q => q.lesson_id === lid).concat(finQuizItems(c.course).filter(q => q.lesson_id === lid))).find(q => String(q.qid) === String(b.qid));
-    if (!it || it.type === 'mcq' || !it.answer) return json({ error: 'السؤال غير موجود.' }, 404);
-    try { return json(await aiGrade(env, ip, it, ans)); } catch (e) { return json({ error: e.message }, 502); }
-  }
-  if (p === '/api/s/attempt' && m === 'POST') {
-    const b = await body(req), c = await classByCode(env, b.c);
-    if (!c) return json({ error: 'الرمز غير صحيح.' }, 404);
-    const ip = ipOf(req), t = now();
-    const n = await env.DB.prepare('SELECT COUNT(*) n FROM s_attempts WHERE ip = ? AND at > ?').bind(ip, t - 3600000).first();
-    if (n && n.n > 120) return json({ ok: true, skipped: true });
-    const name = String(b.name || '').trim().slice(0, 40) || 'طالب';
-    await env.DB.prepare('INSERT INTO s_attempts(class_id,name,lesson_id,score,max,n,ip,at) VALUES(?,?,?,?,?,?,?,?)')
-      .bind(c.id, name, +b.lid || null, Math.max(0, +b.score || 0), Math.max(0, +b.max || 0), Math.max(0, Math.min(200, +b.n || 0)), ip, t).run();
-    return json({ ok: true });
-  }
-  return null;
-}
-async function classesApi(req, env, me, p, m, url) {
-  if (p === '/api/classes' && m === 'GET') {
-    const r = (await env.DB.prepare(`SELECT c.*, (SELECT COUNT(*) FROM s_attempts a WHERE a.class_id = c.id) attempts, (SELECT COUNT(DISTINCT name) FROM s_attempts a WHERE a.class_id = c.id) students FROM classes c WHERE c.user_id = ? ORDER BY c.created_at DESC`).bind(me.id).all()).results || [];
-    return json({ classes: r.map(c => ({ ...c, lessons: c.lessons ? JSON.parse(c.lessons) : null })) });
-  }
-  if (p === '/api/classes' && m === 'POST') {
-    const b = await body(req), sc = scopeOf(me);
-    const course = String(b.course || ''), name = String(b.name || '').trim().slice(0, 80);
-    if (!course || !name) return json({ error: 'اكتب اسم الصف واختر المادة والصف.' }, 400);
-    if (sc && !sc.has(course)) return json({ error: 'غير مسموح.' }, 403);
-    const lessons = Array.isArray(b.lessons) && b.lessons.length ? JSON.stringify(b.lessons.map(Number).filter(Boolean).slice(0, 400)) : null;
-    if (b.id) {
-      await env.DB.prepare('UPDATE classes SET name=?, course=?, lessons=?, active=? WHERE id=? AND user_id=?').bind(name, course, lessons, b.active === false ? 0 : 1, +b.id, me.id).run();
-      return json({ ok: true, id: +b.id });
-    }
-    const cnt = await env.DB.prepare('SELECT COUNT(*) n FROM classes WHERE user_id = ?').bind(me.id).first();
-    if (cnt && cnt.n >= 40) return json({ error: 'الحد الأقصى 40 صفًا.' }, 400);
-    for (let i = 0; i < 6; i++) {
-      const code = newCode();
-      try {
-        const r = await env.DB.prepare('INSERT INTO classes(user_id,code,name,course,lessons,active,created_at) VALUES(?,?,?,?,?,1,?) RETURNING id').bind(me.id, code, name, course, lessons, now()).first();
-        return json({ ok: true, id: r.id, code });
-      } catch (e) { /* رمز مكرر نادرًا: نعيد المحاولة */ }
-    }
-    return json({ error: 'تعذّر إنشاء الرمز، حاول مرة أخرى.' }, 500);
-  }
-  let mm;
-  if ((mm = p.match(/^\/api\/classes\/(\d+)$/)) && m === 'DELETE') {
-    const id = +mm[1];
-    const c = await env.DB.prepare('SELECT id FROM classes WHERE id = ? AND user_id = ?').bind(id, me.id).first();
-    if (c) await env.DB.batch([env.DB.prepare('DELETE FROM s_attempts WHERE class_id = ?').bind(id), env.DB.prepare('DELETE FROM classes WHERE id = ?').bind(id)]);
-    return json({ ok: true });
-  }
-  if ((mm = p.match(/^\/api\/classes\/(\d+)\/stats$/))) {
-    const c = await env.DB.prepare('SELECT * FROM classes WHERE id = ? AND user_id = ?').bind(+mm[1], me.id).first();
-    if (!c) return json({ error: 'غير موجود' }, 404);
-    const a = (await env.DB.prepare('SELECT name, lesson_id, score, max, n, at FROM s_attempts WHERE class_id = ? ORDER BY at DESC LIMIT 3000').bind(c.id).all()).results || [];
-    return json({ attempts: a });
-  }
-  return null;
-}
-
 // ---------- router ----------
 export default {
   async fetch(req, env) {
@@ -1357,7 +1257,9 @@ export default {
         } }
       if (p === '/version') { let packs = false; try { packs = await loadPacks(env, url); } catch (e) { packs = String(e.message || e); } return json({ ...BUILD, packs }); }
       if ((mm0 = p.match(/^\/x\/([a-f0-9]{40})$/))) return exportFile(req, env, mm0[1]);
-      if (p === '/robots.txt') return new Response('User-agent: *\nDisallow: /', { headers: { 'Content-Type': 'text/plain' } });
+      // جوجل يؤرشف الصفحة الرئيسية فقط (Allow: /$ أطول من Disallow: / فيتقدّم عليه)؛ كل الأقسام بعد الدخول محجوبة.
+      if (p === '/robots.txt') return new Response('User-agent: *\nAllow: /$\nDisallow: /\n\nSitemap: https://khaber.site/sitemap.xml\n', { headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'public, max-age=3600' } });
+      if (p === '/sitemap.xml') return new Response('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://khaber.site/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url></urlset>\n', { headers: { 'Content-Type': 'application/xml; charset=utf-8', 'Cache-Control': 'public, max-age=3600' } });
       if (p === '/setup') return (await adminCount()) ? redirect('/') : html('setup');
       if (p === '/api/setup' && m === 'POST') {
         if (await adminCount()) return json({ error: 'تم إنشاء حساب المدير من قبل.' }, 403);
@@ -1367,8 +1269,6 @@ export default {
       }
       if (p === '/api/login' && m === 'POST') return login(req, env);
       if (p === '/play') return html('play');
-      if (/^\/s\/[A-Za-z0-9]{6}\/?$/.test(p) || p === '/s' || p === '/s/') return html('student');
-      if (p.startsWith('/api/s/')) { const r = await studentApi(req, env, p, m, url); if (r) return r; }
       if (p.startsWith('/api/play/')) { const r = await playApi(req, env, p, m, url); if (r) return r; }
 
       const me = await currentUser(req, env);
@@ -1442,7 +1342,7 @@ export default {
       if (p === '/analysis') return html('analysis');
       if (p === '/ld') return html('ld');
       if (p === '/forms') return html('forms');
-      if (p === '/space') return html('space');
+      if (p === '/space') return redirect('/app');
       if (p === '/cards') return html('cards');
       if (p === '/api/finals') {
         const key = url.searchParams.get('key') || '', sc = scopeOf(me);
@@ -1492,7 +1392,6 @@ export default {
         if (sid && st && Number(st.sid) !== sid) st = null;
         return json({ state: st });
       }
-      if (p.startsWith('/api/classes')) { const r = await classesApi(req, env, me, p, m, url); if (r) return r; }
       if (p === '/api/courses') { const sc = scopeOf(me); return json({ courses: (await coursesList(env)).filter(c => !sc || sc.has(c.key)) }); }
       if (p === '/api/quiz/bank') {
         const key = url.searchParams.get('key') || '', sc = scopeOf(me);
