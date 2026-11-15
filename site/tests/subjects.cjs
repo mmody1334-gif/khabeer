@@ -26,7 +26,7 @@ const B = 'http://localhost:8787', OUT = __dirname + '/';
   await p.click('#makeBtn'); await p.waitForTimeout(500); console.log('quiz sci8 checks:', (await p.textContent('.checks b')).trim());
   await p.screenshot({ path: OUT + 'sub_quiz8.png', fullPage: true });
   // games chem10 teen
-  await p.goto(B + '/games'); await p.waitForSelector('#courseSel'); await pickC(p, '#courseSel', 'الكيمياء|العاشر'); await p.waitForSelector('[data-unit]'); await p.check('[data-unit="6"]'); await p.waitForTimeout(200);
+  await p.goto(B + '/games'); await p.waitForSelector('#courseSel'); await pickC(p, '#courseSel', 'الكيمياء|العاشر'); await p.waitForSelector('[data-unit]'); await p.check('[data-unit="2"]'); await p.waitForTimeout(200);
   console.log('chem10 games:', await p.$$eval('.g-card', e => e.slice(0, 6).map(x => x.querySelector('b').textContent + (x.classList.contains('off') ? '(off)' : ''))));
   // summaries env12
   await p.goto(B + '/summaries'); await p.waitForSelector('#courseSel'); await pickC(p, '#courseSel', 'العلوم البيئية|الثاني عشر'); await p.waitForSelector('[data-lid]');
