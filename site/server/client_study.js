@@ -250,7 +250,7 @@ function groupHtml(members,N,K,names,key){
     '<tr><td style="'+TD+'" colspan="2"><b>الدروس:</b> '+ls.map(function(l){return esc(l.title);}).join('، ')+'</td></tr></table>';
   h+=H('أعضاء المجموعة وأدوارهم');
   h+='<table id="grpTbl" style="'+TB+'"><thead><tr><th style="'+TH+';width:6%">م</th><th style="'+TH+';width:34%">اسم الطالب</th><th style="'+TH+';width:30%">دوره في المجموعة</th><th style="'+TH+'">أسئلته (المستوى)</th></tr></thead><tbody>'+
-    members.map(function(m,i){return '<tr><td style="'+TD+';text-align:center">'+(i+1)+'</td><td style="'+TD+'">'+esc(names[i]||'')+'</td><td style="'+TD+'">'+esc(GROLES[i]||'عضو')+'</td><td style="'+TD+';font-size:.9em">'+(m.length?m.map(function(a,k){return 'سؤال '+(i*K+k+1)+' ('+GLVL[a.lv][0]+')';}).join(' · '):'—')+'</td></tr>';}).join('')+'</tbody></table>';
+    (function(){var qc=0;return members.map(function(m,i){return '<tr><td style="'+TD+';text-align:center">'+(i+1)+'</td><td style="'+TD+'">'+esc(names[i]||'')+'</td><td style="'+TD+'">'+esc(GROLES[i]||'عضو')+'</td><td style="'+TD+';font-size:.9em">'+(m.length?m.map(function(a,k){return 'سؤال '+(++qc)+' ('+GLVL[a.lv][0]+')';}).join(' · '):'—')+'</td></tr>';}).join('');})()+'</tbody></table>';
   if(!key)h+='<div style="border:1px solid #0e7c66;background:#f1f8f5;border-radius:6px;padding:6px 10px;margin:6px 0 8px"><b>خطوات العمل:</b> ١) يجيب كل عضو عن سؤاله بمفرده (3 دقائق). ٢) يعرض إجابته على المجموعة ويناقشها. ٣) تتفق المجموعة على الإجابة النهائية ويكتبها المقرِّر. ٤) يعرض المتحدّث الرسمي إجابات المجموعة أمام الصف. &nbsp; <span style="font-size:.9em">المستويات: '+lvlBadge(1)+' '+lvlBadge(2)+' '+lvlBadge(3)+'</span></div>';
   else h+='<p style="margin:4px 0 8px;font-size:.92em">عدد الأسئلة: <b>'+tot+'</b> (سهلة '+cnt[1]+'، متوسطة '+cnt[2]+'، تحدٍّ '+cnt[3]+'). تُقبل أي إجابة تؤدي المعنى نفسه.</p>';
   members.forEach(function(m,i){
@@ -473,13 +473,32 @@ function renderDoc(){
     '<div class="paper study-paper" id="paper" contenteditable="true" spellcheck="false">'+clean(doc.parts[part]||'')+'</div>';
   $('qmain').innerHTML=h;
   var pp=$('paper');
-  pp.addEventListener('input',function(){doc.parts[part]=pp.innerHTML;dirty=true;});
+  if(renum(pp))doc.parts[part]=pp.innerHTML;
+  pp.addEventListener('input',function(){renum(pp);doc.parts[part]=pp.innerHTML;dirty=true;});
   pp.addEventListener('click',function(e){var t=e.target;if(t&&t.classList&&t.classList.contains('cb')){t.textContent=t.textContent==='☑'?'☐':'☑';doc.parts[part]=pp.innerHTML;dirty=true;}});
   Array.prototype.forEach.call(document.querySelectorAll('[data-part]'),function(b){b.onclick=function(){part=b.getAttribute('data-part');renderDoc();};});
   $('docTitle').onchange=function(){doc.title=this.value.trim()||doc.title;dirty=true;};
   $('printBtn').onclick=printDoc;$('wordBtn').onclick=wordDoc;$('saveBtn').onclick=saveDoc;
   if($('rowAdd'))$('rowAdd').onclick=function(){var tb=pp.querySelector('#stTbl tbody');if(!tb)return;var n=tb.rows.length+1;tb.insertAdjacentHTML('beforeend',stRow(n));doc.parts[part]=pp.innerHTML;dirty=true;};
   if($('rowDel'))$('rowDel').onclick=function(){var tb=pp.querySelector('#stTbl tbody');if(!tb||tb.rows.length<2)return;tb.deleteRow(-1);doc.parts[part]=pp.innerHTML;dirty=true;};
+}
+// إعادة ترقيم الأسئلة (س1. س2. … / Q1.) بعد حذف سؤال أو أكثر من الورقة، مع تحديث أرقامها في جدول أعضاء المجموعة
+function renum(root){
+  var RX=/^(\s*)(س|Q)\s*(\d+)(\s*\.?\s*)$/,n=0,map={},ch=false;
+  Array.prototype.forEach.call(root.querySelectorAll('b'),function(b){
+    if(b.children.length||b.closest('table'))return;
+    var m=RX.exec(b.textContent);if(!m)return;n++;
+    var old=+m[3];if(!(old in map))map[old]=n;
+    if(old!==n){var t=b.firstChild;var v=m[1]+m[2]+n+m[4];if(t&&t.nodeType===3&&b.childNodes.length===1)t.data=v;else b.textContent=v;ch=true;}
+  });
+  var g=root.querySelector('#grpTbl');
+  if(g&&ch)Array.prototype.forEach.call(g.querySelectorAll('tbody td'),function(td){
+    if(td.children.length||!/سؤال \d+/.test(td.textContent))return;
+    var parts=td.textContent.split(' · '),out=[];
+    parts.forEach(function(x){var m=/^(\s*سؤال )(\d+)(.*)$/.exec(x);if(!m){out.push(x);return;}var k=+m[2];if(map[k])out.push(m[1]+map[k]+m[3]);});
+    var v=out.length?out.join(' · '):'—';if(v!==td.textContent){td.textContent=v;ch=true;}
+  });
+  return ch;
 }
 // تنظيف HTML المحفوظ/الملصوق قبل عرضه (لا سكربتات ولا أحداث)
 function clean(html){
