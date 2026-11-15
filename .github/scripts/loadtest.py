@@ -1,10 +1,10 @@
 # اختبار ضغط صغير وآمن على صفحات خبير العامة (بلا تسجيل دخول).
-# يتوقف تلقائيًا إن تجاوزت الأخطاء 5% في أي مرحلة، وسقف الطلبات الكلي 8000.
+# يتوقف تلقائيًا إن تجاوزت الأخطاء 5% في أي مرحلة، وسقف الطلبات الكلي 25000.
 import time, statistics, urllib.request, concurrent.futures as cf, os, threading
 BASE = 'https://khaber.site'
 PATHS = ['/', '/version']
-STAGES = [(5, 30), (20, 30), (50, 30)]
-CAP = 8000
+STAGES = [(50, 8), (100, 8), (150, 8)]
+CAP = 25000
 sent = 0; lock = threading.Lock()
 def hit(path):
     t = time.time()
