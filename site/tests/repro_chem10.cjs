@@ -46,6 +46,8 @@ const ok = (n, c, extra) => { (c ? pass++ : fail++); console.log((c ? '  PASS  '
   const G = F[KEY] || F;
   const papers = Object.keys((G && G.papers) || {});
   ok('امتحانات الفصل الثاني مخفية', papers.every(pp => +G.papers[pp].term === 1), papers.join(' '));
+  ok('3 أوراق (2024/2025 دوران + 2025/2026) مجموع كل منها 60', papers.length === 3 && papers.every(pp => (G.q || []).filter(q => q.p === pp).reduce((s, q) => s + q.m, 0) === 60), papers.join(' '));
+  ok('أرقام الأشكال والجداول مربوطة برقم السؤال (lb)', (G.q || []).filter(q => q.lb && q.lb.length).length >= 40, (G.q || []).filter(q => q.lb && q.lb.length).length + ' مفردة');
   ok('كل مفردة نهائية مربوطة بدرس من الفصل الأول ولها صورة وإجابة', (G.q || []).every(q => q.l >= 2600 && q.l <= 2619 && q.im && q.a), (G.q || []).length + ' مفردة');
 
   // 3) الاختبار القصير
