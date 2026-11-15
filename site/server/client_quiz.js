@@ -261,7 +261,7 @@ function assemble(pool,sp,lessonIds){
     if(sp.mcq){Object.keys(sp.mcq).forEach(function(ao){var c=shuffleP(mcqs.filter(function(x){return x.ao===ao;}));for(var n=0;n<sp.mcq[ao]&&c.length;n++)mc.push(c.shift());});}
     else{var c0=shuffleP(mcqs);for(var n=0;n<c0.length&&mc.length<sp.mcqCount;n++){var x=c0[n];var dist={};mc.concat([x]).forEach(function(y){dist[y.ao]=1;});if(mc.length===sp.mcqCount-1&&Object.keys(dist).length<2)continue;mc.push(x);}}
     if(mc.length!==sp.mcqCount)continue;
-    var lg=[];if(sp.long.count){if(!longs.length)continue;lg=[shuffleP(longs)[0]];}
+    var lg=[];if(sp.long.count){var lf=longs.filter(function(x){return (sp.targets[x.ao]||0)>=x.marks;});if(!lf.length)continue;lg=[att%2?pick(lf):shuffleP(lf)[0]];} // في نصف المحاولات اختيار منتظم: تفضيل أسئلة الوزارة دائمًا قد يفرض مفردة طويلة لا يكتمل معها التوزيع // مفردة طويلة لا تتجاوز درجة هدفها (مثل استدلال 3 درجات مع هدف 2) لا تُنتج ورقة صحيحة
     var need={};aos.forEach(function(a){need[a]=sp.targets[a];});
     mc.concat(lg).forEach(function(x){need[x.ao]-=x.marks;usedQ[x.qid]=1;});
     if(aos.some(function(a){return need[a]<0;}))continue;
