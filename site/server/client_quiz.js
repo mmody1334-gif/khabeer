@@ -111,7 +111,8 @@ function spec(){
   //   GRM/VCB (الصف 11 فقط): نص واحد بخمس مفردات (3 قواعد + 2 مفردات) = 5 درجات.
   //   RDG: 5 درجات بنمط امتحان نهاية الفصل · WRT: 5 درجات لكل نوع كتابة (مقياس تقدير خماسي).
   //   ⇐ الصف 11: ورقة 10 درجات = GRM/VCB (5) + RDG (5) · الصف 12 (لا GRM/VCB): RDG (5) + WRT مهمة واحدة (5).
-  // اللغة الإنجليزية 9–10 — Student Assessment Handbook, English Grades 5-10 (Sept. 2026):
+  // اللغة الإنجليزية 8–10 — Student Assessment Handbook, English Grades 5-10 (Sept. 2026):
+  //   الصفوف 5–9: اختباران قصيران (Short Tests) في الفصل، كل منهما قسمان × 5 درجات = 10 (الصف 8 مثل الصف 9).
   //   الصف 9 (ص 11): Short Test = قسمان يركزان على عنصرين مختلفين من عناصر اللغة، 5 درجات لكل قسم = 10.
   //   الصف 10: لا Short Tests في الوثيقة (Quizzes فقط)، فنكوّن Quiz بنمط قسمي VCB وGRM في امتحان نهاية الفصل (5 + 5).
   //   ⇐ GRM 5 + VCB 5، كلها اختيار من متعدد (بنك 9–10 من مفردات القواعد والمفردات في امتحانات الوزارة).
@@ -853,7 +854,7 @@ Promise.all([api('/api/me'),api('/api/courses')]).then(function(r){
   hdr=Object.assign(clone(DEF_HDR),lsGet(hdrKey())||{});
   // ترقية ترويسة محفوظة سابقًا: اسم المديرية صار «للتعليم» بدل «للتربية والتعليم»
   if(hdr.dir&&/للتربية والتعليم/.test(hdr.dir)){hdr.dir=hdr.dir.replace(/للتربية والتعليم/g,'للتعليم');lsSet(hdrKey(),hdr);}
-  courses=(r[1].courses||[]).filter(function(c){return !/انجليز|إنجليز|English/i.test(c.subject)||gnum(c.grade)>=9;}).sort(function(a,b){return (gnum(a.grade)-gnum(b.grade))||a.subject.localeCompare(b.subject,'ar');});
+  courses=(r[1].courses||[]).filter(function(c){return !/انجليز|إنجليز|English/i.test(c.subject)||gnum(c.grade)>=8;}).sort(function(a,b){return (gnum(a.grade)-gnum(b.grade))||a.subject.localeCompare(b.subject,'ar');});
   if(!courses.length){$('qmain').innerHTML='<div class="welcome"><h2>لا توجد صفوف متاحة لحسابك</h2><p>تواصل مع مدير المنصة.</p></div>';return;}
   var hf=takeHandoff('quiz'),hc=hf&&courses.filter(function(x){return x.key===hf.course;})[0];
   if(hc){selectCourse(hc.key).then(function(){makeRemedy(hf);});return;}

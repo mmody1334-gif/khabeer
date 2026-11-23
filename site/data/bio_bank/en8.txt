@@ -1,0 +1,506 @@
+// بنك أسئلة اللغة الإنجليزية — الصف الثامن (الفصل الأول) — Class Book / Activity Book 8A (WOW! Magazine)
+// عناصر اللغة حسب Student Assessment Handbook – English Grades 5-10 (Sept. 2026):
+//   G = GRM (القواعد) · V = VCB (المفردات) · R = RDG (القراءة) · W = WRT (الكتابة) — والحرف التالي مستوى الصعوبة: ن منخفضة، م متوسطة، ر مرتفعة.
+// المصادر: خطط الدروس ونصوص الكتاب وأنشطته، ومفردات القواعد/المفردات من اختبارات الوزارة للصف الثامن (2024/2025 و2025/2026) منسوبة إلى أقرب درس.
+
+#2620
+s: Class Book pp. 14–16 — Unit 1 Lesson 1: The environment
+m: Vن|We should ______ trees to make the air cleaner.|plant|waste|destroy
+m: Vن|Please ______ the lights when you leave the room.|switch off|switch on|pick up
+m: Vم|Energy from the sun and wind is ______ energy.|renewable|waste|polluted
+m: Vم|Cutting down big forests is called ______ the rainforests.|destroying|recycling|protecting
+m: Vم|Dirty air and water are examples of ______.|pollution|recycling|renewable energy
+m: Gن|My family ______ plastic bottles every week.|recycles|recycle|recycling
+m: Gن|Look! The children ______ up rubbish on the beach.|are picking|picks|pick
+m: Gم|We ______ save water when we brush our teeth.|can|are|does
+w: Rن1|Ali and his friends picked up rubbish in the park on Saturday. They filled ten bags and recycled the plastic bottles. // Statement: Ali's friends threw the plastic bottles away. (True or False?) => False
+w: Vن1|Complete the phrase: global w______ (the rise in the Earth's temperature). => warming
+l: Wم5|Write a short paragraph (about 50 words) about three things you do to help the environment. => Three clear actions ;; Environment vocabulary ;; Present simple ;; Linking words (and, also) ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الأول (المدارس المسائية)
+m: Vم|To balance progress and safety, we need to ______ our environment and ensure that we use technology wisely.|protect|make|camp
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الأول (المدارس المسائية)
+m: Vم|Therefore, it’s important to remember that our actions today will affect future generations and ______ the Earth we share.|save|destroy|use
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الثاني
+m: Vم|To stay safe, you must move to higher ground, switch off lights, and avoid walking through deep ______.|water|sand|snow
+
+#2621
+s: Class Book pp. 17 — Unit 1 Lesson 2: The energy competition
+m: Vن|A: We won the competition! B: ______! That's excellent news.|Brilliant|Me too|I know
+m: Vم|A: I love saving energy. B: ______! I always switch off the lights.|Me too|Brilliant|No chance
+m: Vم|A: It's very hot today. B: ______! I need some water.|I know|Me too|Brilliant
+m: Vن|Our school is taking part in an energy ______.|competition|pollution|rubbish
+m: Gن|We ______ going to take part in the competition.|are|is|am
+m: Gم|What ______ you do to save energy at school?|would|are|did
+m: Gن|Let's ______ off the computers at the end of the day.|switch|switches|switching
+w: Rن1|The WOW! Team want to enter a competition to save energy at school. They plan to switch off lights and close doors. // Statement: The competition is about saving water. (True or False?) => False
+w: Vن1|Complete: A: I'm so tired! B: I ______! Me too. => know
+l: Wم5|Write a short dialogue (about 50 words) between two friends planning how to save energy at school. Use Brilliant!, I know! or Me too!. => Two speakers ;; At least two energy-saving ideas ;; Expressions used correctly ;; Punctuation ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الأول (المدارس المسائية)
+m: Vم|In today’s world, technology is a fascinating ______ that shapes our lives.|invention|machine|product
+
+#2622
+s: Class Book pp. 18–19 — Unit 1 Lesson 3: Modal verbs of obligation
+m: Gن|We ______ throw away plastic bottles. We should recycle them.|shouldn't|should|need to
+m: Gن|You ______ wear a seat belt in the car. It's the law.|must|mustn't|needn't
+m: Gم|You ______ bring your lunch tomorrow – the school will give us food.|needn't|must|mustn't
+m: Gم|We ______ switch off the lights when we leave a room.|need to|needn't|mustn't
+m: Gم|Students ______ use mobile phones in the exam room. It's not allowed.|mustn't|needn't|should
+m: Vن|Something you have to do is an ______.|obligation|invitation|competition
+m: Vم|We must ______ the doors to keep the room cool.|close|open|waste
+m: Vم|We shouldn't ______ water when we wash the car.|waste|save|plant
+w: Rن1|School rules: You must arrive before 7.15. You mustn't run in the corridors. You needn't bring a dictionary – there are some in the library. // Statement: Students have to bring their own dictionaries. (True or False?) => False
+w: Gم1|Complete with ONE word: You ______ to switch off the computer after class. (it is necessary) => need
+l: Wم5|Write five rules for your classroom (about 50 words). Use must, mustn't, should, shouldn't and need to. => Five rules ;; Variety of modal verbs ;; Correct form (modal + base verb) ;; Clear sentences ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الثاني
+m: Gم|To stay safe, you ______ move to higher ground, switch off lights, and avoid walking through deep water.|must|need|have
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الثاني
+m: Gم|To stay safe, you must move to higher ground, switch ______ lights, and avoid walking through deep water.|off|of|on
+
+#2623
+s: Class Book pp. 20–21 — Unit 1 Lesson 4: Book Club: Khalid's diary
+m: Gن|It started to rain, so we ______ into the car quickly.|got|get|getting
+m: Vن|We got ______ the bus at the station.|onto|under|down
+m: Vم|Get ______ the table! There is an earthquake!|under|up|out
+m: Vم|I usually get ______ at six o'clock in the morning.|up|into|onto
+m: Vم|The cat got ______ of the box and ran away.|out|into|onto
+m: Gم|Khalid ______ very frightened when the storm arrived.|felt|feels|feeling
+m: Gن|While we ______ dinner, the lights went out.|were having|had|have
+m: Rم|Saturday, 3rd June. Today was terrible! A huge storm came while we were at the beach. Dad told us to get into the car. We waited there until the rain stopped. // Where did the family wait during the storm?|in the car|on the beach|under a tree
+w: Rن1|A diary is usually written in the first person, for example "Today I went to the beach". // Statement: A diary tells about the writer's own day and feelings. (True or False?) => True
+w: Vن1|Complete: Please get ______ the ladder slowly. (move to a lower place) => down
+l: Wم5|Write a diary entry (about 50 words) about a day when the weather was very bad. => Date ;; First person and past tenses ;; Events in order ;; Feelings ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الأول (المدارس الصباحية)
+m: Gم|Our first stop ______ the Eiffel Tower, … we took many pictures.|was|were|is
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الثاني
+m: Vم|You should ______ to weather news updates until the danger is over.|listen|discuss|talk
+
+#2624
+s: Class Book pp. 22–23 — Unit 1 Lesson 5: Extreme weather and reported speech
+m: Vن|A long time without rain is a ______.|drought|flood|tsunami
+m: Vن|A strong wind carrying sand is a ______.|sandstorm|snowstorm|heatwave
+m: Vم|A ______ is a huge wave caused by an earthquake under the sea.|tsunami|tornado|drought
+m: Vم|Oman had a ______ in 2007 – a violent storm with very strong winds and rain.|cyclone|heatwave|drought
+m: Gم|She asked me what a cyclone ______.|was|is it|was it
+m: Gم|The teacher told us ______ inside.|to stay|stay|staying
+m: Gم|He asked me where I ______.|lived|do live|did I live
+m: Gم|Mum told me ______ open the window during the sandstorm.|not to|don't|not
+w: Rن1|Last summer there was a heatwave in our town. The temperature was 49°C for a week, and the government told people not to go out at midday. // Statement: People were told to stay inside at midday. (True or False?) => True
+w: Gم1|Report the command with ONE missing word: "Close the door!" → He told me ______ close the door. => to
+l: Wم5|Write a short paragraph (about 50 words) about an extreme weather event. Say what happened and what people were told to do. => Weather vocabulary ;; Past tenses ;; At least one reported command ;; Clear order ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الثاني
+m: Vم|During floods, the police issue safety ______.|warnings|stories|papers
+
+#2625
+s: Class Book pp. 24–25 — Unit 1 Lesson 6: Climate change and animals
+m: Vن|An animal that no longer exists is ______.|extinct|endangered|adapted
+m: Vم|Polar bears live in the ______.|Arctic|desert|rainforest
+m: Vم|Giant pandas eat ______.|bamboo|fish|grass
+m: Vم|Animals must ______ to new conditions or they may die.|adapt|destroy|recycle
+m: Gم|If the sea ice ______, polar bears can't hunt.|melts|melt|melting
+m: Gن|The Arabian tahr ______ in the mountains of Oman.|lives|live|living
+m: Gم|We ______ protect endangered animals.|must|mustn't|needn't
+m: Rم|Polar bears hunt seals on the sea ice. Because of global warming, the ice is melting earlier every year, so the bears have less time to find food. // Why do polar bears have less time to find food?|The ice melts earlier.|There are more seals.|They sleep longer.
+w: Rن1|The Arabian tahr is a wild goat that lives only in the mountains of Oman and the UAE. It is endangered. // Statement: The Arabian tahr lives in the Arctic. (True or False?) => False
+w: Vن1|Complete the word: (adjective) in danger of becoming extinct. e.g. The giant panda is an en________ animal. => endangered
+l: Wم5|Write an action plan (about 50 words) to help an endangered animal. => Name of the animal ;; Why it is in danger ;; At least three actions ;; Modal verbs (should, need to) ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الثاني
+m: Gم|In ______ future, television technology may even be more advanced and interactive.|the|a|an
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الثاني
+m: Gم|In the future, television technology may even be more advanced ______ interactive.|and|the|a
+
+#2626
+s: Class Book pp. 26–27 — Unit 1 Lesson 7: Giving advice; silent letters
+m: Gن|I think you ______ go to bed earlier.|should|would|could to
+m: Gم|Perhaps you ought ______ see a doctor.|to|for|-
+m: Gم|If I ______ you, I would study harder.|were|am|be
+m: Gم|Why don't you ______ your teacher for help?|ask|asking|to ask
+m: Vن|"You could always ask your brother" is a way of giving ______.|advice|a complaint|a command
+m: Vم|Which word has a silent "k"?|knee|kind|kick
+m: Vم|Which word has a silent "t"?|listen|tent|ticket
+m: Vم|Which word has a silent "w"?|write|window|water
+w: Rن1|Eliza: I have a test tomorrow and I'm really worried. Miss Brown: Why don't you make a revision plan? If I were you, I'd go to bed early tonight. // Statement: Miss Brown tells Eliza to stay up late. (True or False?) => False
+w: Gم1|Complete with ONE word: If I were you, I ______ drink more water. => would
+l: Wم5|Write a short reply (about 50 words) to a friend who says: "I can't sleep before exams." Give at least three pieces of advice. => Friendly opening ;; Three pieces of advice ;; Variety of advice phrases ;; Correct grammar ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الثاني
+m: Gم|Today, smart TVs ______ connection to the internet, making information more accessible.|have|will|has
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الأول (المدارس المسائية)
+m: Gم|We were glad because ______ you shop early, you always find better offers.|if|and|but
+
+#2627
+s: Class Book pp. 28 — Unit 1 Lesson 8: A report about plastic
+m: Vن|A ______ is 1,000 kilograms.|tonne|piece|metre
+m: Vم|A lot of plastic ______ in the sea.|ends up|gets up|picks up
+m: Vم|The ______ makes laws for the country.|government|business|foundation
+m: Vم|A ______ gives money to help people and protect nature.|foundation|tonne|piece
+m: Gم|Millions of tonnes of plastic ______ into the sea every year.|go|goes|going
+m: Gم|Plastic bags ______ hundreds of years to break down.|take|takes|taking
+m: Gن|We should use ______ plastic.|less|fewer|least
+m: Rم|Every year, about 8 million tonnes of plastic end up in the oceans. Most of it comes from bottles, bags and food packaging. // Where does most of the plastic in the oceans come from?|bottles, bags and packaging|ships|factories only
+w: Rن1|A report gives facts and often uses diagrams and headings. // Statement: A report tells an imaginary story. (True or False?) => False
+w: Vن1|Complete the word: (noun) a small part of something. e.g. a pi___ of plastic => piece
+l: Wم5|Write a short paragraph (about 50 words) about how we can use less plastic at home and at school. => Topic sentence ;; At least three ideas ;; Modal verbs ;; Linking words ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الثاني
+m: Vم|It allowed people to ______ information and entertainment from their homes.|receive|eat|through
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الثاني
+m: Gم|They also advise people to follow clear instructions on how to protect ______ and their houses.|themselves|oneself|himself
+
+#2628
+s: Class Book pp. 29 — Unit 1 Lesson 9: Writing a report
+m: Gم|I like swimming ______ my best friend likes running.|while|however|so
+m: Gم|Many students recycle. ______, some students throw everything away.|However|While|Because
+m: Gم|60% of students walk to school, ______ 40% come by bus.|while|however|because of
+m: Vن|Asking many people the same questions is a ______.|survey|diagram|diary
+m: Vن|A picture that shows information is a ______.|diagram|paragraph|poem
+m: Vم|A report should have a clear ______ at the top.|title|ending|signature
+m: Gن|Most students ______ that pandas are their favourite animal.|said|says|saying
+m: Rم|Survey results: 30 students answered. 18 students said the polar bear needs most help, while 12 chose the giant panda. // How many students chose the giant panda?|12|18|30
+w: Rن1|We use "however" at the start of a new sentence and "while" in the same sentence. // Statement: "While" always starts a new sentence. (True or False?) => False
+w: Gم1|Complete with while or however: Ali likes football ______ his brother prefers tennis. => while
+l: Wم5|Write a short report (about 60 words) about a class survey: "How do students come to school?" Use while and however. => Title and introduction ;; Results with numbers ;; while and however used correctly ;; Conclusion ;; About 60 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الثاني
+m: Vم|Families would gather to watch their favourite shows, making it a ______ activity.|social|dangerous|stressful
+
+#2629
+s: Class Book pp. 30 — Unit 1 Lesson 10: Unit 1 review
+m: Gم|She asked me if I ______ plastic bottles.|recycled|recycle|do recycle
+m: Gن|You ______ throw rubbish in the street.|mustn't|needn't|should
+m: Gم|The teacher told us ______ quiet during the test.|to be|be|being
+m: Vم|Get ______ the bus quickly – it's leaving!|onto|under|down
+m: Vن|A violent storm with very strong winds is a ______.|cyclone|drought|heatwave
+m: Vم|We should use ______ energy from the sun.|renewable|endangered|extinct
+m: Gم|We ______ to plant more trees in our school.|need|must|should
+w: Rن1|Comment: "I joined a group that protects turtles in Ras Al Jinz. We keep the beach clean." – Sara // Statement: Sara helps protect turtles. (True or False?) => True
+w: Gم1|Complete with ONE word: He asked me where I ______ from. => was / came
+l: Wم5|Write a comment (about 50 words) for the WOW! Magazine about how you can help our planet. => Opinion ;; At least two actions ;; Unit vocabulary ;; Correct grammar ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الأول (المدارس المسائية)
+m: Vم|Therefore, it’s ______ to remember that our actions today will affect future generations and save the Earth we share.|important|dangerous|late
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الثاني
+m: Vم|You should listen to weather news updates until the danger is ______.|over|during|again
+
+#2630
+s: Class Book pp. 40–42 — Unit 2 Lesson 1: Extreme sports
+m: Vن|Sliding down sand dunes on a board is ______.|sandboarding|surfboarding|water skiing
+m: Vن|Exploring caves is called ______.|caving|diving|abseiling
+m: Vم|Going down a rock using a rope is ______.|abseiling|paragliding|go-karting
+m: Vم|You need a big wing to go ______.|paragliding|caving|horse riding
+m: Vم|You swim under the sea when you go ______.|diving|sandboarding|mountain biking
+m: Gن|My brother ______ rock climbing every weekend.|goes|go|going
+m: Gم|Have you ever ______ go-karting?|tried|try|trying
+m: Gم|I'd like ______ paragliding one day.|to try|try|trying
+w: Rن1|Ahmed loves extreme sports. Last winter he went sandboarding in the Wahiba Sands and next month he wants to try caving. // Statement: Ahmed has already been caving. (True or False?) => False
+w: Vن1|Complete: mountain b______ (riding a bike on hills and mountains) => biking
+l: Wم5|Write a short paragraph (about 50 words) about an extreme sport you would like to try and why. => Name of the sport ;; Description ;; Reasons ;; would like to / want to ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الأول (المدارس الصباحية)
+m: Gم|Extreme sports ______ exciting activities.|are|is|was
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الأول (المدارس الصباحية)
+m: Vم|People do sports like diving and mountain ______.|biking|racing|skateboarding
+
+#2631
+s: Class Book pp. 43 — Unit 2 Lesson 2: Safety in extreme sports
+m: Vن|A: You should wear a helmet. B: ______. It's safer.|I suppose so|Not really|I told you so
+m: Vم|A: I fell off my bike! B: ______! I said it was dangerous.|I told you so|I suppose so|Not really
+m: Vم|A: Do you like horse riding? B: ______. I prefer swimming.|Not really|I told you so|Brilliant
+m: Vن|Always wear a ______ to protect your head.|helmet|scarf|jacket
+m: Vم|He had a bad ______ when he fell from the rock.|injury|safety|adventure
+m: Gن|You ______ wear a helmet when you go mountain biking.|should|shouldn't|needn't
+m: Gم|He ______ his leg when he was surfing.|hurt|hurts|hurting
+m: Gم|They ______ about safety when the teacher came in.|were talking|talked|talk
+w: Rن1|Sam: Let's go rock climbing without ropes. Yusuf: No way! It's too dangerous. We need ropes and helmets. // Statement: Yusuf wants to climb without ropes. (True or False?) => False
+w: Vن1|Complete: A: Is it cold today? B: Not ______. It's warm. => really
+l: Wم5|Write five safety rules (about 50 words) for a sport you like. => Five rules ;; Safety vocabulary ;; Modal verbs ;; Clear sentences ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الأول (المدارس الصباحية)
+m: Vم|After that, we ______ the famous Louvre Museum and saw iconic paintings like the Mona Lisa.|visited|came|lived
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الأول (المدارس الصباحية)
+m: Vم|The trainer told us we must wear ______ for protection.|helmets|jeans|scarves
+
+#2632
+s: Class Book pp. 44–45 — Unit 2 Lesson 3: Reflexive pronouns
+m: Gن|I fell and hurt ______.|myself|me|my
+m: Gن|Did you make this cake ______?|yourself|yourselves|myself
+m: Gم|The children enjoyed ______ at the water park.|themselves|himself|ourselves
+m: Gم|My sister taught ______ to play the guitar.|herself|himself|itself
+m: Gم|We built the camp ______.|ourselves|themselves|yourself
+m: Gم|The cat washed ______ in the sun.|itself|himself|themselves
+m: Vم|"By myself" means ______.|alone|with friends|quickly
+m: Vم|"Enjoy yourself" means ______.|have a good time|hurt your leg|be careful
+w: Rن1|Omar went abseiling last week. He didn't hurt himself, but his friend Ali fell and hurt his arm. // Statement: Omar hurt himself. (True or False?) => False
+w: Gم1|Complete with ONE word: They looked at ______ in the mirror. => themselves
+l: Wم5|Write a short paragraph (about 50 words) about something you learned to do by yourself. Use reflexive pronouns. => What you learned ;; How you learned ;; At least two reflexive pronouns ;; Past simple ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الأول (المدارس المسائية)
+m: Vم|______ we enjoy the benefits; we must be careful of the negative effects.|While|Often|Never
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الأول (المدارس الصباحية)
+m: Gم|Later, I could ride by ______.|myself|yourself|themselves
+
+#2633
+s: Class Book pp. 46–47 — Unit 2 Lesson 4: Book Club: An adventure story
+m: Vن|My grandmother makes delicious ______ bread.|home-made|ice-cold|world-famous
+m: Vم|We drank ______ water after the long walk.|ice-cold|old-fashioned|nine-hour
+m: Vم|He is a ______ writer – people all over the world read his books.|world-famous|home-made|ice-cold
+m: Vم|Explorers in the past used ______ maps, not GPS.|old-fashioned|prize-winning|English-speaking
+m: Vم|A person who travels to discover new places is an ______.|explorer|inventor|instructor
+m: Gن|The children ______ a map in an old box.|found|find|finding
+m: Gم|They ______ walking for hours when they saw the river.|had been|have been|are
+m: Gم|It was a ______ journey.|nine-hour|nine-hours|nine hour's
+w: Rن1|An adventure story usually has exciting events, danger and a journey to a new place. // Statement: Adventure stories are usually boring and have no action. (True or False?) => False
+w: Vن1|Complete: a pr___-winning film (a film that has won a prize) => prize
+l: Wم5|Write the beginning of an adventure story (about 50 words). Use at least two compound adjectives. => Setting and characters ;; Exciting event ;; Past tenses ;; Two compound adjectives ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الأول (المدارس الصباحية)
+m: Gم|After that, we visited the famous Louvre Museum and ______ iconic paintings like the Mona Lisa.|saw|see|seen
+
+#2634
+s: Class Book pp. 48–49 — Unit 2 Lesson 5: Geography and the past perfect
+m: Gن|After they ______ breakfast, they looked in their guidebook.|had eaten|have eaten|eat
+m: Gم|When we arrived at the station, the train ______.|had left|has left|leaves
+m: Gم|She ______ never seen the sea before her trip to Salalah.|had|has|was
+m: Gم|I went to bed after I ______ my homework.|had finished|finish|was finishing
+m: Vن|The sun comes up at ______.|sunrise|sunset|tide
+m: Vن|Low land between two mountains is a ______.|valley|field|bay
+m: Vم|We watched the beautiful ______ from the top of Jebel Shams.|scenery|tide|field
+m: Vم|Part of the sea with land around it is a ______.|bay|wood|valley
+w: Rن1|After they had walked for two hours, the children reached a beautiful valley. They sat down and ate their lunch. // Statement: The children ate lunch before they started walking. (True or False?) => False
+w: Vن1|Complete: The opposite of north is ______. => south
+l: Wم5|Write a short paragraph (about 50 words) describing a beautiful place in Oman. Use geography words and one past perfect sentence. => Name and location ;; Geography vocabulary ;; One past perfect sentence ;; Description ;; About 50 words
+
+#2635
+s: Class Book pp. 50–51 — Unit 2 Lesson 6: Unusual sports
+m: Vن|The person you play against is your ______.|opponent|referee|partner
+m: Vم|The match has two ______ of 15 minutes.|halves|halfs|halls
+m: Vم|In underwater hockey, players push the puck along the ______ of the pool.|bottom|top|stick
+m: Vم|The skateboarder did some amazing ______.|tricks|sticks|halves
+m: Vن|A sport that is not common is ______.|unusual|usual|popular
+m: Gم|Underwater hockey ______ first played in England.|was|is|were
+m: Gن|Players ______ a small stick to hit the puck.|use|uses|using
+m: Gم|If you ______ to try something new, play an unusual sport.|want|will want|wanted
+w: Rن1|Underwater hockey was invented in England in 1954. Players wear masks and fins and push a puck along the bottom of a swimming pool. // Statement: Underwater hockey is played on ice. (True or False?) => False
+w: Vن1|Complete the word: (noun) a long thin piece of wood. e.g. Players use a short st___. => stick
+l: Wم5|Write a poster text (about 50 words) about an unusual sport for PE lessons. => Name of the sport ;; Where it comes from ;; How to play ;; Equipment ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الثاني
+m: Gم|It was ______ in the 20th century.|invented|inventing|invent
+
+#2636
+s: Class Book pp. 52–53 — Unit 2 Lesson 7: Saying what you prefer
+m: Gن|Would you rather ______ caving or abseiling?|go|to go|going
+m: Gن|I'd rather ______ at home today.|stay|to stay|staying
+m: Gم|______ you rather play football or basketball?|Would|Do|Are
+m: Gم|I prefer diving ______ surfing.|to|than|from
+m: Vن|"I'd rather go caving" means I ______ to go caving.|prefer|refuse|forget
+m: Vم|A holiday with exciting activities is an ______ holiday.|adventure|business|ordinary
+m: Vم|A: Let's go paragliding. B: I think we ______ go. It's windy today.|shouldn't|should|must
+m: Gم|I'd rather not ______ rock climbing – I'm afraid of heights.|go|to go|going
+w: Rن1|Lucas: Would you rather go caving, abseiling or horse riding? Frank: I'd rather go caving. I've never been inside a cave. // Statement: Frank chooses horse riding. (True or False?) => False
+w: Gم1|Complete with ONE word: I'd ______ go to the beach than the mall. => rather
+l: Wم5|Write a short dialogue (about 50 words) where two friends choose an adventure holiday activity. Use Would you rather …? and I'd rather …. => Two speakers ;; At least two choices ;; would rather used correctly ;; Reasons ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الثاني
+m: Gم|Today, television ______ the most important invention in the world.|is|was|were
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الأول (المدارس الصباحية)
+m: Vم|My first horse- riding was a great ______ for me and my friends.|adventure|sunrise|climate
+
+#2637
+s: Class Book pp. 54 — Unit 2 Lesson 8: Brochures and adverts
+m: Vن|The views from the mountain are ______ – extremely beautiful.|stunning|gentle|expert
+m: Vم|Our ______ instructors will teach you to dive safely.|expert|gentle|stunning
+m: Vم|This is a ______ walk for beginners – it's easy and slow.|gentle|terrific|expert
+m: Vم|The weather was ______ for a picnic – the best possible.|perfect|gentle|expert
+m: Vن|A small magazine that advertises holidays is a ______.|brochure|diary|report
+m: Gم|If you ______ adventure, this holiday is for you!|love|will love|loved
+m: Gن|You ______ need any experience – we will teach you.|don't|doesn't|aren't
+m: Gم|This is the ______ holiday you will ever have!|best|better|good
+m: Rم|Desert Adventure Camp: Try sandboarding on stunning dunes, ride camels at sunset and sleep under the stars. Our expert guides make sure you are safe. // Who keeps visitors safe at the camp?|expert guides|the camels|other visitors
+w: Rن1|Brochures use strong adjectives like "terrific" and "stunning" to persuade people. // Statement: Brochures try to persuade people. (True or False?) => True
+l: Wم5|Write a short advert (about 50 words) for an adventure holiday in Oman. Use strong adjectives. => Name of the place ;; Activities ;; Strong adjectives ;; Persuasive language ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الأول (المدارس الصباحية)
+m: Gم|The tour guide shared the history of each place, making the experience even ______ interesting.|more|much|most
+
+#2638
+s: Class Book pp. 55 — Unit 2 Lesson 9: Writing a brochure
+m: Vم|The food was very good. → The food was ______.|terrific|gentle|tiny
+m: Vم|The waves are very big. → The waves are ______.|enormous|tiny|perfect
+m: Vم|The film was very bad. → The film was ______.|awful|stunning|terrific
+m: Vن|A title for part of a text is a ______.|heading|signature|greeting
+m: Vم|Brochures ______ people to visit a place.|persuade|prevent|punish
+m: Gم|Come and ______ our stunning beaches!|enjoy|enjoying|to enjoy
+m: Gن|You will ______ fantastic memories.|have|has|having
+m: Gم|Don't ______ this terrific holiday!|miss|missing|to miss
+w: Rن1|A good brochure has a title, headings, pictures and short paragraphs with strong adjectives. // Statement: A brochure should have very long paragraphs and no pictures. (True or False?) => False
+w: Vن1|Write a strong adjective for "very tired". => exhausted
+l: Wم5|Write a brochure (about 60 words) for an outdoor activity in your area. => Title ;; Headings ;; Activities and information ;; Strong adjectives ;; About 60 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الأول (المدارس المسائية)
+m: Vم|While we enjoy the benefits; we must be careful of the ______ effects.|negative|outdoor|excellent
+
+#2639
+s: Class Book pp. 56 — Unit 2 Lesson 10: Unit 2 review
+m: Gم|After we ______ the mountain, we took photos.|had climbed|have climbed|climb
+m: Gن|She hurt ______ while she was surfing.|herself|himself|itself
+m: Gم|I'd rather ______ horse riding.|go|going|to go
+m: Vم|We drank some ______ juice after the race.|ice-cold|old-fashioned|world-famous
+m: Vن|Exploring caves is ______.|caving|diving|surfing
+m: Vم|The ______ from the top of the hill was stunning.|scenery|tide|opponent
+m: Gم|They enjoyed ______ at the camp.|themselves|ourselves|yourself
+w: Rن1|Comment: "I go rock climbing every Friday with my cousins. I always wear a helmet." – Hamed // Statement: Hamed does an extreme sport at the moment. (True or False?) => True
+w: Gم1|Complete with ONE word: When I arrived, the race ______ already started. => had
+l: Wم5|Write a comment (about 50 words) for the WOW! Magazine about your favourite sport. => Name of sport ;; Why you like it ;; Unit vocabulary ;; Correct grammar ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الأول (المدارس الصباحية)
+m: Gم|If I had my own horse, I ______ practice every day.|would|can|will
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الأول (المدارس المسائية)
+m: Gم|I reminded her that she should check the bag ______.|herself|himself|itself
+
+#2640
+s: Class Book pp. 66–68 — Unit 3 Lesson 1: Shopping
+m: Vن|Keep the ______ – you need it if you want a refund.|receipt|queue|till
+m: Vن|There was a long ______ of people at the till.|queue|receipt|refund
+m: Vم|The shoes were too small, so I ______ them for a bigger size.|exchanged|refunded|queued
+m: Vم|You can pay with ______ – just touch your card on the machine.|contactless|second-hand|receipt
+m: Vم|I bought a ______ bike – it was my cousin's before.|second-hand|on sale|contactless
+m: Gن|The shop assistant ______ me a refund.|gave|give|giving
+m: Gم|How much ______ these jeans cost?|do|does|is
+m: Gم|I ______ shopping online every week.|go|goes|going
+w: Rن1|Mona bought a dress but it was the wrong size. She took it back with the receipt and the shop assistant exchanged it for a smaller one. // Statement: Mona got her money back. (True or False?) => False
+w: Vن1|Complete: The place where you pay in a shop is the t___. => till
+l: Wم5|Write a short paragraph (about 50 words) about your shopping habits: where you shop, how you pay and what you buy. => Where you shop ;; How you pay ;; What you buy ;; Shopping vocabulary ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الثاني
+m: Vم|By the 1950s, television became ______ in many houses.|available|rare|special
+
+#2641
+s: Class Book pp. 69 — Unit 3 Lesson 2: Online shopping – yes or no?
+m: Vن|A: Can I borrow your new phone for a week? B: ______! I need it.|No chance|That's true|Me too
+m: Vم|A: You're in my seat! B: Oh, sorry. A: ______! You can sit there.|I'm only kidding|No chance|I told you so
+m: Vم|A: Online shopping is fast. B: ______. And it's easy too.|That's true|No chance|Not really
+m: Vن|Bringing goods to your home is ______.|delivery|refund|receipt
+m: Gن|Rosie ______ online shopping because it's easy.|likes|like|liking
+m: Gم|Manar prefers ______ to the shops.|going|go|goes
+m: Gم|______ you ever bought clothes online?|Have|Did|Are
+m: Gم|I don't buy shoes online because I can't ______ them on.|try|tried|trying
+w: Rن1|Rosie: I buy everything online – it's quick! Manar: I prefer real shops. I like to see and touch things before I buy them. // Statement: Both girls prefer online shopping. (True or False?) => False
+w: Vن1|Complete: I'm only k______! (joking) => kidding
+l: Wم5|Write a short paragraph (about 50 words): Do you prefer online shopping or shopping in real shops? Why? => Clear preference ;; At least two reasons ;; Shopping vocabulary ;; Linking words ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الأول (المدارس المسائية)
+m: Gم|We both ______ satisfied.|were|is|was
+
+#2642
+s: Class Book pp. 70–71 — Unit 3 Lesson 3: Zero and first conditional
+m: Gن|If you heat water to 100°C, it ______.|boils|will boil|boiled
+m: Gن|If we all buy everything online, shops ______ close.|will|would|are
+m: Gم|If it ______ tomorrow, we will go to the mall.|rains|will rain|rained
+m: Gم|If I need something, I ______ my parents to buy it online.|ask|will asked|asking
+m: Gم|If you don't keep the receipt, you ______ get a refund.|won't|don't will|aren't
+m: Vم|In "If it rains, we'll stay home", "we'll stay home" is the ______.|result|condition|question
+m: Vم|We use the first conditional for ______ future situations.|possible|past|impossible
+m: Vن|"If you press this button, the light goes on" is a ______ conditional.|zero|first|second
+w: Rن1|If you shop on Black Friday, you usually get big discounts. If you wait until next week, the prices will go up again. // Statement: Prices will go down next week. (True or False?) => False
+w: Gم1|Complete with ONE word: If you ______ (study), you will pass the test. => study
+l: Wم5|Write five sentences (about 50 words) about shopping using the zero and first conditional. => At least two zero conditionals ;; At least two first conditionals ;; Correct tenses ;; Shopping vocabulary ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الثاني
+m: Gم|The first successful television was created ______ John Logie Baird in 1926.|by|at|in
+
+#2643
+s: Class Book pp. 72–73 — Unit 3 Lesson 4: Book Club: A poem about imaginary situations
+m: Vن|A group of lines in a poem is a ______.|verse|paragraph|chapter
+m: Vم|"Night" and "light" ______.|rhyme|repeat|refund
+m: Vم|Something that exists only in your mind is ______.|imaginary|second-hand|real
+m: Gن|Would you like ______ into space?|to go|go|going
+m: Gم|A: Would you like to travel the world? B: Yes, I ______.|would|do|like
+m: Gم|I'd like ______ the Earth from space.|to see|see|seeing
+m: Gم|If I ______ a bird, I would fly over the mountains.|were|am|will be
+m: Rم|I'd like to fly to the moon, / And dance among the stars, / I'd like to swim with dolphins, / And drive the fastest cars. // What would the speaker like to do in the sea?|swim with dolphins|drive fast cars|dance among the stars
+w: Rن1|A poem is divided into verses, and each verse has several lines. // Statement: A verse is a single word. (True or False?) => False
+w: Vن1|Complete: Words that end with the same sound r______. => rhyme
+l: Wم5|Write a short poem (four lines) beginning with "I'd like to …". => Four lines ;; "I'd like to" used correctly ;; Imaginary situations ;; At least one rhyme ;; Neat presentation
+
+#2644
+s: Class Book pp. 74–75 — Unit 3 Lesson 5: Imaginary situations and the second conditional
+m: Gن|If I had a lot of money, I ______ donate to a charity.|would|will|am
+m: Gم|If I ______ an inventor, I would make a flying car.|were|am|will be
+m: Gم|If she could travel back in time, she ______ visit Ancient Egypt.|would|will|does
+m: Gم|What would you do if you ______ a wish?|had|have|will have
+m: Gم|If I ______ the principal, I would give students longer breaks.|were|am|be
+m: Vن|A person who makes new things is an ______.|inventor|principal|customer
+m: Vم|Giving money to help people is ______ to a charity.|donating|exchanging|refunding
+m: Vم|The head of a school is the school ______.|principal|inventor|character
+w: Rن1|If Hamad could become a film character, he would choose a superhero. He would use his powers to help people in danger. // Statement: Hamad would like to be a villain. (True or False?) => False
+w: Gم1|Complete with ONE word: If I ______ you, I would save your money. => were
+l: Wم5|Write a short paragraph (about 50 words): What would you do if you had a lot of money? Use the second conditional. => At least three second conditional sentences ;; Imaginary situation vocabulary ;; Reasons ;; Correct form ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الأول (المدارس المسائية)
+m: Vم|This approach will help us learn more ______ the natural world.|about|very|too
+
+#2645
+s: Class Book pp. 76–77 — Unit 3 Lesson 6: Interesting markets around the world
+m: Vن|Bags and shoes are often made of ______.|leather|bamboo|plastic only
+m: Vم|A ______ makes snakes move to music.|snake charmer|shop assistant|customer
+m: Vم|The old town is very ______ – pleasant and attractive.|charming|enormous|second-hand
+m: Vم|In a ______ market, people sell fruit from boats.|floating|flying|frozen
+m: Vن|A small table where things are sold in a market is a ______.|stall|till|queue
+m: Gم|The market opens at sunrise and ______ at sunset.|closes|close|closing
+m: Gن|You can ______ spices, leather bags and jewellery there.|buy|buys|buying
+m: Gم|It is ______ market I have ever seen.|the most interesting|more interesting|most interest
+m: Rم|In Marrakech's main square, you can watch snake charmers and buy leather bags. The market is busiest after sunset, when food stalls open. // When is the market busiest?|after sunset|at sunrise|at midday
+w: Rن1|Muttrah Souq in Muscat is one of the oldest markets in the Arab world. You can buy frankincense, silver and textiles there. // Statement: Muttrah Souq is a new market. (True or False?) => False
+l: Wم5|Write a short paragraph (about 50 words) about a market you have visited. => Name and place ;; What you can buy ;; Description with adjectives ;; Your opinion ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2024/2025 — الدور الأول (المدارس المسائية)
+m: Vم|Many people have … the amazing advancements we’ve made, but ______ these tools can also create problems.|sometimes|because|some
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الأول (المدارس المسائية)
+m: Vم|Many jackets were on ______,so the shop was full of shoppers who wanted to buy new clothes.|sale|bus|school
+
+#2646
+s: Class Book pp. 78–79 — Unit 3 Lesson 7: Making a complaint
+m: Gن|I'm afraid I have a ______ about this jacket.|complaint|complain|complaining
+m: Gم|Please ______ I have a refund?|could|would|will
+m: Gم|I'd like ______ this shirt, please. It's the wrong size.|to exchange|exchange|exchanging
+m: Vم|There is a dirty mark on it – a ______.|stain|torn|refund
+m: Vم|My new bag has a hole in it. It's ______.|torn|stained|charming
+m: Vن|The screen is ______. It doesn't work.|broken|second-hand|on sale
+m: Vم|"I'm afraid …" is a ______ way to say there is a problem.|polite|rude|funny
+m: Gم|If it were my shop, I ______ give you a refund.|would|will|do
+w: Rن1|Woman: I'm afraid I have a complaint. This jacket has a stain and one button is missing. Could I have a refund? Assistant: I'm sorry. Of course. // Statement: The jacket has two problems. (True or False?) => True
+w: Vن1|Complete: Please could I have a r______? (money back) => refund
+l: Wم5|Write a short dialogue (about 50 words) between a customer and a shop assistant about a broken item. => Polite complaint ;; Description of the problem ;; Request (refund/exchange) ;; Assistant's reply ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الأول (المدارس الصباحية)
+m: Vم|These activities give joy and ______.|fun|stress|sadness
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الأول (المدارس المسائية)
+m: Gم|The assistant said, “You can get a … if the size is wrong,” and later I told my mother that the assistant ______ we could return it.|said|say|saying
+
+#2647
+s: Class Book pp. 80 — Unit 3 Lesson 8: Reading emails
+m: Vن|The aquarium has an ______ tunnel where you can see sharks.|underwater|enormous|jealous
+m: Vم|The whale was ______ – very, very big.|enormous|embarrassed|jealous
+m: Vم|I felt ______ when I fell over in front of everyone.|embarrassed|incredible|enormous
+m: Vم|My sister was ______ because I got a new phone and she didn't.|jealous|incredible|underwater
+m: Vم|The fireworks were ______! I couldn't believe my eyes.|incredible|embarrassed|jealous
+m: Gن|Last week we ______ to Dubai Aquarium.|went|go|gone
+m: Gم|We ______ never seen such big fish before.|had|have|did
+m: Gم|I'm writing ______ tell you about my holiday.|to|for|about
+w: Rن1|Subject: My amazing holiday! Hi Kamla, Guess what? I swam with dolphins in Musandam last week! It was incredible. Write soon, Zainab // Statement: This email is formal. (True or False?) => False
+w: Vن1|Complete: The title of an email is the s______ line. => subject
+l: Wم5|Write a short email (about 60 words) to a friend about a great day out. => Greeting ;; What you did (past tenses) ;; Feelings with adjectives ;; Closing ;; About 60 words
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الأول (المدارس الصباحية)
+m: Gم|I was excited because I ______ never tried it before.|had|have|did
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الأول (المدارس المسائية)
+m: Vم|Yesterday, I went ______ with my sister to a big mall.|shopping|reading|sleeping
+
+#2648
+s: Class Book pp. 81 — Unit 3 Lesson 9: Writing an email
+m: Gم|You won't get a refund ______ you have the receipt.|unless|if|because
+m: Gم|______ you study, you won't pass the test.|Unless|If|When
+m: Gم|I'll come to the party unless it ______.|rains|will rain|rained
+m: Vن|"Hi Kamla," is the ______ of the email.|greeting|closing|subject line
+m: Vن|"Write soon!" is a ______.|closing|greeting|subject
+m: Vم|The best ______ line for a holiday email is "My amazing trip!".|subject|closing|first
+m: Gن|I'm ______ forward to seeing you.|looking|look|looks
+m: Gم|Unless you ______ the shop now, it will be closed.|go to|will go to|went to
+w: Rن1|"Unless" means "if … not". For example, "Unless you hurry, you'll be late" means "If you don't hurry, you'll be late". // Statement: "Unless" means "because". (True or False?) => False
+w: Gم1|Complete with ONE word: I won't buy it ______ it's on sale. => unless
+l: Wم5|Write an informal email (about 60 words) to a friend inviting them to go shopping with you. Use "unless" once. => Subject line and greeting ;; Invitation with details ;; "unless" used correctly ;; Friendly closing ;; About 60 words
+
+#2649
+s: Class Book pp. 82 — Unit 3 Lesson 10: Unit 3 review
+m: Gم|If I won a lot of money, I ______ save half of it.|would|will|am
+m: Gن|If you don't pay, you ______ get the item.|won't|wouldn't|don't
+m: Gم|______ you keep the receipt, you can't get a refund.|Unless|If|When
+m: Gن|If you mix blue and yellow, you ______ green.|get|will got|got
+m: Vم|I want to ______ money to buy a new laptop next year.|save|spend|waste
+m: Vن|I exchanged the shirt because it was ______.|torn|charming|incredible
+m: Vم|We waited in a long ______ to pay.|queue|stall|receipt
+w: Rن1|Comment: "I don't like shopping. Shops are crowded and noisy. I prefer to save my money." – Yaqoob // Statement: Yaqoob loves shopping. (True or False?) => False
+w: Gم1|Complete with ONE word: If I ______ (be) you, I would buy the cheaper phone. => were
+l: Wم5|Write a comment (about 50 words) for the WOW! Magazine: Do you prefer to spend or save your money? Why? => Clear preference ;; Reasons ;; At least one conditional ;; Unit vocabulary ;; About 50 words
+s: اختبار الوزارة للصف الثامن 2025/2026 — الدور الأول (المدارس المسائية)
+m: Vم|At the counter, there was a long ______ of customers.|queue|road|chair

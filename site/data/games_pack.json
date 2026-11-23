@@ -12868,5 +12868,1364 @@
     "answer": "تجعل الألكينات أنشط من الألكانات وتشارك في تفاعلات الإضافة."
    }
   ]
+ },
+ "2620": {
+  "claims": [
+   {
+    "text": "Recycling helps the environment.",
+    "true": true,
+    "why": "We use things again instead of throwing them away."
+   },
+   {
+    "text": "Destroying the rainforests is a solution.",
+    "true": false,
+    "why": "It is a problem."
+   },
+   {
+    "text": "Renewable energy comes from the sun and wind.",
+    "true": true,
+    "why": "It does not run out."
+   },
+   {
+    "text": "Wasting energy protects our planet.",
+    "true": false,
+    "why": "It harms our planet."
+   }
+  ],
+  "links": [
+   {
+    "a": "Switch off lights",
+    "b": "Save energy",
+    "answer": "We use less electricity."
+   },
+   {
+    "a": "Plant trees",
+    "b": "Cleaner air",
+    "answer": "Trees clean the air."
+   }
+  ],
+  "sequence": {
+   "title": "Recycling a plastic bottle",
+   "steps": [
+    "Use the bottle",
+    "Put it in the recycling bin",
+    "It goes to a factory",
+    "It becomes something new"
+   ]
+  }
+ },
+ "2621": {
+  "claims": [
+   {
+    "text": "\"Brilliant!\" shows you are pleased.",
+    "true": true,
+    "why": "It reacts to good news."
+   },
+   {
+    "text": "\"Me too!\" means you disagree.",
+    "true": false,
+    "why": "It means you feel the same."
+   },
+   {
+    "text": "The children want to save energy at school.",
+    "true": true,
+    "why": "That is the competition."
+   },
+   {
+    "text": "\"I know!\" can show you agree.",
+    "true": true,
+    "why": "It shows agreement."
+   }
+  ],
+  "links": [
+   {
+    "a": "Good news",
+    "b": "Brilliant!",
+    "answer": "We show we are pleased."
+   },
+   {
+    "a": "I feel the same",
+    "b": "Me too!",
+    "answer": "We share the feeling."
+   }
+  ],
+  "sequence": {
+   "title": "Planning for the competition",
+   "steps": [
+    "Read about the competition",
+    "Make a list of ideas",
+    "Choose the best ideas",
+    "Start saving energy"
+   ]
+  }
+ },
+ "2622": {
+  "claims": [
+   {
+    "text": "\"You mustn't run\" means running is not allowed.",
+    "true": true,
+    "why": "mustn't = prohibition."
+   },
+   {
+    "text": "\"You needn't\" means you must not.",
+    "true": false,
+    "why": "It means it is not necessary."
+   },
+   {
+    "text": "After a modal verb we use the base form.",
+    "true": true,
+    "why": "must close, should recycle."
+   },
+   {
+    "text": "\"He musts go\" is correct.",
+    "true": false,
+    "why": "Modals don't take -s."
+   }
+  ],
+  "links": [
+   {
+    "a": "It's a rule",
+    "b": "must",
+    "answer": "A strong obligation."
+   },
+   {
+    "a": "It's not necessary",
+    "b": "needn't",
+    "answer": "No obligation."
+   }
+  ],
+  "sequence": {
+   "title": "Making a rule",
+   "steps": [
+    "Choose the subject (You / We)",
+    "Choose the modal (must / mustn't)",
+    "Add the base verb",
+    "Add the rest of the sentence"
+   ]
+  }
+ },
+ "2623": {
+  "claims": [
+   {
+    "text": "A diary is usually written with \"I\".",
+    "true": true,
+    "why": "It is personal writing."
+   },
+   {
+    "text": "\"Get into\" means leave.",
+    "true": false,
+    "why": "It means enter."
+   },
+   {
+    "text": "Phrasal verbs can have new meanings.",
+    "true": true,
+    "why": "get up = leave your bed."
+   },
+   {
+    "text": "\"Get onto the bus\" is correct.",
+    "true": true,
+    "why": "We get onto buses and trains."
+   }
+  ],
+  "links": [
+   {
+    "a": "Storm",
+    "b": "Get under the table",
+    "answer": "To stay safe."
+   },
+   {
+    "a": "Car",
+    "b": "Get into",
+    "answer": "Enter a car."
+   }
+  ],
+  "sequence": {
+   "title": "Writing a diary entry",
+   "steps": [
+    "Write the date",
+    "Say what happened first",
+    "Say what happened next",
+    "Say how you felt"
+   ]
+  }
+ },
+ "2624": {
+  "claims": [
+   {
+    "text": "A drought is a long time without rain.",
+    "true": true,
+    "why": "From the vocabulary."
+   },
+   {
+    "text": "Reported commands use \"told + person + to\".",
+    "true": true,
+    "why": "He told me to sit."
+   },
+   {
+    "text": "\"She asked me where did I live\" is correct.",
+    "true": false,
+    "why": "She asked me where I lived."
+   },
+   {
+    "text": "A tsunami is a type of very hot weather.",
+    "true": false,
+    "why": "It is a huge wave."
+   }
+  ],
+  "links": [
+   {
+    "a": "Earthquake under the sea",
+    "b": "Tsunami",
+    "answer": "It causes a huge wave."
+   },
+   {
+    "a": "No rain for months",
+    "b": "Drought",
+    "answer": "Plants and animals suffer."
+   }
+  ],
+  "sequence": {
+   "title": "Reporting a question",
+   "steps": [
+    "Start with \"She asked (me)\"",
+    "Add the question word",
+    "Add the subject",
+    "Add the verb in the past"
+   ]
+  }
+ },
+ "2625": {
+  "claims": [
+   {
+    "text": "Polar bears live in the Arctic.",
+    "true": true,
+    "why": "They hunt on the sea ice."
+   },
+   {
+    "text": "Extinct animals still exist.",
+    "true": false,
+    "why": "Extinct means gone forever."
+   },
+   {
+    "text": "Giant pandas eat bamboo.",
+    "true": true,
+    "why": "Bamboo is their main food."
+   },
+   {
+    "text": "The Arabian tahr lives in China.",
+    "true": false,
+    "why": "It lives in the mountains of Oman."
+   }
+  ],
+  "links": [
+   {
+    "a": "Melting sea ice",
+    "b": "Polar bears in danger",
+    "answer": "They can't hunt."
+   },
+   {
+    "a": "Cutting bamboo forests",
+    "b": "Pandas in danger",
+    "answer": "They lose their food."
+   }
+  ],
+  "sequence": {
+   "title": "Making an action plan",
+   "steps": [
+    "Choose an animal",
+    "Find out why it is in danger",
+    "Think of solutions",
+    "Present your plan"
+   ]
+  }
+ },
+ "2626": {
+  "claims": [
+   {
+    "text": "\"If I were you, I would…\" gives advice.",
+    "true": true,
+    "why": "It is an advice phrase."
+   },
+   {
+    "text": "The \"k\" in \"knee\" is pronounced.",
+    "true": false,
+    "why": "It is silent."
+   },
+   {
+    "text": "\"You ought to rest\" means you should rest.",
+    "true": true,
+    "why": "ought to = should."
+   },
+   {
+    "text": "\"Why don't you to go?\" is correct.",
+    "true": false,
+    "why": "Why don't you go?"
+   }
+  ],
+  "links": [
+   {
+    "a": "Problem: I'm tired",
+    "b": "Advice: go to bed earlier",
+    "answer": "We suggest a solution."
+   },
+   {
+    "a": "write",
+    "b": "silent w",
+    "answer": "We don't pronounce w."
+   }
+  ],
+  "sequence": {
+   "title": "Giving advice",
+   "steps": [
+    "Listen to the problem",
+    "Show you understand",
+    "Give advice",
+    "Give a reason"
+   ]
+  }
+ },
+ "2627": {
+  "claims": [
+   {
+    "text": "A tonne is 1,000 kilograms.",
+    "true": true,
+    "why": "From the Words in context."
+   },
+   {
+    "text": "A report is a made-up story.",
+    "true": false,
+    "why": "It gives facts."
+   },
+   {
+    "text": "Diagrams help us understand reports.",
+    "true": true,
+    "why": "They show information clearly."
+   },
+   {
+    "text": "Plastic breaks down in a few days.",
+    "true": false,
+    "why": "It takes hundreds of years."
+   }
+  ],
+  "links": [
+   {
+    "a": "Plastic bags",
+    "b": "End up in the sea",
+    "answer": "They harm sea animals."
+   },
+   {
+    "a": "Diagrams",
+    "b": "Clear information",
+    "answer": "They show numbers quickly."
+   }
+  ],
+  "sequence": {
+   "title": "Reading a report",
+   "steps": [
+    "Read the title",
+    "Look at the diagrams",
+    "Read the text",
+    "Check true or false"
+   ]
+  }
+ },
+ "2628": {
+  "claims": [
+   {
+    "text": "\"However\" usually starts a new sentence.",
+    "true": true,
+    "why": "It is followed by a comma."
+   },
+   {
+    "text": "A report has no title.",
+    "true": false,
+    "why": "It needs a clear title."
+   },
+   {
+    "text": "\"While\" can join two contrasting ideas in one sentence.",
+    "true": true,
+    "why": "I like X while he likes Y."
+   },
+   {
+    "text": "Surveys ask only one person.",
+    "true": false,
+    "why": "They ask many people."
+   }
+  ],
+  "links": [
+   {
+    "a": "Survey",
+    "b": "Diagram",
+    "answer": "We show the results in a diagram."
+   },
+   {
+    "a": "Two different ideas",
+    "b": "while / however",
+    "answer": "We contrast them."
+   }
+  ],
+  "sequence": {
+   "title": "Writing a report",
+   "steps": [
+    "Write a title",
+    "Write an introduction",
+    "Give the results",
+    "Write a conclusion",
+    "Check your work"
+   ]
+  }
+ },
+ "2629": {
+  "claims": [
+   {
+    "text": "\"You mustn't to go\" is correct.",
+    "true": false,
+    "why": "You mustn't go."
+   },
+   {
+    "text": "Reported questions use statement word order.",
+    "true": true,
+    "why": "She asked where I lived."
+   },
+   {
+    "text": "A heatwave is very hot weather.",
+    "true": true,
+    "why": "From the unit."
+   },
+   {
+    "text": "\"Get onto the car\" is correct.",
+    "true": false,
+    "why": "Get into the car."
+   }
+  ],
+  "links": [
+   {
+    "a": "Polar bear",
+    "b": "Melting sea ice",
+    "answer": "Climate change harms its home."
+   },
+   {
+    "a": "School rules",
+    "b": "must / mustn't",
+    "answer": "We use modals of obligation."
+   }
+  ],
+  "sequence": {
+   "title": "Unit 1 journey",
+   "steps": [
+    "The environment",
+    "Saving energy",
+    "Rules (modals)",
+    "Extreme weather",
+    "Reports"
+   ]
+  }
+ },
+ "2630": {
+  "claims": [
+   {
+    "text": "Caving means exploring caves.",
+    "true": true,
+    "why": "From the vocabulary."
+   },
+   {
+    "text": "Paragliding happens under water.",
+    "true": false,
+    "why": "It happens in the air."
+   },
+   {
+    "text": "Extreme sports can be dangerous.",
+    "true": true,
+    "why": "They need safety equipment."
+   },
+   {
+    "text": "You need a rope for abseiling.",
+    "true": true,
+    "why": "You go down a rock on a rope."
+   }
+  ],
+  "links": [
+   {
+    "a": "Sand dunes",
+    "b": "Sandboarding",
+    "answer": "You slide down on a board."
+   },
+   {
+    "a": "Rope",
+    "b": "Abseiling",
+    "answer": "You go down a cliff."
+   }
+  ],
+  "sequence": {
+   "title": "Trying a new sport safely",
+   "steps": [
+    "Choose the sport",
+    "Find a trainer",
+    "Wear safety equipment",
+    "Practise slowly"
+   ]
+  }
+ },
+ "2631": {
+  "claims": [
+   {
+    "text": "\"Not really\" is a polite no.",
+    "true": true,
+    "why": "It means not very much."
+   },
+   {
+    "text": "A helmet protects your feet.",
+    "true": false,
+    "why": "It protects your head."
+   },
+   {
+    "text": "\"I told you so!\" means you predicted it.",
+    "true": true,
+    "why": "You said it would happen."
+   },
+   {
+    "text": "Safety equipment is not needed in extreme sports.",
+    "true": false,
+    "why": "It is very important."
+   }
+  ],
+  "links": [
+   {
+    "a": "Helmet",
+    "b": "Head safety",
+    "answer": "It protects your head."
+   },
+   {
+    "a": "Rope",
+    "b": "Rock climbing safety",
+    "answer": "It stops you falling."
+   }
+  ],
+  "sequence": {
+   "title": "Staying safe",
+   "steps": [
+    "Learn the rules",
+    "Check the equipment",
+    "Wear a helmet",
+    "Follow the trainer"
+   ]
+  }
+ },
+ "2632": {
+  "claims": [
+   {
+    "text": "\"I hurt myself\" is correct.",
+    "true": true,
+    "why": "Subject = object."
+   },
+   {
+    "text": "\"Theirselves\" is a correct word.",
+    "true": false,
+    "why": "It is themselves."
+   },
+   {
+    "text": "Plural reflexive pronouns end in -selves.",
+    "true": true,
+    "why": "ourselves, yourselves, themselves."
+   },
+   {
+    "text": "\"She enjoyed himself\" is correct.",
+    "true": false,
+    "why": "She enjoyed herself."
+   }
+  ],
+  "links": [
+   {
+    "a": "I",
+    "b": "myself",
+    "answer": "Singular -self."
+   },
+   {
+    "a": "They",
+    "b": "themselves",
+    "answer": "Plural -selves."
+   }
+  ],
+  "sequence": {
+   "title": "Choosing a reflexive pronoun",
+   "steps": [
+    "Find the subject",
+    "Is it singular or plural?",
+    "Add -self or -selves",
+    "Check the sentence"
+   ]
+  }
+ },
+ "2633": {
+  "claims": [
+   {
+    "text": "Compound adjectives often use a hyphen.",
+    "true": true,
+    "why": "ice-cold, home-made."
+   },
+   {
+    "text": "\"A nine-hours flight\" is correct.",
+    "true": false,
+    "why": "A nine-hour flight."
+   },
+   {
+    "text": "Explorers travel to discover new places.",
+    "true": true,
+    "why": "From the vocabulary."
+   },
+   {
+    "text": "Ice-cold means very hot.",
+    "true": false,
+    "why": "It means very cold."
+   }
+  ],
+  "links": [
+   {
+    "a": "Explorers in the past",
+    "b": "Old-fashioned equipment",
+    "answer": "They had no modern technology."
+   },
+   {
+    "a": "Long journey",
+    "b": "Nine-hour",
+    "answer": "It lasted nine hours."
+   }
+  ],
+  "sequence": {
+   "title": "An adventure story",
+   "steps": [
+    "Introduce the characters",
+    "Start the journey",
+    "A problem happens",
+    "Solve the problem",
+    "Happy ending"
+   ]
+  }
+ },
+ "2634": {
+  "claims": [
+   {
+    "text": "The past perfect uses had + past participle.",
+    "true": true,
+    "why": "had eaten, had gone."
+   },
+   {
+    "text": "A valley is part of the sea.",
+    "true": false,
+    "why": "It is low land between hills."
+   },
+   {
+    "text": "Sunrise is when the sun goes down.",
+    "true": false,
+    "why": "That is sunset."
+   },
+   {
+    "text": "The past perfect shows the earlier action.",
+    "true": true,
+    "why": "It happened first."
+   }
+  ],
+  "links": [
+   {
+    "a": "Mountains",
+    "b": "Valley",
+    "answer": "Low land between them."
+   },
+   {
+    "a": "Sea",
+    "b": "Bay / tide",
+    "answer": "Geography of the coast."
+   }
+  ],
+  "sequence": {
+   "title": "Making a past perfect sentence",
+   "steps": [
+    "Find the first action",
+    "Use had + past participle",
+    "Add the second action",
+    "Use the past simple"
+   ]
+  }
+ },
+ "2635": {
+  "claims": [
+   {
+    "text": "An opponent is the person you play against.",
+    "true": true,
+    "why": "From the vocabulary."
+   },
+   {
+    "text": "\"Halfs\" is the plural of half.",
+    "true": false,
+    "why": "It is halves."
+   },
+   {
+    "text": "Underwater hockey is played in a pool.",
+    "true": true,
+    "why": "At the bottom of the pool."
+   },
+   {
+    "text": "A poster should have very long paragraphs.",
+    "true": false,
+    "why": "It has short facts and pictures."
+   }
+  ],
+  "links": [
+   {
+    "a": "Underwater hockey",
+    "b": "Swimming pool",
+    "answer": "It is played at the bottom."
+   },
+   {
+    "a": "Poster",
+    "b": "PE lessons",
+    "answer": "To teach classmates a new sport."
+   }
+  ],
+  "sequence": {
+   "title": "Making a sport poster",
+   "steps": [
+    "Choose a sport",
+    "Find the facts",
+    "Draw or find pictures",
+    "Write short sentences",
+    "Present it"
+   ]
+  }
+ },
+ "2636": {
+  "claims": [
+   {
+    "text": "\"I'd rather go\" means I prefer to go.",
+    "true": true,
+    "why": "would rather = prefer."
+   },
+   {
+    "text": "\"I'd rather to go\" is correct.",
+    "true": false,
+    "why": "No \"to\" after would rather."
+   },
+   {
+    "text": "We say \"prefer A to B\".",
+    "true": true,
+    "why": "I prefer diving to surfing."
+   },
+   {
+    "text": "Frank chose horse riding.",
+    "true": false,
+    "why": "He chose caving."
+   }
+  ],
+  "links": [
+   {
+    "a": "Would you rather …?",
+    "b": "I'd rather …",
+    "answer": "Question and answer about preference."
+   },
+   {
+    "a": "Afraid of heights",
+    "b": "I'd rather not go climbing",
+    "answer": "A reason for a preference."
+   }
+  ],
+  "sequence": {
+   "title": "Choosing an activity",
+   "steps": [
+    "Ask: Would you rather …?",
+    "Listen to the answer",
+    "Give your preference",
+    "Agree on a plan"
+   ]
+  }
+ },
+ "2637": {
+  "claims": [
+   {
+    "text": "Brochures try to persuade people.",
+    "true": true,
+    "why": "They advertise holidays."
+   },
+   {
+    "text": "\"Stunning\" means ugly.",
+    "true": false,
+    "why": "It means extremely beautiful."
+   },
+   {
+    "text": "An expert has special skills.",
+    "true": true,
+    "why": "From the vocabulary."
+   },
+   {
+    "text": "A gentle walk is very difficult.",
+    "true": false,
+    "why": "Gentle means easy and calm."
+   }
+  ],
+  "links": [
+   {
+    "a": "Brochure",
+    "b": "Persuade",
+    "answer": "It wants you to buy or visit."
+   },
+   {
+    "a": "Expert guides",
+    "b": "Safety",
+    "answer": "They know how to keep you safe."
+   }
+  ],
+  "sequence": {
+   "title": "Reading a brochure",
+   "steps": [
+    "Read the title",
+    "Look at the pictures",
+    "Read quickly for the purpose",
+    "Find details for each person"
+   ]
+  }
+ },
+ "2638": {
+  "claims": [
+   {
+    "text": "\"Very terrific\" is a good phrase.",
+    "true": false,
+    "why": "Don't use very with strong adjectives."
+   },
+   {
+    "text": "Brochures use headings.",
+    "true": true,
+    "why": "They organise the information."
+   },
+   {
+    "text": "\"Enormous\" means very big.",
+    "true": true,
+    "why": "It is a strong adjective."
+   },
+   {
+    "text": "Planning is not needed before writing.",
+    "true": false,
+    "why": "Planning helps you write better."
+   }
+  ],
+  "links": [
+   {
+    "a": "very good",
+    "b": "terrific",
+    "answer": "A strong adjective."
+   },
+   {
+    "a": "Plan",
+    "b": "Better brochure",
+    "answer": "Ideas are organised."
+   }
+  ],
+  "sequence": {
+   "title": "Writing a brochure",
+   "steps": [
+    "Choose the activity",
+    "Plan headings",
+    "Write short sections",
+    "Add strong adjectives",
+    "Add pictures"
+   ]
+  }
+ },
+ "2639": {
+  "claims": [
+   {
+    "text": "\"She hurt himself\" is correct.",
+    "true": false,
+    "why": "She hurt herself."
+   },
+   {
+    "text": "The past perfect shows the earlier action.",
+    "true": true,
+    "why": "had + past participle."
+   },
+   {
+    "text": "\"I'd rather go\" means I prefer to go.",
+    "true": true,
+    "why": "would rather = prefer."
+   },
+   {
+    "text": "A valley is a type of sport.",
+    "true": false,
+    "why": "It is a geography word."
+   }
+  ],
+  "links": [
+   {
+    "a": "Rock climbing",
+    "b": "Helmet",
+    "answer": "Safety equipment."
+   },
+   {
+    "a": "Brochure",
+    "b": "Strong adjectives",
+    "answer": "They persuade readers."
+   }
+  ],
+  "sequence": {
+   "title": "Unit 2 journey",
+   "steps": [
+    "Extreme sports",
+    "Safety",
+    "Reflexive pronouns",
+    "Adventure story",
+    "Brochures"
+   ]
+  }
+ },
+ "2640": {
+  "claims": [
+   {
+    "text": "A receipt shows what you paid.",
+    "true": true,
+    "why": "Keep it for a refund."
+   },
+   {
+    "text": "A queue is a place where you pay.",
+    "true": false,
+    "why": "It is a line of people."
+   },
+   {
+    "text": "Second-hand things were used before.",
+    "true": true,
+    "why": "By someone else."
+   },
+   {
+    "text": "Exchange means get your money back.",
+    "true": false,
+    "why": "Exchange means swap for another item."
+   }
+  ],
+  "links": [
+   {
+    "a": "Wrong size",
+    "b": "Exchange",
+    "answer": "Get another size."
+   },
+   {
+    "a": "Receipt",
+    "b": "Refund",
+    "answer": "You need it to get money back."
+   }
+  ],
+  "sequence": {
+   "title": "Buying something in a shop",
+   "steps": [
+    "Choose the item",
+    "Wait in the queue",
+    "Pay at the till",
+    "Get a receipt"
+   ]
+  }
+ },
+ "2641": {
+  "claims": [
+   {
+    "text": "\"No chance!\" means definitely not.",
+    "true": true,
+    "why": "It is a strong refusal."
+   },
+   {
+    "text": "\"I'm only kidding\" means I'm serious.",
+    "true": false,
+    "why": "It means I'm joking."
+   },
+   {
+    "text": "Manar likes to touch things before buying them.",
+    "true": true,
+    "why": "She prefers real shops."
+   },
+   {
+    "text": "Online shopping always lets you try clothes on.",
+    "true": false,
+    "why": "You can't try them on."
+   }
+  ],
+  "links": [
+   {
+    "a": "Joke",
+    "b": "I'm only kidding!",
+    "answer": "We show it wasn't serious."
+   },
+   {
+    "a": "Agree",
+    "b": "That's true.",
+    "answer": "We accept the idea."
+   }
+  ],
+  "sequence": {
+   "title": "Buying online",
+   "steps": [
+    "Choose the item",
+    "Pay online",
+    "Wait for delivery",
+    "Receive the item"
+   ]
+  }
+ },
+ "2642": {
+  "claims": [
+   {
+    "text": "Zero conditional is for facts.",
+    "true": true,
+    "why": "If you heat ice, it melts."
+   },
+   {
+    "text": "We use \"will\" in the if-clause.",
+    "true": false,
+    "why": "If + present simple."
+   },
+   {
+    "text": "First conditional is for possible future situations.",
+    "true": true,
+    "why": "If it rains, we'll stay home."
+   },
+   {
+    "text": "\"If you heat water, it boils\" is a first conditional.",
+    "true": false,
+    "why": "It is a zero conditional (a fact)."
+   }
+  ],
+  "links": [
+   {
+    "a": "Fact",
+    "b": "Zero conditional",
+    "answer": "Always true."
+   },
+   {
+    "a": "Possible future",
+    "b": "First conditional",
+    "answer": "will + verb."
+   }
+  ],
+  "sequence": {
+   "title": "Making a first conditional",
+   "steps": [
+    "Start with If",
+    "Use the present simple",
+    "Add a comma",
+    "Use will + base verb"
+   ]
+  }
+ },
+ "2643": {
+  "claims": [
+   {
+    "text": "A verse is a group of lines.",
+    "true": true,
+    "why": "Poems are divided into verses."
+   },
+   {
+    "text": "\"Cat\" rhymes with \"dog\".",
+    "true": false,
+    "why": "They end with different sounds."
+   },
+   {
+    "text": "\"I'd like to go\" is correct.",
+    "true": true,
+    "why": "like to + base verb."
+   },
+   {
+    "text": "Imaginary means real.",
+    "true": false,
+    "why": "It exists only in the mind."
+   }
+  ],
+  "links": [
+   {
+    "a": "Poem",
+    "b": "Verses and lines",
+    "answer": "How a poem is organised."
+   },
+   {
+    "a": "Would you like …?",
+    "b": "Yes, I would.",
+    "answer": "Short answer."
+   }
+  ],
+  "sequence": {
+   "title": "Writing a short poem",
+   "steps": [
+    "Choose a topic",
+    "Write four lines",
+    "Make lines rhyme",
+    "Read it aloud"
+   ]
+  }
+ },
+ "2644": {
+  "claims": [
+   {
+    "text": "The second conditional is for imaginary situations.",
+    "true": true,
+    "why": "If I had wings, I would fly."
+   },
+   {
+    "text": "\"If I would have money\" is correct.",
+    "true": false,
+    "why": "If I had money."
+   },
+   {
+    "text": "\"If I were you\" is correct.",
+    "true": true,
+    "why": "were is used for all persons."
+   },
+   {
+    "text": "A principal is a person in a film.",
+    "true": false,
+    "why": "It is the head of a school."
+   }
+  ],
+  "links": [
+   {
+    "a": "A lot of money",
+    "b": "Donate to a charity",
+    "answer": "A kind imaginary choice."
+   },
+   {
+    "a": "Time machine",
+    "b": "Travel back in time",
+    "answer": "Go to the past."
+   }
+  ],
+  "sequence": {
+   "title": "Making a second conditional",
+   "steps": [
+    "Start with If",
+    "Use the past simple",
+    "Add a comma",
+    "Use would + base verb"
+   ]
+  }
+ },
+ "2645": {
+  "claims": [
+   {
+    "text": "Leather is made from animal skin.",
+    "true": true,
+    "why": "It is used for bags and shoes."
+   },
+   {
+    "text": "Floating markets are on trains.",
+    "true": false,
+    "why": "They are on boats."
+   },
+   {
+    "text": "Muttrah Souq is in Muscat.",
+    "true": true,
+    "why": "It is a famous old souq."
+   },
+   {
+    "text": "\"Charming\" means ugly.",
+    "true": false,
+    "why": "It means very pleasant."
+   }
+  ],
+  "links": [
+   {
+    "a": "Floating market",
+    "b": "Boats",
+    "answer": "People sell from boats."
+   },
+   {
+    "a": "Muttrah Souq",
+    "b": "Frankincense",
+    "answer": "A traditional Omani product."
+   }
+  ],
+  "sequence": {
+   "title": "Visiting a market",
+   "steps": [
+    "Arrive at the market",
+    "Look at the stalls",
+    "Ask the price",
+    "Bargain",
+    "Buy something"
+   ]
+  }
+ },
+ "2646": {
+  "claims": [
+   {
+    "text": "\"I'm afraid\" makes a complaint polite.",
+    "true": true,
+    "why": "It softens the message."
+   },
+   {
+    "text": "Shouting is the best way to complain.",
+    "true": false,
+    "why": "Be polite and clear."
+   },
+   {
+    "text": "\"Torn\" means it has a hole.",
+    "true": true,
+    "why": "From the vocabulary."
+   },
+   {
+    "text": "You don't need a receipt for a refund.",
+    "true": false,
+    "why": "Shops usually ask for it."
+   }
+  ],
+  "links": [
+   {
+    "a": "Broken item",
+    "b": "Complaint",
+    "answer": "Tell the shop assistant."
+   },
+   {
+    "a": "Complaint",
+    "b": "Refund or exchange",
+    "answer": "A solution."
+   }
+  ],
+  "sequence": {
+   "title": "Making a complaint",
+   "steps": [
+    "Say \"I'm afraid …\"",
+    "Describe the problem",
+    "Show the receipt",
+    "Ask for a refund or exchange"
+   ]
+  }
+ },
+ "2647": {
+  "claims": [
+   {
+    "text": "\"Enormous\" means very small.",
+    "true": false,
+    "why": "It means very big."
+   },
+   {
+    "text": "The subject line tells the topic of an email.",
+    "true": true,
+    "why": "Read it first."
+   },
+   {
+    "text": "Emails to friends are usually informal.",
+    "true": true,
+    "why": "They are friendly."
+   },
+   {
+    "text": "\"Embarrassed\" means very happy.",
+    "true": false,
+    "why": "It means shy and uncomfortable."
+   }
+  ],
+  "links": [
+   {
+    "a": "Subject line",
+    "b": "Predict the topic",
+    "answer": "We guess what the email is about."
+   },
+   {
+    "a": "Friend",
+    "b": "Informal email",
+    "answer": "Friendly language."
+   }
+  ],
+  "sequence": {
+   "title": "Reading an email",
+   "steps": [
+    "Read the subject line",
+    "Predict the topic",
+    "Read the email",
+    "Answer the questions"
+   ]
+  }
+ },
+ "2648": {
+  "claims": [
+   {
+    "text": "\"Unless\" means \"if … not\".",
+    "true": true,
+    "why": "Unless you hurry = if you don't hurry."
+   },
+   {
+    "text": "\"Unless you don't hurry\" is correct.",
+    "true": false,
+    "why": "Use a positive verb after unless."
+   },
+   {
+    "text": "Informal emails can start with \"Hi\".",
+    "true": true,
+    "why": "It is friendly."
+   },
+   {
+    "text": "A subject line is not important.",
+    "true": false,
+    "why": "It tells the topic."
+   }
+  ],
+  "links": [
+   {
+    "a": "unless",
+    "b": "if … not",
+    "answer": "Same meaning."
+   },
+   {
+    "a": "Subject line",
+    "b": "Topic of the email",
+    "answer": "The reader knows what it is about."
+   }
+  ],
+  "sequence": {
+   "title": "Writing an informal email",
+   "steps": [
+    "Write the subject line",
+    "Write the greeting",
+    "Write your news",
+    "Ask a question",
+    "Write the closing"
+   ]
+  }
+ },
+ "2649": {
+  "claims": [
+   {
+    "text": "\"If I would have money\" is correct.",
+    "true": false,
+    "why": "If I had money."
+   },
+   {
+    "text": "The zero conditional is for facts.",
+    "true": true,
+    "why": "If you heat ice, it melts."
+   },
+   {
+    "text": "\"Unless\" means \"if … not\".",
+    "true": true,
+    "why": "Unless you hurry…"
+   },
+   {
+    "text": "A queue is a paper that shows what you paid.",
+    "true": false,
+    "why": "That is a receipt."
+   }
+  ],
+  "links": [
+   {
+    "a": "Imaginary situation",
+    "b": "Second conditional",
+    "answer": "If + past, would."
+   },
+   {
+    "a": "Faulty item",
+    "b": "Complaint and refund",
+    "answer": "A polite solution."
+   }
+  ],
+  "sequence": {
+   "title": "Unit 3 journey",
+   "steps": [
+    "Shopping words",
+    "Online shopping",
+    "Conditionals",
+    "Markets",
+    "Emails"
+   ]
+  }
  }
 }
