@@ -27,11 +27,13 @@ let pass = 0, fail = 0; const ok = (n, c, x) => { (c ? pass++ : fail++); console
     }
     return out;
   });
-  const KEEP = ['الرياضيات|التاسع', 'الرياضيات الأساسية|الثاني عشر', 'الرياضيات المتقدمة|الثاني عشر'];
+  const KEEP = [];  // استثناء الرياضيات أُلغي بعد استخراج إجاباتها من نماذج الوزارة
   const finBad = r.filter(x => !KEEP.includes(x.key) && x.ex.some(e => e.startsWith('f')));
   ok('لا مفردة وزارية بلا إجابة خارج المقررات المستثناة', finBad.length === 0, finBad.map(x => x.key + ' ' + x.ex.join(' | ')).join(' ; ') || r.length + ' مقرر');
-  const kept = r.filter(x => KEEP.includes(x.key));
-  ok('المستثناة: كل مفردة بلا إجابة معلَّمة noans (تطبع إحالة لنموذج الوزارة)', kept.every(x => x.flagged), kept.map(x => x.key + ' ' + x.bad).join('، '));
+  const fin = r.find(x => x.key === 'العلوم|السابع') || {};
+  ok('العلوم 7: مفردات الوزارة عادت إلى البنك بنماذج إجاباتها', fin.fin >= 40, (fin.fin || 0) + ' مفردة وزارية');
+  const m9 = r.find(x => x.key === 'الرياضيات|التاسع') || {};
+  ok('الرياضيات 9: مفردات الوزارة في البنك بإجاباتها', m9.fin >= 40 && !m9.bad, (m9.fin || 0) + ' مفردة');
   const sci7 = r.find(x => x.key === 'العلوم|السابع') || {};
   ok('العلوم 7: البنك يكفي للاختبار بعد استبعاد المفردات بلا إجابة', sci7.n > 30, sci7.n + ' سؤال (وزارية ' + sci7.fin + ')');
   for (const x of r.filter(x => x.bad)) console.log('  INFO  أسئلة بنك نصية بلا إجابة: ' + x.key + ' = ' + x.bad + '  ' + x.ex.join(' | '));
