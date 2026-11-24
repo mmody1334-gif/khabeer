@@ -75,6 +75,13 @@ function normAO(raw, hi, m) {
 function stripQNo(t) {
   return String(t || '').replace(/^\s*\(?\s*\d{1,2}\s*[\)\u002e\-]\s*/, '').trim();
 }
+// مقررات لا يكتمل اختبارها القصير دون مفرداتها الوزارية (بنكها النصي صغير)؛ تبقى مفرداتها بلا نموذج
+// إجابة، ويطبع نموذج الإجابة بدل الخانة الفارغة إحالة إلى نموذج الوزارة (المصدر ورقم السؤال الأصلي)
+// إلى أن تُستخرج إجاباتها في finals.json. احذف المقرر من القائمة بعد استخراجها.
+const FIN_KEEP_NOANS = new Set(['الرياضيات|التاسع', 'الرياضيات الأساسية|الثاني عشر', 'الرياضيات المتقدمة|الثاني عشر']);
+function finAnswered(q) {
+  return !!(String(q.a || '').trim() || (Array.isArray(q.ai) && q.ai.length) || (q.t === 'mcq' && Array.isArray(q.ch) && q.ch.length && typeof q.cor === 'number'));
+}
 function finQuizItems(key) {
   const G = FINALS[key]; if (!G) return [];
   const [subj, grade] = key.split('|'); if (subj === 'تقنية المعلومات' || subj === 'اللغة الإنجليزية') return [];
@@ -95,6 +102,10 @@ function finQuizItems(key) {
                  : (hi ? [4, 5] : (g >= 9 ? [3, 4] : []));
   const out = [];
   for (const q of G.q) {
+    // مفردة بلا إجابة (لا نص ولا صورة نموذج ولا خيار صحيح) لا تدخل أي ورقة: كانت تُخرج
+    // نموذج إجابة بخانات فارغة (العلوم 7 كلها، والرياضيات 9 و12 أساسية، والعربية…) — 24 نوفمبر 2026.
+    const noans = !finAnswered(q);
+    if (noans && !FIN_KEEP_NOANS.has(key)) continue;
     const m = q.m, ao = normAO(q.ao, hi, m);
     if (!ao || !q.l || typeof m !== 'number' || m !== Math.floor(m)) continue;
     let type;
@@ -104,7 +115,7 @@ function finQuizItems(key) {
     else continue;
     const pa = G.papers[q.p] || {};
     out.push({ qid: 'f' + q.id, lesson_id: q.l, type, stem: stripQNo(q.x), img: q.im, iw: q.w, ih: q.h, srcno: String(q.n || ''), lb: q.lb || undefined, aimg: Array.isArray(q.ai) && q.ai.length ? q.ai : undefined, src: 'امتحان الوزارة ' + (pa.year || '') + (pa.session ? ' - ' + pa.session : ''),
-      answer: q.a || '', fig: !!q.fig, choices: Array.isArray(q.ch) ? q.ch : [], correct: (typeof q.cor === 'number' ? q.cor : 0), marks: m, ao, difficulty: '', outcome: q.c || '', notes: '' });
+      answer: q.a || '', noans: noans || undefined, fig: !!q.fig, choices: Array.isArray(q.ch) ? q.ch : [], correct: (typeof q.cor === 'number' ? q.cor : 0), marks: m, ao, difficulty: '', outcome: q.c || '', notes: '' });
   }
   return out;
 }

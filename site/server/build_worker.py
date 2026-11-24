@@ -2366,6 +2366,10 @@ def _research():
     return items
 RESEARCH = _research()
 FIN = json.load(open(os.path.join(DATA, 'finals.json'), encoding='utf-8')) if os.path.exists(os.path.join(DATA, 'finals.json')) else {}
+# تدقيق: مفردات نهائيات بلا نموذج إجابة لا تدخل الاختبارات القصيرة (finAnswered في worker_src.js) — نطبع حجم النقص
+_noans = {k: sum(1 for q in v.get('q', []) if not (str(q.get('a') or '').strip() or q.get('ai') or (q.get('t') == 'mcq' and q.get('ch') and isinstance(q.get('cor'), int)))) for k, v in FIN.items()}
+_noans = {k: n for k, n in _noans.items() if n}
+if _noans: print('نهائيات بلا نموذج إجابة (مستبعدة من الاختبارات):', sum(_noans.values()), 'مفردة —', '، '.join(f'{k} {n}' for k, n in sorted(_noans.items(), key=lambda x: -x[1])))
 # عروض تقديمية: فهرسها في site/data/slides.json (كل عرض بمعرّف درايف عام) —
 # تُعاين وتُحمَّل بروابط درايف المباشرة، ولا تُخزَّن محليًّا لأن حجمها (2+ GB)
 # أكبر من سعة الاستضافة المجانية.

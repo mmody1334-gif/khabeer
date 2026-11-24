@@ -417,6 +417,8 @@ function keyHtml(d,word){
     var notes=it.notes?rich(finRelabel(it.table?relabel(it.notes,tno):it.notes,it.srcno,i+1)):'';
     // نموذج إجابة الوزارة المصوَّر (صف المفتاح بلا رقم السؤال الأصلي ولا أعمدة المواصفات)
     if(it.aimg)ans+=aimgHtml(it,word);
+    // مفردة وزارية بلا نموذج إجابة مستخرج: إحالة صريحة إلى نموذج الوزارة بدل خانة فارغة (تشمل الأوراق المحفوظة سابقًا)
+    if(!String(ans).replace(/<[^>]*>/g,'').trim()&&!(it.aimg||[]).length&&String(it.qid||'').charAt(0)==='f')ans='<span style="color:#9a3412">راجع نموذج الإجابة الرسمي'+(it.src?': '+esc(it.src):'')+(it.srcno?' — السؤال '+esc(it.srcno):'')+'</span>';
     if(!hi&&notes)ans+='<div style="font-size:.85em;color:#444">'+notes+'</div>';
     var L=lessonOf(it);
     h+='<tr>'+td(i+1,'center')+td(ans)+td(it.marks,'center')+(hi?td(notes)+td(esc(L.unit||''),'center'):'')+td(esc(it.outcome||''),'center')+td(esc(aoTxt(it.ao||'')),'center')+(hi?td(esc(it.difficulty||''),'center'):'')+'</tr>';
