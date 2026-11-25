@@ -4,7 +4,7 @@ guard();
 // «الشاملة»: نفس اللوحة على /shamela، تعرض فقط المعلمين المنقولين إليها (مخفية عن اللوحة الأساسية)
 var VAULT=/^\/shamela/.test(location.pathname),VQ=VAULT?'vault=1':'';
 function vq(u){return VQ?u+(u.indexOf('?')>=0?'&':'?')+VQ:u;}
-var data=null,act=null,tab='teachers',q='',rep=null,repDays=30,crs=null,lessonsAll=null,openCourse=null,ntc=null;
+var subs=null,data=null,act=null,tab='teachers',q='',rep=null,repDays=30,crs=null,lessonsAll=null,openCourse=null,ntc=null;
 var GRADES=['الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي عشر','الثاني عشر'];
 function gn(g){var i=GRADES.indexOf(g);return i<0?99:i;}
 var REASONS={wrong_password:'كلمة مرور خاطئة',device_limit:'جهاز إضافي مرفوض',disabled:'حساب موقوف',locked:'محاولات كثيرة'};
@@ -12,7 +12,7 @@ var REASONS={wrong_password:'كلمة مرور خاطئة',device_limit:'جها�
 // وإلا ظهر الحدث في السجل بنصه الإنجليزي الخام.
 var TYPES={login:'دخول',view:'فتح درس',copy_all:'نسخ التحضير كاملًا',copy_json:'نسخ لأداة نور',copy_field:'نسخ خانة',copy_hw:'نسخ الواجب',send_prep:'إرسال تحضير إلى نور',send_hw:'إرسال واجب إلى نور',quiz_make:'تكوين اختبار قصير',review_make:'تكوين مراجعة وحدة',quiz_print:'طباعة اختبار',quiz_word:'تحميل اختبار Word',quiz_save:'حفظ اختبار',diag_run:'تشغيل اختبار تشخيصي',diag_print:'طباعة نتيجة التشخيص',remedial_make:'تكوين خطة علاجية / نشاط صفي',remedial_print:'طباعة خطة علاجية',remedial_word:'تحميل خطة علاجية Word',summary_make:'تكوين ملخص',summary_print:'طباعة ملخص',summary_word:'تحميل ملخص Word',finals_open:'فتح الاختبارات النهائية',finals_print:'طباعة أسئلة وزارية',game_play:'تشغيل لعبة',game_live:'تحدٍّ مباشر بالجوالات',grade_start:'بدء تصحيح واجب',tasks_fetch:'جلب مهام نور',device_stale_removed:'إزالة جهاز مهمل تلقائيًا'};
 function load(){
-  return Promise.all([api(vq('/api/admin/stats')),api(vq('/api/admin/activity')),api('/api/admin/courses'),api('/api/lessons'),api(vq('/api/admin/report?days='+repDays)),api(vq('/api/admin/notices'))]).then(function(r){data=r[0];act=r[1];crs=r[2];lessonsAll=r[3].lessons;rep=r[4];ntc=r[5];render();},function(e){if(e.message==='vault_locked')return vaultLock();toast(e.message);});
+  return Promise.all([api(vq('/api/admin/stats')),api(vq('/api/admin/activity')),api('/api/admin/courses'),api('/api/lessons'),api(vq('/api/admin/report?days='+repDays)),api(vq('/api/admin/notices')),VAULT?Promise.resolve(null):api('/api/admin/subs').catch(function(){return null;})]).then(function(r){data=r[0];act=r[1];crs=r[2];lessonsAll=r[3].lessons;rep=r[4];ntc=r[5];subs=r[6];render();},function(e){if(e.message==='vault_locked')return vaultLock();toast(e.message);});
 }
 // «الشاملة» محمية بكلمة مرور خاصة تُطلب مرة لكل جلسة دخول
 function vaultLock(){
@@ -231,7 +231,7 @@ function teacherRows(){
   if(!all.length)return h+'<div class="empty-state">'+(VAULT?'لا يوجد معلمون في اللوحة الشاملة بعد. افتح أي معلم في لوحة التحكم الأساسية واضغط السهم ⬅ بجوار «كلمة مرور جديدة» لنقله إلى هنا.':'لا يوجد معلمون بعد. أضف المعلمين من زر «إضافة معلمين».')+'</div>';
   if(!list.length)return h+'<div class="empty-state">لا يوجد معلم يطابق البحث أو التصفية. جرّب كلمة أخرى أو اختر «الكل».</div>';
   return h+'<div class="tc-grid">'+list.map(function(u){
-    var adm=u.role==='admin',st=!u.active?'<span class="pill off">موقوف</span>':adm?(+u.delegated?'<span class="pill adm">مدير مفوَّض</span>':'<span class="pill adm">مدير</span>'):(tActive7(u)?'<span class="pill on">نشط</span>':'');
+    var adm=u.role==='admin',st=!u.active?'<span class="pill off">موقوف</span>':adm?(+u.delegated?'<span class="pill adm">مدير مفوَّض</span>':'<span class="pill adm">مدير</span>'):(+u.self_reg&&!(+u.paid_until>Date.now())?'<span class="pill warn">غير مفعّل</span>':(tActive7(u)?'<span class="pill on">نشط</span>':''));
     var dv=u.devices.length,mx=adm?0:+u.max_devices||0,pc=mx?Math.min(100,Math.round(dv/mx*100)):0;
     return '<article class="tc'+(!u.active?' is-off':'')+'"><button type="button" class="tc-open" data-open="'+u.id+'" aria-label="تفاصيل '+esc(u.name)+'"></button>'+
       '<header><span class="tc-av" aria-hidden="true">'+esc(tInitial(u.name))+'</span><div class="tc-id"><b>'+esc(u.name)+'</b><span class="ltr">'+esc(u.username)+'</span></div>'+st+'</header>'+
@@ -294,13 +294,90 @@ function addNotice(){
     api('/api/admin/notices',b).then(function(){close();toast('نُشر الإشعار — وصل لجرس كل المعلمين مع إضاءة 🔔');load();},function(e){toast(e.message);});
   };
 }
+// ---------- الاشتراكات: معلمون سجّلوا بأنفسهم بالإيميل، والتحويل، والتفعيل ----------
+function subPend(u){return (u.payments||[]).some(function(x){return x.status==='pending';});}
+function subsPending(){return subs?subs.users.filter(subPend).length:0;}
+function subState(u){
+  var t=Date.now();
+  if(+u.paid_until>t)return ['on','مفعّل حتى '+new Date(+u.paid_until).toLocaleDateString('ar-OM',{day:'numeric',month:'short',year:'numeric'})];
+  if(subPend(u))return ['warn','إيصال بانتظار المراجعة'];
+  if(+u.paid_until>0)return ['off','انتهى الاشتراك'];
+  var last=(u.payments||[])[0];
+  if(last&&last.status==='rejected')return ['off','الإيصال مرفوض'];
+  return ['off','لم يحوّل بعد'];
+}
+var subF='pend';
+function subsView(){
+  var I=subs.info||{},U=subs.users,t=Date.now();
+  var F=[['pend','بانتظار المراجعة',U.filter(subPend).length],['new','لم يحوّلوا',U.filter(function(u){return !subPend(u)&&!(+u.paid_until>0);}).length],['on','مفعّلون',U.filter(function(u){return +u.paid_until>t;}).length],['exp','منتهٍ',U.filter(function(u){return +u.paid_until>0&&+u.paid_until<=t&&!subPend(u);}).length],['all','الكل',U.length]];
+  var list=U.filter(function(u){
+    if(subF==='pend')return subPend(u);
+    if(subF==='new')return !subPend(u)&&!(+u.paid_until>0);
+    if(subF==='on')return +u.paid_until>t;
+    if(subF==='exp')return +u.paid_until>0&&+u.paid_until<=t&&!subPend(u);
+    return true;});
+  var h='<details class="card"'+(I.details?'':' open')+'><summary><b>⚙️ بيانات التحويل التي يراها المعلم</b> <span class="muted">'+(I.price?esc(I.price):'لم تُضبط بعد')+'</span></summary>'+
+    '<div class="sub-set" style="margin-top:10px"><label>قيمة الاشتراك (للفصل)<input id="pi_price" value="'+esc(I.price)+'" placeholder="مثال: 5 ريال عماني"></label>'+
+    '<label>رقم واتساب للتواصل<input id="pi_wa" dir="ltr" value="'+esc(I.whatsapp)+'" placeholder="968xxxxxxxx"></label>'+
+    '<label class="w">طريقة التحويل (الحساب البنكي / المحفظة…)<textarea id="pi_det" rows="4" placeholder="بنك مسقط — رقم الحساب …&#10;اسم المستفيد …">'+esc(I.details)+'</textarea></label>'+
+    '<label class="w">بريدك لتصلك رسالة عند كل تسجيل أو إيصال جديد (اختياري)<input id="pi_ntf" dir="ltr" value="'+esc(I.notify)+'" placeholder="you@example.com"></label></div>'+
+    '<div class="m-actions"><button type="button" class="btn primary" id="piSave">حفظ</button></div></details>';
+  h+='<div class="tc-bar"><div class="tc-filters" role="group">'+F.map(function(f){return '<button type="button" class="tc-f'+(subF===f[0]?' on':'')+'" data-sf="'+f[0]+'">'+f[1]+' <span>'+f[2]+'</span></button>';}).join('')+'</div></div>';
+  if(!list.length)return h+'<div class="empty-state">'+(U.length?'لا يوجد معلمون في هذا التصنيف.':'لم يسجّل أي معلم بالإيميل بعد. رابط التسجيل: khaber.site/register')+'</div>';
+  return h+'<div class="sub-grid">'+list.map(function(u){
+    var st=subState(u),pend=(u.payments||[]).filter(function(x){return x.status==='pending';}),last=(u.payments||[])[0];
+    var req=[];try{req=JSON.parse(u.req_scope||'[]')||[];}catch(e){}
+    return '<article class="sub-c'+(pend.length?' hot':'')+'"><header><div><b>'+esc(u.name)+'</b><span class="sub ltr">'+esc(u.email||u.username)+'</span>'+(u.phone?'<span class="sub ltr"> · '+esc(u.phone)+'</span>':'')+'</div><span class="pill '+st[0]+'">'+esc(st[1])+'</span></header>'+
+      '<div class="sub">سجّل '+esc(fmtDate(u.created_at))+' · طلب:</div><div class="tc-scope">'+(req.length?scopeChips({scope:JSON.stringify(req)}):'<span class="muted">—</span>')+'</div>'+
+      (last?'<div class="sub">آخر إيصال: '+esc(fmtDate(last.created_at))+(last.note?' — «'+esc(last.note)+'»':'')+(last.status==='rejected'?' — مرفوض: '+esc(last.reason||''):'')+'</div>':'')+
+      '<div class="acts">'+(last?'<button type="button" class="btn small" data-rcpt="'+last.id+'">🧾 عرض الإيصال</button>':'')+
+        '<button type="button" class="btn small primary" data-sact="activate" data-uid="'+u.id+'">'+(+u.paid_until>t?'تعديل / تمديد':'✅ تفعيل')+'</button>'+
+        (pend.length?'<button type="button" class="btn small danger" data-sact="reject" data-uid="'+u.id+'">رفض الإيصال</button>':'')+
+        (+u.paid_until>t?'<button type="button" class="btn small danger" data-sact="deactivate" data-uid="'+u.id+'">إلغاء التفعيل</button>':'')+
+        (u.phone?'<a class="btn small" target="_blank" rel="noopener" href="https://wa.me/'+esc(String(u.phone).replace(/\D/g,'').replace(/^(\d{8})$/,'968$1'))+'">واتساب</a>':'')+
+      '</div></article>';
+  }).join('')+'</div>';
+}
+function subUser(id){return subs.users.filter(function(x){return x.id===id;})[0];}
+function subAct(id,payload,msg){return api('/api/admin/subs/'+id,payload).then(function(){toast(msg);closeModal();return load();},function(e){toast(e.message);});}
+function activateDialog(u){
+  var picked={},cur=[];try{cur=JSON.parse(u.scope||u.req_scope||'[]')||[];}catch(e){}
+  cur.forEach(function(k){picked[k]=1;});
+  var until=+u.paid_until>Date.now()?+u.paid_until:subs.term_end,d=new Date(until+4*36e5).toISOString().slice(0,10);
+  var req={};try{(JSON.parse(u.req_scope||'[]')||[]).forEach(function(k){req[k]=1;});}catch(e){}
+  var body='<p class="m-msg">اختر المواد التي تُفتح لـ <b>'+esc(u.name)+'</b> (المعلَّمة ★ هي ما طلبه عند التسجيل)، وتاريخ نهاية الاشتراك. إن لم تحدّد شيئًا تُفتح كل المواد.</p>'+
+    '<div class="sub-set"><label class="w">نهاية الاشتراك (آخر الفصل)<input type="date" id="subUntil" value="'+d+'"></label></div>'+
+    '<div class="su-courses" style="margin-top:10px;max-height:46vh">'+scopeSubjects().map(function(s){var gs=subjectGrades(s),n=gs.filter(function(g){return picked[s+'|'+g];}).length;
+      return '<details'+(n?' open':'')+'><summary><span>'+esc(s)+'</span></summary><div class="su-g">'+gs.map(function(g){var k=s+'|'+g;return '<label><input type="checkbox" data-pk="'+esc(k)+'"'+(picked[k]?' checked':'')+'> '+(req[k]?'★ ':'')+'الصف '+esc(gLabel(g))+'</label>';}).join('')+'</div></details>';}).join('')+'</div>';
+  var ov=$('modal'),box=$('modalBox');
+  box.innerHTML='<h3 id="mTitle">تفعيل اشتراك '+esc(u.name)+'</h3>'+body+'<div class="m-actions"><button type="button" class="btn" id="mCancel">إلغاء</button><button type="button" class="btn primary" id="mOk">تفعيل وفتح المواد</button></div>';ov.hidden=false;
+  Array.prototype.forEach.call(box.querySelectorAll('[data-pk]'),function(c){c.onchange=function(){if(c.checked)picked[c.getAttribute('data-pk')]=1;else delete picked[c.getAttribute('data-pk')];};});
+  $('mCancel').onclick=function(){ov.hidden=true;box.innerHTML='';};
+  $('mOk').onclick=function(){var v=$('subUntil').value;if(!v){toast('اختر تاريخ النهاية');return;}
+    var p=v.split('-'),ts=Date.UTC(+p[0],+p[1]-1,+p[2])+20*36e5-1;
+    subAct(u.id,{action:'activate',scope:Object.keys(picked),until:ts},'تم التفعيل ✓ ووصل للمعلم بريد بذلك');};
+}
+function bindSubs(){
+  Array.prototype.forEach.call(document.querySelectorAll('[data-sf]'),function(b){b.onclick=function(){subF=b.getAttribute('data-sf');render();};});
+  if($('piSave'))$('piSave').onclick=function(){api('/api/admin/payinfo',{price:$('pi_price').value,whatsapp:$('pi_wa').value,details:$('pi_det').value,notify:$('pi_ntf').value}).then(function(){toast('حُفظت بيانات التحويل');load();},function(e){toast(e.message);});};
+  Array.prototype.forEach.call(document.querySelectorAll('[data-rcpt]'),function(b){b.onclick=function(){api('/api/admin/receipt/'+b.getAttribute('data-rcpt')).then(function(r){
+    dialog({title:'صورة الإيصال',html:'<img class="sub-rc" alt="الإيصال" src="'+esc(r.img)+'">',okText:'إغلاق',cancelText:false});},function(e){toast(e.message);});};});
+  Array.prototype.forEach.call(document.querySelectorAll('[data-sact]'),function(b){b.onclick=function(){
+    var u=subUser(+b.getAttribute('data-uid')),a=b.getAttribute('data-sact');if(!u)return;
+    if(a==='activate')return activateDialog(u);
+    if(a==='reject')return dialog({title:'رفض إيصال '+u.name,input:true,placeholder:'السبب الذي يظهر للمعلم (مثال: المبلغ غير مكتمل)',okText:'رفض',danger:true}).then(function(v){if(v===null)return;subAct(u.id,{action:'reject',reason:v},'رُفض الإيصال');});
+    if(a==='deactivate')return dialog({title:'إلغاء تفعيل '+u.name+'؟',message:'تُقفل عنه المواد فورًا ويظهر له طلب التحويل من جديد.',okText:'إلغاء التفعيل',danger:true}).then(function(ok){if(ok)subAct(u.id,{action:'deactivate'},'أُلغي التفعيل');});
+  };});
+}
 function render(){
-  var T=[['teachers','المعلمون'],['report','تقرير الاستخدام'],['courses','المواد والدروس'],['activity','النشاط والتنبيهات'],['notices','الإشعارات']];
+  var T=[['teachers','المعلمون'],['subs','الاشتراكات'+(subsPending()?' <b class="sub-badge">'+subsPending()+'</b>':'')],['report','تقرير الاستخدام'],['courses','المواد والدروس'],['activity','النشاط والتنبيهات'],['notices','الإشعارات']];
+  if(!subs)T.splice(1,1);
   var h=(tab==='report'?'':kpis())+'<div class="tabs" role="tablist">'+T.map(function(t){return '<button type="button" role="tab" class="tab'+(tab===t[0]?' on':'')+'" data-tab="'+t[0]+'">'+t[1]+'</button>';}).join('')+'</div>';
   if(tab==='teachers')h+='<div class="toolbar"><input id="search" type="search" placeholder="ابحث باسم المعلم أو اسم المستخدم أو المادة" value="'+esc(q)+'">'+(VAULT?'':'<button type="button" class="btn primary" id="addBtn">إضافة معلمين</button>')+'</div>'+teacherRows();
   else if(tab==='report')h+=reportView();
   else if(tab==='courses')h+=coursesView();
   else if(tab==='notices')h+=noticesView();
+  else if(tab==='subs')h+=subsView();
   else h+=activityView();
   $('dash').innerHTML=h;
   Array.prototype.forEach.call(document.querySelectorAll('[data-tab]'),function(b){b.onclick=function(){tab=b.getAttribute('data-tab');render();};});
@@ -318,6 +395,7 @@ function render(){
   Array.prototype.forEach.call(document.querySelectorAll('[data-editl]'),function(b){b.onclick=function(){var l=lessonsAll.filter(function(x){return x.id===+b.getAttribute('data-editl');})[0];if(l)lessonForm(openCourse,l);};});
   Array.prototype.forEach.call(document.querySelectorAll('[data-dell]'),function(b){b.onclick=function(){dialog({title:'حذف هذا الدرس؟',message:'يُحذف من صفحة الدروس لكل المعلمين.',okText:'حذف',danger:true}).then(function(ok){if(ok)api('/api/admin/custom_lessons/'+b.getAttribute('data-dell'),null,'DELETE').then(function(){toast('حُذف الدرس');load();});});};});
   if($('addNotice'))$('addNotice').onclick=addNotice;
+  if(tab==='subs')bindSubs();
   Array.prototype.forEach.call(document.querySelectorAll('[data-delno]'),function(b){b.onclick=function(){dialog({title:'حذف هذا الإعلان؟',message:'يُحذف من جرس كل المعلمين.',okText:'حذف',danger:true}).then(function(ok){if(ok)api('/api/admin/notices/'+b.getAttribute('data-delno'),null,'DELETE').then(function(){toast('حُذف الإعلان');load();},function(e){toast(e.message);});});};});
 }
 function addTeachers(){

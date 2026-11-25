@@ -29,6 +29,7 @@ const ASSETS = { fetch: async rq => { const f = join(dir, '../dist/assets', deco
 // (مثل STALE_SECONDS: مدة إهمال الجهاز). في الإنتاج تُضبط من إعدادات الـWorker.
 const ENV = { DB, ASSETS, ...(process.env.AI_KEY ? { AI_KEY: process.env.AI_KEY, AI_URL: process.env.AI_URL } : {}) };
 if (process.env.STALE_SECONDS) ENV.STALE_SECONDS = process.env.STALE_SECONDS;
+if (process.env.DEV_MAIL) ENV.DEV_MAIL = '1';
 
 http.createServer(async (req, res) => {
   // صور أسئلة الوزارة: في الإنتاج تُنشر تحت dist/assets/fin/ وتُخدم على /fin/ (انظر worker_src.js)

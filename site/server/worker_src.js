@@ -212,6 +212,18 @@ async function ensureSchema(db) {
   // الإشعارات: فيديو اختياري (يُعرض في الجرس ونافذة عند فتح الصفحة) ومنصة مستهدفة: k خبير · فارغ = الكل
   try { await db.prepare('ALTER TABLE notices ADD COLUMN video TEXT').run(); } catch (e) { /* already there */ }
   try { await db.prepare('ALTER TABLE notices ADD COLUMN brand TEXT').run(); } catch (e) { /* already there */ }
+  // ---- التسجيل الذاتي بالإيميل والاشتراك المدفوع ----
+  // self_reg=1: حساب أنشأه المعلم بنفسه (يحتاج تفعيلًا بعد التحويل). الحسابات القديمة التي أنشأها المدير self_reg=0 فتبقى مفتوحة.
+  // paid_until: نهاية الاشتراك (ms). req_scope: الصفوف التي اختارها المعلم عند التسجيل.
+  for (const c of ['email TEXT', 'phone TEXT', 'self_reg INTEGER NOT NULL DEFAULT 0', 'paid_until INTEGER', 'req_scope TEXT'])
+    { try { await db.prepare('ALTER TABLE users ADD COLUMN ' + c).run(); } catch (e) { /* already there */ } }
+  try { await db.batch([
+    db.prepare('CREATE TABLE IF NOT EXISTS otps(email TEXT NOT NULL, purpose TEXT NOT NULL, code_hash TEXT NOT NULL, data TEXT, tries INTEGER NOT NULL DEFAULT 0, ip TEXT, sent_at INTEGER NOT NULL, exp INTEGER NOT NULL, PRIMARY KEY(email, purpose))'),
+    db.prepare('CREATE TABLE IF NOT EXISTS otp_log(id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, ip TEXT, at INTEGER NOT NULL)'),
+    db.prepare('CREATE TABLE IF NOT EXISTS payments(id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL, receipt TEXT NOT NULL, note TEXT, status TEXT NOT NULL DEFAULT \'pending\', reason TEXT, created_at INTEGER NOT NULL, reviewed_at INTEGER)'),
+    db.prepare('CREATE INDEX IF NOT EXISTS pay_user ON payments(user_id, id)'),
+    db.prepare('CREATE UNIQUE INDEX IF NOT EXISTS users_email ON users(email)')
+  ]); } catch (e) { /* لا يوقف الموقع */ }
   // إشعار الفيديو الترويجي: يُنشر مرة واحدة فقط (لو حذفه المدير لا يعود)
   try {
     const seeded = await db.prepare("SELECT v FROM kv WHERE k = 'seed_promo_v1'").first();
@@ -327,7 +339,7 @@ async function currentUser(req, env) {
   const sid = c.sid || String(req.headers.get('X-Tahdir-Sid') || '').trim();
   if (!sid) return null;
   const row = await env.DB.prepare(
-    `SELECT s.token, s.device_id, s.expires_at, s.last_seen, s.vault_ok, u.id, u.name, u.username, u.role, u.active, u.scope, u.delegated
+    `SELECT s.token, s.device_id, s.expires_at, s.last_seen, s.vault_ok, u.id, u.name, u.username, u.role, u.active, u.scope, u.delegated, u.self_reg, u.paid_until, u.email
      FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.token = ?`).bind(sid).first();
   if (!row || row.expires_at < now() || !row.active) return null;
   // device must still be registered (admin may have removed it)
@@ -358,13 +370,13 @@ async function login(req, env) {
   const t = now();
   const logA = (ok, reason, uid) => env.DB.prepare('INSERT INTO attempts(username,user_id,ok,reason,device_id,label,ip,at) VALUES(?,?,?,?,?,?,?,?)').bind(username, uid || null, ok ? 1 : 0, reason, did || '', label, ip, t).run();
 
-  if (!username || !password) return json({ error: 'اكتب اسم المستخدم وكلمة المرور.' }, 400);
+  if (!username || !password) return json({ error: 'اكتب البريد الإلكتروني (أو اسم المستخدم) وكلمة المرور.' }, 400);
   const fails = await env.DB.prepare('SELECT COUNT(*) n FROM attempts WHERE username = ? AND ok = 0 AND reason = ? AND at > ?').bind(username, 'wrong_password', t - LOCK_MIN * 60000).first();
   if (fails && fails.n >= MAX_FAILS) { await logA(false, 'locked'); return json({ error: `محاولات كثيرة خاطئة. حاول بعد ${LOCK_MIN} دقيقة.` }, 429); }
 
-  const u = await env.DB.prepare('SELECT * FROM users WHERE username = ?').bind(username).first();
+  const u = await env.DB.prepare('SELECT * FROM users WHERE username = ? OR email = ?').bind(username, username).first();
   const ok = u ? safeEq(await hashPass(password, u.salt), u.pass_hash) : (await hashPass(password, '00'.repeat(16)), false);
-  if (!u || !ok) { await logA(false, 'wrong_password', u && u.id); return json({ error: 'اسم المستخدم أو كلمة المرور غير صحيحة.' }, 401); }
+  if (!u || !ok) { await logA(false, 'wrong_password', u && u.id); return json({ error: 'البريد الإلكتروني أو كلمة المرور غير صحيحة.' }, 401); }
   if (!u.active) { await logA(false, 'disabled', u.id); return json({ error: 'هذا الحساب موقوف. تواصل مع مدير المنصة.' }, 403); }
 
   // ---- device check ----
@@ -411,6 +423,220 @@ async function login(req, env) {
   headers.append('Set-Cookie', setCookie('did', did, 63072000, req));
   // نُعيد الرمز في الجسم أيضًا ليعمل المتصفح الذي يرفض الكوكيز (انظر currentUser).
   return new Response(JSON.stringify({ ok: true, role: u.role, name: u.name, sid: token, did }), { headers });
+}
+
+// ---------- التسجيل بالإيميل · رمز التحقق · الاشتراك المدفوع ----------
+// المسار: يسجّل المعلم (الاسم، الإيميل، الجوال، كلمة المرور، الصفوف المطلوبة) ← يصله رمز من 6 أرقام
+// ← يُدخل الرمز فيُنشأ الحساب (self_reg=1) ← يحوّل ويرفع صورة الإيصال من صفحة /pending ← المدير يراجع
+// ويضغط «تفعيل» فيختار المواد ونهاية الفصل. قبل التفعيل (أو بعد انتهاء الاشتراك) لا يُفتح أي قسم.
+const OTP_MIN = 15, OTP_TRIES = 5, OTP_GAP_SEC = 60, OTP_IP_HOUR = 10;
+const cleanEmail = e => String(e || '').trim().toLowerCase().slice(0, 120);
+const validEmail = e => /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(e);
+// حساب يحتاج تفعيلًا: أنشأه المعلم بنفسه ولم يُفعَّل أو انتهى اشتراكه. المدير والحسابات القديمة مستثناة.
+function needsPay(me) {
+  return !!me && me.role !== 'admin' && +me.self_reg === 1 && !(+me.paid_until > now());
+}
+// نهاية الفصل الدراسي الافتراضية (يعدّلها المدير وقت التفعيل): الفصل الأول حتى 31 يناير، والثاني حتى 30 يونيو
+function termEnd(t = now()) {
+  const d = new Date(t + 4 * 3600000), y = d.getUTCFullYear(), mo = d.getUTCMonth();
+  const end = mo >= 7 ? Date.UTC(y + 1, 0, 31) : (mo === 0 ? Date.UTC(y, 0, 31) : Date.UTC(y, 5, 30));
+  return end + 20 * 3600000 - 1; // آخر اليوم بتوقيت مسقط
+}
+async function sha(s) { return hex(await crypto.subtle.digest('SHA-256', enc.encode(s))); }
+async function kvGet(env, k) { const r = await env.DB.prepare('SELECT v FROM kv WHERE k = ?').bind(k).first(); return r ? r.v : null; }
+async function kvSet(env, k, v) { await env.DB.prepare('INSERT INTO kv(k,v) VALUES(?,?) ON CONFLICT(k) DO UPDATE SET v=excluded.v').bind(k, v).run(); }
+async function payInfo(env) {
+  let v = {}; try { v = JSON.parse((await kvGet(env, 'pay_info')) || '{}') || {}; } catch (e) {}
+  return { price: String(v.price || ''), details: String(v.details || ''), whatsapp: String(v.whatsapp || ''), notify: String(v.notify || '') };
+}
+const escH = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+// إرسال البريد عبر Resend (السر RESEND_API_KEY، والمرسل MAIL_FROM بعد توثيق الدومين في Resend).
+// في التشغيل المحلي (DEV_MAIL=1) لا يُرسل شيء، ويُعاد الرمز في الاستجابة للاختبار.
+async function sendMail(env, to, subject, text, htmlBody) {
+  if (env.DEV_MAIL === '1') { console.log('[mail]', to, subject, text); return { ok: true, dev: true }; }
+  if (!env.RESEND_API_KEY) throw new Error('خدمة البريد غير مهيّأة بعد. تواصل مع إدارة المنصة.');
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST', headers: { Authorization: 'Bearer ' + env.RESEND_API_KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from: env.MAIL_FROM || 'خبير <no-reply@khaber.site>', to: [to], subject, text, html: htmlBody })
+  });
+  if (!r.ok) { console.log('resend', r.status, await r.text().catch(() => '')); throw new Error('تعذّر إرسال البريد الآن. حاول بعد قليل.'); }
+  return { ok: true };
+}
+function mailHtml(title, lines, code, foot) {
+  return '<div dir="rtl" style="font-family:Tahoma,Arial,sans-serif;background:#f6f5fc;padding:24px"><div style="max-width:460px;margin:auto;background:#fff;border-radius:16px;padding:24px;border:1px solid #e6e3f5">' +
+    '<h2 style="margin:0 0 12px;color:#3b2f9e">' + escH(title) + '</h2>' + lines.map(l => '<p style="color:#333;line-height:1.8;margin:6px 0">' + escH(l) + '</p>').join('') +
+    (code ? '<div style="font-size:32px;letter-spacing:10px;font-weight:bold;text-align:center;background:#fff4ea;color:#e8731b;border-radius:12px;padding:14px;margin:16px 0" dir="ltr">' + code + '</div>' : '') +
+    (foot ? '<p style="color:#666;font-size:13px">' + escH(foot) + '</p>' : '') + '<p style="color:#888;font-size:12px;margin-top:18px">منصة خبير — منصة المعلمين</p></div></div>';
+}
+// يُنشئ رمزًا ويرسله، مع حدود: رمز كل دقيقة لنفس الإيميل، و10 رموز في الساعة لكل عنوان IP
+async function issueOtp(env, req, email, purpose, data) {
+  const t = now(), ip = ipOf(req);
+  const prev = await env.DB.prepare('SELECT sent_at FROM otps WHERE email = ? AND purpose = ?').bind(email, purpose).first();
+  if (prev && t - prev.sent_at < OTP_GAP_SEC * 1000) { const w = Math.ceil((OTP_GAP_SEC * 1000 - (t - prev.sent_at)) / 1000); return { error: `انتظر ${w} ثانية قبل طلب رمز جديد.`, status: 429 }; }
+  const n = await env.DB.prepare('SELECT COUNT(*) n FROM otp_log WHERE ip = ? AND at > ?').bind(ip, t - 3600000).first();
+  if (n && n.n >= OTP_IP_HOUR) return { error: 'طلبات كثيرة من هذا الجهاز. حاول بعد ساعة.', status: 429 };
+  const a = new Uint32Array(1); crypto.getRandomValues(a); const code = String(100000 + (a[0] % 900000));
+  const reg = purpose === 'reg';
+  await sendMail(env, email, reg ? 'رمز تأكيد التسجيل في خبير: ' + code : 'رمز استعادة كلمة المرور في خبير: ' + code,
+    (reg ? 'رمز تأكيد التسجيل' : 'رمز استعادة كلمة المرور') + ': ' + code + '\nصالح لمدة ' + OTP_MIN + ' دقيقة. إن لم تطلبه فتجاهل هذه الرسالة.',
+    mailHtml(reg ? 'تأكيد بريدك الإلكتروني' : 'استعادة كلمة المرور', [reg ? 'أهلًا بك في خبير. اكتب هذا الرمز في صفحة التسجيل لإكمال إنشاء حسابك:' : 'اكتب هذا الرمز في صفحة استعادة كلمة المرور:'], code, 'الرمز صالح لمدة ' + OTP_MIN + ' دقيقة. إن لم تطلبه فتجاهل هذه الرسالة.'));
+  await env.DB.batch([
+    env.DB.prepare('INSERT INTO otps(email,purpose,code_hash,data,tries,ip,sent_at,exp) VALUES(?,?,?,?,0,?,?,?) ON CONFLICT(email,purpose) DO UPDATE SET code_hash=excluded.code_hash, data=excluded.data, tries=0, ip=excluded.ip, sent_at=excluded.sent_at, exp=excluded.exp')
+      .bind(email, purpose, await sha(email + ':' + code), data ? JSON.stringify(data) : null, ip, t, t + OTP_MIN * 60000),
+    env.DB.prepare('INSERT INTO otp_log(email,ip,at) VALUES(?,?,?)').bind(email, ip, t),
+    env.DB.prepare('DELETE FROM otps WHERE exp < ?').bind(t - 86400000),
+    env.DB.prepare('DELETE FROM otp_log WHERE at < ?').bind(t - 86400000)
+  ]);
+  return env.DEV_MAIL === '1' ? { ok: true, dev_code: code } : { ok: true };
+}
+async function checkOtp(env, email, purpose, code) {
+  const r = await env.DB.prepare('SELECT * FROM otps WHERE email = ? AND purpose = ?').bind(email, purpose).first();
+  if (!r || r.exp < now()) return { error: 'الرمز منتهي أو غير موجود. اطلب رمزًا جديدًا.' };
+  if (r.tries >= OTP_TRIES) return { error: 'محاولات كثيرة خاطئة. اطلب رمزًا جديدًا.' };
+  if (!safeEq(await sha(email + ':' + String(code || '').replace(/\D/g, '')), r.code_hash)) {
+    await env.DB.prepare('UPDATE otps SET tries = tries + 1 WHERE email = ? AND purpose = ?').bind(email, purpose).run();
+    const left = OTP_TRIES - r.tries - 1;
+    return { error: left > 0 ? `الرمز غير صحيح. باقي ${left} محاولات.` : 'محاولات كثيرة خاطئة. اطلب رمزًا جديدًا.' };
+  }
+  await env.DB.prepare('DELETE FROM otps WHERE email = ? AND purpose = ?').bind(email, purpose).run();
+  let data = null; try { data = r.data ? JSON.parse(r.data) : null; } catch (e) {}
+  return { ok: true, data };
+}
+async function emailTaken(env, email) {
+  return !!(await env.DB.prepare('SELECT id FROM users WHERE email = ? OR username = ?').bind(email, email).first());
+}
+// مسارات عامة (قبل الدخول): /api/register/* و /api/reset/* و /api/public/courses
+async function signupApi(req, env, p, m) {
+  if (p === '/api/public/courses') {
+    const list = (await coursesList(env)).filter(c => !c.empty).map(c => ({ key: c.key, subject: c.subject, grade: c.grade }));
+    return json({ courses: list });
+  }
+  if (m !== 'POST') return null;
+  const b = await body(req), email = cleanEmail(b.email);
+  try {
+    if (p === '/api/register/start') {
+      const name = String(b.name || '').trim().replace(/\s+/g, ' ').slice(0, 80), phone = String(b.phone || '').replace(/[^\d+]/g, '').slice(0, 20), pw = String(b.password || '');
+      const all = new Set((await coursesList(env)).map(c => c.key));
+      const scope = (Array.isArray(b.scope) ? b.scope : []).map(String).filter(k => all.has(k)).slice(0, 60);
+      if (name.length < 3) return json({ error: 'اكتب اسمك الكامل.' }, 400);
+      if (!validEmail(email)) return json({ error: 'البريد الإلكتروني غير صحيح.' }, 400);
+      if (phone.replace(/\D/g, '').length < 8) return json({ error: 'اكتب رقم الجوال (للتواصل بخصوص التحويل).' }, 400);
+      if (pw.length < 8) return json({ error: 'كلمة المرور 8 أحرف على الأقل.' }, 400);
+      if (!scope.length) return json({ error: 'اختر صفًا واحدًا على الأقل من الصفوف التي تدرّسها.' }, 400);
+      if (await emailTaken(env, email)) return json({ error: 'هذا البريد مسجّل من قبل. سجّل الدخول، أو استخدم «نسيت كلمة المرور».' }, 409);
+      const salt = rand(16);
+      const r = await issueOtp(env, req, email, 'reg', { name, phone, salt, hash: await hashPass(pw, salt), scope });
+      return r.error ? json({ error: r.error }, r.status || 400) : json(r);
+    }
+    if (p === '/api/register/verify') {
+      if (!validEmail(email)) return json({ error: 'البريد الإلكتروني غير صحيح.' }, 400);
+      const r = await checkOtp(env, email, 'reg', b.code);
+      if (r.error) return json({ error: r.error }, 400);
+      const d = r.data || {};
+      if (await emailTaken(env, email)) return json({ error: 'هذا البريد مسجّل من قبل. سجّل الدخول.' }, 409);
+      const sc = Array.isArray(d.scope) && d.scope.length ? JSON.stringify(d.scope) : null;
+      await env.DB.prepare('INSERT INTO users(name,username,pass_hash,salt,role,active,max_devices,created_at,scope,email,phone,self_reg,paid_until,req_scope) VALUES(?,?,?,?,\'teacher\',1,2,?,?,?,?,1,NULL,?)')
+        .bind(d.name || email, email, d.hash, d.salt, now(), sc, email, d.phone || '', sc).run();
+      const pi = await payInfo(env);
+      if (pi.notify && validEmail(pi.notify)) { try { await sendMail(env, pi.notify, 'تسجيل جديد في خبير: ' + (d.name || email), 'معلم جديد سجّل: ' + (d.name || '') + ' — ' + email + ' — ' + (d.phone || ''), mailHtml('تسجيل جديد', ['الاسم: ' + (d.name || ''), 'البريد: ' + email, 'الجوال: ' + (d.phone || ''), 'افتح لوحة التحكم ← «الاشتراكات» لمراجعته بعد رفع الإيصال.'])); } catch (e) {} }
+      return json({ ok: true });
+    }
+    if (p === '/api/reset/start') {
+      if (!validEmail(email)) return json({ error: 'البريد الإلكتروني غير صحيح.' }, 400);
+      const u = await env.DB.prepare('SELECT id, role FROM users WHERE email = ? OR username = ?').bind(email, email).first();
+      // لا نكشف هل الإيميل مسجّل أم لا: نفس الرد في الحالتين
+      if (!u || u.role === 'admin') return json({ ok: true });
+      const r = await issueOtp(env, req, email, 'reset', { uid: u.id });
+      return r.error ? json({ error: r.error }, r.status || 400) : json(r);
+    }
+    if (p === '/api/reset/verify') {
+      const pw = String(b.password || '');
+      if (pw.length < 8) return json({ error: 'كلمة المرور 8 أحرف على الأقل.' }, 400);
+      const r = await checkOtp(env, email, 'reset', b.code);
+      if (r.error) return json({ error: r.error }, 400);
+      const uid = r.data && +r.data.uid; if (!uid) return json({ error: 'تعذّر إكمال الاستعادة.' }, 400);
+      const salt = rand(16);
+      await env.DB.batch([
+        env.DB.prepare('UPDATE users SET pass_hash = ?, salt = ? WHERE id = ? AND role <> \'admin\'').bind(await hashPass(pw, salt), salt, uid),
+        env.DB.prepare('DELETE FROM sessions WHERE user_id = ?').bind(uid)
+      ]);
+      return json({ ok: true });
+    }
+  } catch (e) { return json({ error: e.message || 'حدث خطأ' }, 500); }
+  return null;
+}
+// صفحة الانتظار للمعلم غير المفعّل: الحالة، وبيانات التحويل، ورفع الإيصال
+async function payApi(req, env, me, p, m) {
+  if (p === '/api/pay/status') {
+    const last = await env.DB.prepare('SELECT id, status, reason, note, created_at, reviewed_at FROM payments WHERE user_id = ? ORDER BY id DESC LIMIT 1').bind(me.id).first();
+    const u = await env.DB.prepare('SELECT req_scope, scope, paid_until, email, phone FROM users WHERE id = ?').bind(me.id).first() || {};
+    let req_scope = []; try { req_scope = JSON.parse(u.req_scope || u.scope || '[]') || []; } catch (e) {}
+    const expired = +u.paid_until > 0 && +u.paid_until <= now();
+    return json({ name: me.name, email: u.email || me.username, phone: u.phone || '', req_scope, paid_until: u.paid_until || null, expired, active: !needsPay(me), payment: last || null, info: await payInfo(env) });
+  }
+  if (p === '/api/pay/receipt' && m === 'POST') {
+    const b = await body(req), img = String(b.img || '');
+    if (!/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(img)) return json({ error: 'ارفع صورة الإيصال (JPG أو PNG).' }, 400);
+    if (img.length > 1_400_000) return json({ error: 'الصورة كبيرة جدًا. صوّرها مرة أخرى بحجم أصغر.' }, 400);
+    const pend = await env.DB.prepare("SELECT COUNT(*) n FROM payments WHERE user_id = ? AND status = 'pending'").bind(me.id).first();
+    if (pend && pend.n >= 3) return json({ error: 'لديك إيصالات قيد المراجعة بالفعل. انتظر رد الإدارة.' }, 429);
+    await env.DB.prepare("INSERT INTO payments(user_id,receipt,note,status,created_at) VALUES(?,?,?,'pending',?)").bind(me.id, img, String(b.note || '').trim().slice(0, 300), now()).run();
+    const pi = await payInfo(env);
+    if (pi.notify && validEmail(pi.notify)) { try { await sendMail(env, pi.notify, 'إيصال تحويل جديد: ' + me.name, 'رفع ' + me.name + ' (' + (me.email || me.username) + ') إيصال تحويل. راجعه من لوحة التحكم ← الاشتراكات.', mailHtml('إيصال تحويل جديد', ['المعلم: ' + me.name, 'البريد: ' + (me.email || me.username), 'افتح لوحة التحكم ← «الاشتراكات» لمراجعة الإيصال والتفعيل.'])); } catch (e) {} }
+    return json({ ok: true });
+  }
+  return null;
+}
+// لوحة المدير: قائمة الاشتراكات، الإيصال، إعدادات الدفع
+async function adminSubsApi(req, env, me, p, m, url) {
+  if (p === '/api/admin/subs' && m === 'GET') {
+    const U = (await env.DB.prepare("SELECT id,name,email,username,phone,active,scope,req_scope,paid_until,created_at FROM users WHERE self_reg = 1 ORDER BY created_at DESC").all()).results || [];
+    const P = (await env.DB.prepare('SELECT id,user_id,status,reason,note,created_at,reviewed_at FROM payments ORDER BY id DESC').all()).results || [];
+    const by = {}; P.forEach(x => { (by[x.user_id] = by[x.user_id] || []).push(x); });
+    return json({ users: U.map(u => ({ ...u, payments: by[u.id] || [] })), info: await payInfo(env), term_end: termEnd(), now: now() });
+  }
+  if (p === '/api/admin/payinfo' && m === 'POST') {
+    const b = await body(req);
+    const v = { price: String(b.price || '').slice(0, 100), details: String(b.details || '').slice(0, 2000), whatsapp: String(b.whatsapp || '').replace(/[^\d+]/g, '').slice(0, 20), notify: cleanEmail(b.notify) };
+    await kvSet(env, 'pay_info', JSON.stringify(v));
+    return json({ ok: true });
+  }
+  let mm;
+  if ((mm = p.match(/^\/api\/admin\/receipt\/(\d+)$/))) {
+    const r = await env.DB.prepare('SELECT receipt FROM payments WHERE id = ?').bind(+mm[1]).first();
+    return r ? json({ img: r.receipt }) : json({ error: 'غير موجود' }, 404);
+  }
+  if ((mm = p.match(/^\/api\/admin\/subs\/(\d+)$/)) && m === 'POST') {
+    const id = +mm[1], b = await body(req);
+    const u = await env.DB.prepare('SELECT * FROM users WHERE id = ? AND role <> \'admin\'').bind(id).first();
+    if (!u) return json({ error: 'غير موجود' }, 404);
+    const t = now();
+    if (b.action === 'activate') {
+      const until = +b.until || termEnd();
+      if (until <= t) return json({ error: 'تاريخ نهاية الاشتراك لازم يكون بعد اليوم.' }, 400);
+      const all = new Set((await coursesList(env)).map(c => c.key));
+      const sc = (Array.isArray(b.scope) ? b.scope : []).map(String).filter(k => all.has(k)).slice(0, 60);
+      await env.DB.batch([
+        env.DB.prepare('UPDATE users SET paid_until = ?, scope = ?, active = 1, self_reg = 1 WHERE id = ?').bind(until, sc.length ? JSON.stringify(sc) : null, id),
+        env.DB.prepare("UPDATE payments SET status = 'approved', reviewed_at = ? WHERE user_id = ? AND status = 'pending'").bind(t, id)
+      ]);
+      const to = u.email || (validEmail(u.username) ? u.username : '');
+      if (to) { try { const d = new Date(until + 4 * 3600000).toISOString().slice(0, 10);
+        await sendMail(env, to, 'تم تفعيل اشتراكك في خبير ✅', 'أهلًا ' + u.name + '، تم تفعيل اشتراكك حتى ' + d + '. ادخل الآن: https://khaber.site/', mailHtml('تم تفعيل اشتراكك ✅', ['أهلًا ' + u.name + '،', 'تم تفعيل اشتراكك في خبير حتى ' + d + '، وفُتحت لك المواد.', 'ادخل الآن: https://khaber.site/'])); } catch (e) {} }
+      return json({ ok: true, until });
+    }
+    if (b.action === 'reject') {
+      const reason = String(b.reason || '').trim().slice(0, 300) || 'لم يتم التحقق من التحويل.';
+      await env.DB.prepare("UPDATE payments SET status = 'rejected', reason = ?, reviewed_at = ? WHERE user_id = ? AND status = 'pending'").bind(reason, t, id).run();
+      return json({ ok: true });
+    }
+    if (b.action === 'deactivate') {
+      await env.DB.prepare('UPDATE users SET paid_until = 0, self_reg = 1 WHERE id = ?').bind(id).run();
+      return json({ ok: true });
+    }
+    return json({ error: 'bad action' }, 400);
+  }
+  return null;
 }
 
 // ---------- lessons ----------
@@ -773,7 +999,7 @@ const VAULT_PW_SHA = 'b7d6b125623bd91adbe6793c8df91eb88f90182b85717c5cbf8ba6ec6b
 const inVault = (u, vault) => vault ? (+u.vault === 1 && u.role !== 'admin') : !(+u.vault === 1 && u.role !== 'admin');
 async function adminStats(env, vault) {
   const DB = env.DB;
-  const users = ((await DB.prepare("SELECT id,name,username,role,active,max_devices,created_at,scope,vault,delegated FROM users ORDER BY role='admin' DESC, name").all()).results || []).filter(u => inVault(u, vault));
+  const users = ((await DB.prepare("SELECT id,name,username,role,active,max_devices,created_at,scope,vault,delegated,email,phone,self_reg,paid_until FROM users ORDER BY role='admin' DESC, name").all()).results || []).filter(u => inVault(u, vault));
   const agg = (await DB.prepare(`SELECT user_id,
       SUM(type='login') logins,
       SUM(type LIKE 'copy%') copies,
@@ -1279,6 +1505,9 @@ export default {
         return json({ ok: true });
       }
       if (p === '/api/login' && m === 'POST') return login(req, env);
+      if (p === '/register') return html('register');
+      if (p === '/forgot') return html('forgot');
+      if (p.startsWith('/api/register/') || p.startsWith('/api/reset/') || p === '/api/public/courses') { const r = await signupApi(req, env, p, m); if (r) return r; }
       if (p === '/play') return html('play');
       if (p.startsWith('/api/play/')) { const r = await playApi(req, env, p, m, url); if (r) return r; }
 
@@ -1294,6 +1523,15 @@ export default {
         return me ? redirect(me.role === 'admin' ? '/admin' : '/app') : html('login');
       }
       if (!me) return p.startsWith('/api/') ? json({ error: 'سجّل الدخول أولًا.' }, 401) : redirect('/');
+      // ---- بوابة الاشتراك: حساب لم يُفعَّل (أو انتهى اشتراكه) لا يفتح أي قسم — فقط صفحة الانتظار ----
+      if (needsPay(me)) {
+        if (p === '/pending') return html('pending');
+        if (p.startsWith('/api/pay/')) { const r = await payApi(req, env, me, p, m); if (r) return r; }
+        if (p === '/api/me') return json({ name: me.name, username: me.username, role: me.role, id: me.id, pending: true });
+        return p.startsWith('/api/') ? json({ error: 'حسابك بانتظار التفعيل. أكمل التحويل من صفحة الاشتراك.', pending: true }, 402) : redirect('/pending');
+      }
+      if (p === '/pending') return redirect('/app');
+      if (p.startsWith('/api/pay/')) { const r = await payApi(req, env, me, p, m); if (r) return r; }
 
       // «تصحيح الواجبات» مخفي من القوائم، ويُفتح بالرابط المباشر (/grading)
       if (p === '/app') return html('app');
@@ -1306,7 +1544,7 @@ export default {
           const r = await env.DB.prepare("SELECT COUNT(*) n FROM events WHERE user_id = ? AND type = 'login'").bind(me.id).first();
           lg = (r && r.n) || 0;
         } catch (e) { lg = 0; }
-        return json({ name: me.name, username: me.username, role: me.role, delegated: +me.delegated === 1, id: me.id, first: lg <= 1 });
+        return json({ name: me.name, username: me.username, role: me.role, delegated: +me.delegated === 1, id: me.id, first: lg <= 1, paid_until: +me.self_reg === 1 ? (+me.paid_until || null) : null });
       }
       // ---------- مركز الإشعارات (الجرس) ----------
       // قائمة الرسائل الموجهة للمعلمين من المدير: الأخيرة أولاً مع حالة «مقروء» الخاصة بهذا المستخدم
@@ -1492,6 +1730,7 @@ export default {
       }
       const VAULT = url.searchParams.get('vault') === '1';
       if (VAULT && !+me.vault_ok) return json({ error: 'vault_locked' }, 423);
+      if (p.startsWith('/api/admin/subs') || p === '/api/admin/payinfo' || p.startsWith('/api/admin/receipt/')) { const r = await adminSubsApi(req, env, me, p, m, url); if (r) return r; }
       if (p === '/api/admin/stats') return json(await adminStats(env, VAULT));
       if (p === '/api/admin/activity') return json(await adminActivity(env, VAULT));
       if (p === '/api/admin/report') return json(await adminReport(env, Math.max(0, Math.min(3650, +url.searchParams.get('days') || 0)), VAULT));

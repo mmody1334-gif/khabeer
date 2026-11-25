@@ -1661,6 +1661,54 @@ html.inapp{-webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-tap-highl
 @keyframes abIn{from{opacity:0}to{opacity:1}}
 '''
 CSS = base_css + extra_css
+
+CSS += '''
+/* ---- التسجيل بالإيميل والاشتراك ---- */
+.su-links{margin:12px 0 0;text-align:center;font-size:.88rem;color:var(--mute)}
+.su-links a,.linkbtn{color:var(--main);font-weight:700;text-decoration:none;background:none;border:0;font:inherit;font-weight:700;cursor:pointer;padding:0}
+.linkbtn[disabled]{color:var(--mute);cursor:default;font-weight:500}
+.su-new{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);font-size:.9rem;color:var(--mute)}
+.btn.su-reg{background:var(--accent-l);color:var(--accent);border-color:transparent;font-weight:700;text-decoration:none}
+.su-card{width:min(520px,100%)}
+.su-steps{display:flex;gap:6px;list-style:none;padding:0;margin:0 0 16px;counter-reset:s}
+.su-steps li{flex:1;font-size:.72rem;text-align:center;color:var(--mute);padding-top:8px;border-top:4px solid var(--line);counter-increment:s}
+.su-steps li::before{content:counter(s) ". "}
+.su-steps li.on{color:var(--main);border-color:var(--main);font-weight:700}.su-steps li.done{color:var(--ink);border-color:color-mix(in srgb,var(--main) 45%,var(--line))}
+.su-courses{display:grid;gap:6px;max-height:300px;overflow:auto;padding:4px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg)}
+.su-courses details{border-radius:10px;background:var(--paper);border:1px solid var(--line)}
+.su-courses summary{cursor:pointer;padding:9px 12px;font-weight:700;display:flex;justify-content:space-between;gap:8px;font-size:.92rem}
+.su-courses summary em{font-style:normal;font-size:.75rem;color:var(--main);font-weight:600}
+.su-g{display:flex;flex-wrap:wrap;gap:6px;padding:0 10px 10px}
+.su-g label{display:inline-flex;align-items:center;gap:5px;font-size:.84rem;padding:5px 10px;border-radius:999px;border:1px solid var(--line);cursor:pointer;background:var(--bg)}
+.su-g label:has(input:checked){border-color:var(--main);background:color-mix(in srgb,var(--main) 12%,var(--paper));color:var(--main);font-weight:700}
+.su-g input,.fld .su-g input{accent-color:var(--main);width:auto;padding:0;margin:0;border:0;box-shadow:none;background:none}
+.su-up .btn[disabled]{opacity:.5;cursor:not-allowed}
+.su-count{font-size:.78rem;color:var(--mute)}
+.su-otp{text-align:center;font-size:1.6rem!important;letter-spacing:.5em;font-weight:700}
+.su-pend .st{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:14px;margin:6px 0 14px;font-size:.92rem;line-height:1.7}
+.su-pend .st b{display:block}.su-pend .st.wait{background:var(--accent-l);color:var(--ink)}.su-pend .st.bad{background:#fde8e8;color:#8a1c1c}.su-pend .st.ok{background:#e5f6ec;color:#155d34}
+.su-pay{border:1.5px dashed color-mix(in srgb,var(--main) 40%,var(--line));border-radius:14px;padding:12px 14px;margin:8px 0 14px;white-space:pre-wrap;line-height:1.8;font-size:.92rem}
+.su-pay .pr{display:block;font-size:1.15rem;font-weight:800;color:var(--main);margin-bottom:4px;white-space:normal}
+.su-chips{display:flex;flex-wrap:wrap;gap:5px;margin:4px 0 12px}.su-chips span{font-size:.76rem;padding:3px 9px;border-radius:999px;background:var(--bg);border:1px solid var(--line)}
+.su-up{display:grid;gap:8px;margin-top:6px}
+.su-up .drop{display:grid;place-items:center;gap:4px;min-height:110px;border:2px dashed var(--line);border-radius:14px;cursor:pointer;text-align:center;color:var(--mute);font-size:.88rem;background:var(--bg);padding:10px}
+.su-up .drop img{max-height:180px;max-width:100%;border-radius:10px}
+.su-up textarea{font:inherit;padding:9px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);resize:vertical;min-height:52px}
+.su-wa{display:inline-flex;gap:6px;align-items:center;margin-top:8px;font-size:.86rem;color:#128c4b;font-weight:700;text-decoration:none}
+/* لوحة المدير: الاشتراكات */
+.sub-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.sub-c{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:14px 16px;display:grid;gap:8px}
+.sub-c header{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.sub-c header b{display:block}.sub-c .sub{font-size:.8rem;color:var(--mute)}
+.sub-c .acts{display:flex;flex-wrap:wrap;gap:6px}
+.sub-c .pill.warn{background:var(--accent-l);color:var(--accent)}
+.sub-badge{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--accent);color:#fff;font-size:.72rem;margin-inline-start:4px}
+.sub-c.hot{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-l)}
+.sub-rc{max-width:100%;max-height:70vh;border-radius:12px;display:block;margin:auto}
+.sub-set{display:grid;gap:10px;grid-template-columns:1fr 1fr}.sub-set label{display:grid;gap:4px;font-size:.85rem;font-weight:600}
+.sub-set input,.sub-set textarea{font:inherit;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.sub-set .w{grid-column:1/-1}
+@media(max-width:600px){.sub-set{grid-template-columns:1fr}}
+'''
 # هوية «خبير» الجديدة (شعار البومة): الشعار صورة مربعة، والألوان من الشعار نفسه
 CSS += '''
 .auth-brand .logo{width:auto!important;height:auto!important;border-radius:0}
@@ -2084,7 +2132,7 @@ PROMO = '''<aside class="get-app" id="getApp" aria-label="حمّل التطبي�
 
 
 
-def auth_shell(card):
+def auth_shell(card, promo=True):
     return f'''<main class="auth"><div class="kb-band">{BANNER}</div>
 <section class="auth-art">
   <div class="auth-brand">
@@ -2095,7 +2143,7 @@ def auth_shell(card):
   </div>
   <div class="auth-facts"><span>مواد متعددة</span><span>الفصل الدراسي الأول</span><span>نسخ بضغطة واحدة</span></div>
 </section>
-<section class="auth-panel">{PROMO}{card}</section>
+<section class="auth-panel">{PROMO if promo else ""}{card}</section>
 </main>'''
 
 # الصفحة الرئيسية (khaber.site/) هي الصفحة الوحيدة المسموح لجوجل بأرشفتها؛ كل ما بعد الدخول يبقى noindex.
@@ -2113,13 +2161,66 @@ SEO_HEAD = (f'<meta name="description" content="{SEO_DESC}"><link rel="canonical
 
 LOGIN = auth_shell('''<form class="auth-card" id="loginForm" novalidate>
   <h2>تسجيل الدخول</h2>
-  <p class="lead">ادخل باسم المستخدم وكلمة المرور الخاصة بحسابك.</p>
+  <p class="lead">ادخل بالبريد الإلكتروني وكلمة المرور.</p>
   <div class="err" id="loginErr" role="alert" hidden></div>
-  <div class="fld"><label for="username">اسم المستخدم</label><input id="username" name="username" class="ltr" autocomplete="username" autocapitalize="none" spellcheck="false" required></div>
+  <div class="fld"><label for="username">البريد الإلكتروني</label><input id="username" name="username" class="ltr" type="text" inputmode="email" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="name@example.com" required></div>
   <div class="fld"><label for="password">كلمة المرور</label><div class="pw"><input id="password" name="password" type="password" class="ltr" autocomplete="current-password" required><button type="button" id="togglePass" aria-pressed="false">إظهار</button></div></div>
   <button class="btn primary go" id="loginBtn" type="submit">دخول</button>
+  <p class="su-links"><a href="/forgot">نسيت كلمة المرور؟</a></p>
+  <div class="su-new"><span>معلم جديد؟</span><a class="btn su-reg" href="/register">إنشاء حساب جديد</a></div>
   <p class="auth-foot">الحساب يعمل على جهازين فقط لكل معلم.</p>
 </form>''')
+
+REGISTER = auth_shell('''<div class="auth-card su-card" id="regCard">
+<form id="regForm" novalidate>
+  <h2>إنشاء حساب</h2>
+  <p class="lead">سجّل بياناتك واختر الصفوف التي تدرّسها، وسيصلك رمز تأكيد على بريدك.</p>
+  <ol class="su-steps" aria-label="خطوات التسجيل"><li class="on">البيانات</li><li>تأكيد البريد</li><li>التحويل والتفعيل</li></ol>
+  <div class="err" id="regErr" role="alert" hidden></div>
+  <div class="fld"><label for="r_name">الاسم الكامل</label><input id="r_name" autocomplete="name" maxlength="80" required></div>
+  <div class="fld"><label for="r_email">البريد الإلكتروني</label><input id="r_email" class="ltr" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="name@example.com" required></div>
+  <div class="fld"><label for="r_phone">رقم الجوال (واتساب)</label><input id="r_phone" class="ltr" type="tel" inputmode="tel" autocomplete="tel" placeholder="9xxxxxxx" required></div>
+  <div class="fld"><label for="r_pass">كلمة المرور (8 أحرف على الأقل)</label><div class="pw"><input id="r_pass" type="password" class="ltr" autocomplete="new-password" minlength="8" required><button type="button" class="eye" data-eye="r_pass" aria-pressed="false">إظهار</button></div></div>
+  <div class="fld"><label>الصفوف التي تدرّسها</label><div class="su-courses" id="r_courses"><span class="muted">جارٍ تحميل المواد…</span></div><span class="su-count" id="r_count"></span></div>
+  <button class="btn primary go" id="regBtn" type="submit">إرسال رمز التأكيد</button>
+  <p class="su-links">عندك حساب؟ <a href="/">سجّل الدخول</a></p>
+</form>
+<form id="otpForm" hidden novalidate>
+  <h2>تأكيد البريد</h2>
+  <ol class="su-steps"><li class="done">البيانات</li><li class="on">تأكيد البريد</li><li>التحويل والتفعيل</li></ol>
+  <p class="lead">أرسلنا رمزًا من 6 أرقام إلى <b class="ltr" id="otpTo"></b>. افحص البريد الوارد ومجلد الرسائل غير المرغوبة (Spam).</p>
+  <div class="err" id="otpErr" role="alert" hidden></div>
+  <div class="fld"><label for="otp">رمز التأكيد</label><input id="otp" class="ltr su-otp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" placeholder="••••••" required></div>
+  <button class="btn primary go" id="otpBtn" type="submit">تأكيد وإنشاء الحساب</button>
+  <p class="su-links"><button type="button" class="linkbtn" id="resend" disabled>إعادة إرسال الرمز</button> · <button type="button" class="linkbtn" id="editData">تعديل البيانات</button></p>
+</form>
+</div>''')
+
+FORGOT = auth_shell('''<div class="auth-card su-card">
+<form id="fgForm" novalidate>
+  <h2>نسيت كلمة المرور</h2>
+  <p class="lead">اكتب بريدك المسجّل وسنرسل لك رمزًا لتعيين كلمة مرور جديدة.</p>
+  <div class="err" id="fgErr" role="alert" hidden></div>
+  <div class="fld"><label for="f_email">البريد الإلكتروني</label><input id="f_email" class="ltr" type="email" inputmode="email" autocomplete="email" autocapitalize="none" required></div>
+  <button class="btn primary go" id="fgBtn" type="submit">إرسال الرمز</button>
+  <p class="su-links"><a href="/">رجوع لتسجيل الدخول</a></p>
+</form>
+<form id="fg2Form" hidden novalidate>
+  <h2>كلمة مرور جديدة</h2>
+  <p class="lead">لو البريد مسجّل عندنا، وصلك رمز على <b class="ltr" id="fgTo"></b>.</p>
+  <div class="err" id="fg2Err" role="alert" hidden></div>
+  <div class="fld"><label for="f_code">الرمز</label><input id="f_code" class="ltr su-otp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required></div>
+  <div class="fld"><label for="f_pass">كلمة المرور الجديدة (8 أحرف على الأقل)</label><div class="pw"><input id="f_pass" type="password" class="ltr" autocomplete="new-password" required><button type="button" class="eye" data-eye="f_pass" aria-pressed="false">إظهار</button></div></div>
+  <button class="btn primary go" id="fg2Btn" type="submit">حفظ كلمة المرور</button>
+  <p class="su-links"><button type="button" class="linkbtn" id="fgResend" disabled>إعادة إرسال الرمز</button></p>
+</form>
+</div>''')
+
+PENDING = auth_shell('''<div class="auth-card su-card su-pend" id="pend">
+  <h2>اشتراكك في خبير</h2>
+  <div id="pendBody"><p class="muted">جارٍ التحميل…</p></div>
+  <p class="su-links"><button type="button" class="linkbtn" id="pendOut">تسجيل الخروج</button></p>
+</div>''', promo=False)
 
 SETUP = auth_shell('''<form class="auth-card" id="setupForm" novalidate>
   <h2>إنشاء حساب المدير</h2>
@@ -2380,6 +2481,9 @@ PAGES = {
   'css': CSS,
   'login': page('منصة خبير — منصة المعلمين في سلطنة عُمان', LOGIN, rd('client_login.js'), index=True, head=SEO_HEAD),
   'setup': page('إعداد خبير', SETUP, rd('client_login.js')),
+  'register': page('إنشاء حساب · خبير', REGISTER, rd('client_signup.js')),
+  'forgot': page('استعادة كلمة المرور · خبير', FORGOT, rd('client_signup.js')),
+  'pending': page('تفعيل الاشتراك · خبير', PENDING, rd('client_signup.js')),
   'app': page('خبير', APP, rd('client_app.js')),
   'admin': page('لوحة التحكم · خبير', ADMIN, rd('client_admin.js')),
   'quiz': page('التقويم · خبير', QUIZ, rd('client_quiz.js') + chr(10) + rd('client_checker.js')),
