@@ -314,7 +314,7 @@ function html(name, extra = {}) {
   const body = PAGES[name].replace(/%NONCE%/g, nonce).replace('%CSS%', () => PAGES.css);
   // worker-src 'self' ضروري لـpdf.js: إن لم يُذكر يرث script-src (وهو nonce فقط)
   // فيُحجب عامل القراءة. والقصر على 'self' يمنع أي عامل خارجي.
-  const csp = `default-src 'self'; script-src 'nonce-${nonce}'; worker-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-src https://drive.google.com; frame-ancestors 'none'; base-uri 'none'; form-action 'self'`;
+  const csp = `default-src 'self'; script-src 'nonce-${nonce}'; worker-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-src https://drive.google.com https://*.google.com https://*.googleusercontent.com; frame-ancestors 'none'; base-uri 'none'; form-action 'self'`;
   return new Response(body, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'Content-Security-Policy': csp, ...SEC_HEADERS, ...extra } });
 }
 function redirect(to, extra = {}) { return new Response(null, { status: 302, headers: { Location: to, ...SEC_HEADERS, ...extra } }); }
