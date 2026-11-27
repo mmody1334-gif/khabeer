@@ -535,8 +535,8 @@ async function signupApi(req, env, p, m) {
       const d = r.data || {};
       if (await emailTaken(env, email)) return json({ error: 'هذا البريد مسجّل من قبل. سجّل الدخول.' }, 409);
       const sc = Array.isArray(d.scope) && d.scope.length ? JSON.stringify(d.scope) : null;
-      await env.DB.prepare('INSERT INTO users(name,username,pass_hash,salt,role,active,max_devices,created_at,scope,email,phone,self_reg,paid_until,req_scope) VALUES(?,?,?,?,\'teacher\',1,2,?,?,?,?,1,NULL,?)')
-        .bind(d.name || email, email, d.hash, d.salt, now(), sc, email, d.phone || '', sc).run();
+      await env.DB.prepare('INSERT INTO users(name,username,pass_hash,salt,role,active,max_devices,created_at,scope,email,phone,self_reg,paid_until,req_scope) VALUES(?,?,?,?,\'teacher\',1,2,?,?,?,?,1,?,?)')
+        .bind(d.name || email, email, d.hash, d.salt, now(), sc, email, d.phone || '', now() + 3 * 86400000, sc).run(); // تجربة مجانية 3 أيام
       const pi = await payInfo(env);
       if (pi.notify && validEmail(pi.notify)) { try { await sendMail(env, pi.notify, 'تسجيل جديد في خبير: ' + (d.name || email), 'معلم جديد سجّل: ' + (d.name || '') + ' — ' + email + ' — ' + (d.phone || ''), mailHtml('تسجيل جديد', ['الاسم: ' + (d.name || ''), 'البريد: ' + email, 'الجوال: ' + (d.phone || ''), 'افتح لوحة التحكم ← «الاشتراكات» لمراجعته بعد رفع الإيصال.'])); } catch (e) {} }
       return json({ ok: true });
