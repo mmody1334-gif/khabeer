@@ -56,6 +56,26 @@ def _untat(o):
 lessons = _untat(lessons)
 qbank = _untat(json.load(open(os.path.join(DATA, 'quiz_bank.json'), encoding='utf-8')))
 
+# ===== الفصل الدراسي الثاني: data/term2/<مقرر>/ =====
+# كل مقرر في مجلده (lessons / quiz_bank / study_pack / games_pack / finals + finals_img) بنفس صيغ
+# ملفات الفصل الأول. يُدمج هنا فتظهر دروسه بالحقل term=2 في كل أقسام المنصة والتطبيق.
+T2DIR = os.path.join(DATA, 'term2')
+T2 = sorted(d for d in os.listdir(T2DIR) if os.path.isdir(os.path.join(T2DIR, d))) if os.path.isdir(T2DIR) else []
+def _t2(name):
+    for d in T2:
+        fp = os.path.join(T2DIR, d, name)
+        if os.path.exists(fp): yield d, json.load(open(fp, encoding='utf-8'))
+_ids = {l['id'] for l in lessons}
+for _d, _ls in _t2('lessons.json'):
+    for _l in _ls:
+        _l['term'] = 2
+        if _l['id'] in _ids: raise SystemExit('معرّف درس مكرر في term2/%s: %r' % (_d, _l['id']))
+        _ids.add(_l['id'])
+    lessons += _untat(_ls)
+for _d, _qb in _t2('quiz_bank.json'):
+    qbank += _untat(_qb)
+print('الفصل الثاني:', len(T2), 'مقرر —', sum(1 for l in lessons if l.get('term') == 2), 'درسًا')
+
 # ===== محتوى اللغة العربية (5-12): ملخصات + خطط علاجية + بنك أسئلة =====
 # المصدر: data/ar_content/*.txt بصيغة مختصرة سهلة التحرير، كتلة لكل درس:
 #   #<رقم الدرس>
@@ -2467,6 +2487,18 @@ def _research():
     return items
 RESEARCH = _research()
 FIN = json.load(open(os.path.join(DATA, 'finals.json'), encoding='utf-8')) if os.path.exists(os.path.join(DATA, 'finals.json')) else {}
+# نهائيات الفصل الثاني: تُضاف أوراقها ووحداتها ومفرداتها إلى مقرر الفصل الأول نفسه (المفتاح المادة|الصف)،
+# وصورها (finals_img) تُنسخ إلى أصول /fin/<المجلد>/ حيث تشير حقول im.
+for _d, _f in _t2('finals.json'):
+    _k = _f['subject'] + '|' + _f['grade']
+    if _k in FIN:
+        FIN[_k]['units'].update(_f.get('units', {})); FIN[_k]['papers'].update(_f.get('papers', {})); FIN[_k]['q'] += _f.get('q', [])
+    else:
+        FIN[_k] = _f
+    _fi = os.path.join(T2DIR, _d, 'finals_img')
+    if os.path.isdir(_fi):
+        import shutil as _sh2
+        _sh2.copytree(_fi, os.path.join(DIST, 'assets', 'fin', _d), dirs_exist_ok=True)
 # تدقيق: مفردات نهائيات بلا نموذج إجابة لا تدخل الاختبارات القصيرة (finAnswered في worker_src.js) — نطبع حجم النقص
 _noans = {k: sum(1 for q in v.get('q', []) if not (str(q.get('a') or '').strip() or q.get('ai') or (q.get('t') == 'mcq' and q.get('ch') and isinstance(q.get('cor'), int)))) for k, v in FIN.items()}
 _noans = {k: n for k, n in _noans.items() if n}
@@ -2525,8 +2557,12 @@ def _study_with_mm():
             st['lessons'].setdefault(str(k), {})['mm'] = v
     for k, v in _AR_STUDY.items():
         st['lessons'].setdefault(k, {}).update(v)
+    for _d, _sp in _t2('study_pack.json'):
+        st['lessons'].update(_sp.get('lessons', {})); st['units'].update(_sp.get('units', {}))
     return st
-_PK = {'study': _untat(_study_with_mm()), 'games': _untat(json.load(open(os.path.join(DATA, 'games_pack.json'), encoding='utf-8'))), 'finals': _untat(FIN)}
+_GP = json.load(open(os.path.join(DATA, 'games_pack.json'), encoding='utf-8'))
+for _d, _gp in _t2('games_pack.json'): _GP.update(_gp)
+_PK = {'study': _untat(_study_with_mm()), 'games': _untat(_GP), 'finals': _untat(FIN)}
 _PB = {k: json.dumps(v, ensure_ascii=False, separators=(',', ':')).encode('utf-8') for k, v in _PK.items()}
 _PH = _hl.sha256(b''.join(_PB.values())).hexdigest()[:24]
 import shutil as _sh
@@ -2539,6 +2575,15 @@ if os.path.isdir(os.path.join(HERE, '..', 'vendor', 'promo')): _sh.copytree(os.p
 src = src.replace('__PACKDIR__', json.dumps('/d/' + _PH + '/'))
 src = src.replace('__QBANK__', json.dumps(qbank, ensure_ascii=False, separators=(',', ':')))
 src = src.replace('__BUILD__', json.dumps(BUILD))
+# إعدادات التطبيق: data/app.json + القيم الثابتة للتحضير (DEF_SETTINGS/SUBJ_SETTINGS) تُقرأ من client_app.js
+# نفسه بـ node، فيبقى للقيم مصدر واحد يستعمله الموقع والتطبيق معًا.
+_APPCFG = json.load(open(os.path.join(DATA, 'app.json'), encoding='utf-8'))
+_APPCFG.pop('_note', None)
+_ca = rd('client_app.js'); _a = _ca.index('var DEF_SETTINGS='); _b = _ca.index('function subjKeyOf')
+_pd = subprocess.run(['node', '-e', 'var src=require("fs").readFileSync(0,"utf8");eval(src);process.stdout.write(JSON.stringify({def:DEF_SETTINGS,subj:SUBJ_SETTINGS}))'], input=_ca[_a:_b], capture_output=True, text=True, check=True)
+_APPCFG['prep'] = json.loads(_pd.stdout)
+_APPCFG['tool_version'] = TOOL_VER
+src = src.replace('__APPCFG__', json.dumps(_APPCFG, ensure_ascii=False, separators=(',', ':')))
 # أسئلة ألعاب الرياضيات المولّدة (اختيارية: تُبنى فارغة إن لم يوجد الملف)
 _gm = os.path.join(DATA, 'games_math.json')
 src = src.replace('__GAMESMATH__', json.dumps(json.load(open(_gm, encoding='utf-8')) if os.path.exists(_gm) else [], ensure_ascii=False, separators=(',', ':')))

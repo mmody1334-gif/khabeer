@@ -100,17 +100,25 @@ function icon(n){return '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
 function track(type,l,detail){
   try{fetch('/api/event',{method:'POST',credentials:'same-origin',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({type:type,lesson_id:l&&l.id,detail:detail||''})});}catch(e){}
 }
-function grades(){var s={},out=[];lessons.forEach(function(l){if(!inGroup(l))return;var k=ckey(l);if(!s[k]){s[k]=1;out.push(k);}});
+// ---------- الفصل الدراسي: الشجرة تعرض دروس فصل واحد (الأول أو الثاني) ----------
+// الافتراضي حسب التاريخ بتوقيت مسقط (فبراير–يوليو = الثاني)، واختيار المعلم يُحفظ على جهازه.
+var curTerm=(function(){try{var t=+localStorage.getItem('khb_term');if(t===1||t===2)return t;}catch(e){}var mo=new Date(Date.now()+4*3600000).getUTCMonth();return mo>=1&&mo<=6?2:1;})();
+function tOk(l){return (+l.term||1)===curTerm;}
+function termSwitchHtml(){
+  var b=function(n,t){var on=curTerm===n;return '<button type="button" data-term="'+n+'" aria-pressed="'+on+'" style="flex:1;min-height:38px;border:0;border-radius:10px;font:inherit;font-weight:'+(on?'800':'600')+';cursor:pointer;background:'+(on?'var(--main)':'transparent')+';color:'+(on?'#fff':'var(--ink)')+'">'+t+'</button>';};
+  return '<div class="term-sw" role="group" aria-label="الفصل الدراسي" style="display:flex;gap:4px;padding:4px;margin:0 0 10px;background:var(--main-l);border-radius:13px">'+b(1,'الفصل الأول')+b(2,'الفصل الثاني')+'</div>';
+}
+function grades(){var s={},out=[];lessons.forEach(function(l){if(!inGroup(l)||!tOk(l))return;var k=ckey(l);if(!s[k]){s[k]=1;out.push(k);}});
   return out.sort(function(a,b){var x=a.split('|'),y=b.split('|');var gi=GRADE_ORDER.indexOf(x[1]),gj=GRADE_ORDER.indexOf(y[1]);return (gi-gj)||x[0].localeCompare(y[0],'ar');});}
 function multiSubj(){var s={};lessons.forEach(function(l){s[l.subject||'']=1;});return Object.keys(s).length>1;}
-function unitsOf(g){var s={};lessons.forEach(function(l){if(ckey(l)===g)s[l.unit]=1;});return Object.keys(s).sort(function(a,b){return parseInt(a,10)-parseInt(b,10);});}
-function lessonsOf(g,u){return lessons.filter(function(l){return ckey(l)===g&&String(l.unit)===String(u);}).sort(function(a,b){return (a.lesson_no||0)-(b.lesson_no||0)||a.id-b.id;});}
+function unitsOf(g){var s={};lessons.forEach(function(l){if(ckey(l)===g&&tOk(l))s[l.unit]=1;});return Object.keys(s).sort(function(a,b){return parseInt(a,10)-parseInt(b,10);});}
+function lessonsOf(g,u){return lessons.filter(function(l){return ckey(l)===g&&tOk(l)&&String(l.unit)===String(u);}).sort(function(a,b){return (a.lesson_no||0)-(b.lesson_no||0)||a.id-b.id;});}
 function isEmpty(l){return !(l.pre_learning||l.outcomes||l.activities_teach);}
 
 function renderTree(){
   var tree=$('tree'),ss=subjects();
   if(ss.length>1&&ss.indexOf(subj)<0)subj=ss[0];
-  tree.innerHTML='<button type="button" class="btn small home-back" id="homeBackBtn">🏠 الرئيسية</button>'+'<div class="srch" style="margin:2px 0 10px"><input id="lesSearch" type="search" style="width:100%;box-sizing:border-box;padding:8px 11px;border:1.5px solid var(--line,#d4e5de);border-radius:10px;font:inherit;background:var(--paper,#fff)" placeholder="🔎 ابحث بدرس… (عنوان أو كلمة أو رقم)" value="'+esc(searchQ)+'" aria-label="البحث في الدروس"></div>'+(ss.length>1?'<label class="subj-pick"><span class="subj-ic" aria-hidden="true">'+subjIcon(subj)+'</span><span class="subj-l">المادة</span><select id="subjSel" aria-label="اختر المادة">'+ss.map(function(x){return '<option value="'+esc(x)+'"'+(x===subj?' selected':'')+'>'+esc(x)+' · '+esc(gradeRange(x))+'</option>';}).join('')+'</select></label>':'')+'<h2 class="tree-h">'+(ss.length>1?subjIcon(subj)+' '+esc(subj):'الكتاب المدرسي')+'</h2>';
+  tree.innerHTML='<button type="button" class="btn small home-back" id="homeBackBtn">🏠 الرئيسية</button>'+'<div class="srch" style="margin:2px 0 10px"><input id="lesSearch" type="search" style="width:100%;box-sizing:border-box;padding:8px 11px;border:1.5px solid var(--line,#d4e5de);border-radius:10px;font:inherit;background:var(--paper,#fff)" placeholder="🔎 ابحث بدرس… (عنوان أو كلمة أو رقم)" value="'+esc(searchQ)+'" aria-label="البحث في الدروس"></div>'+(ss.length>1?'<label class="subj-pick"><span class="subj-ic" aria-hidden="true">'+subjIcon(subj)+'</span><span class="subj-l">المادة</span><select id="subjSel" aria-label="اختر المادة">'+ss.map(function(x){return '<option value="'+esc(x)+'"'+(x===subj?' selected':'')+'>'+esc(x)+' · '+esc(gradeRange(x))+'</option>';}).join('')+'</select></label>':'')+termSwitchHtml()+'<h2 class="tree-h">'+(ss.length>1?subjIcon(subj)+' '+esc(subj):'الكتاب المدرسي')+'</h2>';
   if($('lesSearch')){
     $('lesSearch').oninput=function(){
       searchQ=this.value;renderTree();
@@ -120,10 +128,13 @@ function renderTree(){
   }
   if($('subjSel'))$('subjSel').onchange=function(){subj=this.value;try{localStorage.setItem('tahdir_subject',subj);}catch(e){}renderTree();};
   if($('homeBackBtn'))$('homeBackBtn').onclick=function(){showHome();};
+  Array.prototype.forEach.call(tree.querySelectorAll('[data-term]'),function(b){b.onclick=function(){curTerm=+b.getAttribute('data-term');try{localStorage.setItem('khb_term',String(curTerm));}catch(e){}renderTree();};});
   // أثناء البحث: نعرض نتائج البحث وحدها بدل الشجرة الكاملة، حتى لا يشتّت الشاشة
+  if(!searchQ.trim()&&!grades().length){var t2e=document.createElement('div');t2e.className='l-empty';t2e.style.cssText='padding:14px 10px;line-height:1.8;text-align:center';
+    t2e.textContent=curTerm===2?'دروس الفصل الثاني لهذه المادة قيد التجهيز، وتظهر هنا تلقائيًا فور رفعها.':'لا توجد دروس للفصل الأول في هذه المادة.';tree.appendChild(t2e);}
   if(!searchQ.trim()){grades().forEach(function(g){
     var gDiv=document.createElement('div');gDiv.className='g-block';
-    var count=lessons.filter(function(l){return ckey(l)===g;}).length,gp=g.split('|');
+    var count=lessons.filter(function(l){return ckey(l)===g&&tOk(l);}).length,gp=g.split('|');
     var gBtn=document.createElement('button');gBtn.className='g-btn';gBtn.type='button';
     gBtn.innerHTML='<span class="g-name">الصف '+esc(gradeLabel(gp[1]))+'</span><span class="g-meta">'+count+' درس <span class="chev">▾</span></span>';
     var gBody=document.createElement('div');gBody.className='g-body';

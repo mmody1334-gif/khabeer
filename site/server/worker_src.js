@@ -120,6 +120,8 @@ function finQuizItems(key) {
   return out;
 }
 const BUILD = __BUILD__;
+// إعدادات تطبيق خبير (site/data/app.json) + القيم الثابتة للتحضير المستخرجة من client_app.js عند البناء
+const APPCFG = __APPCFG__;
 // أسئلة ألعاب مولّدة من أهداف دروس الرياضيات 5-9 (لا تمسّ توليد الاختبارات)
 const GMATH = __GAMESMATH__;
 LESSONS.forEach(l => { if (!l.subject) l.subject = l.grade === 'الخامس' ? 'العلوم' : 'الأحياء'; if (!l.term) l.term = 1; });
@@ -687,6 +689,32 @@ async function lessonsResponse(req, env, me) {
     for (const [k, v] of LESSONS_CACHE) { if (LESSONS_CACHE_CH <= 12e6 || k === etag) break; LESSONS_CACHE.delete(k); LESSONS_CACHE_CH -= v.length; }
   }
   return new Response(body, { headers: { 'Content-Type': 'application/json; charset=utf-8', ...hdr } });
+}
+// ---------- تطبيق خبير (أندرويد): ملف الإعداد الذي يقود الواجهة ----------
+// التطبيق شاشات أصلية فقط؛ كل ما يظهر فيها (الفصل الحالي، المقررات وحالتها، الأدوات وترتيبها،
+// القيم الثابتة للتحضير، إصدار أداة نور) يأتي من هنا، فيتغيّر بنشر الموقع وحده بلا تحديث للتطبيق.
+function currentTerm(t = now()) {
+  const f = +(APPCFG.term && APPCFG.term.current) || 0;
+  if (f === 1 || f === 2) return f;
+  const mo = new Date(t + 4 * 3600000).getUTCMonth(); // توقيت مسقط
+  return mo >= 1 && mo <= 6 ? 2 : 1;                   // فبراير–يوليو: الفصل الثاني
+}
+async function appManifest(env, me) {
+  const ls = needsPay(me) ? [] : await lessonsFor(env, me), m = new Map();
+  ls.forEach(l => {
+    const k = courseKey(l), c = m.get(k) || { key: k, subject: l.subject || '', grade: l.grade, t1: 0, t2: 0 };
+    if ((+l.term || 1) === 2) c.t2++; else c.t1++;
+    m.set(k, c);
+  });
+  const st = APPCFG.term2_status || {}, def = APPCFG.term2_default || 'preparing';
+  const courses = [...m.values()].map(c => ({ ...c, t2_status: c.t2 > 0 ? 'ready' : (st[c.key] || def) }));
+  return json({
+    v: 1, build: BUILD && BUILD.sha || '',
+    user: { name: me.name, username: me.username, role: me.role, pending: needsPay(me), paid_until: +me.self_reg === 1 ? (+me.paid_until || null) : null },
+    app: APPCFG.app || {}, term: { ...(APPCFG.term || {}), current: currentTerm() },
+    courses, tools: APPCFG.tools || [], flow: APPCFG.flow || [], home_tools: APPCFG.home_tools || [],
+    web_css: APPCFG.web_css || '', prep: APPCFG.prep || {}, tool: { url: '/tool/tahdir-noor.user.js', version: APPCFG.tool_version || '' }
+  }, 200, { 'Cache-Control': 'no-store' });
 }
 async function lessonsFor(env, me) {
   const all = await allLessons(env), sc = scopeOf(me);
@@ -1474,6 +1502,12 @@ export default {
       if (p === '/tool/tahdir-noor.user.js' || p === '/tool/tahdir-noor.meta.js') return new Response(TOOL, { headers: { 'Content-Type': 'text/javascript; charset=utf-8', 'Cache-Control': 'no-cache', 'X-Content-Type-Options': 'nosniff' } });
       if (p === '/privacy' || p === '/support') return new Response(PRIVACY, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'public, max-age=3600', 'Content-Security-Policy': "default-src 'none'; style-src 'unsafe-inline'", ...SEC_HEADERS } });
       if (p === '/download/khaber-ext.zip' && EXTZIP) return new Response(Uint8Array.from(atob(EXTZIP), c => c.charCodeAt(0)), { headers: { 'Content-Type': 'application/zip', 'Content-Disposition': 'attachment; filename="khaber-ext.zip"', 'Cache-Control': 'no-cache' } });
+      // التطبيق الأصلي (عدة ميغابايت) يُنشر ملفًا ثابتًا في الأصول (/dl/khaber.apk) بدل دمجه في العامل؛
+      // والنسخة المدمجة القديمة تبقى احتياطًا إن لم يوجد الملف.
+      if (p === '/download/khabeer.apk') return redirect('/download/khaber.apk'); // اسم قديم في common.js (APK_URL)
+      if (p === '/download/khaber.apk' && env.ASSETS) {
+        try { const a = await env.ASSETS.fetch(new Request(new URL('/dl/khaber.apk', url.origin))); if (a.ok) return new Response(a.body, { headers: { 'Content-Type': 'application/vnd.android.package-archive', 'Content-Disposition': 'attachment; filename="khaber.apk"', 'Cache-Control': 'no-cache' } }); } catch (e) {}
+      }
       if (p === '/download/khaber.apk') return new Response(Uint8Array.from(atob(APK), c => c.charCodeAt(0)), { headers: { 'Content-Type': 'application/vnd.android.package-archive', 'Content-Disposition': 'attachment; filename="khaber.apk"', 'Cache-Control': 'no-cache' } });
       if (ICONS[p]) return new Response(Uint8Array.from(atob(ICONS[p]), c => c.charCodeAt(0)), { headers: { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=604800' } });
       if (p === '/manifest.webmanifest') return new Response(MANIFEST, { headers: { 'Content-Type': 'application/manifest+json; charset=utf-8', 'Cache-Control': 'public, max-age=86400' } });
@@ -1523,6 +1557,7 @@ export default {
         return me ? redirect(me.role === 'admin' ? '/admin' : '/app') : html('login');
       }
       if (!me) return p.startsWith('/api/') ? json({ error: 'سجّل الدخول أولًا.' }, 401) : redirect('/');
+      if (p === '/api/app/manifest') return appManifest(env, me);
       // ---- بوابة الاشتراك: حساب لم يُفعَّل (أو انتهى اشتراكه) لا يفتح أي قسم — فقط صفحة الانتظار ----
       if (needsPay(me)) {
         if (p === '/pending') return html('pending');

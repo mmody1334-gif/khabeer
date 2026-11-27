@@ -1,0 +1,203 @@
+{
+  "_note": "إعدادات تطبيق خبير (أندرويد). أي تعديل هنا يصل للتطبيق فور نشر الموقع بلا تحديث للتطبيق. term.current: 0 = تلقائي حسب التاريخ (فبراير–يوليو = الفصل الثاني)، أو 1 / 2 لفرض فصل. term2_status: حالة مقرر لم تُرفع دروسه بعد: preparing (قيد التجهيز) أو soon (قريبًا). المقرر الذي فيه دروس للفصل الثاني يظهر «جاهز» تلقائيًا.",
+  "app": {
+    "min_version": 1,
+    "update_url": "https://khaber.site/download/khaber.apk",
+    "banner": ""
+  },
+  "term": {
+    "current": 0,
+    "year": "2026/2027",
+    "labels": {
+      "1": "الفصل الأول",
+      "2": "الفصل الثاني"
+    },
+    "badge2": "جديد",
+    "note2": "تصلك دروس الفصل الثاني تلقائيًا فور رفعها على المنصة — بلا تحديث للتطبيق."
+  },
+  "term2_default": "preparing",
+  "term2_status": {},
+  "flow": [
+    {
+      "id": "before",
+      "name": "قبل الحصة",
+      "sub": "أجهّز درسي",
+      "keys": [
+        "prep",
+        "slides",
+        "summaries",
+        "cando"
+      ]
+    },
+    {
+      "id": "during",
+      "name": "داخل الحصة",
+      "sub": "أشغّل صفّي",
+      "keys": [
+        "games",
+        "cards"
+      ]
+    },
+    {
+      "id": "assess",
+      "name": "التقويم",
+      "sub": "أقيس التعلّم",
+      "keys": [
+        "quiz",
+        "homework",
+        "diag",
+        "finals"
+      ]
+    },
+    {
+      "id": "follow",
+      "name": "بعد الحصة",
+      "sub": "أتابع طلابي",
+      "keys": [
+        "analysis",
+        "remedial",
+        "ld"
+      ]
+    },
+    {
+      "id": "office",
+      "name": "ملفاتي",
+      "sub": "أوراق إدارية وبحوث",
+      "keys": [
+        "forms",
+        "research"
+      ]
+    }
+  ],
+  "home_tools": [
+    "prep",
+    "quiz",
+    "homework",
+    "games",
+    "slides",
+    "finals"
+  ],
+  "tools": [
+    {
+      "key": "prep",
+      "title": "التحضير",
+      "sub": "دروس جاهزة للإرسال إلى نور",
+      "route": "native:lessons",
+      "icon": "doc",
+      "tone": "main"
+    },
+    {
+      "key": "quiz",
+      "title": "الاختبارات",
+      "sub": "اختبارات قصيرة وفق الوثيقة",
+      "route": "/quiz",
+      "icon": "check",
+      "tone": "accent"
+    },
+    {
+      "key": "homework",
+      "title": "الواجبات",
+      "sub": "ورقة واجب بدرجات وأنواع وفق الوثيقة",
+      "route": "/homework",
+      "icon": "pen",
+      "tone": "leaf"
+    },
+    {
+      "key": "cards",
+      "title": "كروت الأسئلة",
+      "sub": "بطاقة لكل طالب وامسح الصف بالجوال",
+      "route": "/cards",
+      "icon": "card",
+      "tone": "main"
+    },
+    {
+      "key": "games",
+      "title": "الألعاب",
+      "sub": "شد الحبل، العداء، كرة القدم…",
+      "route": "/games",
+      "icon": "game",
+      "tone": "main"
+    },
+    {
+      "key": "slides",
+      "title": "العروض",
+      "sub": "عروض كل مادة وصف",
+      "route": "/slides",
+      "icon": "screen",
+      "tone": "accent"
+    },
+    {
+      "key": "finals",
+      "title": "النهائيات",
+      "sub": "أسئلة الوزارة حسب الدرس",
+      "route": "/finals",
+      "icon": "cap",
+      "tone": "leaf"
+    },
+    {
+      "key": "remedial",
+      "title": "الخطط الصفية",
+      "sub": "خطط علاجية وإثرائية",
+      "route": "/remedial",
+      "icon": "plan",
+      "tone": "accent"
+    },
+    {
+      "key": "summaries",
+      "title": "الملخصات",
+      "sub": "وفق مخرجات التعلم",
+      "route": "/summaries",
+      "icon": "book",
+      "tone": "leaf"
+    },
+    {
+      "key": "cando",
+      "title": "أستطيع أن",
+      "sub": "قوائم التقييم الذاتي",
+      "route": "/cando",
+      "icon": "check",
+      "tone": "leaf"
+    },
+    {
+      "key": "research",
+      "title": "البحوث الإجرائية",
+      "sub": "العلوم، اللغة العربية، الرياضيات",
+      "route": "/research",
+      "icon": "flask",
+      "tone": "main"
+    },
+    {
+      "key": "diag",
+      "title": "الاختبار التشخيصي",
+      "sub": "قياس مستوى الطالب قبل الدرس",
+      "route": "/diag",
+      "icon": "target",
+      "tone": "accent"
+    },
+    {
+      "key": "analysis",
+      "title": "تحليل النتائج",
+      "sub": "نتائج وتقارير سريعة",
+      "route": "/analysis",
+      "icon": "chart",
+      "tone": "main"
+    },
+    {
+      "key": "ld",
+      "title": "صعوبات التعلم",
+      "sub": "متابعة الطلاب المتعثرين",
+      "route": "/ld",
+      "icon": "users",
+      "tone": "accent"
+    },
+    {
+      "key": "forms",
+      "title": "النماذج الإدارية",
+      "sub": "نماذج جاهزة للطباعة",
+      "route": "/forms",
+      "icon": "folder",
+      "tone": "leaf"
+    }
+  ],
+  "web_css": "html.inapp .atop,html.inapp .abar,.kb-side,.kb-scrim,.kb-tabs,#updBar{display:none!important}html.inapp body{padding-bottom:env(safe-area-inset-bottom,0px)!important}"
+}

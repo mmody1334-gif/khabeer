@@ -21,7 +21,11 @@ jobs:
       - name: Fetch APKs from dist branch
         run: |
           git fetch origin dist --depth=1 2>/dev/null || true
-          git show origin/dist:khabeer.apk > site/server/khabeer.apk 2>/dev/null || true
+          # التطبيق الأصلي (عدة ميغابايت) يُنشر ملفًا ثابتًا في /dl/ ولا يُدمج في العامل (حدّ حجم العامل).
+          # يُدمج في العامل فقط لو كان صغيرًا (تطبيق المتصفح القديم) كاحتياط.
+          git show origin/dist:khabeer.apk > /tmp/khaber.apk 2>/dev/null || rm -f /tmp/khaber.apk
+          git show origin/dist:BUILD.txt > /tmp/BUILD.txt 2>/dev/null || true
+          if [ -s /tmp/khaber.apk ] && [ $(stat -c%s /tmp/khaber.apk) -lt 1000000 ]; then cp /tmp/khaber.apk site/server/khabeer.apk; fi
       - name: Build worker.js
         run: python3 site/server/build_worker.py
       - name: Check syntax
@@ -62,6 +66,10 @@ jobs:
           mkdir -p site/dist/assets/fin && cp -r site/finals/img/. site/dist/assets/fin/
           mkdir -p site/dist/assets/pdf && cp -r site/vendor/pdf/. site/dist/assets/pdf/
           mkdir -p site/dist/assets/promo && cp -r site/vendor/promo/. site/dist/assets/promo/
+          mkdir -p site/dist/assets/dl
+          if [ -s /tmp/khaber.apk ]; then cp /tmp/khaber.apk site/dist/assets/dl/khaber.apk; fi
+          RUN=$(grep -o 'run [0-9]*' /tmp/BUILD.txt 2>/dev/null | grep -o '[0-9]*' || echo 0)
+          echo "{\"version\":${RUN:-0}}" > site/dist/assets/dl/version.json; cat site/dist/assets/dl/version.json
           # تنظيف صور الوزارة (خطوط الحواف، صناديق الدرجات، شظايا الورقة) — الأصول في site/finals تبقى كما هي
           pip install -q numpy pillow opencv-python-headless && python3 site/tools/clean_fin.py site/dist/assets/fin || echo "::warning::fin image cleaning skipped"
           # رقم السؤال الأصلي المطبوع في صورة سؤال الاختبار النهائي («٦)») — المنصة تكتب الرقم الجديد فوقها
