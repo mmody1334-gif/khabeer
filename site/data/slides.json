@@ -2030,5 +2030,61 @@
   "grade": "الثاني عشر",
   "drive": "1qPfBEnnMGBw7sZi7dSi4CTZ4hbFVaoLG",
   "unit": "عروض أخرى (غير مصنفة)"
+ },
+ {
+  "id": "sl263",
+  "name": "3-1 الهندسة الجينية",
+  "subject": "الأحياء",
+  "grade": "الثاني عشر",
+  "drive": "1VFl_8MNSma5jIuBI6fefRjI_PUixAkrT",
+  "unit": "3 - التقنية الجينية"
+ },
+ {
+  "id": "sl264",
+  "name": "3-2 أدوات تقني الجينات",
+  "subject": "الأحياء",
+  "grade": "الثاني عشر",
+  "drive": "1ViuHfeQuSy8_8Pi0p2x9xe9rbYW56oOv",
+  "unit": "3 - التقنية الجينية"
+ },
+ {
+  "id": "sl265",
+  "name": "3-5 التقنية الجينية والزراعة",
+  "subject": "الأحياء",
+  "grade": "الثاني عشر",
+  "drive": "1_42NWa3iYjRX10dCILdPRKyRr7enLLKi",
+  "unit": "3 - التقنية الجينية"
+ },
+ {
+  "id": "sl266",
+  "name": "5-4 التحكم والتنسيق في النباتات",
+  "subject": "الأحياء",
+  "grade": "الثاني عشر",
+  "drive": "1-NN3AyjqyoqJU6vdv4gM8ri4b1YViUFg",
+  "unit": "5 - التحكم والتنسيق"
+ },
+ {
+  "id": "sl267",
+  "name": "6-4 التنفس من دون الأكسجين",
+  "subject": "الأحياء",
+  "grade": "الثاني عشر",
+  "drive": "1svpeI8X9VGG4Q3_8jlY91y5ARYwsja7H",
+  "unit": "6 - الطاقة والتنفس"
+ },
+ {
+  "id": "sl268",
+  "name": "2-4 الجينات والبروتينات والطراز المظهري",
+  "subject": "الأحياء",
+  "grade": "الثاني عشر",
+  "drive": "13ZzF-nTefdM6AsQxxnSDInozLSnbtKGJ",
+  "unit": "2 - الوراثة"
+ },
+ {
+  "id": "sl269",
+  "name": "2-5 التحكم في التعبير الجيني",
+  "subject": "الأحياء",
+  "grade": "الثاني عشر",
+  "drive": "1e-Zs56RwFMQcTI1lDPDbJSXODwnM1DLB",
+  "unit": "2 - الوراثة"
  }
 ]
