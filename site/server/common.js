@@ -948,14 +948,14 @@ else setTimeout(tourMaybe,0);
 
 (function(){
   var K='khabeer_welcome_v1';
-  if(navigator.webdriver)return;
+  if(navigator.webdriver||/KhabeerNative/.test(navigator.userAgent))return; // داخل التطبيق الأصلي: لا داعي لرسالة تحميل التطبيق
   try{if(localStorage.getItem(K))return;}catch(e){return;}
   setTimeout(function(){
     if(!document.querySelector('header.top'))return;
     var ov=$('modal');if(!ov||!ov.hidden)return;
     try{localStorage.setItem(K,'1');}catch(e){}
     var h='<p class="m-msg">يسعدنا أن نقدّم لكم <b>«خبير»</b>، الاسم والشكل الجديدان للمنصة. حساباتكم والتحضير والقيم الثابتة كما هي دون أي تغيير.</p>'+
-      '<p class="m-msg"><b>لمستخدمي تطبيق الموبايل:</b> احذفوا التطبيق القديم «الكبسولة»، ثم حمّلوا تطبيق «خبير» الجديد.</p>';
+      '<p class="m-msg"><b>لمستخدمي الموبايل:</b> حمّلوا تطبيق «خبير» الجديد لأندرويد — يُثبَّت فوق القديم ويحتفظ بحسابكم.</p>';
     dialog({title:'مرحبًا بكم في «خبير» ⭐',html:h,okText:'⬇ تحميل التطبيق الجديد (أندرويد)',cancelText:'حسنًا'}).then(function(r){if(r)location.href=APK_URL;});
   },900);
 })();

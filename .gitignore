@@ -6,3 +6,5 @@ local.properties
 site/tools/rapidocr_arabic.yaml
 site/tests/cards_print.pdf
 app/tahdir.keystore
+.kotlin/
+shared/build/

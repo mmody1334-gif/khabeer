@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- شاشة البداية بلون خبير النيلي قبل أول إطار من الواجهة -->
+    <style name="Theme.Khabeer" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/khabeer_indigo</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+    <color name="khabeer_indigo">#2E2775</color>
+</resources>
