@@ -34,6 +34,8 @@ interface Host {
     /** مشاركة نص/رابط عبر تطبيقات الجهاز */
     fun share(text: String) { copyText(text) }
     /** ينفّذ تعبيرًا في محرّك الاختبارات (صفحة /app/quiz-engine من الموقع) ويعيد {"ok":…} أو {"err":…} نصًّا */
+    /** تنزيل ملف إلى «التنزيلات» (يفتح المتصفح إن تعذّر) */
+    fun download(url: String, name: String) { openExternal(url) }
     suspend fun engine(expr: String): String = "{\"err\":\"محرّك الاختبارات غير متاح على هذا الجهاز\"}"
 }
 
@@ -69,3 +71,8 @@ data class NourProgress(
     val outcomes: Boolean = false,
     val loggedOut: Boolean = false,
 )
+
+
+/** معاينة ملف خارجي (عروض Google Drive) بملء الشاشة مع التكبير باللمس */
+@androidx.compose.runtime.Composable
+expect fun DocPreview(host: Host, url: String, modifier: androidx.compose.ui.Modifier)

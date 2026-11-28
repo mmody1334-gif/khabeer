@@ -118,11 +118,13 @@ fun QuizHome(st: AppState, hw: Boolean) {
                 item {
                     Text("المادة", style = T.label.copy(color = P.mute))
                     Spacer(Modifier.height(6.dp))
-                    val rowState = rememberLazyListState()
-                    LaunchedEffect(course?.key) { cl.indexOfFirst { it.key == course?.key }.takeIf { it >= 0 }?.let { rowState.scrollToItem(it) } }
-                    LazyRow(state = rowState, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        items(cl, key = { it.key }) { c -> Chip("${c.subject} · ${c.grade}", c.key == course?.key) { key = c.key } }
-                    }
+                    if (cl.size <= 6) {
+                        val rowState = rememberLazyListState()
+                        LaunchedEffect(course?.key) { cl.indexOfFirst { it.key == course?.key }.takeIf { it >= 0 }?.let { rowState.scrollToItem(it) } }
+                        LazyRow(state = rowState, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            items(cl, key = { it.key }) { c -> Chip("${c.subject} · ${c.grade}", c.key == course?.key) { key = c.key } }
+                        }
+                    } else CoursePicker(cl, course) { key = it }
                 }
                 if (!hw) item {
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -229,6 +231,47 @@ fun QuizHome(st: AppState, hw: Boolean) {
             }
             Box(Modifier.fillMaxWidth().background(P.bg).navigationBarsPadding().padding(horizontal = 16.dp, vertical = 10.dp)) {
                 PrimaryButton(label, KI.sparkle, Modifier.fillMaxWidth(), color = if (ready && !busy) P.main else P.mute) { if (ready && !busy) generate() }
+            }
+        }
+    }
+}
+
+/** اختيار المادة عند كثرة المواد: المادة الحالية + بحث سريع */
+@Composable
+private fun CoursePicker(cl: List<QCourse>, cur: QCourse?, onPick: (String) -> Unit) {
+    var open by remember { mutableStateOf(false) }
+    var q by remember { mutableStateOf("") }
+    KCard(Modifier.fillMaxWidth(), pad = 0.dp) {
+        Row(Modifier.fillMaxWidth().press({ open = !open; q = "" }).padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text(cur?.subject ?: "اختر المادة", style = T.h3)
+                cur?.let { Text("الصف ${it.grade}", style = T.small) }
+            }
+            Text(if (open) "إغلاق" else "تغيير", style = T.label.copy(color = P.mainD))
+            Icon(if (open) KI.up else KI.down, null, Modifier.padding(start = 6.dp).size(18.dp), tint = P.mainD)
+        }
+        AnimatedVisibility(open) {
+            Column(Modifier.padding(start = 12.dp, end = 12.dp, bottom = 12.dp)) {
+                site.khaber.app.SearchBox(q, "ابحث: أحياء 11، رياضيات…") { q = it }
+                Spacer(Modifier.height(6.dp))
+                val nq = q.trim().replace("أ", "ا").replace("إ", "ا").map { ch -> if (ch in '٠'..'٩') '0' + (ch - '٠') else ch }.joinToString("")
+                val digits = Regex("\\d+").find(nq)?.value?.toIntOrNull()
+                val words = nq.replace(Regex("\\d+"), "").trim()
+                val shown = cl.filter { c ->
+                    (words.isBlank() || c.subject.replace("أ", "ا").replace("إ", "ا").contains(words)) &&
+                        (digits == null || GRADE_N[c.grade] == digits)
+                }.take(40)
+                if (shown.isEmpty()) Text("لا توجد مادة بهذا الاسم", style = T.small, modifier = Modifier.padding(8.dp))
+                shown.forEach { c ->
+                    Row(
+                        Modifier.fillMaxWidth().clip(RoundedCornerShape(10.dp)).background(if (c.key == cur?.key) P.mainL else Color.Transparent)
+                            .press({ onPick(c.key); open = false }).padding(horizontal = 10.dp, vertical = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(c.subject, style = T.body, modifier = Modifier.weight(1f))
+                        Text(c.grade, style = T.small)
+                    }
+                }
             }
         }
     }

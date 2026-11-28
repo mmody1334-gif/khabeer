@@ -9,6 +9,10 @@ import android.webkit.*
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import kotlinx.coroutines.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -68,5 +72,32 @@ internal class EngineWeb(private val ctx: Context, private val siteUrl: String) 
             "function(e){KEB.done($id,JSON.stringify({err:String(e&&e.message||e)}));});})();"
         main.post { web?.evaluateJavascript(js, null) ?: d.complete("{\"err\":\"المحرّك غير جاهز\"}") }
         return try { withTimeout(90_000) { d.await() } } catch (e: TimeoutCancellationException) { pending.remove(id); "{\"err\":\"انتهت المهلة — أعد المحاولة\"}" }
+    }
+}
+
+/** معاينة عرض Google Drive: متصفح بسيط بالتكبير، وروابط خارج Google تُفتح خارجيًّا */
+@androidx.compose.runtime.Composable
+actual fun DocPreview(host: Host, url: String, modifier: androidx.compose.ui.Modifier) {
+    val ctx = androidx.compose.ui.platform.LocalContext.current
+    var progress by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(0) }
+    val web = androidx.compose.runtime.remember(url) {
+        newWebView(ctx, zoom = true).also { w ->
+            w.webViewClient = object : WebViewClient() {
+                override fun shouldOverrideUrlLoading(v: WebView, req: WebResourceRequest): Boolean {
+                    val h = req.url.host ?: ""
+                    if (h.endsWith("google.com") || h.endsWith("googleusercontent.com") || h.endsWith("gstatic.com")) return false
+                    host.openExternal(req.url.toString()); return true
+                }
+            }
+            w.webChromeClient = object : WebChromeClient() { override fun onProgressChanged(v: WebView, p: Int) { progress = p } }
+            w.loadUrl(url)
+        }
+    }
+    androidx.compose.runtime.DisposableEffect(web) { onDispose { web.stopLoading(); web.destroy() } }
+    androidx.compose.foundation.layout.Box(modifier) {
+        androidx.compose.ui.viewinterop.AndroidView({ web }, androidx.compose.ui.Modifier.fillMaxSize())
+        if (progress in 1..99) androidx.compose.material3.LinearProgressIndicator(
+            progress = { progress / 100f }, modifier = androidx.compose.ui.Modifier.fillMaxWidth(), color = site.khaber.app.ui.P.main,
+        )
     }
 }

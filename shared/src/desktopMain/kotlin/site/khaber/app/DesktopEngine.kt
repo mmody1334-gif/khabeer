@@ -28,3 +28,10 @@ class NodeEngine(enginePath: String) {
         return d.await()
     }
 }
+
+@androidx.compose.runtime.Composable
+actual fun DocPreview(host: Host, url: String, modifier: androidx.compose.ui.Modifier) {
+    androidx.compose.foundation.layout.Box(modifier, contentAlignment = androidx.compose.ui.Alignment.Center) {
+        androidx.compose.material3.Text("معاينة Google Drive (على الجوال فقط)", style = site.khaber.app.ui.T.body)
+    }
+}

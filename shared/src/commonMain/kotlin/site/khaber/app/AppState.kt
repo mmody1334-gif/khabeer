@@ -19,10 +19,12 @@ sealed class Screen {
     data class CardsResults(val sid: Long) : Screen()
     data class Quiz(val hw: Boolean) : Screen()
     data object QuizDoc : Screen()
+    data object Slides : Screen()
+    data class SlideView(val drive: String, val name: String) : Screen()
 }
 
 /** الأدوات المبنية أصليًا في هذا الإصدار (الباقي يفتح صفحة الموقع داخل التطبيق) */
-val NATIVE_TOOLS = setOf("cards", "quiz", "homework")
+val NATIVE_TOOLS = setOf("cards", "quiz", "homework", "slides")
 
 /** ما تفعله أزرار «رجوع» داخل صفحات الويب (يضبطه متصفح الشاشة الظاهرة) */
 object WebBack { var handler: (() -> Boolean)? = null }
@@ -129,6 +131,7 @@ class AppState(val host: Host, private val scope: CoroutineScope) {
             t.key == "cards" -> open(Screen.Cards)
             t.key == "quiz" -> open(Screen.Quiz(false))
             t.key == "homework" -> open(Screen.Quiz(true))
+            t.key == "slides" -> open(Screen.Slides)
             else -> open(Screen.Web(t.route, t.title))
         }
     }

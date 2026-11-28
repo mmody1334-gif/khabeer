@@ -69,6 +69,16 @@ class AndroidHost(
     }
     override fun toast(text: String) { Toast.makeText(ctx, text, Toast.LENGTH_SHORT).show() }
     override fun nowMillis(): Long = System.currentTimeMillis()
+    override fun download(url: String, name: String) {
+        runCatching {
+            val r = android.app.DownloadManager.Request(android.net.Uri.parse(url))
+                .setNotificationVisibility(android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                .setDestinationInExternalPublicDir(android.os.Environment.DIRECTORY_DOWNLOADS, name.replace(Regex("[\\\\/:*?\"<>|]"), "_"))
+                .setTitle(name)
+            (ctx.getSystemService(Context.DOWNLOAD_SERVICE) as android.app.DownloadManager).enqueue(r)
+            toast("جارٍ التنزيل: $name")
+        }.onFailure { openExternal(url) }
+    }
     private val engineWeb by lazy { EngineWeb(ctx, siteUrl) }
     override suspend fun engine(expr: String): String = engineWeb.eval(expr)
     override fun hour(): Int = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)

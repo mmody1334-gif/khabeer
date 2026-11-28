@@ -79,6 +79,8 @@ private fun MainScreen(st: AppState) {
                         is Screen.CardsResults -> site.khaber.app.cards.CardsResults(st, s.sid)
                         is Screen.Quiz -> site.khaber.app.quiz.QuizHome(st, s.hw)
                         Screen.QuizDoc -> site.khaber.app.quiz.QuizDocScreen(st)
+                        Screen.Slides -> site.khaber.app.slides.SlidesHome(st)
+                        is Screen.SlideView -> site.khaber.app.slides.SlideViewScreen(st, s.drive, s.name)
                     }
                 }
             }
