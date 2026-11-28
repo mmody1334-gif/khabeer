@@ -827,7 +827,7 @@ button.lv-opt{cursor:pointer}
   #printArea .ppage+.ppage{page-break-before:always}
   .no-print{display:none!important}
 }
-@media (max-width:900px){.qlayout{grid-template-columns:1fr}.qside{position:static;max-height:none}.paper{padding:18px 14px;font-size:15px}}
+@media (max-width:900px){body.q-open .qside{display:none}.qlayout{grid-template-columns:1fr}.qside{position:static;max-height:none}.paper{padding:18px 14px;font-size:15px}}
 /* ---------- طبقة المؤثرات المشتركة لكل الألعاب ---------- */
 .fx-cv{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:9999}
 .g-stage{position:relative;background:radial-gradient(1200px 400px at 50% -10%,color-mix(in srgb,var(--main,#4b40a9) 10%,transparent),transparent 70%),var(--paper)}
