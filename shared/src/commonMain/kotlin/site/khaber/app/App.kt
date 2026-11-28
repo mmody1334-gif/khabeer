@@ -44,7 +44,7 @@ fun KhabeerApp(host: Host, onState: (AppState) -> Unit = {}) {
 private fun MainScreen(st: AppState) {
     val m = st.manifest
     if (m?.pending == true) { PendingScreen(st); return }
-    val lightTop = st.stack.isEmpty() && (st.tab == Tab.Home || st.tab == Tab.Nour)
+    val lightTop = (st.stack.isEmpty() && (st.tab == Tab.Home || st.tab == Tab.Nour)) || st.stack.lastOrNull() is Screen.CardsLive
     val darkMode = P.dark
     LaunchedEffect(lightTop, darkMode) { st.host.setDarkStatusIcons(!lightTop && !darkMode) }
     Box(Modifier.fillMaxSize()) {
@@ -72,6 +72,13 @@ private fun MainScreen(st: AppState) {
                         is Screen.Web -> WebPage(st, s.path, s.title)
                         Screen.Tools -> ToolsScreen(st)
                         Screen.Notices -> NoticesScreen(st)
+                        Screen.Cards -> site.khaber.app.cards.CardsHome(st)
+                        is Screen.CardsGen -> site.khaber.app.cards.CardsGenerate(st, s.classId)
+                        is Screen.CardsStart -> site.khaber.app.cards.CardsStart(st, s.sid)
+                        is Screen.CardsLive -> site.khaber.app.cards.CardsLive(st, s.sid)
+                        is Screen.CardsResults -> site.khaber.app.cards.CardsResults(st, s.sid)
+                        is Screen.Quiz -> site.khaber.app.quiz.QuizHome(st, s.hw)
+                        Screen.QuizDoc -> site.khaber.app.quiz.QuizDocScreen(st)
                     }
                 }
             }

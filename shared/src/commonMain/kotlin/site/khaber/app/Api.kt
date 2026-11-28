@@ -121,6 +121,38 @@ class Api(private val plat: Host) {
         }
     }
 
+    // ---------- طلبات JSON عامة (أدوات المنصة: كروت الأسئلة، الاختبارات، الواجبات) ----------
+    suspend fun getJson(path: String): JsonObject = withContext(Dispatchers.IO) {
+        val r = client.get(base + path) { auth() }
+        if (!r.status.isSuccess()) fail(r)
+        J.parseToJsonElement(r.bodyAsText()).jsonObject
+    }
+    suspend fun postJson(path: String, body: JsonElement, method: HttpMethod = HttpMethod.Post): JsonObject = withContext(Dispatchers.IO) {
+        val r = client.request(base + path) { this.method = method; auth(); contentType(ContentType.Application.Json); setBody(body.toString()) }
+        if (!r.status.isSuccess()) fail(r)
+        runCatching { J.parseToJsonElement(r.bodyAsText()).jsonObject }.getOrDefault(JsonObject(emptyMap()))
+    }
+    /** ملف محفوظ للمعلم (صف، جلسة، اختبار، واجب): بياناته + المعرّف ووقت التحديث */
+    suspend fun quizDoc(id: Long): JsonObject {
+        val q = getJson("/api/quizzes/$id").obj("quiz")
+        return JsonObject(q.obj("data") + mapOf("id" to JsonPrimitive(id), "updated_at" to (q["updated_at"] ?: JsonNull)))
+    }
+    /** حفظ ملف (إنشاء أو تحديث) بنفس صيغة الموقع؛ يعيد المعرّف ووقت التحديث */
+    suspend fun saveDoc(kind: String, doc: JsonObject): Pair<Long, Long> {
+        val id = (doc["id"] as? JsonPrimitive)?.content?.toLongOrNull()
+        val r = postJson("/api/quizzes", buildJsonObject {
+            if (id != null) put("id", id)
+            put("title", doc.s("title")); put("grade", doc.s("grade")); put("subject", doc.s("subject")); put("kind", kind)
+            put("data", JsonObject(doc - "updated_at"))
+        })
+        return (r.s("id").toDoubleOrNull()?.toLong() ?: id ?: 0L) to (r.s("updated_at").toDoubleOrNull()?.toLong() ?: 0L)
+    }
+    /** بايتات ملف من الموقع (صور الأسئلة) */
+    suspend fun bytes(path: String): ByteArray? = withContext(Dispatchers.IO) {
+        runCatching { val r = client.get(if (path.startsWith("http")) path else base + path) { auth() }; if (r.status.isSuccess()) r.readRawBytes() else null }.getOrNull()
+    }
+    suspend fun deleteDoc(id: Long) { postJson("/api/quizzes/$id", JsonObject(emptyMap()), HttpMethod.Delete) }
+
     /** رقم أحدث إصدار من التطبيق المنشور (يكتبه سير عمل البناء في /dl/version.json) */
     suspend fun latestVersion(): Int? = withContext(Dispatchers.IO) {
         runCatching {

@@ -70,7 +70,7 @@ internal fun newWebView(ctx: Context, zoom: Boolean): WebView = WebView(ctx).app
 }
 
 /** الجسر الذي تستعمله أداة نور (GM_*) والموقع (طباعة/حفظ/تدوير) */
-internal class Bridge(private val ctx: Context, private val host: AndroidHost, private val w: () -> WebView?, private val onNour: (String?) -> Unit) {
+internal class Bridge(private val ctx: Context, private val host: AndroidHost, private val w: () -> WebView?, private val onNour: (String?) -> Unit, private val onAction: ((String, String) -> Unit)? = null) {
     @JavascriptInterface fun getValue(k: String): String? = host.prefs.getString("gm_$k", null)
     @JavascriptInterface fun setValue(k: String, v: String) { host.prefs.edit().putString("gm_$k", v).apply() }
     @JavascriptInterface fun deleteValue(k: String) { host.prefs.edit().remove("gm_$k").apply() }
@@ -78,6 +78,8 @@ internal class Bridge(private val ctx: Context, private val host: AndroidHost, p
         val u = if (url != null && url.startsWith("https://lms.moe.gov.om")) url else null
         w()?.post { onNour(u) }
     }
+    /** صفحة الكروت: افتح الماسح الأصلي (موجودة فقط في الشاشات التي تدعمه) */
+    @JavascriptInterface fun openScan(id: String) { val a = onAction ?: return; w()?.post { a("scan", id) } }
     @JavascriptInterface fun setLandscape(on: Boolean) {
         w()?.post { ctx.activity()?.requestedOrientation = if (on) ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE else ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED }
     }
@@ -85,13 +87,13 @@ internal class Bridge(private val ctx: Context, private val host: AndroidHost, p
         val v = w() ?: return
         v.post {
             val pm = ctx.activity()?.getSystemService(Context.PRINT_SERVICE) as? PrintManager ?: return@post
-            pm.print(title.ifBlank { "خبير" }, v.createPrintDocumentAdapter(title.ifBlank { "khabeer" }), PrintAttributes.Builder().setMediaSize(PrintAttributes.MediaSize.ISO_A4).build())
+            pm.print(title.ifBlank { "خبير" }, v.createPrintDocumentAdapter(title.ifBlank { "خبير" }), PrintAttributes.Builder().setMediaSize(PrintAttributes.MediaSize.ISO_A4).build())
         }
     }
     @JavascriptInterface fun saveFile(name: String, mime: String, b64: String) {
         runCatching {
             val dir = ctx.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) ?: ctx.filesDir
-            val f = File(dir, name.replace(Regex("[\\\\/:*?\"<>|]"), "_").ifBlank { "khabeer" })
+            val f = File(dir, name.replace(Regex("[\\\\/:*?\"<>|]"), "_").ifBlank { "khaber" })
             f.writeBytes(Base64.decode(b64, Base64.DEFAULT))
             val uri = androidx.core.content.FileProvider.getUriForFile(ctx, ctx.packageName + ".files", f)
             val i = Intent(Intent.ACTION_VIEW).setDataAndType(uri, mime.ifBlank { "*/*" }).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -117,7 +119,7 @@ private fun download(ctx: Context, host: AndroidHost, url: String, cd: String?, 
 }
 
 @Composable
-actual fun WebModuleScreen(host: Host, url: String, webCss: String, onOpenNour: (String?) -> Unit, onTitle: (String) -> Unit) {
+actual fun WebModuleScreen(host: Host, url: String, webCss: String, onOpenNour: (String?) -> Unit, onTitle: (String) -> Unit, onAction: (String, String) -> Unit) {
     val ah = host as AndroidHost
     val ctx = LocalContext.current
     var progress by remember { mutableStateOf(0) }
@@ -134,7 +136,7 @@ actual fun WebModuleScreen(host: Host, url: String, webCss: String, onOpenNour: 
     val hooks = "(function(){var s=document.getElementById('khn-css');if(!s){s=document.createElement('style');s.id='khn-css';(document.head||document.documentElement).appendChild(s);}s.textContent='$css';})();"
     val web = remember(url) {
         newWebView(ctx, zoom = false).also { w ->
-            w.addJavascriptInterface(Bridge(ctx, ah, { w }, onOpenNour), "TahdirBridge")
+            w.addJavascriptInterface(Bridge(ctx, ah, { w }, onOpenNour, onAction), "TahdirBridge")
             w.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(v: WebView, req: WebResourceRequest): Boolean {
                     val u = req.url; val h = u.host ?: ""

@@ -12,7 +12,17 @@ sealed class Screen {
     data class Web(val path: String, val title: String) : Screen()
     data object Tools : Screen()
     data object Notices : Screen()
+    data object Cards : Screen()
+    data class CardsGen(val classId: Long) : Screen()
+    data class CardsStart(val sid: Long) : Screen()
+    data class CardsLive(val sid: Long) : Screen()
+    data class CardsResults(val sid: Long) : Screen()
+    data class Quiz(val hw: Boolean) : Screen()
+    data object QuizDoc : Screen()
 }
+
+/** الأدوات المبنية أصليًا في هذا الإصدار (الباقي يفتح صفحة الموقع داخل التطبيق) */
+val NATIVE_TOOLS = setOf("cards", "quiz", "homework")
 
 /** ما تفعله أزرار «رجوع» داخل صفحات الويب (يضبطه متصفح الشاشة الظاهرة) */
 object WebBack { var handler: (() -> Boolean)? = null }
@@ -32,6 +42,10 @@ class AppState(val host: Host, private val scope: CoroutineScope) {
     var notices by mutableStateOf<List<Notice>>(emptyList())
     var latestVersion by mutableStateOf<Int?>(null)
     private var prevTab = Tab.Home
+    /** محرّك الاختبارات (كود الموقع في متصفح مخفي) والورقة المفتوحة */
+    val quizEngine by lazy { site.khaber.app.quiz.QuizEngine(this) }
+    var quizCur by mutableStateOf<site.khaber.app.quiz.QuizCur?>(null)
+    val quizTab = HashMap<Boolean, Int>()
 
     /** 0 = حسب المنصة (التاريخ)، 1 أو 2 = اختيار المعلم */
     var termPick by mutableStateOf(host.get("term")?.toIntOrNull() ?: 0)
@@ -110,13 +124,20 @@ class AppState(val host: Host, private val scope: CoroutineScope) {
     fun open(s: Screen) { stack.add(s) }
     fun openLesson(l: Lesson) { lastLessonId = l.id; host.put("last_lesson", l.id.toString()); open(Screen.LessonPage(l.id)); scope.launch { api.event("view", l.id) } }
     fun openTool(t: Tool) {
-        if (t.route == "native:lessons") { stack.clear(); tab = Tab.Lessons } else open(Screen.Web(t.route, t.title))
+        when {
+            t.route == "native:lessons" -> { stack.clear(); tab = Tab.Lessons }
+            t.key == "cards" -> open(Screen.Cards)
+            t.key == "quiz" -> open(Screen.Quiz(false))
+            t.key == "homework" -> open(Screen.Quiz(true))
+            else -> open(Screen.Web(t.route, t.title))
+        }
     }
     fun selectTab(t: Tab) { if (t == Tab.Nour) { prevTab = if (tab == Tab.Nour) prevTab else tab; nourOpened = true }; stack.clear(); tab = t }
     fun closeNour() { tab = prevTab }
 
     fun handleBack(): Boolean {
         WebBack.handler?.let { if (it()) return true }
+        if (stack.lastOrNull() == Screen.QuizDoc) quizCur?.let { c -> if (c.dirty && c.items.isNotEmpty()) { c.askLeave = true; return true } }
         if (stack.isNotEmpty()) { stack.removeAt(stack.lastIndex); return true }
         if (tab == Tab.Nour) { if (NourControl.back?.invoke() == true) return true; closeNour(); return true }
         if (tab != Tab.Home) { tab = Tab.Home; return true }
@@ -131,6 +152,8 @@ class AppState(val host: Host, private val scope: CoroutineScope) {
         sentHw++; host.put("sent_hw", sentHw.toString()); scope.launch { api.event("send_hw", l.id, "app") }
     }
     /** من صفحات الويب: الأداة طلبت فتح نور على رابط معيّن (المهمة محفوظة في تخزين الأداة) */
+    /** صفحة الكروت على الموقع طلبت المسح بالكاميرا: نفتح الماسح الأصلي */
+    fun openCardsScan(id: Long) { open(Screen.CardsLive(id)) }
     fun openNourUrl(url: String?) { nourJob = NourJob("url", url ?: "", "", 0); nourProgress = NourProgress(); selectTab(Tab.Nour) }
     private fun send(job: NourJob) { nourJob = job; nourProgress = NourProgress(); selectTab(Tab.Nour) }
 

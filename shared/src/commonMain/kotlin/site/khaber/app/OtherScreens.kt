@@ -201,7 +201,8 @@ fun WebPage(st: AppState, path: String, title: String) {
     Column(Modifier.fillMaxSize()) {
         TopBar(t, onBack = { st.handleBack() })
         Box(Modifier.weight(1f)) {
-            WebModuleScreen(st.host, st.api.base + path, st.manifest?.webCss ?: "", onOpenNour = { st.openNourUrl(it) }, onTitle = { if (it.isNotBlank()) t = it.substringBefore(" · ") })
+            WebModuleScreen(st.host, st.api.base + path, st.manifest?.webCss ?: "", onOpenNour = { st.openNourUrl(it) }, onTitle = { if (it.isNotBlank()) t = it.substringBefore(" · ") },
+                onAction = { k, v -> if (k == "scan") v.toLongOrNull()?.let { st.openCardsScan(it) } })
         }
     }
 }

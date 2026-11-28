@@ -29,13 +29,26 @@ interface Host {
     fun hour(): Int
     /** أيقونات شريط الحالة داكنة (للشاشات الفاتحة) أو فاتحة (للرؤوس النيلية) */
     fun setDarkStatusIcons(dark: Boolean) {}
+    /** صوت قصير واهتزاز عند تسجيل إجابة */
+    fun beep() {}
+    /** مشاركة نص/رابط عبر تطبيقات الجهاز */
+    fun share(text: String) { copyText(text) }
+    /** ينفّذ تعبيرًا في محرّك الاختبارات (صفحة /app/quiz-engine من الموقع) ويعيد {"ok":…} أو {"err":…} نصًّا */
+    suspend fun engine(expr: String): String = "{\"err\":\"محرّك الاختبارات غير متاح على هذا الجهاز\"}"
 }
+
+/** فك صورة (webp/png/jpg) من بايتات — لصور أسئلة الوزارة في معاينة الاختبار */
+expect fun decodeImage(bytes: ByteArray): androidx.compose.ui.graphics.ImageBitmap?
+
+/** الكاميرا الحية لمسح البطاقات: تعيد ما قرأته في كل إطار (إحداثيات صورة معتدلة بعرض w وارتفاع h) */
+@Composable
+expect fun CardCamera(modifier: androidx.compose.ui.Modifier, onFrame: (List<site.khaber.app.cards.CardDetector.Hit>, Int, Int) -> Unit, onError: (String) -> Unit)
 
 expect fun createHttpClient(): HttpClient
 
 /** صفحة من موقع خبير داخل شاشة أصلية (الأدوات الكبيرة: الاختبارات، الألعاب…) */
 @Composable
-expect fun WebModuleScreen(host: Host, url: String, webCss: String, onOpenNour: (String?) -> Unit, onTitle: (String) -> Unit)
+expect fun WebModuleScreen(host: Host, url: String, webCss: String, onOpenNour: (String?) -> Unit, onTitle: (String) -> Unit, onAction: (String, String) -> Unit = { _, _ -> })
 
 /** متصفح نور المدمج: يحقن أداة نور ويعرض تقدّم التعبئة */
 @Composable

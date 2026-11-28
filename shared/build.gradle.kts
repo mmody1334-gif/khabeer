@@ -35,6 +35,10 @@ kotlin {
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
             implementation("androidx.activity:activity-compose:1.11.0")
             implementation("androidx.webkit:webkit:1.14.0")
+            implementation("androidx.camera:camera-core:1.5.3")
+            implementation("androidx.camera:camera-camera2:1.5.3")
+            implementation("androidx.camera:camera-lifecycle:1.5.3")
+            implementation("androidx.camera:camera-view:1.5.3")
         }
     }
 }
@@ -59,7 +63,8 @@ if (project.hasProperty("khb.preview")) {
     tasks.register<JavaExec>("preview") {
         dependsOn("desktopJar")
         classpath = files(tasks.named("desktopJar")) + configurations.getByName("desktopRuntimeClasspath")
-        mainClass.set("site.khaber.app.PreviewKt")
+        jvmArgs("-Xmx1500m")
+        mainClass.set(project.findProperty("previewMain") as String? ?: "site.khaber.app.PreviewKt")
         args = (project.findProperty("previewArgs") as String? ?: "").split(" ").filter { it.isNotBlank() }
     }
 }

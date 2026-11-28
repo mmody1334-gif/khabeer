@@ -14,7 +14,7 @@ import site.khaber.app.ui.T
 actual fun createHttpClient(): HttpClient = HttpClient(CIO) { expectSuccess = false }
 
 @Composable
-actual fun WebModuleScreen(host: Host, url: String, webCss: String, onOpenNour: (String?) -> Unit, onTitle: (String) -> Unit) {
+actual fun WebModuleScreen(host: Host, url: String, webCss: String, onOpenNour: (String?) -> Unit, onTitle: (String) -> Unit, onAction: (String, String) -> Unit) {
     Box(Modifier.fillMaxSize().background(Color(0xFFF1F0F8)), contentAlignment = Alignment.Center) { Text("صفحة الموقع: $url", style = T.small) }
 }
 
@@ -26,3 +26,8 @@ actual fun NourScreen(host: Host, job: NourJob?, onProgress: (NourProgress) -> U
     }
 }
 private fun Int.dp() = androidx.compose.ui.unit.Dp(this.toFloat())
+
+@Composable
+actual fun CardCamera(modifier: Modifier, onFrame: (List<site.khaber.app.cards.CardDetector.Hit>, Int, Int) -> Unit, onError: (String) -> Unit) {
+    Box(modifier.background(Color(0xFF333333)))
+}

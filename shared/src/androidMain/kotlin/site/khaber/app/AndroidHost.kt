@@ -69,7 +69,21 @@ class AndroidHost(
     }
     override fun toast(text: String) { Toast.makeText(ctx, text, Toast.LENGTH_SHORT).show() }
     override fun nowMillis(): Long = System.currentTimeMillis()
+    private val engineWeb by lazy { EngineWeb(ctx, siteUrl) }
+    override suspend fun engine(expr: String): String = engineWeb.eval(expr)
     override fun hour(): Int = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+    private val tone by lazy { runCatching { android.media.ToneGenerator(android.media.AudioManager.STREAM_NOTIFICATION, 40) }.getOrNull() }
+    override fun beep() {
+        runCatching { tone?.startTone(android.media.ToneGenerator.TONE_PROP_BEEP, 60) }
+        runCatching {
+            val v = if (Build.VERSION.SDK_INT >= 31) (ctx.getSystemService(android.os.VibratorManager::class.java)).defaultVibrator
+                    else @Suppress("DEPRECATION") ctx.getSystemService(Context.VIBRATOR_SERVICE) as android.os.Vibrator
+            if (Build.VERSION.SDK_INT >= 26) v.vibrate(android.os.VibrationEffect.createOneShot(25, 120)) else @Suppress("DEPRECATION") v.vibrate(25)
+        }
+    }
+    override fun share(text: String) {
+        runCatching { ctx.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, text), "مشاركة").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
+    }
     override fun setDarkStatusIcons(dark: Boolean) {
         val w = window() ?: return
         androidx.core.view.WindowCompat.getInsetsController(w, w.decorView).isAppearanceLightStatusBars = dark

@@ -38,7 +38,7 @@ actual fun NourScreen(host: Host, job: NourJob?, onProgress: (NourProgress) -> U
     val jobState = rememberUpdatedState(job)
     val web = remember {
         newWebView(ctx, zoom = true).also { w ->
-            w.addJavascriptInterface(Bridge(ctx, ah, { w }) { u -> w.loadUrl(u ?: NOUR_HOME) }, "TahdirBridge")
+            w.addJavascriptInterface(Bridge(ctx, ah, { w }, { u -> w.loadUrl(u ?: NOUR_HOME) }), "TahdirBridge")
             w.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(v: WebView, req: WebResourceRequest): Boolean {
                     val h = req.url.host ?: ""

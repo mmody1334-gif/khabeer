@@ -24,6 +24,8 @@ class PreviewHost(override val siteUrl: String) : Host {
     override fun toast(text: String) { println("TOAST: $text") }
     override fun nowMillis() = System.currentTimeMillis()
     override fun hour() = 9
+    var node: NodeEngine? = null
+    override suspend fun engine(expr: String): String = node?.eval(expr) ?: super.engine(expr)
 }
 
 fun main(args: Array<String>) {
