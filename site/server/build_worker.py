@@ -2652,6 +2652,7 @@ _pd = subprocess.run(['node', '-e', 'var src=require("fs").readFileSync(0,"utf8"
 _APPCFG['prep'] = json.loads(_pd.stdout)
 _APPCFG['tool_version'] = TOOL_VER
 src = src.replace('__APPCFG__', json.dumps(_APPCFG, ensure_ascii=False, separators=(',', ':')))
+src = src.replace('__SLIDES__', json.dumps(SLIDES, ensure_ascii=False, separators=(',', ':')))  # قائمة العروض للتطبيق الأصلي (/api/slides)
 # أسئلة ألعاب الرياضيات المولّدة (اختيارية: تُبنى فارغة إن لم يوجد الملف)
 _gm = os.path.join(DATA, 'games_math.json')
 src = src.replace('__GAMESMATH__', json.dumps(json.load(open(_gm, encoding='utf-8')) if os.path.exists(_gm) else [], ensure_ascii=False, separators=(',', ':')))

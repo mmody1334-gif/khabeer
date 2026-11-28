@@ -122,6 +122,7 @@ function finQuizItems(key) {
 const BUILD = __BUILD__;
 // إعدادات تطبيق خبير (site/data/app.json) + القيم الثابتة للتحضير المستخرجة من client_app.js عند البناء
 const APPCFG = __APPCFG__;
+const SLIDES_LIST = __SLIDES__; // العروض التقديمية (ملفات Drive العامة) — تطبيق خبير يعرضها أصليًّا
 // أسئلة ألعاب مولّدة من أهداف دروس الرياضيات 5-9 (لا تمسّ توليد الاختبارات)
 const GMATH = __GAMESMATH__;
 LESSONS.forEach(l => { if (!l.subject) l.subject = l.grade === 'الخامس' ? 'العلوم' : 'الأحياء'; if (!l.term) l.term = 1; });
@@ -1621,6 +1622,7 @@ export default {
       if (p === '/diag') return html('diag');
       if (p === '/summaries') return html('summaries');
       if (p === '/finals') return html('finals');
+      if (p === '/api/slides') return json({ slides: SLIDES_LIST });
       if (p === '/slides') return html('slides');
       if (p === '/cando') return html('cando');
       if (p === '/research') return html('research');
