@@ -858,6 +858,8 @@ Promise.all([api('/api/me'),api('/api/courses')]).then(function(r){
   if(hdr.dir&&/للتربية والتعليم/.test(hdr.dir)){hdr.dir=hdr.dir.replace(/للتربية والتعليم/g,'للتعليم');lsSet(hdrKey(),hdr);}
   courses=(r[1].courses||[]).filter(function(c){return !/انجليز|إنجليز|English/i.test(c.subject)||gnum(c.grade)>=8;}).sort(function(a,b){return (gnum(a.grade)-gnum(b.grade))||a.subject.localeCompare(b.subject,'ar');});
   if(!courses.length){$('qmain').innerHTML='<div class="welcome"><h2>لا توجد صفوف متاحة لحسابك</h2><p>تواصل مع مدير المنصة.</p></div>';return;}
+  // فتح ملف محفوظ مباشرة (تطبيق خبير: «طباعة / Word» لاختبار كوّنه المعلم في التطبيق): /quiz?open=ID
+  var oq=+(new URLSearchParams(location.search).get('open')||0);if(oq){openSaved(oq);return;}
   var hf=takeHandoff('quiz'),hc=hf&&courses.filter(function(x){return x.key===hf.course;})[0];
   if(hc){selectCourse(hc.key).then(function(){makeRemedy(hf);});return;}
   var last=lsGet('tahdir_quiz_course'),c=courses.filter(function(x){return x.key===last;})[0]||cpDefault(courses);

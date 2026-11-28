@@ -1602,6 +1602,7 @@ export default {
         await env.DB.prepare('INSERT OR IGNORE INTO notice_reads(notice_id,user_id,at) VALUES(?,?,?)').bind(id, me.id, now()).run();
         return json({ ok: true });
       }
+      if (p === '/app/quiz-engine') return html('quizengine'); // محرّك الاختبارات لتطبيق خبير الأصلي
       if (p === '/quiz') return html('quiz');
       if (p === '/homework') return html('homework');
       if (p === '/games') return html('games');

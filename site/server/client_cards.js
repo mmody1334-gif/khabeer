@@ -310,6 +310,8 @@ function scanLand(on){
   }catch(e){}
 }
 function openScan(id){
+  // تطبيق خبير الأصلي: الماسح بكاميرا الجهاز نفسها (أسرع وأدق)
+  try{if(window.TahdirBridge&&TahdirBridge.openScan){TahdirBridge.openScan(String(id));return;}}catch(e){}
   scanLand(true);
   getDoc(id).then(function(S){S=restorePending(S);return getDoc(S.classId).then(function(C){live(S,C);},function(){toast('الصف المرتبط بالجلسة غير موجود');});});
 }

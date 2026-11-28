@@ -2509,6 +2509,73 @@ if _noans: print('نهائيات بلا نموذج إجابة (مستبعدة م
 SLIDES = json.load(open(os.path.join(DATA, 'slides.json'), encoding='utf-8')) if os.path.exists(os.path.join(DATA, 'slides.json')) else []
 # «أستطيع أن ✓»: قوائم التقييم الذاتي لكل وحدة — data/cando.json (يُبنى من data/cando_src بأداة tools/build_cando.py)
 CANDO = json.load(open(os.path.join(DATA, 'cando.json'), encoding='utf-8')) if os.path.exists(os.path.join(DATA, 'cando.json')) else {}
+# ===== محرّك الاختبارات لتطبيق خبير الأصلي =====
+# الدوال تُنسخ حرفيًّا من client_quiz.js (مصدر واحد للقواعد)، وتُغلَّف بواجهة KE في app_quiz_engine.js.
+def quiz_engine_js():
+    src = rd('client_quiz.js')
+    def block_end(s,i):
+        # s[i]=='{' ; يعيد موضع القوس المغلق المطابق متجاوزًا النصوص والتعليقات والتعابير النمطية البسيطة
+        d=0;n=len(s);j=i
+        while j<n:
+            c=s[j]
+            if c in '\'"`':
+                q=c;j+=1
+                while j<n and s[j]!=q:
+                    if s[j]=='\\':j+=1
+                    j+=1
+            elif c=='/' and s[j+1]=='/':
+                j=s.index('\n',j)
+            elif c=='/' and s[j+1]=='*':
+                j=s.index('*/',j)+1
+            elif c=='/':
+                k=j-1
+                while k>=0 and s[k] in ' \t':k-=1
+                if s[k] in '(,=:[!&|?{};\n+':  # بداية تعبير نمطي
+                    j+=1
+                    while j<n and s[j]!='/':
+                        if s[j]=='\\':j+=1
+                        elif s[j]=='[':
+                            while s[j]!=']':
+                                if s[j]=='\\':j+=1
+                                j+=1
+                        j+=1
+            elif c=='{':d+=1
+            elif c=='}':
+                d-=1
+                if d==0:return j
+            j+=1
+        raise Exception('unbalanced')
+    def fn(name):
+        m=re.search(r'(?m)^function '+re.escape(name)+r'\(',src)
+        if not m: raise SystemExit('missing function '+name)
+        b=src.index('{',m.end());e=block_end(src,b)
+        return src[m.start():e+1]
+    def var_line(name):
+        m=re.search(r'(?m)^var '+re.escape(name)+r'\s*=',src)
+        if not m: raise SystemExit('missing var '+name)
+        # حتى نهاية التعليمة: أول ; على مستوى الأقواس صفر
+        j=m.end();d=0
+        while True:
+            c=src[j]
+            if c in '[{(':d+=1
+            elif c in ']})':d-=1
+            elif c in '\'"':
+                q=c;j+=1
+                while src[j]!=q:
+                    if src[j]=='\\':j+=1
+                    j+=1
+            elif c==';' and d==0:break
+            j+=1
+        return src[m.start():j+1]
+    funcs = ['lsGet','gnum','isIT','isIslam','isArabic','isMath','isSS','isPE','isEN','isHi','aoList','aoTxt','clone','shuffle','pick','shuffleP','spec','prepPool','hwSpec','hwSpecText','assembleHw','subsets','assemble','fallbackAssemble','tOrd','sumMarks','hwTotal','lvOf','checks','makeDiff','poolFor','lessonOrder','lessonOf','titleText']
+    vars_ = ['GRADE_NUM','HI_AO','AO_TXT','TYPE_TXT','QNO','DEF_HDR','EN_AO','SS_AO_TXT','EN_AO_TXT','IT_AO','DIFF_LV','LOW_AOS']
+    body = '\n'.join([var_line(v) for v in vars_] + [fn(f) for f in funcs])
+    js = rd('app_quiz_engine.js')
+    assert js.count('// @@ENGINE@@') == 1
+    return js.replace('// @@ENGINE@@', body)
+QUIZ_ENGINE_JS = quiz_engine_js()
+_check_js(QUIZ_ENGINE_JS)
+os.makedirs(DIST, exist_ok=True); open(os.path.join(DIST, 'quiz_engine.js'), 'w', encoding='utf-8').write(QUIZ_ENGINE_JS)  # للاختبار فقط (خارج الأصول المنشورة)
 PAGES = {
   'css': CSS,
   'login': page('منصة خبير — منصة المعلمين في سلطنة عُمان', LOGIN, rd('client_login.js'), index=True, head=SEO_HEAD),
@@ -2533,6 +2600,7 @@ PAGES = {
   'cards': page('كروت الأسئلة · خبير', CARDS_PAGE, rd('vendor/qr.js') + chr(10) + rd('client_cardscan.js') + chr(10) + rd('client_sendplan.js') + chr(10) + rd('client_cards.js')),
   'research': page('البحوث الإجرائية · خبير', RESEARCH_PAGE, 'window.RESEARCH=' + json.dumps(RESEARCH, ensure_ascii=False, separators=(',', ':')) + ';' + chr(10) + rd('client_rsgen.js') + chr(10) + rd('client_research.js')),
   'cando': page('أستطيع أن · خبير', CANDO_PAGE, 'window.CANDO=' + json.dumps(CANDO, ensure_ascii=False, separators=(',', ':')) + ';' + chr(10) + rd('client_cando.js')),
+  'quizengine': page('خبير', '<main id="ke"></main>', QUIZ_ENGINE_JS),
   'slides': page('العروض التقديمية · خبير', SLIDES_PAGE, 'window.SLIDES=' + json.dumps(SLIDES, ensure_ascii=False) + ';' + chr(10) + rd('client_slides.js')),
 }
 
